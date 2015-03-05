@@ -1,0 +1,1 @@
+Phoca Restaurant Menu is Joomla! CMS extension. Component which displays restaurant menu on website.
