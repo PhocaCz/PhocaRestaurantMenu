@@ -1,0 +1,61 @@
+/* Phoca Restaurant Menu - http://www.phoca.cz */
+
+
+body, body.contentpane, .contentpane {
+	font-family: sans, Arial;
+	color:#000;
+	background:#fff;
+	margin:15px;
+	text-align:left;
+}
+a img, img, 
+#phocamenuicons div a img,
+#phocamenuicons a img{border:0px;}
+
+#phocamenuicons {
+	background:#fff;
+	padding:10px;
+	
+}
+
+#phocamenuicons .pm-buttons{
+	font-family: sans, Arial;
+	text-align:right;
+}
+
+#phocamenu {
+	font-family: sans, Arial;
+	text-align:left;
+	background:#fff;
+	margin:0px;
+	padding:10px;
+}
+
+/*not conflict with beez*/
+#phocamenu table,
+#phocamenu table tr,
+#phocamenu table tr td {
+	border: none;
+}
+
+/* not conflict with bootstrap */
+#phocamenumultipleedit img,
+#phocamenu img {
+	max-width: none;
+}
+
+@media print 
+{
+    .noPrint 
+    {
+        display:none;
+    }
+}
+
+
+
+
+
+
+
+

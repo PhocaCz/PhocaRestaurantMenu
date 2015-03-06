@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="COM_PHOCAMENU_DAILY_MENU_LAYOUT">
+		<message>
+			<![CDATA[COM_PHOCAMENU_DAILY_MENU_LAYOUT_DESC]]>
+		</message>
+	</layout>
+	<fields name="params">
+		<fieldset name="basic" addfieldpath="/administrator/components/com_phocamenu/models/fields">
+	
+		<field name="icons" type="list" default="1" label="COM_PHOCAMENU_ICONS_LABEL" description="COM_PHOCAMENU_ICONS_DESC">
+			<option value="1">COM_PHOCAMENU_SHOW</option>
+			<option value="0">COM_PHOCAMENU_HIDE</option>		
+			</field>
+		<field name="pdf" type="phocalistwarning" default="0" label="COM_PHOCAMENU_PDF_ICON_LABEL" description="COM_PHOCAMENU_PDF_ICON_DESC" phocawarning="COM_PHOCAMENU_PDF_ICON_WARNING">
+			<option value="0">COM_PHOCAMENU_HIDE</option>
+			<option value="1">COM_PHOCAMENU_SHOW</option>
+			</field>
+			<field name="print" type="list" default="1" label="COM_PHOCAMENU_PRINT_ICON_LABEL" description="COM_PHOCAMENU_PDF_ICON_DESC">
+				<option value="0">COM_PHOCAMENU_HIDE</option>
+				<option value="1">COM_PHOCAMENU_SHOW</option>
+			</field>
+			
+			<field name="email" type="list" default="0" label="COM_PHOCAMENU_EMAIL_ICON_LABEL" description="COM_PHOCAMENU_EMAIL_ICON_DESC">
+				<option value="0">COM_PHOCAMENU_HIDE</option>
+				<option value="1">COM_PHOCAMENU_SHOW</option>
+			</field>
+			
+	
+		
+		</fieldset>
+			
+	</fields>
+</metadata>

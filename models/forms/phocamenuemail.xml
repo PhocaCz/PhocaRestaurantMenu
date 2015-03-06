@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fields>
+	<fieldset addfieldpath="/administrator/components/com_phocamenu/models/fields">
+
+<field name="id" type="text" default="0" label="JGLOBAL_FIELD_ID_LABEL" required="true" readonly="true" class="readonly" />
+<field name="type" type="hidden" default="0" label="COM_PHOCAMENU_FIELD_TYPE_LABEL"  readonly="true" class="readonly" />
+<field name="fromname" type="text" size="47" default="" label="COM_PHOCAMENU_FIELD_FROM_NAME_LABEL" description="COM_PHOCAMENU_FIELD_FROM_NAME_DESC"  />
+<field name="from" type="text" size="47" default="" label="COM_PHOCAMENU_FIELD_FROM_LABEL" description="COM_PHOCAMENU_FIELD_FROM_DESC"  />
+<field name="to" type="textarea" rows="3" default="" label="COM_PHOCAMENU_FIELD_TO_LABEL" description="COM_PHOCAMENU_FIELD_TO_DESC"  />
+<field name="cc" type="textarea" rows="3" default="" label="COM_PHOCAMENU_FIELD_CC_LABEL" description="COM_PHOCAMENU_FIELD_CC_DESC"  />
+<field name="bcc" type="textarea" rows="3" default="" label="COM_PHOCAMENU_FIELD_BCC_LABEL" description="COM_PHOCAMENU_FIELD_BCC_DESC"  />
+<field name="subject" type="text" size="47" default="" label="COM_PHOCAMENU_FIELD_SUBJECT_LABEL" description="COM_PHOCAMENU_FIELD_SUBJECT_DESC"  />
+
+	</fieldset>
+	
+	<fieldset name="publish" label="COM_PHOCAMENU_GROUP_LABEL_PUBLISHING_DETAILS" >
+	<field name="language" type="contentlanguage" label="JFIELD_LANGUAGE_LABEL" description="COM_PHOCAMENU_FIELD_LANGUAGE_CONFIG_DESC" class="inputbox">
+		<option value="*">JALL</option>
+	</field>
+</fieldset>
+	
+	</fields>
+</form>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset addfieldpath="/administrator/components/com_phocamenu/models/fields">
+
+<field name="id" type="text" default="0" label="JGLOBAL_FIELD_ID_LABEL" required="true" readonly="true" class="readonly" />
+<field name="type" type="hidden" default="0" label="COM_PHOCAMENU_FIELD_TYPE_LABEL"  readonly="true" class="readonly" />
+
+<field name="title" type="PhocaMenuCalendar" daytype="day" class="inputbox" size="40" label="COM_PHOCAMENU_FIELD_DAY_LABEL" description="COM_PHOCAMENU_FIELD_DAY_DESC" required="true" />
+
+<field name="ordering" type="PhocaMenuOrdering" menutype="day" class="inputbox" label="COM_PHOCAMENU_FIELD_ORDERING_LABEL" description="COM_PHOCAMENU_FIELD_ORDERING_DESC" />
+
+
+	</fieldset>
+	
+	
+<fieldset name="publish" label="COM_PHOCAMENU_GROUP_LABEL_PUBLISHING_DETAILS" >
+	<field name="published" type="list" label="COM_PHOCAMENU_FIELD_PUBLISHED_LABEL" description="COM_PHOCAMENU_FIELD_PUBLISHED_DESC" class="inputbox" size="1" default="1">
+		<option value="1">JPUBLISHED</option>
+		<option	value="0">JUNPUBLISHED</option>
+	</field>
+	<field name="language" type="contentlanguage" label="JFIELD_LANGUAGE_LABEL" description="COM_PHOCAMENU_FIELD_LANGUAGE_DAY_DESC" class="inputbox">
+		<option value="*">JALL</option>
+	</field>
+</fieldset>
+</form>

@@ -1,0 +1,551 @@
+#adminForm {
+	margin: 0 0 0 0 !important;
+}
+
+/* Columns*/
+.ph-image {
+	text-align:center;
+	width: 10%;
+}
+.ph-title {
+	width: 60%;
+}
+
+.ph-title-stat {
+	width: 10%;
+}
+.ph-filename-stat {
+	width: 50%;
+}
+
+.ph-title-short {
+	width: 30%;
+}
+.ph-filename-long {
+	width: 50%;
+}
+.ph-count {
+	width: 5%;
+}
+
+.ph-page {
+	width: 5%;
+}
+
+.ph-functions,
+.ph-id,
+.ph-check,
+.ph-ordering {
+	width: 1%;
+}
+
+.ph-right {
+	text-align: right !important;
+}
+.ph-price {
+	text-align: center !important;
+	width: 7%;
+}
+.ph-center {
+	text-align: center !important;
+}
+
+.ph-uploaduser {
+	width: 7%;
+	white-space: nowrap;
+}
+.ph-owner,
+.ph-rating,
+.ph-hits,
+.ph-language,
+.ph-published,
+.ph-approved {
+	width: 5%;
+}
+.ph-user,
+.ph-parentcattitle {
+	width: 15%;
+}
+.ph-filename,
+.ph-access {
+	width: 10%;
+}
+
+
+.ph-multiple-table tr td.ph-img-table {
+	text-align: center;
+	padding-top: 4px;
+}
+.ph-icon {
+	margin: 0;
+	padding: 5px;
+	float: left;
+	margin: 0 auto;
+	text-align: center;
+}
+.ph-icon-inside.thumbnail {
+	width: 100px;
+	height: 100px;
+	-webkit-border-radius: 0px;  
+    border-radius: 0px;
+	background: #fdfdfd;
+}
+.ph-icon-inside.thumbnail img {
+	margin-top: 10px;
+	margin-bottom: -12px;
+}
+.ph-icon-inside.thumbnail span {
+}
+
+.ph-head-form-small,
+.ph-head-form {
+	font-weight: bold;
+}
+.ph-head-form {
+		margin-bottom: 10px;
+}
+.ph-in {
+	padding: 5px;
+}
+
+.ph-w80 {
+	width: 80%;
+}
+.dl-horizontal.ph-input dt {
+	float: left;
+	clear: left;
+	margin-right: 20px;
+	text-align: left;
+	width: auto;
+}
+.dl-horizontal.ph-input dd{
+}
+
+.ph-cpanel-left {
+	float: left;
+	width: 50%;
+}
+.ph-cpanel-right {
+	float: right;
+	width: 50%;
+}
+
+#configTabs li a img {
+	margin-top: -3px;
+}
+
+.ph-head-form-small,
+.ph-head-form {
+	font-weight: bold;
+}
+.ph-head-form {
+		margin-bottom: 10px;
+}
+.ph-in {
+	padding: 5px;
+}
+
+.ph-w80 {
+	width: 80%;
+}
+.dl-horizontal.ph-input dt {
+	float: left;
+	clear: left;
+	margin-right: 20px;
+	text-align: left;
+	width: auto;
+}
+.dl-horizontal.ph-input dd{
+}
+
+
+
+/* O */
+#prm-box {
+	
+}
+
+#prm-box .prm-well {
+	background: #eeeadd !important;
+}
+
+
+
+#prm-box a span{
+	color: #000 !important;
+}
+#prm-box a.ph-icon-inside span,
+#prm-box a{
+	color: #996633 !important;
+}
+
+#prm-box-edit ul.nav.nav-tabs li a,
+#prm-box table tr th a {
+	color: #996633 !important;
+}
+
+#prm-box-edit ul.nav.nav-tabs li.active a {
+	color: #000 !important;
+}
+
+#prm-box .btn-primary,
+#prm-box li.active > a {
+	color:#ffffff !important; 
+}
+
+
+#prm-box ul li.active a {
+	background-color: #996633 !important;
+}
+#prm-box ul li a:hover {
+	background-color: #eeeadd !important;
+}
+#prm-box ul li.active a:hover{
+	background-color: #996633 !important;
+} 
+#prm-box .active-result:hover,
+#prm-box .active-result.highlighted:hover {
+	background-color: #996633 !important;
+}
+
+#prm-box-edit .chzn-container .chzn-results .highlighted,
+#prm-box .chzn-container .chzn-results .highlighted {
+    background-color: #996633 !important;
+    background-image: -webkit-linear-gradient(center top , #86592D 20%, #996633 90%) !important;
+	background-image: -moz-linear-gradient(center top , #86592D 20%, #996633 90%) !important;
+    color: #FFFFFF;
+}
+
+#prm-box-edit .chzn-container-active .chzn-single,
+#prm-box .chzn-container-active .chzn-single {
+    border: 1px solid #aaa !important;
+}
+
+.ph-icon-inside.thumbnail:hover {
+    border-color: #996633 !important;
+	background-color: #eeeadd !important;
+	-webkit-box-shadow: 0px 1px 4px rgba(153,102,51,0.5) !important;
+	box-shadow: 0px 1px 4px rgba(153,102,51,0.5) !important;
+}
+
+textarea:focus,
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="datetime"]:focus,
+input[type="datetime-local"]:focus,
+input[type="date"]:focus,
+input[type="month"]:focus,
+input[type="time"]:focus,
+input[type="week"]:focus,
+input[type="number"]:focus,
+input[type="email"]:focus,
+input[type="url"]:focus,
+input[type="search"]:focus,
+input[type="tel"]:focus,
+input[type="color"]:focus,
+.uneditable-input:focus {
+	border-color: rgba(198,140,83,0.8) !important;
+	outline: 0;
+	outline: thin dotted \9;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(198,140,83,.6) !important;
+	-moz-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(198,140,83,.6) !important;
+	box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(198,140,83,.6) !important;
+}
+/* End O */
+
+.icon-ph-preview:before {
+	content: url('../../images/administrator/icon-12-preview.png');
+}
+.icon-ph-email:before {
+	content: url('../../images/administrator/icon-12-email.png');
+}
+.icon-ph-emailsave:before {
+	content: url('../../images/administrator/icon-12-emailsave.png');
+}
+.icon-ph-pdf:before {
+	content: url('../../images/administrator/icon-12-pdf.png');
+}
+.icon-ph-pdf-dis:before {
+	content: url('../../images/administrator/icon-12-pdf-dis.png');
+}
+.icon-ph-multiple:before {
+	content: url('../../images/administrator/icon-12-multiple.png');
+}
+.icon-ph-settings:before {
+	content: url('../../images/administrator/icon-12-settings.png');
+}
+
+.icon-ph-back:before {
+	content: url('../../images/administrator/icon-12-back.png');
+}
+
+
+#phocamenubreadcrumb {
+	
+	font-size:x-small;
+	padding:5px;
+}
+#phocamenubreadcrumb a{
+	text-decoration:underline;
+	color:#996633;
+	font-size:x-small;
+}
+#phocamenubreadcrumb span{
+	font-size:x-small;
+}
+
+#sending-email{
+	text-align:center;
+	display:none;
+	font-size:large;
+	color: #ccc;
+}
+#sending-email .loading {
+	position:absolute;
+	top:200px;
+	left:0;
+	right:0;
+	width:70%;
+	background:#ffffff;
+	border:5px solid #FFE699;
+	padding:50px;
+	margin: 0 auto;
+	text-align:center
+}
+
+.ph-can-be-saved {
+	background: #e9e3dd;
+	padding:10px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	margin: 4px 0px;
+}
+
+.ph-cannot-be-saved {
+	background: #ffece5;
+	padding: 10px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	margin: 4px 0px;
+}
+
+#phocamenu .pmimage a img,
+#phocamenu .pm-item table tr td div.pmimage a img {
+	max-width: none !important;
+}
+
+/*
+
+
+div.pagetitle.icon-48-phoca,
+div.pagetitle.icon-48-phoca h2,
+div.pagetitle.icon-48-info,
+div.pagetitle.icon-48-info h2,
+div.pagetitle.icon-48-dm,
+div.pagetitle.icon-48-dm h2,
+div.pagetitle.icon-48-wm,
+div.pagetitle.icon-48-wm h2,
+div.pagetitle.icon-48-fm,
+div.pagetitle.icon-48-fm h2,
+div.pagetitle.icon-48-bl,
+div.pagetitle.icon-48-bl h2,
+div.pagetitle.icon-48-wl,
+div.pagetitle.icon-48-wl h2,
+div.pagetitle.icon-48-bm,
+div.pagetitle.icon-48-bm h2,
+div.pagetitle.icon-48-lm,
+div.pagetitle.icon-48-lm h2,
+div.pagetitle.icon-48-dn,
+div.pagetitle.icon-48-dn h2{
+	color:#996633;	
+}
+
+/*div.m ul#submenu,
+div.m ul#submenu li,
+div.m ul#submenu li a,*/ /*
+div.m ul#submenu li a:hover ,
+div.m ul#submenu li a.active {
+	color:#996633;
+}
+
+/*#cpanel div .icon a span,*/ /*
+#cpanel div .icon a:hover span {
+	color:#996633;
+}
+
+.phoca-adminform-multiple,
+.phoca-adminform {
+	background-color: #fff;
+	border: solid 1px #d5d5d5;
+	padding:10px;
+	color: #777;
+}
+
+.cpanel-right {
+	color: #777;
+}
+
+.phoca-adminform-multiple p a,
+.phoca-adminform p a,
+.phoca-adminform-color p a {
+	color:#996633;
+}
+
+#phocamenu-info p a {
+	color:#996633;
+}
+ul#submenu li a {
+	color:#999;
+}
+
+
+div#toolbar ul,
+div#toolbar ul li,
+div#toolbar li.button,
+div#toolbar li.button a
+{
+	color: #555;
+
+}
+
+#phocamenu-cpanel #cpanel div div a:hover,
+#phocamenu-cpanel #cpanel div div a.hover{
+	color:#996633;
+	
+}
+
+
+#toolbar div.pagetitle,
+fieldset.adminform legend,
+fieldset.adminform-multiple legend {
+	color:#996633;
+}
+
+
+
+#editcell table tr th a{
+	color:#996633;
+}
+#editcell table tr td a{
+	color:#86592D;
+}
+#phocamenu-form legend,
+#phocamenu div h1{
+	color:#996633;
+}
+
+
+
+#phocamenubreadcrumb {
+	background:#f5f5f5;
+	margin-bottom:10px;
+	font-size:x-small;
+	padding:5px;
+}
+#phocamenubreadcrumb a{
+	text-decoration:underline;
+	color:#996633;
+	font-size:x-small;
+}
+#phocamenubreadcrumb span{
+	font-size:x-small;
+}
+
+div.icon-48-info {
+	background: url('images/icon-48-info.png') no-repeat left;
+}
+div.icon-48-phoca {
+	background: url('images/icon-48-phoca.png') no-repeat left;
+}
+div.icon-48-settings {
+	background: url('images/icon-48-settings.png') no-repeat left;
+}
+
+div.icon-48-dm {
+	background: url('images/icon-48-dm.png') no-repeat left;
+}
+div.icon-48-wm {
+	background: url('images/icon-48-wm.png') no-repeat left;
+}
+div.icon-48-fm {
+	background: url('images/icon-48-fm.png') no-repeat left;
+}
+div.icon-48-bl {
+	background: url('images/icon-48-bl.png') no-repeat left;
+}
+div.icon-48-wl {
+	background: url('images/icon-48-wl.png') no-repeat left;
+}
+div.icon-48-bm {
+	background: url('images/icon-48-bm.png') no-repeat left;
+}
+div.icon-48-lm {
+	background: url('images/icon-48-lm.png') no-repeat left;
+}
+div.icon-48-dn {
+	background: url('images/icon-48-dn.png') no-repeat left;
+}
+
+span.icon-32-prmpreview {
+	background: url('images/icon-32-preview.png') no-repeat left;
+}
+span.icon-32-email {
+	background: url('images/icon-32-email.png') no-repeat left;
+}
+span.icon-32-emailsave {
+	background: url('images/icon-32-emailsave.png') no-repeat left;
+}
+span.icon-32-pdf {
+	background: url('images/icon-32-pdf.png') no-repeat left;
+}
+span.icon-32-pdf-dis {
+	background: url('images/icon-32-pdf-dis.png') no-repeat left;
+}
+span.icon-32-multiple {
+	background: url('images/icon-32-multiple.png') no-repeat left;
+}
+span.icon-32-settings {
+	background: url('images/icon-32-settings.png') no-repeat left;
+}
+
+a img, img {border:0px;text-decoration:none;}
+
+
+
+#phocamenu .pm-message{
+	text-align:center;
+}
+
+#phocamenu .pm-date-sub {
+	text-decoration:none;
+}
+#phocamenu .pm-addrow small a {
+	text-decoration:underline;
+	color:#86592D;
+}
+#phocamenu .pm-item table tr td.pmtitle,
+#phocamenu .pm-item-bl table tr td.pmtitle,
+#phocamenu .pm-item-clm table tr td.pmtitle,
+#phocamenu .pm-item table tr td.pmquantity,
+#phocamenu .pm-item-clm table tr td.pmquantity,
+#phocamenu .pm-item-bl table tr td.pmquantity,
+#phocamenu .pm-item table tr td.pmpriceprefix,
+#phocamenu .pm-item-clm table tr td.pmpriceprefix,
+#phocamenu .pm-item-bl table tr td.pmpriceprefix,
+#phocamenu .pm-item table tr td.pmprice,
+#phocamenu .pm-item-clm table tr td.pmprice,
+#phocamenu .pm-item-bl table tr td.pmprice {
+	vertical-align: middle;
+}
+
+#phocamenu .pm-group {
+	font-weight: normal;
+}
+
+#phocamenu .pmgroupheader1,
+#phocamenu .pmgroupheader2{
+	padding-left: 10px;
+}
+
+
+*/

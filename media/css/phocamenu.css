@@ -1,0 +1,435 @@
+/*Phoca Restaurant Menu - http://www.phoca.cz */
+
+/*header*/
+#phocamenu .pm-header {
+	text-align:center;
+	font-size:160%;
+	line-height:1.2;
+	margin:10px 0 10px 0;
+}
+
+#phocamenu .pm-header table {
+	text-align:center;
+	width:100%;
+}
+
+#phocamenu .pm-header table tr td.pmclock {
+	width:2%;
+}
+#phocamenu .pm-header table tr td.pmtext {
+	width:98%;
+}
+
+#phocamenu .cr {
+	clear: right;
+}
+#phocamenu .cl {
+	clear: left;
+}
+#phocamenu .clr {
+	clear: both;
+}
+/*date*/
+#phocamenu .pm-date {
+	text-align:right;
+	font-size:140%;
+	font-weight:bold;
+	margin: 20px 0 10px 0;
+}
+#phocamenu .pm-date-sub {
+	font-size:130%;
+	font-weight:bold;
+	text-decoration:underline;
+	margin: 25px 0 10px 0;
+}
+
+/*list*/
+#phocamenu .pm-list {
+	font-size:130%;
+	font-weight:bold;
+	text-decoration:underline;
+	margin: 25px 0 10px 0;
+}
+
+/*group*/
+#phocamenu .pm-group {
+	text-align:left;
+	font-size:120%;
+	margin: 15px 0 10px 0;
+	font-weight: bold;
+
+}
+
+
+
+#phocamenu .pm-group-right{
+	overflow:visible;
+	position:relative;
+	float:right;
+	width:43%;
+	margin:1% 1% 1% 2%;
+}
+#phocamenu .pm-group-left{
+	overflow:visible;
+	position:relative;
+	float:left;
+	width:43%;
+	margin:1% 2% 1% 1%;
+}
+
+#phocamenu .pm-group-right-bs{
+
+	margin:0;
+	padding-left: 1%;
+}
+#phocamenu .pm-group-left-bs{
+
+	margin:0;
+	padding-right: 1%;
+}
+
+/*item*/
+
+#phocamenu .pm-item-group {
+	margin: 15px 0 10px 0;
+}
+#phocamenu .pm-item table,
+#phocamenu .pm-item-clm table,
+#phocamenu .pm-item-bl table {
+	width:100%;
+}
+
+#phocamenu .pmquantity {
+	text-align: right;
+}
+#phocamenu .pm-item table tr td.pmquantity,
+#phocamenu .pm-item-clm table tr td.pmquantity,
+#phocamenu .pm-item-bl table tr td.pmquantity {
+	text-align:right;
+	vertical-align: top;
+	white-space:nowrap;
+	width:8%;
+}
+
+
+#phocamenu .pm-item table tr td.pmtitle,
+#phocamenu .pm-item-bl table tr td.pmtitle {
+	text-align:left;
+	width:auto;
+}
+#phocamenu .pm-item-clm table tr td.pmtitle {
+	text-align:left;
+	width:auto;
+	font-weight:bold;
+}
+
+#phocamenu .pm-item table tr td.pmtitle2,
+#phocamenu .pm-item-bl table tr td.pmtitle2 {
+	text-align:left;
+	width:auto;
+}
+#phocamenu .pm-item-clm table tr td.pmtitle2 {
+	text-align:left;
+	width:auto;
+	font-weight:bold;
+}
+#phocamenu .pmgroupheader1,
+#phocamenu .pmgroupheader2,
+#phocamenu table tr td.pmgroupheader1,
+#phocamenu table tr td.pmgroupheader2 {
+	text-align: right;
+	font-weight: bold;
+}
+
+#phocamenu .pm-item table tr td.pmdesc,
+#phocamenu .pm-item-bl table tr td.pmdesc,
+#phocamenu .pm-item-clm table tr td.pmdesc {
+	text-align:left;
+	font-style:italic;
+}
+
+
+#phocamenu .pm-item table tr td.pmpriceprefix,
+#phocamenu .pm-item-clm table tr td.pmpriceprefix,
+#phocamenu .pm-item-bl table tr td.pmpriceprefix {
+	text-align:right;
+	vertical-align: bottom;
+	width:2%;
+}
+
+#phocamenu .pm-item table tr td.pmprice,
+#phocamenu .pm-item-clm table tr td.pmprice,
+#phocamenu .pm-item-bl table tr td.pmprice,
+#phocamenu .pm-item table tr td.pmprice2,
+#phocamenu .pm-item-clm table tr td.pmprice2,
+#phocamenu .pm-item-bl table tr td.pmprice2 {
+	text-align:right;
+	vertical-align: bottom;
+	width:5%;
+	padding-left: 10px;
+	white-space:nowrap;
+}
+
+
+
+#phocamenu td.pmimage {
+	min-width:1%;
+}
+
+#phocamenu .pm-item table tr td div.pmimage {
+	
+}
+#phocamenu .pmimage,
+#phocamenu .pm-item-clm table tr td div.pmimage,
+#phocamenu .pm-item-bl table tr td div.pmimage {
+	border:0px;
+}
+
+#phocamenu .pmimage a img,
+#phocamenu .pm-item table tr td div.pmimage a img {
+	border:1px solid #ccc;
+	padding:1px;
+}
+
+
+/*message - description*/
+#phocamenu .pm-message {
+	margin: 10px 0px 10px 0px;
+}
+
+/*footer*/
+#phocamenu .pm-footer {
+	margin: 15px 0px 15px 0px;
+}
+
+/*icons - buttons*/
+#phocamenuicons .pm-buttons{
+	text-align:right;
+	margin-right:5px;
+}
+
+/*not conflict with beez*/
+#phocamenu table,
+#phocamenu table tr,
+#phocamenu table tr td {
+	border: none;
+}
+
+#phocamenuicons .pm-buttons  a:hover ,
+#phocamenuicons .pm-buttons a:active ,
+#phocamenuicons .pm-buttons a:focus  {
+	background: transparent;
+}
+
+/* Multiple Edit */
+#phocamenumultipleedit .pm-list,
+#phocamenumultipleedit .pm-group {
+	margin-bottom:3px;
+}
+#phocamenumultipleedit .pm-list {
+	margin: auto auto 3px auto;
+	text-align: center;
+}
+#phocamenumultipleedit .pm-list input
+#phocamenumultipleedit .pm-group input {
+	width: 14em;
+}
+#phocamenumultipleedit .pmquantity,
+#phocamenumultipleedit .pmquantity input {
+
+	width: 5em;
+}
+#phocamenumultipleedit .pmprice,
+#phocamenumultipleedit .pmprice input,
+#phocamenumultipleedit .pmprice2,
+#phocamenumultipleedit .pmprice2 input  {
+
+	width: 5em;
+}
+#phocamenumultipleedit .pmitem {
+	background: grey;
+}
+
+#phocamenumultipleedit .pmpriceprefix {
+	width: 5%;
+	text-align: center;
+}
+
+#phocamenumultipleedit .pmgroupheader1,
+#phocamenumultipleedit .pmgroupheader1 input {
+
+	width: 5em;
+}
+
+#phocamenumultipleedit .pmgroupheader2,
+#phocamenumultipleedit .pmgroupheader2 input {
+
+	width: 5em;
+}
+
+
+#phocamenumultipleedit .pmtitle2,
+#phocamenumultipleedit .pmtitle2 input,
+#phocamenumultipleedit .pmtitle,
+#phocamenumultipleedit .pmtitle input,
+#phocamenumultipleedit .pmdesc,
+#phocamenumultipleedit .pmdesc textarea {
+	width: 80%;
+}
+#phocamenumultipleedit .pm-message,
+#phocamenumultipleedit .pm-message textarea {
+	text-align: center;
+	width: 80%;
+	margin: 5px auto 7px auto;
+}
+
+
+#phocamenumultipleedit .pm-message{
+	text-align:center;
+}
+
+#phocamenumultipleedit .pm-date-sub {
+	text-decoration:none;
+	margin-bottom: 5px;
+}
+#phocamenumultipleedit .pm-addrow small a {
+	text-decoration:underline;
+	color:#86592D;
+}
+
+#phocamenumultipleedit .pmodd {
+	background: #ffece5;
+	padding: 10px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	margin: 4px 0px;
+}
+
+#phocamenumultipleedit .pmeven {
+	background: #E9E3DD;
+	padding: 10px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	margin: 4px 0px;
+}
+
+#phocamenumultipleedit .pm-header {
+	text-align:center;
+	font-size:160%;
+	line-height:1.2;
+	margin:10px 0 10px 0;
+}
+
+#phocamenumultipleedit .pm-header table {
+	text-align:center;
+	width:100%;
+}
+
+#phocamenumultipleedit .pm-header table tr td.pmclock {
+	width:2%;
+}
+#phocamenumultipleedit .pm-header table tr td.pmtext {
+	width:98%;
+}
+
+#phocamenumultipleedit .pm-date {
+	
+	font-size:140%;
+	font-weight:bold;
+	margin: 20px 0 10px 0;
+}
+#phocamenumultipleedit .pm-date-sub {
+	font-size:130%;
+	font-weight:bold;
+	text-decoration:underline;
+	margin: 25px 0 10px 0;
+}
+
+#phocamenumultipleedit .pm-message {
+	margin: 10px 0px 10px 0px;
+}
+
+#phocamenumultipleedit .pm-footer {
+	margin: 15px 0px 15px 0px;
+}
+
+
+#phocamenumultipleedit img,
+#phocamenu img {
+	max-width: none;
+}
+
+#phocamenu .pmimage a img,
+#phocamenu .pm-item table tr td div.pmimage a img {
+	max-width: none !important;
+}
+
+
+/* Bootstrap */
+div.pm-customcode,
+div.pm-item-row,
+div.pm-desc-row ,
+div.pm-group-header-row{
+	margin: 0px 0px 0px 0px;
+}
+
+#phocamenu .row,
+#phocamenu .row-fluid {}
+
+#phocamenu .span1,
+#phocamenu .span2,
+#phocamenu .span3,
+#phocamenu .span4,
+#phocamenu .span5,
+#phocamenu .span6,
+#phocamenu .span7,
+#phocamenu .span8,
+#phocamenu .span9,
+#phocamenu .span10,
+#phocamenu .span11,
+#phocamenu .span12 {
+	min-height: 10px;
+}
+
+#phocamenu .span1 {
+	white-space:nowrap !important;
+}
+
+.container {}
+
+.row,
+.row-fluid {}
+
+#phocamenu div.pmimage-b {
+	margin-right: -40px;
+}
+
+div.pmquantity-bl {
+	margin-right: 10px;
+}
+
+#phocamenu div.pmgroupheader1,
+#phocamenu div.pmgroupheader2,
+#phocamenu div.pmtitle-clm {
+	font-weight: bold;
+}
+
+#phocamenu div.pmdesc {
+	font-style:italic;
+	margin-bottom: 10px;
+}
+
+@media (min-width: 768px) {
+	
+	#phocamenu div.pmdesci {
+		margin-top: -35px;
+	}
+}
+
+
+.pm-right {
+	text-align:right;
+}
+.pm-center {
+	text-align: center;
+}
