@@ -8,38 +8,39 @@
  * @copyright Copyright (C) Jan Pavelka www.phoca.cz
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  */
+defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
 
 class PhocaMenuModelMenu extends JModelLegacy
 {
 	var $_id = null;
 	var $_data = null;
-	
+
 	function __construct() {
 		parent::__construct();
 		$app	= JFactory::getApplication();
-		$id 	= JRequest::getVar('id', 0, '', 'int');
+		$id 	= $app->input->get('id', 0, '', 'int');
 		$this->setState('filter.language',$app->getLanguageFilter());
 		$this->setId((int)$id);
 	}
-	
+
 	function setId($id) {
 		$this->_id		= $id;
 		$this->_data	= null;
 	}
-	
+
 	function &getData($type = 1) {
 		$this->_loadData($type);
 		return $this->_data;
 	}
-	
+
 	function _loadData($type = 1) {
-	
-		if (empty($this->_data)) {		
-			
+
+		if (empty($this->_data)) {
+
 			$app	= JFactory::getApplication();
 			$params				= $app->getParams();
-			
+
 			/* Specific data from FRONTEND
 			 * you can display all data from menu type or you can display only one list(day) from menu type
 			 */
@@ -49,41 +50,45 @@ class PhocaMenuModelMenu extends JModelLegacy
 			$displayFooter		= $params->get( 'displayfooter', 1 );
 			$displayHeaderDate	= $params->get( 'displayheaderdate', 1 );
 			$displayCurrentDay	= $params->get( 'displaycurrentday');
-			
+
 			// Filter by language
 			$wheresLang = '';
-		
+
 			if ($this->getState('filter.language')) {
 				$wheresLang =  'a.language IN ('.$this->_db->Quote(JFactory::getLanguage()->getTag()).','.$this->_db->Quote('*').')';
+			} else {
+				// Because of possible duplicity, we can get the last item but we need to differentiate between languages
+				// all language is "" or "*"
+				$wheresLang =  'a.language IN (\'\','.$this->_db->Quote('*').')';
 			}
-			
+
 			/* Specific data from ADMINISTRATOR
 			 * In administration you can display data from menu type or you can display one list(day) from menu type
 			 * This is used for: PRINT PDF, PREVIEW, MULTIPLE EDIT, EMAIL (administration tools in lists or days)
 			 */
-			
-			$adminTool 	= JRequest::getVar( 'admintool', 0, 'get', 'int' );//Items tool
-			$atid 		= JRequest::getVar( 'atid', 0, 'get', 'int' );//Items tool id			 
-			$adminLang	= JRequest::getVar( 'adminlang', 0, 'get', 'int' );//We call the site from admin
-			$alang 		= JRequest::getVar( 'alang', '', 'get', 'string' );//Alang because we call frontend where the link can be changed
+
+			$adminTool 	= $app->input->get( 'admintool', 0, 'get', 'int' );//Items tool
+			$atid 		= $app->input->get( 'atid', 0, 'get', 'int' );//Items tool id
+			$adminLang	= $app->input->get( 'adminlang', 0, 'get', 'int' );//We call the site from admin
+			$alang 		= $app->input->get( 'alang', '', 'get', 'string' );//Alang because we call frontend where the link can be changed
 
 			if ((int)$adminLang == 1) {
 				if ($alang != '') {
-					
+
 					$wheresLang =  'a.language ='.$this->_db->Quote(PhocaMenuHelper::getLangCode($alang));
 				} else {
 					$wheresLang = '';
 				}
 			}
 
-			
+
 			//CONFIG
 			$wheres		= array();
 			$wheres[]	= 'a.type = '.(int)$type;
 			if ($wheresLang != '') {
 				$wheres[]	= $wheresLang;
 			}
-			
+
 			$header = "'' AS header";
 			if ($displayHeader > 0) {
 				$header = 'a.header';
@@ -96,17 +101,65 @@ class PhocaMenuModelMenu extends JModelLegacy
 			if ($displayHeader > 0) {
 				$headerDate = 'a.date_from, a.date_to';
 			}
-			$query 		= 'SELECT a.*,' 
+
+			// TO DO CHANGE - select latest config in case there are more obsolete.
+			if ($wheresLang == '') {
+				$wheres[] = 'a.date_to = (SELECT MAX(a2.date_to) FROM #__phocamenu_config AS a2 WHERE a2.type = '.(int)$type.')';
+			} else {
+              $wheres[] = 'a.date_to = (SELECT MAX(a2.date_to) FROM #__phocamenu_config AS a2 WHERE a2.type = '.(int)$type.' AND '.str_replace('a.', 'a2.', $wheresLang).')';
+
+			}
+
+
+
+			$query 		= 'SELECT a.*,'
 						. ' '.$header.','
 						. ' '.$footer.','
 						. ' '.$headerDate
 						. ' FROM #__phocamenu_config AS a'
 						. ' WHERE ' . implode(' AND ', $wheres);
-						
-			
+
+
 			$this->_db->setQuery($query);
 			$this->_data['config'] = $this->_db->loadObject();
-			
+
+			if ((int)$adminLang == 1) {
+
+			} else {
+				// We need to set header and footer in specific langauge, if does not exist then in "all" language
+				$dConfig = $this->_db->loadObjectList();
+				if (isset($dConfig[0]) && !isset($dConfig[1])) {
+					$this->_data['config'] = $dConfig[0];
+				}
+
+				if (isset($dConfig[0]) && isset($dConfig[1]) && isset($dConfig[0]->language) && $dConfig[0]->language == '*') {
+					$this->_data['config'] = $dConfig[1];
+					if ((isset($dConfig[1]->header) && $dConfig[1]->header == '') || !isset($dConfig[1]->header)) {
+						$this->_data['config']->header = $dConfig[0]->header;
+					}
+					if ((isset($dConfig[1]->footer) && $dConfig[1]->footer == '') || !isset($dConfig[1]->footer)) {
+						$this->_data['config']->footer = $dConfig[0]->footer;
+					}
+					if ((isset($dConfig[1]->metakey) && $dConfig[1]->metakey == '') || !isset($dConfig[1]->metakey)) {
+						$this->_data['config']->metakey = $dConfig[0]->metakey;
+					}
+					if ((isset($dConfig[1]->metadesc) && $dConfig[1]->metadesc == '') || !isset($dConfig[1]->metadesc)) {
+						$this->_data['config']->metadesc = $dConfig[0]->metadesc;
+					}
+					if ((isset($dConfig[1]->date) && $dConfig[1]->date == '') || !isset($dConfig[1]->date)) {
+						$this->_data['config']->date = $dConfig[0]->date;
+					}
+					if ((isset($dConfig[1]->date_from) && $dConfig[1]->date_from == '') || !isset($dConfig[1]->date_from)) {
+						$this->_data['config']->date_from = $dConfig[0]->date_from;
+					}
+					if ((isset($dConfig[1]->date_to) && $dConfig[1]->date_to == '') || !isset($dConfig[1]->date_to)) {
+						$this->_data['config']->date_to = $dConfig[0]->date_to;
+					}
+
+				}
+			}
+
+
 			if ($type == 3 || $type == 4 || $type == 5) {
 				//LIST
 				$wheres 	= array();
@@ -115,31 +168,31 @@ class PhocaMenuModelMenu extends JModelLegacy
 				if ($wheresLang != '') {
 					$wheres[]	= $wheresLang;
 				}
-				
+
 				// Front
 				if (count( $menuListIdsArray )) {
 					if (!is_array($menuListIdsArray) && (int)$menuListIdsArray > 0) {
 						$wheres[]	= ' a.id = '.(int)$menuListIdsArray;
 					} else {
-						JArrayHelper::toInteger($menuListIdsArray);
+						\Joomla\Utilities\ArrayHelper::toInteger($menuListIdsArray);
 						$menuListIds = implode( ',', $menuListIdsArray );
 						$wheres[]	= ' a.id IN ( '.$menuListIds.' )';
 					}
-				} 
+				}
 				// Administration
 				else if ($adminTool == 1 && (int)$atid > 0) {
 					$wheres[]	= ' a.id = '.(int)$atid;
 				}
-			
+
 				$query 		= ' SELECT a.*'
 							. ' FROM #__phocamenu_list AS a'
 							. ' WHERE ' . implode(' AND ', $wheres)
 							. ' ORDER BY ordering ASC';
 				$this->_db->setQuery($query);
 				$this->_data['list'] = $this->_db->loadObjectList();
-			
+
 			}
-			
+
 			if ($type == 2) {
 				//DAY
 				$wheres 	= array();
@@ -148,11 +201,11 @@ class PhocaMenuModelMenu extends JModelLegacy
 				if ($wheresLang != '') {
 					$wheres[]	= $wheresLang;
 				}
-				
+
 				// Front
 				if ($displayCurrentDay == 1) {
 					jimport('joomla.utilities.date');
-					$date		= JFactory::getDate();	
+					$date		= JFactory::getDate();
 					$dateFrom	= $date->format('Y-m-d 00:00:00');
 					$dateTo		= $date->format('Y-m-d 23:59:59');
 					$wheres[]	= ' a.title BETWEEN \''.$dateFrom.'\' AND \''.$dateTo.'\'';
@@ -161,7 +214,7 @@ class PhocaMenuModelMenu extends JModelLegacy
 					if (!is_array($menuDayIdsArray) && (int)$menuDayIdsArray > 0) {
 						$wheres[]	= ' a.id = '.(int)$menuDayIdsArray;
 					} else {
-						JArrayHelper::toInteger($menuDayIdsArray);
+						\Joomla\Utilities\ArrayHelper::toInteger($menuDayIdsArray);
 						$menuDayIds = implode( ',', $menuDayIdsArray );
 						$wheres[]	= ' a.id IN ( '.$menuDayIds.' )';
 					}
@@ -170,16 +223,16 @@ class PhocaMenuModelMenu extends JModelLegacy
 				else if ($adminTool == 1 && (int)$atid > 0) {
 					$wheres[]	= ' a.id = '.(int)$atid;
 				}
-			
+
 				$query 		= ' SELECT a.*'
 							. ' FROM #__phocamenu_day AS a'
 							. ' WHERE ' . implode(' AND ', $wheres)
 							. ' ORDER BY ordering ASC';
 				$this->_db->setQuery($query);
 				$this->_data['day'] = $this->_db->loadObjectList();
-			
+
 			}
-			
+
 			//GROUP
 			$wheres 	= array();
 			$wheres[] 	= 'a.published = 1';
@@ -187,14 +240,14 @@ class PhocaMenuModelMenu extends JModelLegacy
 			if ($wheresLang != '') {
 				$wheres[]	= $wheresLang;
 			}
-			
+
 			$query 		= 'SELECT a.*'
 						. ' FROM #__phocamenu_group AS a'
 						. ' WHERE ' . implode(' AND ', $wheres)
 						. ' ORDER BY ordering ASC';
 			$this->_db->setQuery($query);
 			$this->_data['group'] = $this->_db->loadObjectList();
-			
+
 			//ITEM
 			$wheres 	= array();
 			$wheres[] 	= 'a.published = 1';
@@ -202,18 +255,18 @@ class PhocaMenuModelMenu extends JModelLegacy
 			if ($wheresLang != '') {
 				$wheres[]	= $wheresLang;
 			}
-			
+
 			//Check Phoca Gallery
 			$phocaGallery = PhocaMenuExtensionHelper::getExtensionInfo('com_phocagallery', 'component');
 			if ($phocaGallery != 1) {
-				
+
 				$query 	= 'SELECT a.*, 0 as imageid'
 					. ' FROM #__phocamenu_item AS a'
 					. ' WHERE ' . implode(' AND ', $wheres)
 					. ' ORDER BY ordering ASC';
-			
+
 			} else {
-				
+
 				$query 	= 'SELECT a.*, i.id as imageid, i.alias as imagealias, i.filename as imagefilename,'
 					. ' ic.id as imagecatid, ic.alias as imagecatalias,'
 					. ' i.extid as imageextid, i.exts as imageexts, i.extm as imageextm, i.extl as imageextl,'
@@ -225,11 +278,11 @@ class PhocaMenuModelMenu extends JModelLegacy
 					. ' LEFT JOIN #__phocagallery_categories AS ic ON ic.id = i.catid'
 					. ' WHERE ' . implode(' AND ', $wheres)
 					. ' ORDER BY ordering ASC';
-					
+
 			}
 			$this->_db->setQuery($query);
 			$this->_data['item'] = $this->_db->loadObjectList();
-			
+
 			//IMAGE
 			$wheres 	= array();
 			$wheres[] 	= 'a.published = 1';

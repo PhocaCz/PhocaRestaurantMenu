@@ -1,0 +1,52 @@
+.picker_layer {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	text-decoration: none;
+	background: #fff;
+	border: 1px solid #ccc;
+	overflow: visible;
+	height: auto;
+	width: auto;
+}
+.picker_buttons {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	background: #fff;
+	border: 1px solid #ccc;
+	padding:1px;
+	cursor:pointer;
+	color:#000000;
+}
+.cell_color {
+	cursor:pointer;
+	width: 15px;
+	height: 15px;
+	border: 1px solid #fff;
+}
+
+
+.color_table {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	text-decoration: none;
+	width: 100%;
+	border: 1px solid #fff;
+}
+.choosed_color_cell{
+	border: 1px solid #777;
+	
+}
+.default_color_btn{
+	width:15px; height:15px; background-image:url(defaultcolor.jpg);
+	background-repeat:no-repeat; background-position:center;
+}
+
+#picker {
+	padding: 10px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	-webkit-box-shadow: 0px 0px 2px 2px #ccc;
+	box-shadow: 0px 0px 2px 2px #ccc;
+	border: 1px solid #ccc;
+	background: #fff;
+}

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-	<view title="COM_PHOCAMENU_DAILY_MENU_GROUP">
+	<view title="_COM_PHOCAMENU_DAILY_MENU_GROUP">
 		<message><![CDATA[COM_PHOCAMENU_DAILY_MENU_GROUP_DESC]]></message>
 	</view>
 </metadata>

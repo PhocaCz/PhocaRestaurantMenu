@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset addfieldpath="/administrator/components/com_phocamenu/models/fields">
+
+<field name="id" type="text" default="0" label="JGLOBAL_FIELD_ID_LABEL" required="true" readonly="true" class="readonly" />
+<field name="type" type="hidden" default="0" label="COM_PHOCAMENU_FIELD_TYPE_LABEL"  readonly="true" class="readonly" />
+
+<field name="catid" type="PhocaMenuCategory" menutype="group" label="COM_PHOCAMENU_FIELD_CATEGORY_LABEL" description="COM_PHOCAMENU_FIELD_CATEGORY_DESC" required="true" />
+
+<field name="title" type="text" class="inputbox" size="40" label="COM_PHOCAMENU_FIELD_TITLE_LABEL" description="COM_PHOCAMENU_FIELD_TITLE_DESC" required="true" />
+
+<field name="ordering" type="PhocaMenuOrdering" menutype="group" table="file" class="inputbox" label="COM_PHOCAMENU_FIELD_ORDERING_LABEL" description="COM_PHOCAMENU_FIELD_ORDERING_DESC" />
+
+<field name="message" type="editor" buttons="true" hide="pagebreak,readmore" class="inputbox" label="COM_PHOCAMENU_FIELD_GROUP_DESCRIPTION_LABEL" description="COM_PHOCAMENU_FIELD_GROUP_DESCRIPTION_DESC" filter="JComponentHelper::filterText" />
+
+
+<field name="display_second_price" type="list" label="COM_PHOCAMENU_FIELD_GROUP_DISPLAY_SECOND_PRICE_LABEL" description="COM_PHOCAMENU_FIELD_GROUP_DISPLAY_SECOND_PRICE_LABEL" class="inputbox" size="1" default="0">
+		<option value="1">COM_PHOCAMENU_YES</option>
+		<option	value="0">COM_PHOCAMENU_NO</option>
+</field>
+
+<field name="header_price" type="text" class="inputbox" size="40" label="COM_PHOCAMENU_FIELD_HEADER_PRICE_LABEL" description="COM_PHOCAMENU_FIELD_HEADER_PRICE_DESC"  />
+<field name="header_price2" type="text" class="inputbox" size="40" label="COM_PHOCAMENU_FIELD_HEADER_PRICE2_LABEL" description="COM_PHOCAMENU_FIELD_HEADER_PRICE2_DESC"  />
+
+	</fieldset>
+
+
+<fieldset name="publish" label="COM_PHOCAMENU_GROUP_LABEL_PUBLISHING_DETAILS" >
+	<field name="published" type="list" label="COM_PHOCAMENU_FIELD_PUBLISHED_LABEL" description="COM_PHOCAMENU_FIELD_PUBLISHED_DESC" class="inputbox" size="1" default="1">
+		<option value="1">JPUBLISHED</option>
+		<option	value="0">JUNPUBLISHED</option>
+	</field>
+	<field name="language" type="contentlanguage" label="JFIELD_LANGUAGE_LABEL" description="COM_PHOCAMENU_FIELD_LANGUAGE_GROUP_DESC" class="inputbox">
+		<option value="*">JALL</option>
+	</field>
+</fieldset>
+</form>

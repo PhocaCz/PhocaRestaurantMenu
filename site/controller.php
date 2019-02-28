@@ -29,18 +29,15 @@ class PhocaMenuController extends JControllerLegacy
 			'showall'=>'INT','return'=>'BASE64','filter'=>'STRING','filter_order'=>'CMD','filter_order_Dir'=>'CMD','filter-search'=>'STRING','print'=>'BOOLEAN','lang'=>'CMD');
 			
 			
-			
-			
-		if ( ! JRequest::getCmd( 'view' ) ) {
-			JRequest::setVar('view', 'dailymenu' );
+		
+		if ( ! JFactory::getApplication()->input->get('view') ) {
+			JFactory::getApplication()->input->set('view', 'dailymenu' );
 		}
 		
-		//Set universal model
-		//$view = & $this->getView( $viewName, $viewType, '', array( 'base_path'=>$this->_basePath));
 
 		$document	= JFactory::getDocument();
 		$viewType	= $document->getType();
-		$viewName	= JRequest::getCmd( 'view', $this->getName() );
+		$viewName	= JFactory::getApplication()->input->get( 'view', $this->getName() );
 		$view =  $this->getView( $viewName, $viewType, '' );
 		$view->setModel( $this->getModel( 'Menu' ), true );
 		//$view->display();

@@ -1,0 +1,90 @@
+{
+	"author": "Jan Pavelka (www.phoca.cz)",
+	"authorUrl": "https://www.phoca.cz",
+	"copyright": "Jan Pavelka",
+	"license": "GNU/GPL",
+	"projectName": "PhocaRestaurantMenu",
+	"extensionName": "Phoca Restaurant Menu",
+	"projectInitials" : "PRM",				  
+	"description": "Phoca Restaurant Menu is Joomla! CMS component. This component allows creating menu for restaurant, cafeteria, fast food, school canteen, buffet, bar, club, snack bar, wineroom, etc. Such menu can be displayed on a website as HTML, printed as HTML, rendered as PDF, emailed to customers or displayed in RSS (such RSS can be used for displaying the menu on Facebook or Twitter).",
+	"projectUrl": "https://www.phoca.cz/phocamenu",
+	"projectDocumentationUrl": "https://www.phoca.cz/documentation/category/52-phoca-restaurant-menu-component",
+	"projectMainComponent": "Phoca Restaurant Menu",
+	"projectMainComponentInfoUrl": "https://www.phoca.cz/project/phocarestaurantmenu-joomla-menu",
+	"projectDemo" : {
+		"Joomla! 3 Demo": "https://www.phoca.cz/restaurantmenudemo/"
+	},
+	"projectColor": "#896D52",												
+	"menu": {
+		"main":{
+			"0" : {
+				"image": "icon-16-prm-menu.png",
+				"view": "",
+				"link": "option=com_phocamenu",
+				"title": "COM_PHOCAMENU"
+			}
+		},
+		"submenu": {
+			"0" : {
+				"image": "icon-16-prm-menu-cp.png",
+				"view": "phocamenucp",
+				"link": "option=com_phocamenu",
+				"title": "COM_PHOCAMENU_CONTROLPANEL"
+			},
+			"1" : {
+				"image": "icon-16-prm-menu-dm.png",
+				"view": "phocamenugroups",
+				"link": "option=com_phocamenu&amp;view=phocamenugroups&amp;type=1",
+				"title": "COM_PHOCAMENU_DAILY_MENU"
+			},
+			"2" : {
+				"image": "icon-16-prm-menu-wm.png",
+				"view": "phocamenudays",
+				"link": "option=com_phocamenu&amp;view=phocamenudays&amp;type=2",
+				"title": "COM_PHOCAMENU_WEEKLY_MENU"
+			},
+			"3" : {
+				"image": "icon-16-prm-menu-fm.png",
+				"view": "phocamenulists",
+				"link": "option=com_phocamenu&amp;view=phocamenulists&amp;type=3",
+				"title": "COM_PHOCAMENU_BILL_OF_FARE"
+			},
+			"4" : {
+				"image": "icon-16-prm-menu-bl.png",
+				"view": "phocamenulists",
+				"link": "option=com_phocamenu&amp;view=phocamenulists&amp;type=4",
+				"title": "COM_PHOCAMENU_BEVERAGE_LIST"
+			},
+			"5" : {
+				"image": "icon-16-prm-menu-wl.png",
+				"view": "phocamenulists",
+				"link": "option=com_phocamenu&amp;view=phocamenulists&amp;type=5",
+				"title": "COM_PHOCAMENU_WINE_LIST"
+			},
+			"6" : {
+				"image": "icon-16-prm-menu-bm.png",
+				"view": "phocamenugroups",
+				"link": "option=com_phocamenu&amp;view=phocamenugroups&amp;type=6",
+				"title": "COM_PHOCAMENU_BREAKFAST_MENU"
+			},
+			"7" : {
+				"image": "icon-16-prm-menu-lm.png",
+				"view": "phocamenugroups",
+				"link": "option=com_phocamenu&amp;view=phocamenugroups&amp;type=7",
+				"title": "COM_PHOCAMENU_LUNCH_MENU"
+			},
+			"8" : {
+				"image": "icon-16-prm-menu-dn.png",
+				"view": "phocamenugroups",
+				"link": "option=com_phocamenu&amp;view=phocamenugroups&amp;type=8",
+				"title": "COM_PHOCAMENU_DINNER_MENU"
+			},
+			"9" : {
+				"image": "icon-16-prm-menu-info.png",
+				"view": "phocamenuinfo",
+				"link": "option=com_phocamenu&amp;view=phocamenuinfo",
+				"title": "COM_PHOCAMENU_INFO"
+			}
+		}
+	}
+}

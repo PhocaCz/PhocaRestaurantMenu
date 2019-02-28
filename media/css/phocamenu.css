@@ -1,4 +1,4 @@
-/*Phoca Restaurant Menu - http://www.phoca.cz */
+/*Phoca Restaurant Menu - https://www.phoca.cz */
 
 /*header*/
 #phocamenu .pm-header {
@@ -101,7 +101,10 @@
 
 #phocamenu .pmquantity {
 	text-align: right;
+	white-space:nowrap;
 }
+
+
 #phocamenu .pm-item table tr td.pmquantity,
 #phocamenu .pm-item-clm table tr td.pmquantity,
 #phocamenu .pm-item-bl table tr td.pmquantity {
@@ -141,6 +144,9 @@
 	font-weight: bold;
 }
 
+#phocamenu .pm-item .pmdesc,
+#phocamenu .pm-item-bl .pmdesc,
+#phocamenu .pm-item-clm .pmdesc,
 #phocamenu .pm-item table tr td.pmdesc,
 #phocamenu .pm-item-bl table tr td.pmdesc,
 #phocamenu .pm-item-clm table tr td.pmdesc {
@@ -148,7 +154,7 @@
 	font-style:italic;
 }
 
-
+#phocamenu .pmpriceprefix,
 #phocamenu .pm-item table tr td.pmpriceprefix,
 #phocamenu .pm-item-clm table tr td.pmpriceprefix,
 #phocamenu .pm-item-bl table tr td.pmpriceprefix {
@@ -157,6 +163,7 @@
 	width:2%;
 }
 
+#phocamenu .pmprice,
 #phocamenu .pm-item table tr td.pmprice,
 #phocamenu .pm-item-clm table tr td.pmprice,
 #phocamenu .pm-item-bl table tr td.pmprice,
@@ -177,7 +184,7 @@
 }
 
 #phocamenu .pm-item table tr td div.pmimage {
-	
+
 }
 #phocamenu .pmimage,
 #phocamenu .pm-item-clm table tr td div.pmimage,
@@ -333,7 +340,7 @@
 }
 
 #phocamenumultipleedit .pm-date {
-	
+
 	font-size:140%;
 	font-weight:bold;
 	margin: 20px 0 10px 0;
@@ -419,17 +426,61 @@ div.pmquantity-bl {
 	margin-bottom: 10px;
 }
 
-@media (min-width: 768px) {
-	
-	#phocamenu div.pmdesci {
-		margin-top: -35px;
-	}
-}
-
-
 .pm-right {
 	text-align:right;
 }
 .pm-center {
 	text-align: center;
+}
+
+@media (max-width: 768px) {
+
+	#phocamenu.bts2 .ph-item-row-box,
+	#phocamenu.bts3 .ph-item-row-box {
+		border-bottom: 1px solid #f0f0f0;
+	}
+	#phocamenu.bts2 .pm-item-row,
+	#phocamenu.bts3 .pm-item-row {
+
+		margin: 10px auto;
+		padding-bottom: 5px;
+		padding-top: 5px;
+		font-size: 135%;
+
+	}
+	#phocamenu.bts2 .pmquantity,
+	#phocamenu.bts3 .pmquantity {
+		text-align: left;
+		width: 100%;
+	}
+
+	#phocamenu.bts2 .pmtitle,
+	#phocamenu.bts3 .pmtitle {
+		text-align: left;
+		width: 100%;
+	}
+
+	#phocamenu.bts2 .pmpriceprefix,
+	#phocamenu.bts3 .pmpriceprefix,
+	#phocamenu.bts2 .pmpriceprefix.pm-right,
+	#phocamenu.bts3 .pmpriceprefix.pm-right	{
+		text-align: right;
+		width: 100%;
+		/*display: none;*/
+	}
+
+	#phocamenu.bts2 .pmprice,
+	#phocamenu.bts3 .pmprice,
+	#phocamenu.bts2 .pmprice.pm-right,
+	#phocamenu.bts3 .pmprice.pm-right{
+		text-align: right;
+		width: 100%;
+	}
+}
+
+@media (min-width: 768px) {
+
+	#phocamenu div.pmdesci {
+		margin-top: -35px;
+	}
 }

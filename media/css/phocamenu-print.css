@@ -1,4 +1,4 @@
-/* Phoca Restaurant Menu - http://www.phoca.cz */
+/* Phoca Restaurant Menu - https://www.phoca.cz */
 
 
 body, body.contentpane, .contentpane {
@@ -8,14 +8,14 @@ body, body.contentpane, .contentpane {
 	margin:15px;
 	text-align:left;
 }
-a img, img, 
+a img, img,
 #phocamenuicons div a img,
 #phocamenuicons a img{border:0px;}
 
 #phocamenuicons {
 	background:#fff;
 	padding:10px;
-	
+
 }
 
 #phocamenuicons .pm-buttons{
@@ -44,9 +44,9 @@ a img, img,
 	max-width: none;
 }
 
-@media print 
+@media print
 {
-    .noPrint 
+    .noPrint
     {
         display:none;
     }

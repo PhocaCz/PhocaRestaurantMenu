@@ -29,9 +29,9 @@
  *      + Safari 2.0 (via browsershots.org)
  *  Version 1
  *   - Initial release
- * 
+ *
  * Reworked for Phoca Component by Jan Pavelka
- * http://www.phoca.cz
+ * https://www.phoca.cz
  * Added behaviour for categories
  * Added support for radio buttons
  * Added support for adding two rows at once
@@ -42,7 +42,7 @@ function addRow(categoryId, type) {
     var elements, templateRow, rowCount, row, className, newRow, element;
     var i, s, t;
 	var tString, tStringNew, classNameWithCategoryId, numberItemPublish, countRows;
-    
+
     /* Get and count all "tr" elements with class="row".    The last one will
      * be serve as a template. */
     if (!document.getElementsByTagName)
@@ -52,7 +52,7 @@ function addRow(categoryId, type) {
     rowCount = 0;
     for (i = 0; i < elements.length; i++) {
         row = elements.item(i);
-        
+
         /* Get the "class" attribute of the row. */
         className = null;
         if (row.getAttribute)
@@ -65,21 +65,21 @@ function addRow(categoryId, type) {
                 /*MSIE 6*/
                 className = className.value;
             }
-        } 
-        
+        }
+
         /* This is not one of the rows we're looking for.    Move along. */
 		classNameWithCategoryId = "pm-tr-row-" + categoryId;
         if (className != classNameWithCategoryId)
             continue;
-        
+
         /* This *is* a row we're looking for. */
         templateRow = row;
         rowCount++;
     }
-	
+
     if (templateRow == null)
         return false; /* Couldn't find a template row. */
-    
+
     /* Make a copy of the template row */
     newRow = templateRow.cloneNode(true);
 
@@ -97,7 +97,7 @@ function addRow(categoryId, type) {
         t = s.split("[");
         if (t.length < 2)
             continue;
-			
+
 		/* We need new name for inputs: e.g. newitem instead of item to know which inputs are new.
 		 *  After we add "new" to input names, we must check if the "new" prefix exists or not.
 		 * If it exists don't do add it anymore */
@@ -107,18 +107,18 @@ function addRow(categoryId, type) {
 		} else {
 			tStringNew = "new" + t[0];
 		}
-		
+
 		s = tStringNew + "[" + categoryId + "][" + rowCount.toString() + "]";
         /* element.setAttribute("style", "background: #FFF9E5;");*/
 		element.setAttribute("name", s);
-		
+
 		/* Add behaviour for radio buttons
-		 * We need to add value values (value="1" and value="0" for new created radio buttons 
+		 * We need to add value values (value="1" and value="0" for new created radio buttons
 		 * There are two values for publish (publish/unpbublish), so if there is numberItemPublish == 0
 		 * it means that the first value was not added, it will be added and numberItemPublish set to = 1
 		 * if there is numberItemPublish == 1 the second value should be set and the numberItemPublish will
 		 * be set back to = 0 because of new row, where the first value come as next*/
-		 
+
 		if (tStringNew == "newitempublish" && numberItemPublish == 0) {
 			element.value = "1";
 			numberItemPublish = 1;
@@ -128,9 +128,9 @@ function addRow(categoryId, type) {
 		} else {
 			element.value = "";
 		}
-		
+
     }
-    
+
     /* Add the newly-created row to the table */
 	/* Security check */
 	countRows = countAddedRows();
@@ -138,7 +138,7 @@ function addRow(categoryId, type) {
 		alert("Please save your changes before continuing");
 		return false;
 	}
-	
+
     templateRow.parentNode.appendChild(newRow);
 	/* If type is 5 add description too*/
 	/*if (type == 5) {*/
@@ -153,7 +153,7 @@ function addRowDesc(categoryId) {
     var elements, templateRow, rowCount, row, className, newRow, element;
     var i, s, t;
 	var tString, tStringNew, classNameWithCategoryId, countRows;
-    
+
     /* Get and count all "tr" elements with class="row".    The last one will
      * be serve as a template. */
     if (!document.getElementsByTagName)
@@ -163,7 +163,7 @@ function addRowDesc(categoryId) {
     rowCount = 0;
     for (i = 0; i < elements.length; i++) {
         row = elements.item(i);
-        
+
         /* Get the "class" attribute of the row. */
         className = null;
         if (row.getAttribute)
@@ -176,21 +176,21 @@ function addRowDesc(categoryId) {
                 /*MSIE 6*/
                 className = className.value;
             }
-        } 
-        
+        }
+
         /* This is not one of the rows we're looking for.    Move along. */
 		classNameWithCategoryId = "pmdesctr pm-tr-row-desc-" + categoryId;
         if (className != classNameWithCategoryId)
             continue;
-        
+
         /* This *is* a row we're looking for. */
         templateRow = row;
         rowCount++;
     }
-	
+
     if (templateRow == null)
         return false; /* Couldn't find a template row. */
-    
+
     /* Make a copy of the template row */
     newRow = templateRow.cloneNode(true);
 
@@ -207,7 +207,7 @@ function addRowDesc(categoryId) {
         t = s.split("[");
         if (t.length < 2)
             continue;
-			
+
 		/* We need new name for inputs: e.g. newitem instead of item to know which inputs are new.
 		 *  After we add "new" to input names, we must check if the "new" prefix exists or not.
 		 * If it exists don't do add it anymore */
@@ -217,13 +217,13 @@ function addRowDesc(categoryId) {
 		} else {
 			tStringNew = "new" + t[0];
 		}
-		
+
 		s = tStringNew + "[" + categoryId + "][" + rowCount.toString() + "]";
 		element.setAttribute("name", s);
 		element.value = '';
 
     }
-	
+
 	 /* Add the newly-created row to the table */
 	/* Security check */
 	countRows = countAddedRows();
@@ -231,7 +231,7 @@ function addRowDesc(categoryId) {
 		alert("Please save your changes before continuing");
 		return false;
 	}
-	
+
     templateRow.parentNode.appendChild(newRow);
     return true;
 }
@@ -243,9 +243,9 @@ function countAddedRows() {
         /* It has not... perform the initilization*/
         countAddedRows.counter = 0;
     }
-	
+
 	++countAddedRows.counter;
-	
+
 	return countAddedRows.counter;
 }
 

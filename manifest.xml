@@ -1,0 +1,21 @@
+<updates>
+	<update>
+		<name><![CDATA[ Phoca Restaurant Menu ]]></name>
+		<description><![CDATA[ Phoca Restaurant Menu is Joomla! CMS component. This component allows creating menu for restaurant, cafeteria, fast food, school canteen, buffet, bar, club, snack bar, wineroom, etc. Such menu can be displayed on a website as HTML, printed as HTML, rendered as PDF, emailed to customers or displayed in RSS (such RSS can be used for displaying the menu on Facebook or Twitter). ]]></description>
+		<element>com_phocamenu</element>
+		<type>component</type>
+		<version>3.1.2</version>
+		<infourl title="Phoca Restaurant Menu 3.1.2">http://www.phoca.cz/version/index.php?phocamenu=3.1.2</infourl>
+		<downloads>
+			<downloadurl type="full" format="zip">https://github.com/PhocaCz/PhocaRestaurantMenu/releases/download/3.1.2/com_phocamenu_v3.1.2.zip</downloadurl>
+		</downloads>
+		<tags>
+			<tag>stable</tag>
+		</tags>
+		<maintainer><![CDATA[ Phoca.cz ]]></maintainer>
+		<maintainerurl>https://www.phoca.cz/</maintainerurl>
+		<section>Updates</section>
+		<targetplatform name="joomla" version="3.9"/>
+		<client>1</client>
+	</update>
+</updates>

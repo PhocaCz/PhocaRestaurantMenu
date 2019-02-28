@@ -6,20 +6,20 @@
  * @copyright Copyright (C) Jan Pavelka www.phoca.cz
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  */
-defined( '_JEXEC' ) or die( 'Restricted access' );
-if(!defined('DS')) define('DS', DIRECTORY_SEPARATOR);
+defined( '_JEXEC' ) or die( 'Restricted access' ); 
+
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
-require_once( JPATH_COMPONENT.DS.'controller.php' );
-require_once( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_phocamenu'.DS.'helpers'.DS.'phocamenu.php' );
-require_once( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_phocamenu'.DS.'helpers'.DS.'phocamenuextension.php' );
-require_once( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_phocamenu'.DS.'helpers'.DS.'phocamenufrontrender.php' );
-require_once( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_phocamenu'.DS.'helpers'.DS.'phocamenurenderviews.php' );
-require_once( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_phocamenu'.DS.'helpers'.DS.'views'.DS.'phocamenufrontview.html.php' );
-require_once( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_phocamenu'.DS.'helpers'.DS.'views'.DS.'phocamenufrontview.pdf.php' );
+require_once( JPATH_COMPONENT.'/controller.php' );
+require_once( JPATH_ADMINISTRATOR.'/components/com_phocamenu/helpers/phocamenu.php' );
+require_once( JPATH_ADMINISTRATOR.'/components/com_phocamenu/helpers/phocamenuextension.php' );
+require_once( JPATH_ADMINISTRATOR.'/components/com_phocamenu/helpers/phocamenufrontrender.php' );
+require_once( JPATH_ADMINISTRATOR.'/components/com_phocamenu/helpers/phocamenurenderviews.php' );
+require_once( JPATH_ADMINISTRATOR.'/components/com_phocamenu/helpers/views/phocamenufrontview.html.php' );
+require_once( JPATH_ADMINISTRATOR.'/components/com_phocamenu/helpers/views/phocamenufrontview.pdf.php' );
 
-if($controller = JRequest::getWord('controller')) {
-    $path = JPATH_COMPONENT.DS.'controllers'.DS.$controller.'.php';
+if($controller = JFactory::getApplication()->input->get('controller')) {
+    $path = JPATH_COMPONENT.'/controllers/'.$controller.'.php';
     if (file_exists($path)) {
         require_once $path;
     } else {
@@ -29,6 +29,8 @@ if($controller = JRequest::getWord('controller')) {
 
 $classname    = 'PhocaMenuController'.ucfirst($controller);
 $controller   = new $classname( );
-$controller->execute( JRequest::getVar( 'task' ) );
+//$controller = JControllerLegacy::getInstance('PhocaMenu');
+$controller->execute(JFactory::getApplication()->input->get('task'));
 $controller->redirect();
+
 ?>

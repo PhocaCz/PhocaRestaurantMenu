@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+<fields addfieldpath="/administrator/components/com_phocamenu/models/fields">
+	<fieldset name="display" label="COM_PHOCAMENU_CONFIG_HEAD_DISPLAY_LABEL">
+		<field name="phocahead1" type="phocahead"  default="COM_PHOCAMENU_CONFIG_GENERAL_SETTINGS_LABEL" label="" description="" />
+		
+		<field name="custom_clock_code" type="textarea" rows="5" cols="30" default="" label="COM_PHOCAMENU_FIELD_CUSTOM_CLOCK_CODE_LABEL" filter="raw" description="COM_PHOCAMENU_FIELD_CUSTOM_CLOCK_CODE_DESC" />
+		
+			
+			<field name="display_group_message" type="list" default="2" label="COM_PHOCAMENU_FIELD_DISPLAY_GROUP_DESC_LABEL" description="COM_PHOCAMENU_FIELD_DISPLAY_GROUP_DESC_DESC" >
+				<option value="0">COM_PHOCAMENU_NO</option>
+				<option value="1">COM_PHOCAMENU_YES_ABOVE_ITEMS</option>
+				<option value="2">COM_PHOCAMENU_YES_BELOW_ITEMS</option>
+			</field>
+			
+			<field name="html_output" default="1" size="10" type="list" label="COM_PHOCAMENU_FIELD_HTML_OUTPUT_LABEL" description="COM_PHOCAMENU_FIELD_HTML_OUTPUT_DESC" >
+		<option value="1">COM_PHOCAMENU_TABLES</option>
+		<option value="2">COM_PHOCAMENU_BOOTSTRAP2</option>
+		<option value="3">COM_PHOCAMENU_BOOTSTRAP3</option>
+		</field>
+		
+		<field name="phocahead2" type="phocahead"  default="COM_PHOCAMENU_CONFIG_PRICE_SETTINGS_LABEL" label="" description="" />
+		
+		<field name="price_format" type="list" default="0" label="COM_PHOCAMENU_FIELD_PRICE_FORMAT_LABEL" description="COM_PHOCAMENU_FIELD_PRICE_FORMAT_DESC" >
+				<option value="0">COM_PHOCAMENU_PRICE_S_CURRENCY_SYMBOL</option>
+				<option value="1">COM_PHOCAMENU_PRICE_CURRENCY_SYMBOL</option>
+				<option value="2">COM_PHOCAMENU_CURRENCY_SYMBOL_PRICE</option>
+				<option value="3">COM_PHOCAMENU_CURRENCY_SYMBOL_S_PRICE</option>
+			</field>
+		<field name="price_currency_symbol" default="€" size="5" type="text" label="COM_PHOCAMENU_FIELD_PRICE_CURRENCY_SYMBOL_LABEL" description="COM_PHOCAMENU_FIELD_PRICE_CURRENCY_SYMBOL_LABEL" />
+		
+		<field name="price_dec_symbol" default="," size="5" type="text" label="COM_PHOCAMENU_FIELD_PRICE_DECIMAL_SYMBOL_LABEL" description="COM_PHOCAMENU_FIELD_PRICE_DECIMAL_SYMBOL_DESC" />
+		
+		<field name="price_decimals" default="2" size="5" type="text" label="COM_PHOCAMENU_FIELD_PRICE_DECIMALS_LABEL" description="COM_PHOCAMENU_FIELD_PRICE_DECIMALS_DESC" />
+		<field name="price_thousands_sep" default="." size="5" type="text" label="COM_PHOCAMENU_FIELD_PRICE_THOUSANDS_SEPARATOR_LABEL" description="COM_PHOCAMENU_FIELD_PRICE_THOUSANDS_SEPARATOR_DESC" />
+		
+		<field name="price_suffix" default="" size="5" type="text" label="COM_PHOCAMENU_FIELD_PRICE_SUFFIX_LABEL" description="COM_PHOCAMENU_FIELD_PRICE_SUFFIX_DESC" />
+		<field name="price_prefix" default="..." size="5" type="text" label="COM_PHOCAMENU_FIELD_PRICE_PREFIX_LABEL" description="COM_PHOCAMENU_FIELD_PRICE_PREFIX_LABEL" />
+		
+		<field name="phocahead3" type="phocahead"  default="COM_PHOCAMENU_CONFIG_DATE_SETTINGS_LABEL" label="" description="" />
+		
+		<field name="date_class" type="list" default="0" label="COM_PHOCAMENU_FIELD_DATE_CLASS_LABEL" description="COM_PHOCAMENU_FIELD_DATE_CLASS_DESC">
+				<option value="0">COM_PHOCAMENU_DEFAULT</option>
+				<option value="1">COM_PHOCAMENU_CZECH</option>
+			</field>
+		<field name="day_date_format" type="list" default="4" label="COM_PHOCAMENU_FIELD_DATE_FORMAT_DAY_LABEL" description="COM_PHOCAMENU_FIELD_DATE_FORMAT_DAY_DESC">
+				<option value="DATE_FORMAT_LC">DATE_FORMAT_LC</option>
+				<option value="DATE_FORMAT_LC1">DATE_FORMAT_LC1</option>
+				<option value="DATE_FORMAT_LC2">DATE_FORMAT_LC2</option>
+				<option value="DATE_FORMAT_LC3">DATE_FORMAT_LC3</option>
+				<option value="DATE_FORMAT_LC4">DATE_FORMAT_LC4</option>
+				<option value="d. F Y">d. F Y</option>
+				<option value="d/m/y">d/m/y</option>
+				<option value="d. m. Y">d. m. Y</option>
+				<option value="l, d. F Y">l, d. F Y</option>
+		</field>
+		
+		<field name="week_date_format" type="list" default="4" label="COM_PHOCAMENU_FIELD_DATE_FORMAT_WEEK_LABEL" description="COM_PHOCAMENU_FIELD_DATE_FORMAT_WEEK_DESC">
+				<option value="DATE_FORMAT_LC">DATE_FORMAT_LC</option>
+				<option value="DATE_FORMAT_LC1">DATE_FORMAT_LC1</option>
+				<option value="DATE_FORMAT_LC2">DATE_FORMAT_LC2</option>
+				<option value="DATE_FORMAT_LC3">DATE_FORMAT_LC3</option>
+				<option value="DATE_FORMAT_LC4">DATE_FORMAT_LC4</option>
+				<option value="d. F Y">d. F Y</option>
+				<option value="d/m/y">d/m/y</option>
+				<option value="d. m. Y">d. m. Y</option>
+				<option value="l, d. F Y">l, d. F Y</option>
+		</field>
+		
+
+		<field name="phocahead4" type="phocahead"  default="COM_PHOCAMENU_CONFIG_PHOCA_GALLERY_SETTINGS_LABEL" label="" description="" />
+		
+		<field name="image_size" type="list" default="small" label="COM_PHOCAMENU_FIELD_IMAGE_SIZE_LABEL" description="COM_PHOCAMENU_FIELD_IMAGE_SIZE_DESC">
+				<option value="small">COM_PHOCAMENU_SMALL</option>
+				<option value="medium">COM_PHOCAMENU_MEDIUM</option>
+			</field>
+		
+		<field name="image_detail_window" type="list" default="2" label="COM_PHOCAMENU_FIELD_DETAIL_WINDOW_LABEL" description="COM_PHOCAMENU_FIELD_DETAIL_WINDOW_DESC">
+			<option value="1">COM_PHOCAMENU_STANDARD_POPUP_WINDOW</option>
+			<option value="2">COM_PHOCAMENU_MODAL_BOX_IMG_ONLY</option>
+			<option value="3">COM_PHOCAMENU_SHADOWBOX</option>
+			<option value="5">COM_PHOCAMENU_HIGHSLIDE_IMG_ONLY</option>
+		</field>
+		
+		
+		<field name="front_modal_box_width" default="680" size="4" type="text" label="COM_PHOCAMENU_FIELD_DETAIL_WINDOW_WIDTH_LABEL" description="COM_PHOCAMENU_FIELD_DETAIL_WINDOW_WIDTH_DESC" />
+	<field name="front_modal_box_height" default="560" size="4" type="text" label="COM_PHOCAMENU_FIELD_DETAIL_WINDOW_HEIGHT_LABEL" description="COM_PHOCAMENU_FIELD_DETAIL_WINDOW_HEIGHT_LABEL" />
+		
+		
+		
+		<field name="detail_window_background_color" default="#ffffff" size="10" type="phocacolortext" label="COM_PHOCAMENU_FIELD_DETAIL_WINDOW_BACKGROUND_COLOR_LABEL" description="COM_PHOCAMENU_FIELD_DETAIL_WINDOW_BACKGROUND_COLOR_DESC" />
+		<field name="modal_box_overlay_color" default="#000000" size="10" type="phocacolortext" label="COM_PHOCAMENU_FIELD_MODAL_BOX_OVERLAY_COLOR_LABEL" description="COM_PHOCAMENU_FIELD_MODAL_BOX_OVERLAY_COLOR_DESC" />
+		<field name="modal_box_overlay_opacity" default="0.3" size="10" type="list" label="COM_PHOCAMENU_FIELD_MODAL_BOX_OVERLAY_OPACITY_LABEL" description="COM_PHOCAMENU_FIELD_MODAL_BOX_OVERLAY_OPACITY_DESC" >
+		<option value="0">0 %</option>
+		<option value="0.1">10 %</option>
+		<option value="0.2">20 %</option>
+		<option value="0.3">30 %</option>
+		<option value="0.4">40 %</option>
+		<option value="0.5">50 %</option>
+		<option value="0.6">60 %</option>
+		<option value="0.7">70 %</option>
+		<option value="0.8">80 %</option>
+		<option value="0.9">90 %</option>
+		<option value="1">100 %</option>
+		</field>
+		
+		<field name="modal_box_border_color" default="#6b6b6b" size="10" type="phocacolortext" label="COM_PHOCAMENU_FIELD_MODAL_BOX_BORDER_COLOR_LABEL" description="COM_PHOCAMENU_FIELD_MODAL_BOX_BORDER_COLOR_DESC" />
+		<field name="modal_box_border_width" default="2" size="10" type="text" label="COM_PHOCAMENU_FIELD_MODAL_BOX_BORDER_WIDTH_LABEL" description="COM_PHOCAMENU_FIELD_MODAL_BOX_BORDER_WIDTH_DESC" />
+		
+		
+		
+</fieldset>		
+<fieldset name="administration" label="COM_PHOCAMENU_CONFIG_HEAD_ADMINISTRATION_LABEL">
+		
+		<field name="enable_editor" type="list" default="1" label="COM_PHOCAMENU_FIELD_ENABLE_HTML_EDITOR_LABEL" description="COM_PHOCAMENU_FIELD_ENABLE_HTML_EDITOR_LABEL" >
+				<option value="0">COM_PHOCAMENU_NO</option>
+				<option value="1">COM_PHOCAMENU_YES</option>
+			</field>
+		<field name="enable_editor_email" type="list" default="1" label="COM_PHOCAMENU_FIELD_ENABLE_HTML_EDITOR_EMAIL_LABEL" description="COM_PHOCAMENU_FIELD_ENABLE_HTML_EDITOR_EMAIL_DESC" >
+				<option value="0">COM_PHOCAMENU_NO</option>
+				<option value="1">COM_PHOCAMENU_YES</option>
+			</field>
+			
+			<field name="enable_desc_multiple" type="list" default="1" label="COM_PHOCAMENU_FIELD_ENABLE_DESC_MULTIPLE_LABEL" description="COM_PHOCAMENU_FIELD_ENABLE_DESC_MULTIPLE_DESC" >
+				<option value="0">COM_PHOCAMENU_NO</option>
+				<option value="1">COM_PHOCAMENU_YES</option>
+			</field>
+			<field name="enable_desc_multiple_group" type="list" default="1" label="COM_PHOCAMENU_FIELD_ENABLE_DESC_MULTIPLE_GROUP_LABEL" description="COM_PHOCAMENU_FIELD_ENABLE_DESC_MULTIPLE_GROUP_DESC" >
+				<option value="0">COM_PHOCAMENU_NO</option>
+				<option value="1">COM_PHOCAMENU_YES</option>
+			</field>
+			
+			
+			<field name="displayheaderdate" type="list" default="1" label="COM_PHOCAMENU_DISPLAY_HEADER_DATE_LABEL" description="COM_PHOCAMENU_DISPLAY_HEADER_DATE_DESC">
+				<option value="0">COM_PHOCAMENU_HIDE</option>
+				<option value="1">COM_PHOCAMENU_SHOW</option>
+			</field>
+			
+			<field name="displaydayname" type="list" default="1" label="COM_PHOCAMENU_DISPLAY_DAY_TITLE_LABEL" description="COM_PHOCAMENU_DISPLAY_DAY_TITLE_DESC">
+				<option value="0">COM_PHOCAMENU_HIDE</option>
+				<option value="1">COM_PHOCAMENU_SHOW</option>
+			</field>
+	
+			
+			<field name="enable_bb_code" type="list" default="0" label="COM_PHOCAMENU_FIELD_ENABLE_BB_CODE_LABEL" description="COM_PHOCAMENU_FIELD_ENABLE_BB_CODE_DESC" >
+				<option value="0">COM_PHOCAMENU_NO</option>
+				<option value="1">COM_PHOCAMENU_YES</option>
+				<option value="2">COM_PHOCAMENU_YES_ONLY_BR(Only [BR])</option>
+			</field>
+		
+		<field name="display_toolbar_tools" type="list" default="1" label="COM_PHOCAMENU_FIELD_DISPLAY_TOOLBAR_TOOLS_LABEL" description="COM_PHOCAMENU_FIELD_DISPLAY_TOOLBAR_TOOLS_DESC">
+				<option value="0">COM_PHOCAMENU_NO</option>
+				<option value="1">COM_PHOCAMENU_YES</option>
+				<option value="2">COM_PHOCAMENU_YES_NO_LISTS_AND_DAYS</option>
+		</field>
+		<field name="display_item_tools" type="list" default="1" label="COM_PHOCAMENU_FIELD_DISPLAY_ITEM_TOOLS_LABEL" description="COM_PHOCAMENU_FIELD_DISPLAY_ITEM_TOOLS_DESC">
+				<option value="1">COM_PHOCAMENU_YES</option>
+				<option value="0">COM_PHOCAMENU_NO</option>
+		</field>
+		
+		
+		
+		<field name="enable_cache" type="list" default="0" label="COM_PHOCAMENU_FIELD_ENABLE_CACHE_LABEL" description="COM_PHOCAMENU_FIELD_ENABLE_CACHE_DESC">
+	<option value="1">COM_PHOCAMENU_YES</option>
+	<option value="0">COM_PHOCAMENU_NO</option>
+</field>
+
+<field name="comma_point" type="list" default="0" label="COM_PHOCAMENU_FIELD_REPLACE_COMMA_WITH_POINT_LABEL" description="COM_PHOCAMENU_FIELD_REPLACE_COMMA_WITH_POINT_DESC">
+	<option value="1">COM_PHOCAMENU_YES</option>
+	<option value="0">COM_PHOCAMENU_NO</option>
+</field>	
+
+
+<field name="phocahead5" type="phocahead"  default="COM_PHOCAMENU_CONFIG_RAW_EDIT_SETTINGS_LABEL" label="" description="" />
+		
+		
+	<field name="item_delimiter" type="list" default="1" label="COM_PHOCAMENU_FIELD_ITEM_DELIMITER_LABEL" description="COM_PHOCAMENU_FIELD_ITEM_DELIMITER_DESC">
+	<option value="1">COM_PHOCAMENU_SEMICOLON</option>
+	<option value="0">COM_PHOCAMENU_TAB</option>
+</field>
+</fieldset>
+
+
+<fieldset name="permissions" description="JCONFIG_PERMISSIONS_DESC" label="JCONFIG_PERMISSIONS_LABEL">
+	<field name="rules" type="rules" component="com_phocamenu" filter="rules" label="COM_PHOCAMENU_FIELD_JCONFIG_PERMISSIONS_LABEL" section="component" description="CCOM_PHOCAMENU_FIELD_JCONFIG_PERMISSIONS_DESC"/>
+</fieldset>
+	
+	</fields>
+</config>

@@ -13,13 +13,13 @@ hr {
 .ph-options-head {
 	background: #DBCFC2;
 	color: #996633;
-	border-bottom: 1px solid #C8B5A2;
-	border-top: 1px solid #C8B5A2;
-	padding:5px 10px;
+	border: 1px solid #C8B5A2;
+	padding:15px 10px;
 	margin:5px 0;
 	display:block;
-	text-shadow: 0 1px 0 #ffffff;
-	margin-left: -160px;
+	text-shadow: 0px;
+	margin-left: -180px;
+	border-radius: 2px;
 }
 
 .ph-options-head-expert {
@@ -27,12 +27,14 @@ hr {
 	color: #a60000;
 	border-bottom: 1px solid #FF8F8F;
 	border-top: 1px solid #FF8F8F;
-	padding:5px 10px;
+	padding:15px 10px;
 	margin:5px 0;
 	display:block;
 	text-shadow: 0 1px 0 #ffffff;
-	margin-left: -160px;
+	margin-left: -180px;
 }
+
+
 
 .ph-options-head-expert div
 .ph-options-head div{
