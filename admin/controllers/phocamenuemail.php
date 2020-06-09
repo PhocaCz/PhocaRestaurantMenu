@@ -178,7 +178,8 @@ class PhocaMenuCpControllerPhocaMenuEmail extends PhocaMenuControllerForm
 		$data		= JFactory::getApplication()->input->get('jform', array(), 'post', 'array');
 		//$message	= JFactory::getApplication()->input->get('message', '', 'post', 'array');
 		//$data['messagemail'] = $message[0];
-		$data['messagemail']= JFactory::getApplication()->input->get( 'message', null, '', 'html' );
+		//$data['messagemail']= JFactory::getApplication()->input->get( 'message', null, '', 'html' );
+		$data['messagemail']= $app->input->get( 'message', '', 'raw');
 
 		$checkin	= property_exists($table, 'checked_out');
 		$context	= "$this->option.edit.$this->context";
@@ -394,10 +395,12 @@ class PhocaMenuCpControllerPhocaMenuEmail extends PhocaMenuControllerForm
 		$app		= JFactory::getApplication();
 		$post 		= $app->input->post->getArray();
 		$post				= $post['jform'];
+
+
 		$cid				= JFactory::getApplication()->input->get( 'cid', array(0), 'post', 'array' );
 		$post['id'] 		= (int) $cid[0];//only one item in the database for every view
 		$aUrl				= PhocaMenuHelper::getUrlApend($this->typeview);
-		$post['messagemail']= JFactory::getApplication()->input->get( 'message', null, '', 'html');
+		$post['messagemail']= $app->input->get( 'message', '', 'raw');
 		$post['message']	= '';// it is automatically generated, cannot be saved here (into the database)
 		$post['published']	= 1;
 		$append		= '';
@@ -593,8 +596,9 @@ class PhocaMenuCpControllerPhocaMenuEmail extends PhocaMenuControllerForm
 
 		$mail = JFactory::getMailer();
 		//$mail->sendMail($from, $fromName, $recipient, $subject, $body, $mode = false, $cc = null, $bcc = null, $attachment = null, $replyTo = null, $replyToName = null)
+		//sendMail($from, $fromName, $recipient, $subject, $body, $mode = false, $cc = null, $bcc = null, $attachment = null,$replyTo = null, $replyToName = null)
 
-		if ($mail->sendMail($from, $fromName, $to, $subject, $htmlMessage, true, $cc, $bcc, '', $replyto, $replytoname)) {
+		if ($mail->sendMail($from, $fromName, $to, $subject, $htmlMessage, true, $cc, $bcc, null, $replyto, $replytoname)) {
 			return true;
 		} else {
 			return false;

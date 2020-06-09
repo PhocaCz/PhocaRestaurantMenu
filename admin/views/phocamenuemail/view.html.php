@@ -10,6 +10,8 @@ defined('_JEXEC') or die();
 jimport( 'joomla.application.component.view' );
 require_once( JPATH_ADMINISTRATOR.'/components/com_phocamenu/helpers/phocamenurenderviews.php' );
 
+use Joomla\CMS\Editor\Editor;
+
 class PhocaMenuCpViewPhocaMenuEmail extends JViewLegacy
 {
 	protected $state;
@@ -30,7 +32,10 @@ class PhocaMenuCpViewPhocaMenuEmail extends JViewLegacy
 		$this->state	= $this->get('State');
 		$this->form		= $this->get('Form');
 		$this->item		= $this->get('Item');
-		$this->editor 	= \Joomla\CMS\Editor\Editor::getInstance();
+		$editor 		= JFactory::getConfig()->get('editor');
+		$this->editor 	= Editor::getInstance($editor);
+
+
 		$this->type		= PhocaMenuHelper::getUrlType('email');
 		$this->bodytext	= $this->get('BodyText');
 		$this->typeinfo	= PhocaMenuHelper::getTypeInfo('email',$this->type['value'] );

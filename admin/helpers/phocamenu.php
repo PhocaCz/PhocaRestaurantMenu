@@ -65,6 +65,7 @@ class PhocaMenuHelper
 				$atid		= $app->input->get( 'atid', 0, 'int' );
 				$alang		= $app->input->get( 'alang', '', 'string' );
 				$adminLang	= $app->input->get( 'adminlang', 0, 'int' );
+				$admin		= $app->input->get( 'admin', 0, 'int' );
 
 				//$lang		= self::getLangAdmin(1);
 				$suffix 	= '';
@@ -72,6 +73,7 @@ class PhocaMenuHelper
 				if ((int)$atid > 0) 		{$suffix .= '&atid='.(int)$atid;}
 				if ((string)$alang != '')	{$suffix .= '&lang='.(string)$alang;}
 				if ((int)$adminLang > 0) 	{$suffix .= '&adminlang='.(int)$adminLang;}
+				if ((int)$admin > 0) 		{$suffix .= '&admin='.(int)$admin;}
 
 				$appendUrl	= '&type='.(int)$typeValue.'&'.$typeInfo['catid'].'='. (int)$catid
 						 .'&typeback='.(string)$typeviewBack.$suffix;
@@ -366,6 +368,7 @@ class PhocaMenuHelper
 			break;
 
 			
+
 			case 0:
 			default:
 				//$view		= JFactory::getApplication()->input->get('view');
@@ -516,7 +519,7 @@ class PhocaMenuHelper
 		return $categoryId;
 	}
 
-	public static function getDate($date, $dateFormat, $dateClass = 0) {
+	public static function getDate($date, $dateFormat, $dateClass = 0, $language = '') {
 
 		if ((int)$dateClass == 1) {
 			// We call this function from frontend and backend, so no JPATH_SITE can be used
@@ -524,6 +527,19 @@ class PhocaMenuHelper
 			$date = PhocaMenuCzechDate::display(JHTML::Date($date, JText::_($dateFormat)));
 			//$date = PhocaMenuCzechDate::display(JHTML::_('date', $date, JText::_($dateFormat)));
 		} else {
+
+			if ($language != '') {
+
+				$lang = JFactory::getLanguage();
+				$defaultLocale = $lang->getTag();
+				if ($defaultLocale != $language) {
+					$lang->load('joomla', JPATH_BASE, $language);
+					$lang->load('com_phocamenu', JPATH_BASE, $language);
+					$lang->load('com_phocamenu.sys', JPATH_BASE, $language);
+				}
+				//load($extension = 'joomla', $basePath = JPATH_BASE, $lang = null, $reload = false, $default = true)
+			}
+
 			$date = JHTML::Date($date,JText::_($dateFormat));
 			//$date = JHTML::_('date', $date, JText::_( $dateFormat));
 		}

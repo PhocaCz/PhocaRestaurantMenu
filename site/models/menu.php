@@ -280,6 +280,8 @@ class PhocaMenuModelMenu extends JModelLegacy
 					. ' ORDER BY ordering ASC';
 
 			}
+
+
 			$this->_db->setQuery($query);
 			$this->_data['item'] = $this->_db->loadObjectList();
 

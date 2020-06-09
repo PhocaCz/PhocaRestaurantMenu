@@ -7,20 +7,20 @@
  * @component Phoca Component
  * @copyright Copyright (C) Jan Pavelka www.phoca.cz
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
- */ 
+ */
 
 defined('_JEXEC') or die;
 class PhocaMenuGallery
 {
 	public static function getPhocaGalleryBehaviour($paramsG) {
-		
+
 		$document		= JFactory::getDocument();
-		
+
 		// LIBRARY
 		$library 							= PhocaGalleryLibrary::getLibrary();
 		$libraries['pg-group-shadowbox']	= $library->getLibrary('pg-group-shadowbox');
 		$libraries['pg-group-highslide']	= $library->getLibrary('pg-group-highslide');
-		
+
 		// Window
 		// =======================================================
 		// DIFFERENT METHODS OF DISPLAYING THE DETAIL VIEW
@@ -29,20 +29,20 @@ class PhocaMenuGallery
 		// BUTTON (IMAGE - standard, modal, shadowbox)
 		$button = new JObject();
 		$button->set('name', 'image');
-		
+
 		// -------------------------------------------------------
 		// STANDARD POPUP
 		// -------------------------------------------------------
 		if ($paramsG['imagedetailwindow'] == 1) {
 			$button->set('methodname', 'js-button');
-			$button->set('options', "window.open(this.href,'win2','width=".$paramsG['frontmodalboxwidth'].",height=".$paramsG['frontmodalboxheight'].",menubar=no,resizable=yes'); return false;");			
+			$button->set('options', "window.open(this.href,'win2','width=".$paramsG['frontmodalboxwidth'].",height=".$paramsG['frontmodalboxheight'].",menubar=no,resizable=yes'); return false;");
 		}
-		
+
 		// -------------------------------------------------------
 		// MODAL BOX
 		// -------------------------------------------------------
-		else if ($paramsG['imagedetailwindow'] == 2) { 
-			JHTML::_('behavior.modal', 'a.modal-button');
+		else if ($paramsG['imagedetailwindow'] == 2) {
+	JHTML::_('behavior.modal', 'a.modal-button');
 			$cssSbox = " #sbox-window {background-color:".$paramsG['modalboxbordercolor']	.";padding:".$paramsG['modalboxborderwidth']."px} \n"
 					 .  " #sbox-overlay {background-color:".$paramsG['modalboxoverlaycolor'].";} \n";
 			$document->addCustomTag( "<style type=\"text/css\">\n" . $cssSbox . "\n" . " </style>\n");
@@ -52,7 +52,7 @@ class PhocaMenuGallery
 			// Modal - Image only
 			$button->set('options', "{handler: 'image', size: {x: 200, y: 150}, overlayOpacity: ".$paramsG['modalboxoverlayopacity'].", classWindow: 'phocagallery-phocamenu-window', classOverlay: 'phocagallery-phocamenu-overlay'}");
 		}
-		
+
 		// -------------------------------------------------------
 		// SHADOW BOX
 		// -------------------------------------------------------
@@ -64,14 +64,14 @@ class PhocaMenuGallery
 
 		//	$document->addScript(JURI::base(true).'/components/com_phocagallery/assets/shadowbox/adapter/shadowbox-mootools.js');
 			$document->addStyleSheet(JURI::base(true).'/components/com_phocagallery/assets/shadowbox/shadowbox.css');
-			$document->addScript(JURI::base(true).'/components/com_phocagallery/assets/shadowbox/shadowbox.js');	
-			
+			$document->addScript(JURI::base(true).'/components/com_phocagallery/assets/shadowbox/shadowbox.js');
+
 			if ( $libraries['pg-group-shadowbox']->value == 0 ) {
-				
+
 				//Shadowbox.loadSkin("classic", "'.JURI::base(true).'/components/com_phocagallery/assets/shadowbox/src/skin");
 				//Shadowbox.loadLanguage("en", "'.JURI::base(true).'/components/com_phocagallery/assets/shadowbox/src/lang");
 				//Shadowbox.loadPlayer(["img"], "'.JURI::base(true).'/components/com_phocagallery/assets/shadowbox/src/player");
-				
+
 				$document->addCustomTag('<script type="text/javascript">
 				
 				window.addEvent(\'domready\', function(){
@@ -81,7 +81,7 @@ class PhocaMenuGallery
 				$library->setLibrary('pg-group-shadowbox', 1);
 			}
 		}
-		
+
 		// -------------------------------------------------------
 		// HIGHSLIDE JS
 		// -------------------------------------------------------
@@ -93,8 +93,8 @@ class PhocaMenuGallery
 			.' hs.graphicsDir = \''.JURI::base(true).'/components/com_phocagallery/assets/highslide/graphics/\';'
 			.'//]]>'."\n"
 			.'</script>'."\n";
-		
-	
+
+
 			$code = 'return hs.expand(this, {'
 			//.'autoplay:\'true\','
 			.' slideshowGroup: \'groupPMrounded-white\', ';
@@ -106,8 +106,8 @@ class PhocaMenuGallery
 			.' transitions : [\'expand\', \'crossfade\'],'
 			.' fadeInOut: true'
 			.' });';
-		
-		
+
+
 			$tag = '<script type="text/javascript">'
 			.'//<![CDATA[' ."\n"
 			.' var phocaZoomPM = { '."\n"
@@ -131,17 +131,17 @@ class PhocaMenuGallery
 				position: \'top right\',
 				fade: 2
 			});';
-			
+
 			$tag .= '//]]>'."\n"
 			.'</script>'."\n";
-		
-		
+
+
 			$button->set('methodname', 'highslide');
-			
+
 			$document->addScript(JURI::base(true).'/components/com_phocagallery/assets/highslide/highslide-full.js');
 			$document->addStyleSheet(JURI::base(true).'/components/com_phocagallery/assets/highslide/highslide.css');
-			
-			if ( $libraries['pg-group-highslide']->value == 0 ) {		
+
+			if ( $libraries['pg-group-highslide']->value == 0 ) {
 				$document->addCustomTag( $all);
 				$document->addCustomTag('<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="'.JURI::base(true).'/components/com_phocagallery/assets/highslide/highslide-ie6.css" /><![endif]-->');
 				$library->setLibrary('pg-group-highslide', 1);
@@ -153,17 +153,18 @@ class PhocaMenuGallery
 		}
 		return $button;
 	}
-	
+
 	public static function getPhocaGalleryLink($imageSize, $imageId, $imageFileName, $imageCatid, $imageSlug, $imageCatSlug, $imageDetailWindow, $dataGallery, $imageextid, $imageexts, $imageextm, $imageextl, $imageextw, $imageexth) {
-	
+
+
 		if ((int)$imageId < 1) {
 			return '';
 		}
 		$imageOutput	= '';
-	
+
 		$app 	= JFactory::getApplication('site');
 		$menu  = $app->getMenu();
-		
+
 		if ($imageextid != '') {
 			if ($imageSize == 'medium'){
 				$file_thumbnail = $imageextm;
@@ -172,7 +173,7 @@ class PhocaMenuGallery
 			}
 		} else {
 			$file_thumbnail = PhocaGalleryImageFront::displayCategoryImageOrNoImage($imageFileName, $imageSize);
-			
+
 			$noImageS = $noImageM = false;
 			$noImageM = preg_match("/phoca_thumb_m_no_image/i", $file_thumbnail);
 			$noImageS = preg_match("/phoca_thumb_s_no_image/i", $file_thumbnail);
@@ -180,11 +181,11 @@ class PhocaMenuGallery
 				return '';
 			}
 		}
-		
-		// Is there a Itemid for category SEF PROBLEM - - - - - 
+
+		// Is there a Itemid for category SEF PROBLEM - - - - -
 		$items	 = $menu->getItems('link', 'index.php?option=com_phocagallery&view=category&id='.(int)$imageCatid);
 		$itemscat= $menu->getItems('link', 'index.php?option=com_phocagallery&view=categories');
-		
+
 		if(isset($itemscat[0])) {
 			$itemid = $itemscat[0]->id;
 			$siteLink = JRoute::_('index.php?option=com_phocagallery&view=detail&catid='. $imageCatSlug .'&id='. $imageSlug .'&Itemid='.$itemid . '&tmpl=component&detail='.$imageDetailWindow );
@@ -195,17 +196,17 @@ class PhocaMenuGallery
 			$itemid = 0;
 			$siteLink = JRoute::_('index.php?option=com_phocagallery&view=detail&catid='. $imageCatSlug.'&id='. $imageSlug . '&tmpl=component&detail='.$imageDetailWindow );
 		}
-		// - - - - - - - - - - - - - - - 
-		
+		// - - - - - - - - - - - - - - -
+
 		// Different links for different actions: image, zoom icon, download icon
 		$thumbLink	= PhocaGalleryFileThumbnail::getThumbnailName($imageFileName, 'large');
 		$imgLink	= JURI::base(true) .'/'. $thumbLink->rel;
-		
+
 		// External Image
 		if ($imageextid != '') {
 			$imgLink		= $imageextl;
 		}
-		
+
 		if ($imageDetailWindow == 2 ) {
 			$imageLinkOutput = $imgLink;
 		} else if ( $imageDetailWindow == 3 ) {
@@ -215,9 +216,9 @@ class PhocaMenuGallery
 		} else {
 			$imageLinkOutput = $siteLink . '&buttons=0&ratingimg=0';
 		}
-		
+
 		$imageOutput = '<div class="pmimage"><a class="'.$dataGallery->methodname.'" title="'.JText::_('Image Detail').'" href="'. JRoute::_($imageLinkOutput).'"';
-		
+
 		// DETAIL WINDOW
 		if ($imageDetailWindow == 1) {
 			$imageOutput .= ' onclick="'. $dataGallery->options.'"';
@@ -226,11 +227,11 @@ class PhocaMenuGallery
 		} else {
 			$imageOutput .= ' rel="'.$dataGallery->options.'"';
 		}
-		
+
 		$imageOutput .= ' >' . "\n";
 		$imageOutput .= '<img src="'.$file_thumbnail.'" alt="'.JText::_('Image Detail').'" /></a>';
 		$imageOutput .= '</div>';
-		
+
 		return $imageOutput;
 	}
 }

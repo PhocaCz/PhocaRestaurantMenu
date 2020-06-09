@@ -14,7 +14,7 @@
 <field name="message" type="editor" buttons="true" hide="pagebreak,readmore" class="inputbox" label="COM_PHOCAMENU_FIELD_GROUP_DESCRIPTION_LABEL" description="COM_PHOCAMENU_FIELD_GROUP_DESCRIPTION_DESC" filter="JComponentHelper::filterText" />
 
 
-<field name="display_second_price" type="list" label="COM_PHOCAMENU_FIELD_GROUP_DISPLAY_SECOND_PRICE_LABEL" description="COM_PHOCAMENU_FIELD_GROUP_DISPLAY_SECOND_PRICE_LABEL" class="inputbox" size="1" default="0">
+<field name="display_second_price" type="radio" class="btn-group btn-group-yesno" label="COM_PHOCAMENU_FIELD_GROUP_DISPLAY_SECOND_PRICE_LABEL" description="COM_PHOCAMENU_FIELD_GROUP_DISPLAY_SECOND_PRICE_DESC"  size="1" default="0">
 		<option value="1">COM_PHOCAMENU_YES</option>
 		<option	value="0">COM_PHOCAMENU_NO</option>
 </field>
@@ -26,7 +26,7 @@
 
 
 <fieldset name="publish" label="COM_PHOCAMENU_GROUP_LABEL_PUBLISHING_DETAILS" >
-	<field name="published" type="list" label="COM_PHOCAMENU_FIELD_PUBLISHED_LABEL" description="COM_PHOCAMENU_FIELD_PUBLISHED_DESC" class="inputbox" size="1" default="1">
+	<field name="published" type="radio" class="btn-group btn-group-yesno" label="COM_PHOCAMENU_FIELD_PUBLISHED_LABEL" description="COM_PHOCAMENU_FIELD_PUBLISHED_DESC" size="1" default="1">
 		<option value="1">JPUBLISHED</option>
 		<option	value="0">JUNPUBLISHED</option>
 	</field>

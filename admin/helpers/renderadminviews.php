@@ -201,6 +201,29 @@ class PhocaMenuRenderAdminViews
 		. '</th>';
 	}
 
+	public function thOrderingXML($txtHo, $listDirn, $listOrder, $prefix = 'a', $empty = false ) {
+
+		if ($empty) {
+			return '<th class="nowrap center ph-ordering"></th>'. "\n";
+		}
+
+		return '<th class="nowrap center ph-ordering">'. "\n"
+		. JHtml::_('searchtools.sort', '', strip_tags($prefix).'.ordering', $listDirn, $listOrder, null, 'asc', $txtHo, 'icon-menu-2'). "\n"
+		. '</th>';
+		//JHtml::_('searchtools.sort', $this->t['l'].'_IN_STOCK', 'a.stock', $listDirn, $listOrder ).'</th>'."\n";
+
+	}
+
+	public function formInputsXml($listOrder, $listDirn, $originalOrders) {
+
+		return '<input type="hidden" name="task" value="" />'. "\n"
+		.'<input type="hidden" name="boxchecked" value="0" />'. "\n"
+		//.'<input type="hidden" name="filter_order" value="'.$listOrder.'" />'. "\n"
+		//.'<input type="hidden" name="filter_order_Dir" value="'.$listDirn.'" />'. "\n"
+		. JHtml::_('form.token'). "\n"
+		.'<input type="hidden" name="original_order_values" value="'. implode(',', $originalOrders).'" />'. "\n";
+	}
+
 	public function thCheck($txtCh) {
 		return '<th class=" ph-check">'. "\n"
 		.'<input type="checkbox" name="checkall-toggle" value="" title="'.JText::_($txtCh).'" onclick="Joomla.checkAll(this)" />'. "\n"
@@ -266,7 +289,7 @@ class PhocaMenuRenderAdminViews
 		.'<input type="hidden" name="filter_order" value="'.$listOrder.'" />'. "\n"
 		.'<input type="hidden" name="filter_order_Dir" value="'.$listDirn.'" />'. "\n"
 		. JHtml::_('form.token'). "\n"
-		.'<input type="hidden" name="original_order_values" value="'. implode($originalOrders, ',').'" />'. "\n";
+		.'<input type="hidden" name="original_order_values" value="'. implode(',',$originalOrders).'" />'. "\n";
 	}
 
 	public function td($value, $class = '') {

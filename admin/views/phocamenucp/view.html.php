@@ -20,7 +20,6 @@ class PhocaMenuCpViewPhocaMenuCp extends JViewLegacy
 		$this->t	= PhocaMenuUtils::setVars();
 		$this->views= array(
 		'groups&type=1'	=> array('dm', $this->t['l'] . '_DAILY_MENU'),
-		
 		'info'			=> array('info', $this->t['l'] . '_INFO')
 		);
 

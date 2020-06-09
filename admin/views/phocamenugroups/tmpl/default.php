@@ -12,8 +12,9 @@ JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 JHtml::_('dropdown.init');
 JHtml::_('formbehavior.chosen', 'select');
-$class		= $this->t['n'] . 'RenderAdminViews';
-$r 			=  new $class();
+//$class		= $this->t['n'] . 'RenderAdminViews';
+//$r 			=  new $class();
+$r 			=  new PhocaMenuRenderAdminviews();
 $user		= JFactory::getUser();
 $userId		= $user->get('id');
 $listOrder	= $this->escape($this->state->get('list.ordering'));
@@ -39,7 +40,7 @@ echo $r->startMainContainer();
 
 echo $this->t['breadcrumb'];
 
-echo $r->startFilterBar();
+/*echo $r->startFilterBar();
 echo $r->inputFilterSearch($this->t['l'].'_FILTER_SEARCH_LABEL', $this->t['l'].'_FILTER_SEARCH_DESC',
 							$this->escape($this->state->get('filter.search')));
 echo $r->inputFilterSearchClear('JSEARCH_FILTER_SUBMIT', 'JSEARCH_FILTER_CLEAR');
@@ -53,21 +54,27 @@ echo $r->selectFilterLanguage('JOPTION_SELECT_LANGUAGE', $this->state->get('filt
 echo PhocaMenuHelper::getCategoryList('group', $this->type['value'], $this->state->get('filter.category_id'));
 echo $r->endFilterBar();
 
+echo $r->endFilterBar();*/
+
+
+
+echo $r->startFilterBar();
+echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this));
 echo $r->endFilterBar();
 
 echo $r->startTable('categoryList');
 
 echo $r->startTblHeader();
 
-echo $r->thOrdering('JGRID_HEADING_ORDERING', $listDirn, $listOrder);
+echo $r->thOrderingXML('JGRID_HEADING_ORDERING', $listDirn, $listOrder);
 echo $r->thCheck('JGLOBAL_CHECK_ALL');
-echo '<th class="ph-title">'.JHTML::_('grid.sort',  	$this->t['l'].'_TITLE', 'a.title', $listDirn, $listOrder ).'</th>'."\n";
-echo '<th class="ph-published">'.JHTML::_('grid.sort',  $this->t['l'].'_PUBLISHED', 'a.published', $listDirn, $listOrder ).'</th>'."\n";
+echo '<th class="ph-title">'.JHTML::_('searchtools.sort',  	$this->t['l'].'_TITLE', 'a.title', $listDirn, $listOrder ).'</th>'."\n";
+echo '<th class="ph-published">'.JHTML::_('searchtools.sort',  $this->t['l'].'_PUBLISHED', 'a.published', $listDirn, $listOrder ).'</th>'."\n";
 
 echo '<th class="ph-items ph-center">'.JTEXT::_($this->t['l'].'_ITEMS').'</th>'."\n";
 echo '<th class="ph-delete ph-center">'.JTEXT::_($this->t['l'].'_DELETE').'</th>'."\n";
-echo '<th class="ph-language">'.JHTML::_('grid.sort',  	'JGRID_HEADING_LANGUAGE', 'a.language', $listDirn, $listOrder ).'</th>'."\n";
-echo '<th class="ph-id">'.JHTML::_('grid.sort',  		$this->t['l'].'_ID', 'a.id', $listDirn, $listOrder ).'</th>'."\n";
+echo '<th class="ph-language">'.JHTML::_('searchtools.sort',  	'JGRID_HEADING_LANGUAGE', 'a.language', $listDirn, $listOrder ).'</th>'."\n";
+echo '<th class="ph-id">'.JHTML::_('searchtools.sort',  		$this->t['l'].'_ID', 'a.id', $listDirn, $listOrder ).'</th>'."\n";
 
 echo $r->endTblHeader();
 
@@ -123,7 +130,8 @@ echo $r->td(JHtml::_('jgrid.published', $item->published, $i, $this->t['tasks'].
 
 
 $vO = '<a href="'. $linkView.'" title="'. JText::_('COM_PHOCAMENU_VIEW_GROUP_ITEMS').'">'
-	. JHTML::_('image', $this->t['i'].'icon-16-item.png', JText::_('COM_PHOCAMENU_VIEW_GROUP_ITEMS') )
+	//. JHTML::_('image', $this->t['i'].'icon-16-item.png', JText::_('COM_PHOCAMENU_VIEW_GROUP_ITEMS') )
+		. '<div class="ph-icon-task"><i class="duotone icon-save"></i></div>'
 	.'</a>';
 echo $r->td($vO, "small  ph-center");
 
@@ -132,7 +140,8 @@ $vD = '';
 if ($canDelete) {
 $vD = '<a href="'. $linkRemove.'" onclick="'.$onClickRemove.'" title="'. JText::_('COM_PHOCAMENU_DELETE').'"'
 	.' onclick="return confirm(\''.JText::_('COM_PHOCAMENU_WARNING_DELETE_GROUP').'\');">'
-	. JHTML::_('image', $this->t['i'].'icon-16-trash.png', JText::_('COM_PHOCAMENU_DELETE') )
+	//. JHTML::_('image', $this->t['i'].'icon-16-trash.png', JText::_('COM_PHOCAMENU_DELETE') )
+		. '<div class="ph-icon-task"><i class="duotone icon-purge"></i></div>'
 	.'</a>';
 }
 echo $r->td($vD, "small  ph-center");
@@ -154,7 +163,7 @@ echo $this->loadTemplate('batch');
 
 echo '<input type="hidden" name="type" value="'.(int)$this->type['value'].'" />'. "\n";
 echo '<input type="hidden" name="'.$this->type['info']['catid'].'" value="'.(int)$this->type['actualcatid'].'" />'. "\n";
-echo $r->formInputs($listOrder, $listDirn, $originalOrders);
+echo $r->formInputsXML($listOrder, $listDirn, $originalOrders);
 echo $r->endMainContainer();
 
 echo $r->endForm();

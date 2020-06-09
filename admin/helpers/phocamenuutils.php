@@ -46,6 +46,9 @@ class PhocaMenuUtils
 
 	public static function setVars( $task = '') {
 
+
+		JHtml::stylesheet( 'media/com_phocamenu/duoton/joomla-fonts.css' );
+
 		$a			= array();
 		$app		= JFactory::getApplication();
 		$a['o'] 	= htmlspecialchars(strip_tags($app->input->get('option')));

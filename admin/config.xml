@@ -27,7 +27,7 @@
 				<option value="2">COM_PHOCAMENU_CURRENCY_SYMBOL_PRICE</option>
 				<option value="3">COM_PHOCAMENU_CURRENCY_SYMBOL_S_PRICE</option>
 			</field>
-		<field name="price_currency_symbol" default="€" size="5" type="text" label="COM_PHOCAMENU_FIELD_PRICE_CURRENCY_SYMBOL_LABEL" description="COM_PHOCAMENU_FIELD_PRICE_CURRENCY_SYMBOL_LABEL" />
+		<field name="price_currency_symbol" default="€" size="5" type="text" label="COM_PHOCAMENU_FIELD_PRICE_CURRENCY_SYMBOL_LABEL" description="COM_PHOCAMENU_FIELD_PRICE_CURRENCY_SYMBOL_DESC" />
 		
 		<field name="price_dec_symbol" default="," size="5" type="text" label="COM_PHOCAMENU_FIELD_PRICE_DECIMAL_SYMBOL_LABEL" description="COM_PHOCAMENU_FIELD_PRICE_DECIMAL_SYMBOL_DESC" />
 		
@@ -35,7 +35,7 @@
 		<field name="price_thousands_sep" default="." size="5" type="text" label="COM_PHOCAMENU_FIELD_PRICE_THOUSANDS_SEPARATOR_LABEL" description="COM_PHOCAMENU_FIELD_PRICE_THOUSANDS_SEPARATOR_DESC" />
 		
 		<field name="price_suffix" default="" size="5" type="text" label="COM_PHOCAMENU_FIELD_PRICE_SUFFIX_LABEL" description="COM_PHOCAMENU_FIELD_PRICE_SUFFIX_DESC" />
-		<field name="price_prefix" default="..." size="5" type="text" label="COM_PHOCAMENU_FIELD_PRICE_PREFIX_LABEL" description="COM_PHOCAMENU_FIELD_PRICE_PREFIX_LABEL" />
+		<field name="price_prefix" default="..." size="5" type="text" label="COM_PHOCAMENU_FIELD_PRICE_PREFIX_LABEL" description="COM_PHOCAMENU_FIELD_PRICE_PREFIX_DESC" />
 		
 		<field name="phocahead3" type="phocahead"  default="COM_PHOCAMENU_CONFIG_DATE_SETTINGS_LABEL" label="" description="" />
 		
@@ -84,7 +84,7 @@
 		
 		
 		<field name="front_modal_box_width" default="680" size="4" type="text" label="COM_PHOCAMENU_FIELD_DETAIL_WINDOW_WIDTH_LABEL" description="COM_PHOCAMENU_FIELD_DETAIL_WINDOW_WIDTH_DESC" />
-	<field name="front_modal_box_height" default="560" size="4" type="text" label="COM_PHOCAMENU_FIELD_DETAIL_WINDOW_HEIGHT_LABEL" description="COM_PHOCAMENU_FIELD_DETAIL_WINDOW_HEIGHT_LABEL" />
+	<field name="front_modal_box_height" default="560" size="4" type="text" label="COM_PHOCAMENU_FIELD_DETAIL_WINDOW_HEIGHT_LABEL" description="COM_PHOCAMENU_FIELD_DETAIL_WINDOW_HEIGHT_DESC" />
 		
 		
 		
@@ -112,31 +112,31 @@
 </fieldset>		
 <fieldset name="administration" label="COM_PHOCAMENU_CONFIG_HEAD_ADMINISTRATION_LABEL">
 		
-		<field name="enable_editor" type="list" default="1" label="COM_PHOCAMENU_FIELD_ENABLE_HTML_EDITOR_LABEL" description="COM_PHOCAMENU_FIELD_ENABLE_HTML_EDITOR_LABEL" >
+		<field name="enable_editor" type="radio" class="btn-group btn-group-yesno" default="1" label="COM_PHOCAMENU_FIELD_ENABLE_HTML_EDITOR_LABEL" description="COM_PHOCAMENU_FIELD_ENABLE_HTML_EDITOR_DESC" >
 				<option value="0">COM_PHOCAMENU_NO</option>
 				<option value="1">COM_PHOCAMENU_YES</option>
 			</field>
-		<field name="enable_editor_email" type="list" default="1" label="COM_PHOCAMENU_FIELD_ENABLE_HTML_EDITOR_EMAIL_LABEL" description="COM_PHOCAMENU_FIELD_ENABLE_HTML_EDITOR_EMAIL_DESC" >
-				<option value="0">COM_PHOCAMENU_NO</option>
-				<option value="1">COM_PHOCAMENU_YES</option>
-			</field>
-			
-			<field name="enable_desc_multiple" type="list" default="1" label="COM_PHOCAMENU_FIELD_ENABLE_DESC_MULTIPLE_LABEL" description="COM_PHOCAMENU_FIELD_ENABLE_DESC_MULTIPLE_DESC" >
-				<option value="0">COM_PHOCAMENU_NO</option>
-				<option value="1">COM_PHOCAMENU_YES</option>
-			</field>
-			<field name="enable_desc_multiple_group" type="list" default="1" label="COM_PHOCAMENU_FIELD_ENABLE_DESC_MULTIPLE_GROUP_LABEL" description="COM_PHOCAMENU_FIELD_ENABLE_DESC_MULTIPLE_GROUP_DESC" >
+		<field name="enable_editor_email" type="radio" class="btn-group btn-group-yesno" default="1" label="COM_PHOCAMENU_FIELD_ENABLE_HTML_EDITOR_EMAIL_LABEL" description="COM_PHOCAMENU_FIELD_ENABLE_HTML_EDITOR_EMAIL_DESC" >
 				<option value="0">COM_PHOCAMENU_NO</option>
 				<option value="1">COM_PHOCAMENU_YES</option>
 			</field>
 			
+			<field name="enable_desc_multiple" type="radio" class="btn-group btn-group-yesno" default="1" label="COM_PHOCAMENU_FIELD_ENABLE_DESC_MULTIPLE_LABEL" description="COM_PHOCAMENU_FIELD_ENABLE_DESC_MULTIPLE_DESC" >
+				<option value="0">COM_PHOCAMENU_NO</option>
+				<option value="1">COM_PHOCAMENU_YES</option>
+			</field>
+			<field name="enable_desc_multiple_group" type="radio" class="btn-group btn-group-yesno" default="1" label="COM_PHOCAMENU_FIELD_ENABLE_DESC_MULTIPLE_GROUP_LABEL" description="COM_PHOCAMENU_FIELD_ENABLE_DESC_MULTIPLE_GROUP_DESC" >
+				<option value="0">COM_PHOCAMENU_NO</option>
+				<option value="1">COM_PHOCAMENU_YES</option>
+			</field>
 			
-			<field name="displayheaderdate" type="list" default="1" label="COM_PHOCAMENU_DISPLAY_HEADER_DATE_LABEL" description="COM_PHOCAMENU_DISPLAY_HEADER_DATE_DESC">
+			
+			<field name="displayheaderdate" type="radio" class="btn-group btn-group-yesno" default="1" label="COM_PHOCAMENU_DISPLAY_HEADER_DATE_LABEL" description="COM_PHOCAMENU_DISPLAY_HEADER_DATE_DESC">
 				<option value="0">COM_PHOCAMENU_HIDE</option>
 				<option value="1">COM_PHOCAMENU_SHOW</option>
 			</field>
 			
-			<field name="displaydayname" type="list" default="1" label="COM_PHOCAMENU_DISPLAY_DAY_TITLE_LABEL" description="COM_PHOCAMENU_DISPLAY_DAY_TITLE_DESC">
+			<field name="displaydayname" type="radio" class="btn-group btn-group-yesno" default="1" label="COM_PHOCAMENU_DISPLAY_DAY_TITLE_LABEL" description="COM_PHOCAMENU_DISPLAY_DAY_TITLE_DESC">
 				<option value="0">COM_PHOCAMENU_HIDE</option>
 				<option value="1">COM_PHOCAMENU_SHOW</option>
 			</field>
@@ -153,19 +153,19 @@
 				<option value="1">COM_PHOCAMENU_YES</option>
 				<option value="2">COM_PHOCAMENU_YES_NO_LISTS_AND_DAYS</option>
 		</field>
-		<field name="display_item_tools" type="list" default="1" label="COM_PHOCAMENU_FIELD_DISPLAY_ITEM_TOOLS_LABEL" description="COM_PHOCAMENU_FIELD_DISPLAY_ITEM_TOOLS_DESC">
+		<field name="display_item_tools" type="radio" class="btn-group btn-group-yesno" default="1" label="COM_PHOCAMENU_FIELD_DISPLAY_ITEM_TOOLS_LABEL" description="COM_PHOCAMENU_FIELD_DISPLAY_ITEM_TOOLS_DESC">
 				<option value="1">COM_PHOCAMENU_YES</option>
 				<option value="0">COM_PHOCAMENU_NO</option>
 		</field>
 		
 		
 		
-		<field name="enable_cache" type="list" default="0" label="COM_PHOCAMENU_FIELD_ENABLE_CACHE_LABEL" description="COM_PHOCAMENU_FIELD_ENABLE_CACHE_DESC">
+		<field name="enable_cache" type="radio" class="btn-group btn-group-yesno" default="0" label="COM_PHOCAMENU_FIELD_ENABLE_CACHE_LABEL" description="COM_PHOCAMENU_FIELD_ENABLE_CACHE_DESC">
 	<option value="1">COM_PHOCAMENU_YES</option>
 	<option value="0">COM_PHOCAMENU_NO</option>
 </field>
 
-<field name="comma_point" type="list" default="0" label="COM_PHOCAMENU_FIELD_REPLACE_COMMA_WITH_POINT_LABEL" description="COM_PHOCAMENU_FIELD_REPLACE_COMMA_WITH_POINT_DESC">
+<field name="comma_point" type="radio" class="btn-group btn-group-yesno" default="0" label="COM_PHOCAMENU_FIELD_REPLACE_COMMA_WITH_POINT_LABEL" description="COM_PHOCAMENU_FIELD_REPLACE_COMMA_WITH_POINT_DESC">
 	<option value="1">COM_PHOCAMENU_YES</option>
 	<option value="0">COM_PHOCAMENU_NO</option>
 </field>	
@@ -178,6 +178,22 @@
 	<option value="1">COM_PHOCAMENU_SEMICOLON</option>
 	<option value="0">COM_PHOCAMENU_TAB</option>
 </field>
+
+<field name="phocahead6" type="phocahead"  default="COM_PHOCAMENU_CONFIG_SCREENSHOT_SETTINGS_LABEL" label="" description="" />
+
+<field name="enable_screenshot" type="radio" class="btn-group btn-group-yesno" default="0" label="COM_PHOCAMENU_FIELD_ENABLE_SCREENSHOT_LABEL" description="COM_PHOCAMENU_FIELD_ENABLE_SCREENSHOT_DESC">
+	<option value="0">COM_PHOCAMENU_NO</option>
+	<option value="1">COM_PHOCAMENU_YES</option>
+</field>
+<field name="screenshot_css" type="textarea" rows="5" cols="30" default="" label="COM_PHOCAMENU_FIELD_SCREENSHOT_CSS_LABEL" filter="raw" description="COM_PHOCAMENU_FIELD_SCREENSHOT_CSS_DESC" />
+
+<field name="html_output_admin" default="1" size="10" type="list" label="COM_PHOCAMENU_FIELD_HTML_OUTPUT_ADMIN_LABEL" description="COM_PHOCAMENU_FIELD_HTML_OUTPUT_ADMIN_DESC" >
+		<option value="1">COM_PHOCAMENU_TABLES</option>
+		<option value="2">COM_PHOCAMENU_BOOTSTRAP2</option>
+		<option value="3">COM_PHOCAMENU_BOOTSTRAP3</option>
+		</field>
+		
+		<field name="remove_stylesheet_string" default="" size="10" type="text" label="COM_PHOCAMENU_FIELD_REMOVE_STYLESHEET_STRING_LABEL" description="COM_PHOCAMENU_FIELD_REMOVE_STYLESHEET_STRING_DESC" />
 </fieldset>
 
 

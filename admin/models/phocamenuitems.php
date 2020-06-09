@@ -14,7 +14,7 @@ jimport( 'joomla.application.component.modellist' );
 class PhocaMenuCpModelPhocaMenuItems extends JModelList
 {
 	protected	$option 		= 'com_phocamenu';
-	
+
 	public function __construct($config = array())
 	{
 		if (empty($config['filter_fields'])) {
@@ -24,7 +24,7 @@ class PhocaMenuCpModelPhocaMenuItems extends JModelList
 				'quantity', 'a.quantity',
 				'price', 'a.price',
 				'price2', 'a.price2',
-				'catid', 'a.catid',
+				'category_id', 'category_id',
 				'alias', 'a.alias',
 				'checked_out', 'a.checked_out',
 				'checked_out_time', 'a.checked_out_time',
@@ -38,12 +38,12 @@ class PhocaMenuCpModelPhocaMenuItems extends JModelList
 		parent::__construct($config);
 	}
 
-	protected function populateState($ordering = NULL, $direction = NULL)
+	protected function populateState($ordering = 'a.title', $direction = 'ASC')
 	{
 
 		$app 	= JFactory::getApplication('administrator');
 		$type 	= PhocaMenuHelper::getUrlType('item');
-	
+
 
 		$search = $app->getUserStateFromRequest($this->context.'.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
@@ -51,9 +51,9 @@ class PhocaMenuCpModelPhocaMenuItems extends JModelList
 		//$accessId = $app->getUserStateFromRequest($this->context.'.filter.access', 'filter_access', null, 'int');
 		//$this->setState('filter.access', $accessId);
 
-		$state = $app->getUserStateFromRequest($this->context.'.filter.state', 'filter_published', '', 'string');
-		$this->setState('filter.state', $state);
-		
+		$state = $app->getUserStateFromRequest($this->context.'.filter.published', 'filter_published', '', 'string');
+		$this->setState('filter.published', $state);
+
 		// IMPORTANT - when $ GET and we get the ID by GET, then this all can be overriden in view.html.php
 		// as here in model it does not take any effect
 		$categoryId = $app->getUserStateFromRequest($this->context.'.filter.category_id', 'filter_category_id', 0);
@@ -64,7 +64,7 @@ class PhocaMenuCpModelPhocaMenuItems extends JModelList
 		} else {
 			$this->setState('filter.category_id', $type['valuecatid']);
 		}
-		
+
 
 		$language = $app->getUserStateFromRequest($this->context.'.filter.language', 'filter_language', '');
 		$this->setState('filter.language', $language);
@@ -74,33 +74,33 @@ class PhocaMenuCpModelPhocaMenuItems extends JModelList
 		$this->setState('params', $params);
 
 		// List state information.
-		
-		
-		parent::populateState('a.title', 'asc');
+
+
+		parent::populateState($ordering, $direction);
 	}
-	
+
 	protected function getStoreId($id = '')
 	{
-		
+
 		//$type 	= PhocaMenuHelper::getUrlType('item');
 		$id	.= ':'.$this->getState('filter.search');
 		//$id	.= ':'.$this->getState('filter.access');
-		$id	.= ':'.$this->getState('filter.state');
+		$id	.= ':'.$this->getState('filter.published');
 		$id	.= ':'.$this->getState('filter.category_id');
 		$id	.= ':'.$this->getState('filter.item_id');
-		
-		
+
+
 
 		return parent::getStoreId($id);
 	}
-	
-	
+
+
 	protected function getListQuery()
 	{
 		$type 	= PhocaMenuHelper::getUrlType('item');
-		
+
 		$categoryId = $this->getState('filter.category_id');
-		
+
 		/*
 		$query = 'SELECT a.*, cc.title AS category, u.name AS editor '
 				.' FROM #__phocamenu_item AS a '
@@ -122,19 +122,19 @@ class PhocaMenuCpModelPhocaMenuItems extends JModelList
 				'a.*'
 			)
 		);
-		
+
 		$query->from('`#__phocamenu_item` AS a');
-		
-		
+
+
 		$query->where('a.type = '.(int)$type['value']);
-		
+
 		$query->select('c.title AS category_title, c.id AS category_id');
 		$query->join('LEFT', '#__phocamenu_group AS c ON c.id=a.catid');
-		
+
 		// Filter Catid ($ POST) or Session or Catid ($ GET)
 		$categoryId 		= $this->getState('filter.category_id');
-		$actualCategoryId	= PhocaMenuHelper::getActualCategory('item', $type['value'], $categoryId);	
-	
+		$actualCategoryId	= PhocaMenuHelper::getActualCategory('item', $type['value'], $categoryId);
+
 		if (is_numeric($categoryId)) {
 			$query->where('a.catid = '.(int) $actualCategoryId);
 		}
@@ -151,19 +151,19 @@ class PhocaMenuCpModelPhocaMenuItems extends JModelList
 		//}
 
 		// Filter by published state.
-		$published = $this->getState('filter.state');
+		$published = $this->getState('filter.published');
 		if (is_numeric($published)) {
 			$query->where('a.published = '.(int) $published);
 		}
 		else if ($published === '') {
 			$query->where('(a.published IN (0, 1))');
 		}
-		
+
 		// Filter on the language.
 		if ($language = $this->getState('filter.language')) {
 			$query->where('a.language = ' . $db->quote($language));
 		}
-		
+
 
 		// Filter by search in title
 		$search = $this->getState('filter.search');
@@ -178,7 +178,7 @@ class PhocaMenuCpModelPhocaMenuItems extends JModelList
 				$query->where('a.title LIKE '.$search.'');
 			}
 		}
-		
+
 		$query->group('a.id');
 
 		// Add the list ordering clause.

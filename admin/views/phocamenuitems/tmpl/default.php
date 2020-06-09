@@ -13,8 +13,8 @@ JHtml::_('behavior.multiselect');
 JHtml::_('dropdown.init');
 JHtml::_('formbehavior.chosen', 'select');
 
-$class		= $this->t['n'] . 'RenderAdminViews';
-$r 			=  new $class();
+//$class		= $this->t['n'] . 'RenderAdminViews';
+$r 			=  new PhocaMenuRenderAdminViews;
 $user		= JFactory::getUser();
 $userId		= $user->get('id');
 $listOrder	= $this->escape($this->state->get('list.ordering'));
@@ -39,7 +39,7 @@ echo $r->startMainContainer();
 
 echo $this->t['breadcrumb'];
 
-echo $r->startFilterBar();
+/*echo $r->startFilterBar();
 echo $r->inputFilterSearch($this->t['l'].'_FILTER_SEARCH_LABEL', $this->t['l'].'_FILTER_SEARCH_DESC',
 							$this->escape($this->state->get('filter.search')));
 echo $r->inputFilterSearchClear('JSEARCH_FILTER_SUBMIT', 'JSEARCH_FILTER_CLEAR');
@@ -53,25 +53,31 @@ echo $r->selectFilterLanguage('JOPTION_SELECT_LANGUAGE', $this->state->get('filt
 echo PhocaMenuHelper::getCategoryList('item', $this->type['value'], $this->state->get('filter.category_id'));
 echo $r->endFilterBar();
 
+echo $r->endFilterBar();*/
+
+
+
+echo $r->startFilterBar();
+echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this));
 echo $r->endFilterBar();
 
 echo $r->startTable('categoryList');
 
 echo $r->startTblHeader();
 
-echo $r->thOrdering('JGRID_HEADING_ORDERING', $listDirn, $listOrder);
+echo $r->thOrderingXML('JGRID_HEADING_ORDERING', $listDirn, $listOrder);
 echo $r->thCheck('JGLOBAL_CHECK_ALL');
 
-echo '<th class="ph-quantity">'.JHTML::_('grid.sort',  	$this->t['l'].'_QUANTITY', 'a.quantity', $listDirn, $listOrder ).'</th>'."\n";
-echo '<th class="ph-title">'.JHTML::_('grid.sort',  	$this->t['l'].'_TITLE', 'a.title', $listDirn, $listOrder ).'</th>'."\n";
-echo '<th class="ph-price">'.JHTML::_('grid.sort',  	$this->t['l'].'_PRICE', 'a.price', $listDirn, $listOrder ).'</th>'."\n";
-echo '<th class="ph-price">'.JHTML::_('grid.sort',  	$this->t['l'].'_PRICE2', 'a.price2', $listDirn, $listOrder ).'</th>'."\n";
-echo '<th class="ph-published">'.JHTML::_('grid.sort',  $this->t['l'].'_PUBLISHED', 'a.published', $listDirn, $listOrder ).'</th>'."\n";
+echo '<th class="ph-quantity">'.JHTML::_('searchtools.sort',  	$this->t['l'].'_QUANTITY', 'a.quantity', $listDirn, $listOrder ).'</th>'."\n";
+echo '<th class="ph-title">'.JHTML::_('searchtools.sort',  	$this->t['l'].'_TITLE', 'a.title', $listDirn, $listOrder ).'</th>'."\n";
+echo '<th class="ph-price">'.JHTML::_('searchtools.sort',  	$this->t['l'].'_PRICE', 'a.price', $listDirn, $listOrder ).'</th>'."\n";
+echo '<th class="ph-price">'.JHTML::_('searchtools.sort',  	$this->t['l'].'_PRICE2', 'a.price2', $listDirn, $listOrder ).'</th>'."\n";
+echo '<th class="ph-published">'.JHTML::_('searchtools.sort',  $this->t['l'].'_PUBLISHED', 'a.published', $listDirn, $listOrder ).'</th>'."\n";
 
 echo '<th class="ph-delete ph-center">'.JTEXT::_($this->t['l'].'_DELETE').'</th>'."\n";
-echo '<th class="ph-category">'.JHTML::_('grid.sort',  $this->t['l'].'_GROUP', 'a.catid', $listDirn, $listOrder ).'</th>'."\n";
-echo '<th class="ph-language">'.JHTML::_('grid.sort',  	'JGRID_HEADING_LANGUAGE', 'a.language', $listDirn, $listOrder ).'</th>'."\n";
-echo '<th class="ph-id">'.JHTML::_('grid.sort',  		$this->t['l'].'_ID', 'a.id', $listDirn, $listOrder ).'</th>'."\n";
+echo '<th class="ph-category">'.JHTML::_('searchtools.sort',  $this->t['l'].'_GROUP', 'a.catid', $listDirn, $listOrder ).'</th>'."\n";
+echo '<th class="ph-language">'.JHTML::_('searchtools.sort',  	'JGRID_HEADING_LANGUAGE', 'a.language', $listDirn, $listOrder ).'</th>'."\n";
+echo '<th class="ph-id">'.JHTML::_('searchtools.sort',  		$this->t['l'].'_ID', 'a.id', $listDirn, $listOrder ).'</th>'."\n";
 
 echo $r->endTblHeader();
 
@@ -157,7 +163,8 @@ $vD = '';
 if ($canDelete) {
 $vD = '<a href="'. $linkRemove.'" onclick="'.$onClickRemove.'" title="'. JText::_('COM_PHOCAMENU_DELETE').'"'
 	.' onclick="return confirm(\''.JText::_('COM_PHOCAMENU_WARNING_DELETE_ITEM').'\');">'
-	. JHTML::_('image', $this->t['i'].'icon-16-trash.png', JText::_('COM_PHOCAMENU_DELETE') )
+	//. JHTML::_('image', $this->t['i'].'icon-16-trash.png', JText::_('COM_PHOCAMENU_DELETE') )
+		. '<div class="ph-icon-task"><i class="duotone icon-purge"></i></div>'
 	.'</a>';
 }
 
@@ -179,7 +186,7 @@ echo $this->loadTemplate('batch');
 
 echo '<input type="hidden" name="type" value="'.(int)$this->type['value'].'" />'. "\n";
 echo '<input type="hidden" name="'.$this->type['info']['catid'].'" value="'.(int)$this->type['actualcatid'].'" />'. "\n";
-echo $r->formInputs($listOrder, $listDirn, $originalOrders);
+echo $r->formInputsXML($listOrder, $listDirn, $originalOrders);
 echo $r->endMainContainer();
 
 
@@ -234,24 +241,24 @@ echo $this->tmpl['breadcrumb'];
 			<thead>
 			<tr>
 				<th width="5"><input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $this->items ); ?>);" /></th>
-				<th class="title" width="10%"><?php echo JHTML::_('grid.sort',  'COM_PHOCAMENU_QUANTITY', 'a.quantity', $listDirn, $listOrder); ?></th>
-				<th class="title" width="56%"><?php echo JHTML::_('grid.sort',  'COM_PHOCAMENU_TITLE', 'a.title', $listDirn, $listOrder); ?></th>
-				<th class="title" width="7%"><?php echo JHTML::_('grid.sort',  'COM_PHOCAMENU_PRICE', 'a.price', $listDirn, $listOrder); ?></th>
-				<th class="title" width="7%"><?php echo JHTML::_('grid.sort',  'COM_PHOCAMENU_PRICE2', 'a.price2', $listDirn, $listOrder); ?></th>
+				<th class="title" width="10%"><?php echo JHTML::_('searchtools.sort',  'COM_PHOCAMENU_QUANTITY', 'a.quantity', $listDirn, $listOrder); ?></th>
+				<th class="title" width="56%"><?php echo JHTML::_('searchtools.sort',  'COM_PHOCAMENU_TITLE', 'a.title', $listDirn, $listOrder); ?></th>
+				<th class="title" width="7%"><?php echo JHTML::_('searchtools.sort',  'COM_PHOCAMENU_PRICE', 'a.price', $listDirn, $listOrder); ?></th>
+				<th class="title" width="7%"><?php echo JHTML::_('searchtools.sort',  'COM_PHOCAMENU_PRICE2', 'a.price2', $listDirn, $listOrder); ?></th>
 
 				<th width="5%" nowrap="nowrap"><?php echo JText::_('COM_PHOCAMENU_DELETE' ) ?></th>
-				<th width="5%" nowrap="nowrap"><?php echo JHTML::_('grid.sort', 'COM_PHOCAMENU_PUBLISHED', 'a.published',$listDirn, $listOrder ); ?></th>
+				<th width="5%" nowrap="nowrap"><?php echo JHTML::_('searchtools.sort', 'COM_PHOCAMENU_PUBLISHED', 'a.published',$listDirn, $listOrder ); ?></th>
 
 				<th width="10%">
-				<?php echo JHtml::_('grid.sort',  'JGRID_HEADING_ORDERING', 'a.ordering', $listDirn, $listOrder);
+				<?php echo JHtml::_('searchtools.sort',  'JGRID_HEADING_ORDERING', 'a.ordering', $listDirn, $listOrder);
 				if ($canOrder && $saveOrder) {
 					echo JHtml::_('grid.order',  $this->items, 'filesave.png', 'phocamenuitems.saveorder');
 				} ?>
 				</th>
 
-				<th class="title" width="15%"><?php echo JHTML::_('grid.sort',  'COM_PHOCAMENU_GROUP', 'a.catid', $listDirn, $listOrder); ?></th>
-				<th width="5%"><?php echo JHtml::_('grid.sort', 'JGRID_HEADING_LANGUAGE', 'a.language', $listDirn, $listOrder); ?></th>
-				<th width="1%" nowrap="nowrap"><?php echo JHTML::_('grid.sort',  'COM_PHOCAMENU_ID', 'a.id',$listDirn, $listOrder ); ?></th>
+				<th class="title" width="15%"><?php echo JHTML::_('searchtools.sort',  'COM_PHOCAMENU_GROUP', 'a.catid', $listDirn, $listOrder); ?></th>
+				<th width="5%"><?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'a.language', $listDirn, $listOrder); ?></th>
+				<th width="1%" nowrap="nowrap"><?php echo JHTML::_('searchtools.sort',  'COM_PHOCAMENU_ID', 'a.id',$listDirn, $listOrder ); ?></th>
 			</tr>
 			</thead>
 			<tbody><?php

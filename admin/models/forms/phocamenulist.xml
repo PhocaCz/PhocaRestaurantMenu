@@ -12,7 +12,7 @@
 	
 	
 <fieldset name="publish" label="COM_PHOCAMENU_GROUP_LABEL_PUBLISHING_DETAILS" >
-	<field name="published" type="list" label="COM_PHOCAMENU_FIELD_PUBLISHED_LABEL" description="COM_PHOCAMENU_FIELD_PUBLISHED_DESC" class="inputbox" size="1" default="1">
+	<field name="published" type="radio" class="btn-group btn-group-yesno" label="COM_PHOCAMENU_FIELD_PUBLISHED_LABEL" description="COM_PHOCAMENU_FIELD_PUBLISHED_DESC" size="1" default="1">
 		<option value="1">JPUBLISHED</option>
 		<option	value="0">JUNPUBLISHED</option>
 	</field>

@@ -19,6 +19,7 @@ class JFormFieldPhocaMenuCategory extends JFormField
 		$db 		= JFactory::getDBO();
 		$list		= '';
 		$typeView	= $this->element['menutype'] ? (string)$this->element['menutype'] : 'group';
+		$hideSelect	= $this->element['hideselect'] &&  $this->element['hideselect'] == 1 ? (int)$this->element['hideselect'] : 0;
 		$catid 		= $this->form->getValue('catid') ? (int) $this->form->getValue('catid') : 0;
 		if ($this->form->getValue('type') != 0) {
 			$type['value']	= (int)$this->form->getValue('type');
@@ -34,6 +35,9 @@ class JFormFieldPhocaMenuCategory extends JFormField
 			$this->value = $catid;
 		}
 		
+		$attr 		= '';
+		$attr 		.= $this->element['onchange'] ? ' onchange="'.(string) $this->element['onchange'].'" ' : ' ';
+		$attr		.= ' class="inputbox"';
 		
 		$query = '';
 		$output= '';
@@ -78,8 +82,10 @@ class JFormFieldPhocaMenuCategory extends JFormField
 				
 					$db->setQuery( $query );
 					$itemList = $db->loadObjectList();
-					array_unshift($itemList, JHTML::_('select.option', '', '- '.$selectText.' -', 'value', 'text'));
-					$list = JHTML::_( 'select.genericlist', $itemList, $this->name, 'class="inputbox"', 'value', 'text', $this->value, $this->id);
+					if ($hideSelect != 1) {
+						array_unshift($itemList, JHTML::_('select.option', '', '- '.$selectText.' -', 'value', 'text'));
+					}
+					$list = JHTML::_( 'select.genericlist', $itemList, $this->name, $attr, 'value', 'text', $this->value, $this->id);
 					
 				break;
 			}
@@ -88,8 +94,11 @@ class JFormFieldPhocaMenuCategory extends JFormField
 		if ($query != '') {
 			$db->setQuery( $query );
 			$categories = $db->loadObjectList();
-			array_unshift($categories, JHTML::_('select.option', '', '- '.$selectText.' -', 'value', 'text'));
-			$output = JHTML::_( 'select.genericlist', $categories, $this->name, 'class="inputbox"', 'value', 'text', $this->value, $this->id);
+			
+			if ($hideSelect != 1) {
+				array_unshift($categories, JHTML::_('select.option', '', '- '.$selectText.' -', 'value', 'text'));
+			}
+			$output = JHTML::_( 'select.genericlist', $categories, $this->name, $attr, 'value', 'text', $this->value, $this->id);
 		}
 		
 		return $output;

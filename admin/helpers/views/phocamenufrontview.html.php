@@ -25,6 +25,7 @@ class PhocaMenuFrontViewHtml extends JViewLegacy
 
 		$type						= PhocaMenuHelper::getTypeByView($this->_name);
 		$this->data					= $model->getData($type);
+
 		$css						= 'media/com_phocamenu/css/phocamenu.css';
 		$cssP						= 'media/com_phocamenu/css/phocamenu-print.css';
 

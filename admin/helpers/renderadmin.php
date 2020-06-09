@@ -11,12 +11,29 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 class PhocaMenuRenderAdmin
 {
 
-	public static function quickIconButton( $link, $image, $text, $imgUrl ) {
+	/*public static function quickIconButton( $link, $image, $text, $imgUrl ) {
 
 		return '<div class="thumbnails ph-icon">'
 		.'<a class="thumbnail ph-icon-inside" href="'.$link.'">'
 		.JHTML::_('image', $imgUrl . $image, $text )
 		.'<br /><span>'.$text.'</span></a></div>'. "\n";
+	}*/
+
+	public static function quickIconButton( $link, $text = '', $icon = '', $color = '#ffffff') {
+
+
+		$o = '';
+		$o .= '<div class="thumbnails ph-icon">';
+		/*$o .= '   <div class="ph-icon-inside-box"><a class="thumbnail ph-icon-inside" href="'.$link.'"><span style="color: '.$color.';opacity: 0.6;" class="glyphicon glyphicon-'.$icon.' ph-icon-cp-large"></span></a></div>';
+		$o .= '   <div class="ph-text-inside-box"><a class="ph-text-inside" href="'.$link.'"><span class="ph-icon-cp-title">'.$text.'</span></a></div>';
+		*/
+		$o .= '   <div class="ph-icon-inside-box"><a class=" icon thumbnail ph-icon-inside" href="'.$link.'" style="background-color: '.$color.'20;">'.JHtml::_('image', $icon, $text ).'</a></div>';
+		$o .= '   <div class="ph-text-inside-box"><a class="ph-text-inside" href="'.$link.'"><span class="ph-icon-cp-title">'.$text.'</span></a></div>';
+
+		$o .= '</div>';
+
+
+		return $o;
 	}
 
 	public static function getLinks() {
@@ -66,7 +83,7 @@ class PhocaMenuRenderAdmin
 
 
 		$o .= '<div class="row row-fluid" style="margin-left: 10px;">';
-		$o .= '<div class="span4"><h4 style="margin-bottom:5px;">'.JText::_($oT.'_USEFUL_LINKS'). '</h4>';
+		$o .= '<div class="span12"><h4 style="margin-bottom:5px;">'.JText::_($oT.'_USEFUL_LINKS'). '</h4>';
 		$o .= '<ul>';
 		foreach ($links as $k => $v) {
 			$o .= '<li><a style="text-decoration:underline" href="'.$v[1].'" target="_blank">'.$v[0].'</a></li>';
@@ -76,7 +93,7 @@ class PhocaMenuRenderAdmin
 		$o .= '</div>';
 
 
-		$o .= '<div class="span6"><h4 style="margin-bottom:5px;">'.JText::_($oT.'_USEFUL_TIPS'). '</h4>';
+		$o .= '<div class="span12"><h4 style="margin-bottom:5px;">'.JText::_($oT.'_USEFUL_TIPS'). '</h4>';
 
 		$m = mt_rand(0, 10);
 		if ((int)$m > 0) {
@@ -101,7 +118,7 @@ class PhocaMenuRenderAdmin
 
 		$o .= '</div>';
 
-		$o .= '<div class="span2">';
+		$o .= '<div class="span12">';
 		$o .= '<h4 style="margin-bottom:5px;">'.JText::_($oT.'_PLEASE_READ'). '</h4>';
 		$o .= '<div><a style="text-decoration:underline" href="https://www.phoca.cz/phoca-needs-your-help/" target="_blank">'.JText::_($oT.'_PHOCA_NEEDS_YOUR_HELP'). '</a></div>';
 

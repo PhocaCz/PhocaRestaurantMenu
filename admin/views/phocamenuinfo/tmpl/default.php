@@ -29,8 +29,8 @@ echo '<p>'
 .'<a href="https://www.phoca.cz/documentation/" target="_blank">Phoca Restaurant Menu User Manual</a><br />'
 .'<a href="https://www.phoca.cz/forum/" target="_blank">Phoca Restaurant Menu Forum</a><br />'
 .'</p>';
-echo '<h3>'.  JText::_($this->t['l'] . '_VERSION').' Lite</h3>'
-.'<p>'.  $this->t['version'] .'</p>';
+echo '<h3>'.  JText::_($this->t['l'] . '_VERSION').'</h3>'
+.'<p>'.  $this->t['version'] .' Lite</p>';
 
 echo '<h3>'.  JText::_($this->t['l'] . '_COPYRIGHT').'</h3>'
 .'<p>© 2007 - '.  date("Y"). ' Jan Pavelka</p>'

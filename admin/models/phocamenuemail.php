@@ -293,6 +293,52 @@ class PhocaMenuCpModelPhocaMenuEmail extends JModelAdmin
 		$lang = $app->getUserStateFromRequest($this->context.'.filter.language', 'filter_language', $language);
 
 	}
+
+	public function checkout($pk = null)
+	{
+		// Only attempt to check the row in if it exists.
+		if ($pk)
+		{
+			// Get an instance of the row to checkout.
+			$table = $this->getTable();
+
+			if (!$table->load($pk))
+			{
+				$this->setError($table->getError());
+
+				return false;
+			}
+
+			$checkedOutField = $table->getColumnAlias('checked_out');
+			$checkedOutTimeField = $table->getColumnAlias('checked_out_time');
+
+			// If there is no checked_out or checked_out_time field, just return true.
+			if (!property_exists($table, $checkedOutField) || !property_exists($table, $checkedOutTimeField))
+			{
+				return true;
+			}
+
+			$user = \JFactory::getUser();
+
+			// Check if this is the user having previously checked out the row.
+			/*if ($table->{$checkedOutField} > 0 && $table->{$checkedOutField} != $user->get('id'))
+			{
+				$this->setError(\JText::_('JLIB_APPLICATION_ERROR_CHECKOUT_USER_MISMATCH'));
+
+				return false;
+			}*/
+
+			// Attempt to check the row out.
+			if (!$table->checkOut($user->get('id'), $pk))
+			{
+				$this->setError($table->getError());
+
+				return false;
+			}
+		}
+
+		return true;
+	}
 }
 
 ?>

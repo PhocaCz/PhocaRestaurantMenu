@@ -35,6 +35,7 @@ class PhocaMenuRenderViews
 		$paramsC['displaygroupmsg']	= $params->get( 'display_group_message', 2 );
 
 
+
 		$oP = array();
 
 		$o = self::setMainId($method);
@@ -51,7 +52,7 @@ class PhocaMenuRenderViews
 				$oddEvenBox = 1;
 			}
 
-			$date = PhocaMenuHelper::getDate($data['config']->date, $tmpl['daydateformat'], $tmpl['dateclass']);
+			$date = PhocaMenuHelper::getDate($data['config']->date, $tmpl['daydateformat'], $tmpl['dateclass'], $data['config']->language);
 
 			if ($method == 3) {
 				$o .= $tag['date-o'] . $date . '<br/>'
@@ -109,6 +110,7 @@ class PhocaMenuRenderViews
 							}
 
 							$image	= $tag['spaceimg'];
+
 							// PHOCAGALLERY Image  - - - - - -
 							if ((int)$tmpl['phocagallery'] == 1) {
 								$image = PhocaMenuGallery::getPhocaGalleryLink($tmpl['imagesize'], $data['item'][$i]->imageid, $data['item'][$i]->imagefilename, $data['item'][$i]->imagecatid, $data['item'][$i]->imageslug, $data['item'][$i]->imagecatslug, $paramsG['imagedetailwindow'], $tmpl['button'], $data['item'][$i]->imageextid,$data['item'][$i]->imageexts,$data['item'][$i]->imageextm,$data['item'][$i]->imageextl,$data['item'][$i]->imageextw,$data['item'][$i]->imageexth );
@@ -193,8 +195,8 @@ class PhocaMenuRenderViews
 		// Remove empty table - because of TCPDF
 		$o = str_replace($tag['tableitem-o'].$tag['tableitem-c'], '', $o);
 
-		$o .= PhocaMenuHelper::renderCode($params->get( 'render_code', 1 ), $method);
 
+		$o .= PhocaMenuHelper::renderCode($params->get( 'render_code', 1 ), $method);
 		return $o;
 	}
 
@@ -1034,6 +1036,8 @@ class PhocaMenuRenderViews
 
 		$app = JFactory::getApplication();
 		$print = $app->input->get('print', 0, 'int');
+		$admin = $app->input->get('admin', 0, 'int');
+
 
 		if ($print == 1) {
 			return $method;
@@ -1047,12 +1051,24 @@ class PhocaMenuRenderViews
 		if ($method == 6) {
 			return $method;//Form Raw Edit
 		}
-		if ($params->get( 'html_output', 1 ) == 2 ) {
-			return 4;
-		}
-		if ($params->get( 'html_output', 1 ) == 3 ) {
-			return 5;
-		}
+
+		if ($admin == 1) {
+		    if ($params->get( 'html_output_admin', 1 ) == 2 ) {
+                return 4;
+            }
+            if ($params->get( 'html_output_admin', 1 ) == 3 ) {
+                return 5;
+            }
+        } else {
+		    if ($params->get( 'html_output', 1 ) == 2 ) {
+			    return 4;
+		    }
+            if ($params->get( 'html_output', 1 ) == 3 ) {
+                return 5;
+            }
+        }
+
+
 
 		return $method;
 	}

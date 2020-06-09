@@ -17,12 +17,23 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<div class="ph-cpanel-left">
 			<div id="cpanel"><?php
 
-$class	= $this->t['n'] . 'RenderAdmin';
+
 $link	= 'index.php?option='.$this->t['o'].'&view=';
-foreach ($this->views as $k => $v) {
+/*foreach ($this->views as $k => $v) {
 	$linkV	= $link . $this->t['c'] . $k;
 	echo $class::quickIconButton( $linkV, 'icon-48-'.$v[0].'.png', JText::_($v[1]), $this->t['i']);
+}*/
+
+
+foreach ($this->views as $k => $v) {
+    $linkV	= $link . $this->t['c'] . $k;
+    //echo PhocacartRenderAdmin::quickIconButton( $linkV, 'icon-48-'.$k.'.png', JText::_($v[0]), $this->t['i']);
+    //echo '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-3">';
+    echo PhocaMenuRenderAdmin::quickIconButton( $linkV, JText::_($v[1]), $this->t['i'] . 'icon-48-'.$v[0].'.png');
+    //echo '</div>';
 }
+
+
 				?><div style="clear:both">&nbsp;</div>
 			</div>
 		</div>
@@ -31,8 +42,8 @@ foreach ($this->views as $k => $v) {
 			<div class="prm-well">
                 <?php echo '<div class="ph-cpanel-logo">'.JHtml::_('image', 'media/com_phocamenu/images/administrator/logo-phoca-menu.png', 'Phoca.cz') . '</div>'; ?>
 				<div style="float:right;margin:10px;"><?php echo JHTML::_('image', $this->t['i'] . 'logo-phoca-chef.png', 'Phoca.cz' );?></div><?php
-echo '<h3>'.  JText::_($this->t['l'] . '_VERSION').' Lite</h3>'
-.'<p>'.  $this->t['version'] .'</p>';
+echo '<h3>'.  JText::_($this->t['l'] . '_VERSION').'</h3>'
+.'<p>'.  $this->t['version'] .' Lite</p>';
 echo '<h3>'.  JText::_($this->t['l'] . '_COPYRIGHT').'</h3>'
 .'<p>© 2007 - '.  date("Y"). ' Jan Pavelka</p>'
 .'<p><a href="https://www.phoca.cz/" target="_blank">www.phoca.cz</a></p>';
@@ -47,13 +58,15 @@ echo '<h3>'.  JText::_($this->t['l'] . '_TRANSLATION').': '. JText::_($this->t['
             .'<div style="float:right; margin: 0 10px"><a href="https://www.phoca.cz/" target="_blank">'.JHTML::_('image', $this->t['i'] . 'logo.png', 'Phoca.cz' ).'</a></div>';
 
 			?></div>
+
+            <div style="clear:both">&nbsp;</div>
+			<div class="prm-well">
+				<?php echo PhocaMenuRenderAdmin::getLinks(); ?>
+			</div>
+
 		</div>
 
-		<div style="clear:both">&nbsp;</div>
-		<p>&nbsp;</p>
-			<div class="prm-well">
-				<?php echo $class::getLinks(); ?>
-			</div>
+
 
 	</div>
 	<input type="hidden" name="option" value="<?php echo $this->t['c'] ?>" />

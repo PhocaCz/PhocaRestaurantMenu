@@ -223,6 +223,9 @@ class PhocaMenuCpModelPhocaMenuRawEdit extends JModelAdmin
 						$dN['daylist'][$l] = ltrim($v, '#');
 					} else if (substr($v, 0, 1) === '#') {
 						$dN['date'] = ltrim($v, '#');
+						
+						
+						
 						$dSpec = explode(' - ', $dN['date']);
 						$dN['date_from'] = '';
 						$dN['date_from'] = '';
@@ -260,10 +263,35 @@ class PhocaMenuCpModelPhocaMenuRawEdit extends JModelAdmin
 		$data				= array();
 		$data['language'] 	= $lang;
 		$data['type'] 		= $type['value'];
-		$data['date']		= isset($dN['date']) ? $dN['date'] : '';
-		$data['date_from']	= isset($dN['date_from']) ? $dN['date_from'] : '';
-		$data['date_to']	= isset($dN['date_to']) ? $dN['date_to'] : '';
+		$data['date']		= isset($dN['date']) ? trim($dN['date']) : '';
+		$data['date_from']	= isset($dN['date_from']) ? trim($dN['date_from']) : '';
+		$data['date_to']	= isset($dN['date_to']) ? trim($dN['date_to']) : '';
 
+		
+		
+		
+		if ($data['date'] != '') {
+			$dateA = explode(' ', trim($dN['date']));
+			if (isset($dateA[0]) && (!isset($dateA[1]) || (isset($dateA[1]) && trim($dateA[1]) == ''))) {
+				$data['date'] = trim($dateA[0]) . ' 00:00:00';
+			}
+		}
+		
+		if ($data['date_from'] != '') {
+			$dateFA = explode(' ', trim($dN['date_from']));
+			if (isset($dateFA[0]) && (!isset($dateFA[1]) || (isset($dateFA[1]) && trim($dateFA[1]) == ''))) {
+				$data['date_from'] = trim($dateFA[0]) . ' 00:00:00';
+			}
+		}
+		
+		if ($data['date_to'] != '') {
+			$dateTA = explode(' ', trim($dN['date_to']));
+			
+			if (isset($dateTA[0]) && (!isset($dateTA[1]) || (isset($dateTA[1]) && trim($dateTA[1]) == ''))) {
+				$data['date_to'] = trim($dateTA[0]) . ' 00:00:00';
+			}
+		}
+		
 
 		if ($data['language'] == '*' || $data['language'] == '') {
 			$data['langwhere'] = ' (language = '.$db->quote($data['language']).' OR language = \'\')';
@@ -302,9 +330,11 @@ class PhocaMenuCpModelPhocaMenuRawEdit extends JModelAdmin
 				$db->setQuery($q);
 				$config = $db->loadRow();
 
+				
 				if (isset($config[0]) && (int)$config[0] > 0) {
 					$q = 'UPDATE #__phocamenu_config SET date = '.$db->quote($data['date']).' WHERE id = '.(int)$config[0];
 					$db->setQuery($q);
+		
 					$db->execute();
 				} else {
 					$q = ' INSERT INTO #__phocamenu_config ( `type`, `date`, `language`) VALUES'
@@ -398,21 +428,25 @@ class PhocaMenuCpModelPhocaMenuRawEdit extends JModelAdmin
 				$config = $db->loadRow();
 
 				if (isset($config[0]) && (int)$config[0] > 0) {
-					$q = 'UPDATE #__phocamenu_config SET date_from = '.$db->quote($data['date_from']).' WHERE id = '.(int)$config[0];
+					$q = 'UPDATE #__phocamenu_config SET date_from = '.$db->quote(trim($data['date_from'])).' WHERE id = '.(int)$config[0];
 					$db->setQuery($q);
 					$db->execute();
-					$q = 'UPDATE #__phocamenu_config SET date_to = '.$db->quote($data['date_to']).' WHERE id = '.(int)$config[0];
+					$q = 'UPDATE #__phocamenu_config SET date_to = '.$db->quote(trim($data['date_to'])).' WHERE id = '.(int)$config[0];
 					$db->setQuery($q);
 					$db->execute();
 				} else {
-					$q = ' INSERT INTO #__phocamenu_config ( `type`, `date_from`, `language`) VALUES'
-						.' ('.(int)$data['type'].', '.$db->quote($data['date_from']).', '.$db->quote($data['language']).')';
+					
+					
+					$q = ' INSERT INTO #__phocamenu_config ( `type`, `date_from`, `date_to`, `language`) VALUES'
+						.' ('.(int)$data['type'].', '.$db->quote(trim($data['date_from'])).', '.$db->quote(trim($data['date_to'])).', '.$db->quote($data['language']).')';
 					$db->setQuery($q);
+				
 					$db->execute();
-					$q = ' INSERT INTO #__phocamenu_config ( `type`, `date_to`, `language`) VALUES'
-						.' ('.(int)$data['type'].', '.$db->quote($data['date_to']).', '.$db->quote($data['language']).')';
+					/*$q = ' INSERT INTO #__phocamenu_config ( `type`, `date_to`, `language`) VALUES'
+						.' ('.(int)$data['type'].', '.$db->quote(trim($data['date_to'])).', '.$db->quote($data['language']).')';
 					$db->setQuery($q);
-					$db->execute();
+					$db->execute();*/
+				
 				}
 			}
 

@@ -17,6 +17,9 @@ class PhocaMenuCpViewPhocaMenuItems extends JViewLegacy
 	protected $t;
 	protected $type;
 	protected $typeup;
+	public $filterForm;
+	public $activeFilters;
+	protected $p;
 
 	function display($tpl = null) {
 
@@ -24,6 +27,8 @@ class PhocaMenuCpViewPhocaMenuItems extends JViewLegacy
 		$this->items		= $this->get('Items');
 		$this->pagination	= $this->get('Pagination');
 		$this->state		= $this->get('State');
+		$this->filterForm   = $this->get('FilterForm');
+		$this->activeFilters = $this->get('ActiveFilters');
 		$this->type			= PhocaMenuHelper::getUrlType('item');
 
 		// Override the model - populateState in case we really want exactly group/item/list
@@ -48,6 +53,9 @@ class PhocaMenuCpViewPhocaMenuItems extends JViewLegacy
 	protected function addToolbar() {
 
 		$params 			= JComponentHelper::getParams( 'com_phocamenu' );
+	    $this->p['screenshot_css'] 		= $params->get('screenshot_css', '');
+	    $this->p['enable_screenshot'] 	= $params->get('enable_screenshot', 0);
+	    $this->p['remove_stylesheet_string'] 	= $params->get('remove_stylesheet_string', '');
 		$bar 				= JToolbar::getInstance('toolbar');
 		$this->state		= $this->get('State');
 		$user  				= JFactory::getUser();
@@ -79,7 +87,7 @@ class PhocaMenuCpViewPhocaMenuItems extends JViewLegacy
 			$backCatidSpec 	=  '&'.$this->type['info']['catid'].'='.(int)$this->type['actualcatid'];
 		}
 		$langSuffix = PhocaMenuHelper::getLangSuffix($this->state->get('filter.language'));
-		$this->t['linkpreview'] = JURI::root().'index.php?option=com_phocamenu&view='.$this->type['info']['frontview'].'&tmpl=component'.$langSuffix;
+		$this->t['linkpreview'] = JURI::root().'index.php?option=com_phocamenu&view='.$this->type['info']['frontview'].'&tmpl=component&admin=1'.$langSuffix;
 		$this->t['linkemail'] 	= 'index.php?option=com_phocamenu&task=phocamenuemail.edit&type='.$this->type['value'].'&typeback=item'. $backCatidSpec;
 		$this->t['linkmultiple']= 'index.php?option=com_phocamenu&task=phocamenumultipleedit.edit&type='.$this->type['value'].'&typeback=item'.$backCatidSpec;
 		$this->t['linkraw']= 'index.php?option=com_phocamenu&task=phocamenurawedit.edit&type='.$this->type['value'].'&typeback=item'.$backCatidSpec;
@@ -113,11 +121,46 @@ class PhocaMenuCpViewPhocaMenuItems extends JViewLegacy
 				$dhtml = '<a href="'.$this->t['linkemail'].'" class="btn btn-small"><i class="icon-ph-email" title="'.JText::_('COM_PHOCAMENU_EMAIL').'"></i> '.JText::_('COM_PHOCAMENU_EMAIL').'</a>';
 				$bar->appendButton('Custom', $dhtml);
 
-				JHtml::_('behavior.framework');
-				JHtml::_('behavior.modal');
+				// PREVIEW
+				//JToolbarHelper::preview( JURI::root().$this->t['linkpreview'] );
+				//$bar->appendButton( 'Popup', 'prmpreview', 'COM_PHOCAMENU_PREVIEW', $this->t['linkpreview']);
 
-				$dhtml = '<a class="btn btn-small" onclick="SqueezeBox.fromElement(this, {handler:\'iframe\', size: {x: 600, y: 450}, url:\''.$this->t['linkpreview'].'\'})"> <i class="icon-ph-preview" title="'.JText::_('COM_PHOCAMENU_PREVIEW').'"></i>'.JText::_('COM_PHOCAMENU_PREVIEW').'</a>';
+				JHtml::_('jquery.framework');
+
+				$html 		= array();
+				$idA		= 'phMenuPreview';
+
+				// Screenshot
+				$buttonScreenshot = '';
+				if ($this->p['enable_screenshot'] == 1) {
+					$buttonScreenshot = ' <button type="button" class="btn btn-primary phPrintButton" data-id="'.$idA.'">' . JText::_('COM_PHOCAMENU_TAKE_SCREENSHOT') . '</button>';
+					PhocamenuRender::renderScreenshotScript($idA, $this->p);
+				}
+
+
+				$html[] = '<a href="#'.$idA.'" role="button" class="btn btn-small" data-toggle="modal" title="' . JText::_('COM_PHOCAMENU_PREVIEW') . '">'
+					. '<span class="icon-ph-preview"></span> '
+					. JText::_('COM_PHOCAMENU_PREVIEW') . '</a>';
+
+				$html[] = JHtml::_(
+					'bootstrap.renderModal',
+					$idA,
+					array(
+
+						'url'    => $this->t['linkpreview'],
+						'title'  => JText::_('COM_PHOCAMENU_PREVIEW'),
+						'width'  => '700px',
+						'height' => '400px',
+						'modalWidth' => '80',
+						'bodyHeight' => '70',
+						'footer' => '<button type="button" class="btn" data-dismiss="modal" aria-hidden="true">'
+							. JText::_('COM_PHOCAMENU_CLOSE') . '</button>'. $buttonScreenshot
+					)
+				);
+
+				$dhtml = implode("\n", $html);
 				$bar->appendButton('Custom', $dhtml);
+				// END PREVIEW
 
 				$langSuffix = PhocaMenuHelper::getLangSuffix($this->state->get('filter.language'));
 				$bar->appendButton( 'Custom', PhocaMenuRender::getIconPDFAdministrator($this->type['info']['frontview'], 0, $langSuffix));
