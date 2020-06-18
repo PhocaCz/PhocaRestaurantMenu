@@ -8,7 +8,7 @@
 
 
 
-Phoca Restaurant Menu is Joomla! CMS component. This component allows creating menu for restaurant, cafeteria, fast food, school canteen, buffet, bar, club, snack bar, wineroom, etc. Such menu can be displayed on a website as HTML, printed as HTML, rendered as PDF, emailed to customers or displayed in RSS (such RSS can be used for displaying the menu on Facebook or Twitter).
+Phoca Restaurant Menu is Joomla! CMS component. This component allows creating menu for restaurant, cafeteria, fast food, school canteen, buffet, bar, club, snack bar, wineroom, etc. Such menu can be displayed on a website as HTML, printed as HTML, rendered as PDF, pasted as picture on social media, emailed to customers or displayed in RSS (such RSS can be used for displaying the menu on Facebook or Twitter).
 
 
 
@@ -23,6 +23,42 @@ Phoca Restaurant Menu is Joomla! CMS component. This component allows creating m
 ## Documentation
 
 [Documentation](https://www.phoca.cz/documentation/category/52-phoca-restaurant-menu-component)
+
+- [Phoca Restaurant Menu](https://www.phoca.cz/documents/52-phoca-restaurant-menu-component/1085-phoca-restaurant-menu)
+
+- [Features](https://www.phoca.cz/documents/52-phoca-restaurant-menu-component/240-features)
+
+- [System Requirements](https://www.phoca.cz/documents/52-phoca-restaurant-menu-component/1086-system-requirements)
+
+- [Installation](https://www.phoca.cz/documents/52-phoca-restaurant-menu-component/241-installation)
+
+- [Phoca Restaurant Menu Concepts and Glossary](https://www.phoca.cz/documents/52-phoca-restaurant-menu-component/307-phoca-restaurant-menu-concepts-and-glossary)
+
+- [Daily Menu](https://www.phoca.cz/documents/52-phoca-restaurant-menu-component/308-daily-menu)
+
+- [Weekly Menu](https://www.phoca.cz/documents/52-phoca-restaurant-menu-component/310-weekly-menu)
+
+- [Bill of Fare, Beverage List, Wine List](https://www.phoca.cz/documents/52-phoca-restaurant-menu-component/311-bill-of-fare-beverage-list-wine-list)
+
+- [Breakfast Menu, Lunch Menu, Dinner Menu](https://www.phoca.cz/documents/52-phoca-restaurant-menu-component/312-breakfast-menu-lunch-menu-dinner-menu)
+
+- [Options](https://www.phoca.cz/documents/52-phoca-restaurant-menu-component/265-options)
+
+- [Multiple Edit](https://www.phoca.cz/documents/52-phoca-restaurant-menu-component/927-multiple-edit)
+
+- [Raw Edit](https://www.phoca.cz/documents/52-phoca-restaurant-menu-component/928-raw-edit)
+
+- [Making Different Menus](https://www.phoca.cz/documents/52-phoca-restaurant-menu-component/601-making-different-menus)
+
+- [Send email menu to customers](https://www.phoca.cz/documents/52-phoca-restaurant-menu-component/309-send-email-menu-to-customers)
+
+- [Support of BB code](https://www.phoca.cz/documents/52-phoca-restaurant-menu-component/267-support-of-bb-code)
+
+- [Using pure (raw) numbers](https://www.phoca.cz/documents/52-phoca-restaurant-menu-component/434-using-pure-raw-numbers)
+
+- [Displaying two prices for an item](https://www.phoca.cz/documents/52-phoca-restaurant-menu-component/632-displaying-two-prices-for-an-item)
+
+
 
 
 
@@ -52,7 +88,7 @@ Phoca Restaurant Menu is Joomla! CMS component. This component allows creating m
 
 ## Version
 
-3.1.2
+3.2.0
 
 
 
