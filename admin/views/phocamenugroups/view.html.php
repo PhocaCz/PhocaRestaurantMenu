@@ -15,6 +15,7 @@ class PhocaMenuCpViewPhocaMenuGroups extends JViewLegacy
 	protected $pagination;
 	protected $state;
 	protected $t;
+	protected $r;
 	public $filterForm;
 	public $activeFilters;
 	protected $p;
@@ -22,6 +23,7 @@ class PhocaMenuCpViewPhocaMenuGroups extends JViewLegacy
 	function display($tpl = null) {
 
 		$this->t			= PhocaMenuUtils::setVars('group');
+		$this->r 			= new PhocaMenuRenderAdminViews();
 		$this->items		= $this->get('Items');
 		$this->pagination	= $this->get('Pagination');
 		$this->state		= $this->get('State');
@@ -47,7 +49,7 @@ class PhocaMenuCpViewPhocaMenuGroups extends JViewLegacy
 			$this->ordering[$item->catid][] = $item->id;
 		}
 
-		JHTML::stylesheet( $this->t['s'] );
+
 
 		$this->t['breadcrumb']	= PhocaMenuHelper::getBreadcrumbs($this->type['info']['text'], $this->type['info']['backlink'], JText::_($this->type['info']['backlinktxt']));
 
@@ -207,9 +209,9 @@ class PhocaMenuCpViewPhocaMenuGroups extends JViewLegacy
 		//JToolbarHelper::divider();
 
 		if ($canDo->get('core.manage')) {
-			//$bar->appendButton( 'Custom', '<a href="'.$this->t['linkconfig'].'"><span class="icon-ph-settings" title="'.JText::_('COM_PHOCAMENU_SETTINGS').'" type="Custom"></span>'.JText::_('COM_PHOCAMENU_SETTINGS').'</a>');
+			//$bar->appendButton( 'Custom', '<a href="'.$this->t['linkconfig'].'"><span class="icon-ph-settings" title="'.JText::_('COM_PHOCAMENU_MENU_SETTINGS').'" type="Custom"></span>'.JText::_('COM_PHOCAMENU_MENU_SETTINGS').'</a>');
 			JToolbarHelper::divider();
-			$dhtml = '<a href="'.$this->t['linkconfig'].'" class="btn btn-small"><i class="icon-ph-settings" title="'.JText::_('COM_PHOCAMENU_SETTINGS').'"></i> '.JText::_('COM_PHOCAMENU_SETTINGS').'</a>';
+			$dhtml = '<a href="'.$this->t['linkconfig'].'" class="btn btn-small"><i class="icon-ph-settings" title="'.JText::_('COM_PHOCAMENU_MENU_SETTINGS').'"></i> '.JText::_('COM_PHOCAMENU_MENU_SETTINGS').'</a>';
 				$bar->appendButton('Custom', $dhtml);
 		}
 

@@ -254,11 +254,17 @@
 #prm-box ul li a:hover {
 	background-color: #eeeadd !important;
 }
+.sidebar-nav .nav-list > li > a:hover,
+.sidebar-nav .nav-list > li > a:focus {
+	background-color: transparent !important;
+
+}
 #prm-box ul li.active a:hover,
 #prm-box ul li.active a:focus{
 	background-color: #996633 !important;
     background-image: -webkit-linear-gradient(center top , #86592D 20%, #996633 90%) !important;
 	background-image: -moz-linear-gradient(center top , #86592D 20%, #996633 90%) !important;
+	
 } 
 #prm-box .active-result:hover,
 #prm-box .active-result.highlighted:hover {
@@ -322,6 +328,13 @@ input[type="color"]:focus,
 }
 /* End O */
 
+.ph-editinplace-text form input[type="text"]:focus {
+	box-shadow: none !important;
+	-webkit-box-shadow: none !important;
+	-moz-box-shadow: none !important;
+	
+}
+
 .icon-ph-preview:before {
 	content: url('../../images/administrator/icon-12-preview.png');
 }
@@ -356,6 +369,7 @@ input[type="color"]:focus,
 	
 	font-size:x-small;
 	padding:5px;
+	background: #fff;
 }
 #phocamenubreadcrumb a{
 	text-decoration:underline;
@@ -671,3 +685,192 @@ a img, img {border:0px;text-decoration:none;}
 	color: #CC1020;
 }
 
+.prm-badge-1 {background-color: #800000 !important;}
+.prm-badge-2 {background-color: #A52A2A !important;}
+.prm-badge-3 {background-color: #A0522D !important;}
+.prm-badge-4 {background-color: #8B4513 !important;}
+.prm-badge-5 {background-color: #D2691E !important;}
+.prm-badge-6 {background-color: #CD853F !important;}
+.prm-badge-7 {background-color: #DAA520 !important;}
+.prm-badge-8 {background-color: #F4A460 !important;}
+
+
+
+/* CP Info */
+.ph-box-cp {
+	display: flex;
+}
+
+.ph-left-cp {
+	flex-basis: 50%;
+}
+
+.ph-right-cp {
+	flex-basis: 50%;
+}
+
+
+/* CP Icons */
+
+.ph-cp-item-box {
+	display: flex;
+	flex-wrap: wrap;
+}
+.ph-cp-item {
+	width: 7rem;
+	margin: 0 0.7em 1.4em 0.7em;
+}
+
+.ph-cp-item-icon {
+	background: #fff;
+	border-radius: 5px;
+	
+	width: 7rem;
+	height: 7rem;
+	text-align: center;
+	margin: auto;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	
+	border: 0;
+	background-image: linear-gradient(-45deg,#ffffff,#ffffff);
+    box-shadow: 1px 2px 1px 0 rgba(0,0,0,.15);
+}
+
+.ph-cp-item-icon-link {
+	width: 7rem;
+	height:7rem;
+	display: flex;
+}
+
+.ph-cp-item-icon-link,
+.ph-cp-item-icon-link:hover,
+.ph-cp-item-icon-link:active,
+.ph-cp-item-icon-link:visited,
+.ph-cp-item-icon-link:focus {
+	color: #A6AAB1;
+	text-decoration: none;
+}
+
+.ph-cp-item-icon-link span {
+	border: 0px;
+	box-shadow: none;
+	border-radius: 50%;
+	width: 5rem;
+	height: 5rem;
+	margin: auto;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 5px;
+	text-align: center;
+}
+
+.ph-cp-item-icon-link:hover {
+	border: 0px;
+	box-shadow: none;
+}
+
+.ph-cp-item-icon-link-large {
+	font-size: 2.6rem;
+	width: 2.6rem;
+	height:2.6rem;
+
+	text-align: center;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.ph-cp-item-title {
+	
+	display:block;
+	font-size: 0.95em;
+	margin: 0 auto;
+	margin-top: 0.1em;
+	text-align: center
+}
+
+.ph-cp-item-icon-link-large {
+   text-shadow:
+   -2px -2px 0 #575757,
+    2px -2px 0 #575757,
+    -2px 2px 0 #575757,
+     2px 2px 0 #575757;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+	.ph-cp-item-icon-link-large {
+		/*-webkit-text-stroke: 2px #575757;*/
+		text-shadow: none;
+	}
+}
+@-moz-document url-prefix() {
+	.ph-cp-item-icon-link-large {
+		/*-webkit-text-stroke: 2px #575757;*/
+		text-shadow: none;
+	}
+}
+
+.ph-cp-item-icon-link-large:before {
+	font-family: 'JoomlaFont' !important;
+}
+
+.ph-cp-item [class^="icon-"], .ph-cp-item [class*=" icon-"] {
+    display: inline;
+    width: 48px;
+    height: 48px;
+    margin-right: auto;
+    line-height: 1;
+}
+
+.ph-cp-item [class^="icon-"].duotone:after, .ph-cp-item [class*=" icon-"].duotone:after {
+  opacity: 0.6;
+}
+
+
+.phi.duotone.dm {background: url(../../images/administrator/icon-48-dm.png);}
+.phi.duotone.wm {background: url(../../images/administrator/icon-48-wm.png);}
+.phi.duotone.fm {background: url(../../images/administrator/icon-48-fm.png);}
+.phi.duotone.bl {background: url(../../images/administrator/icon-48-bl.png);}
+.phi.duotone.wl {background: url(../../images/administrator/icon-48-wl.png);}
+.phi.duotone.bm {background: url(../../images/administrator/icon-48-bm.png);}
+.phi.duotone.lm {background: url(../../images/administrator/icon-48-lm.png);}
+.phi.duotone.dn {background: url(../../images/administrator/icon-48-dn.png);}
+.phi.duotone.ai {background: url(../../images/administrator/icon-48-ai.png);}
+.phi.duotone.info {background: url(../../images/administrator/icon-48-info.png);}
+
+
+.ph-action-inline-icon-box {
+	white-space: nowrap;
+
+}
+.ph-action-inline-icon-box a {
+	margin-right: 0.3em;
+}
+
+#ph
+#phAdminEdit .form-horizontal .tab-content {
+	position: relative;
+}
+
+.ph-admin-additional-box {
+
+	position: absolute;
+	top: 0.3em;
+	right: 0.3em;
+	padding: 1em;
+	background: #f0f0f0;
+	/*z-index: 1;*/
+}
+.ph-admin-additional-box-img-box {
+	text-align: center;
+}
+
+.ph-admin-additional-box img {
+	margin: 0 auto;
+}
+
+.ph-float-right {
+	float: right;
+}

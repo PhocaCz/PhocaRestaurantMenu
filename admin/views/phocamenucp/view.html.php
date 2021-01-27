@@ -13,19 +13,28 @@ jimport('joomla.html.pane');
 class PhocaMenuCpViewPhocaMenuCp extends JViewLegacy
 {
 	protected $t;
+	protected $r;
 	protected $views;
 
 	public function display($tpl = null) {
 
 		$this->t	= PhocaMenuUtils::setVars();
+		$this->r 			= new PhocaMenuRenderAdminView();
+
+		$i = ' icon-';
+		$d = 'duotone ';
+
 		$this->views= array(
-		'groups&type=1'	=> array('dm', $this->t['l'] . '_DAILY_MENU'),
-		'info'			=> array('info', $this->t['l'] . '_INFO')
+		'groups&type=1'	=> array($this->t['l'] . '_DAILY_MENU', $d.$i.' dm', '#896D52'),
+
+		'allitems'		=> array($this->t['l'] . '_ALL_ITEMS', $d.$i.' ai', '#896D52'),
+		'info'			=> array($this->t['l'] . '_INFO', $d.$i.' info', '#896D52')
 		);
 
 
-		JHTML::stylesheet( $this->t['s'] );
-		JHTML::_('behavior.tooltip');
+
+
+		//JHTML::_('behavior.tooltip');
 		$class	= $this->t['n'] . 'Utils';
 		$this->t['version'] = $class::getExtensionVersion();
 		$this->addToolbar();

@@ -8,22 +8,24 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  */
 defined('_JEXEC') or die;
-JHtml::_('bootstrap.tooltip');
-JHtml::_('behavior.multiselect');
-JHtml::_('dropdown.init');
-JHtml::_('formbehavior.chosen', 'select');
-//$class		= $this->t['n'] . 'RenderAdminViews';
-//$r 			=  new $class();
-$r 			=  new PhocaMenuRenderAdminviews();
+
+use Joomla\CMS\HTML\HTMLHelper;
+use Phoca\Text\Text as PhocaText;
+
+$r 			= $this->r;
 $user		= JFactory::getUser();
 $userId		= $user->get('id');
 $listOrder	= $this->escape($this->state->get('list.ordering'));
 $listDirn	= $this->escape($this->state->get('list.direction'));
 $canOrder	= $user->authorise('core.edit.state', $this->t['o']);
 $saveOrder	= $listOrder == 'a.ordering';
-if ($saveOrder) {
+/*if ($saveOrder) {
 	$saveOrderingUrl = 'index.php?option='.$this->t['o'].'&task='.$this->t['tasks'].'.saveOrderAjax&type='.(int)$this->type['value'].'&tmpl=component';
 	JHtml::_('sortablelist.sortable', 'categoryList', 'adminForm', strtolower($listDirn), $saveOrderingUrl, false, true);
+}*/
+$saveOrderingUrl = '';
+if ($saveOrder && !empty($this->items)) {
+	$saveOrderingUrl = $r->saveOrder($this->t, $listDirn);
 }
 $sortFields = $this->getSortFields();
 
@@ -33,8 +35,8 @@ echo $r->jsJorderTable($listOrder);
 
 
 echo $r->startFormType($this->t['o'], (int)$this->type['value'], $this->t['tasks'], 'adminForm');
-echo $r->startFilter();
-echo $r->endFilter();
+//echo $r->startFilter();
+//echo $r->endFilter();
 
 echo $r->startMainContainer();
 
@@ -58,27 +60,30 @@ echo $r->endFilterBar();*/
 
 
 
-echo $r->startFilterBar();
+//echo $r->startFilterBar();
 echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this));
-echo $r->endFilterBar();
+//echo $r->endFilterBar();
 
 echo $r->startTable('categoryList');
 
 echo $r->startTblHeader();
 
-echo $r->thOrderingXML('JGRID_HEADING_ORDERING', $listDirn, $listOrder);
-echo $r->thCheck('JGLOBAL_CHECK_ALL');
+//echo $r->thOrderingXML('JGRID_HEADING_ORDERING', $listDirn, $listOrder);
+//echo $r->thCheck('JGLOBAL_CHECK_ALL');
+echo $r->firstColumnHeader($listDirn, $listOrder);
+echo $r->secondColumnHeader($listDirn, $listOrder);
+
 echo '<th class="ph-title">'.JHTML::_('searchtools.sort',  	$this->t['l'].'_TITLE', 'a.title', $listDirn, $listOrder ).'</th>'."\n";
 echo '<th class="ph-published">'.JHTML::_('searchtools.sort',  $this->t['l'].'_PUBLISHED', 'a.published', $listDirn, $listOrder ).'</th>'."\n";
 
 echo '<th class="ph-items ph-center">'.JTEXT::_($this->t['l'].'_ITEMS').'</th>'."\n";
-echo '<th class="ph-delete ph-center">'.JTEXT::_($this->t['l'].'_DELETE').'</th>'."\n";
+echo '<th class="ph-action ph-center">'.JTEXT::_($this->t['l'].'_ACTION').'</th>'."\n";
 echo '<th class="ph-language">'.JHTML::_('searchtools.sort',  	'JGRID_HEADING_LANGUAGE', 'a.language', $listDirn, $listOrder ).'</th>'."\n";
 echo '<th class="ph-id">'.JHTML::_('searchtools.sort',  		$this->t['l'].'_ID', 'a.id', $listDirn, $listOrder ).'</th>'."\n";
 
 echo $r->endTblHeader();
 
-echo '<tbody>'. "\n";
+echo $r->startTblBody($saveOrder, $saveOrderingUrl, $listDirn);
 
 $originalOrders = array();
 $parentsStr 	= "";
@@ -104,15 +109,20 @@ $onClickRemove 	= 'javascript:if (confirm(\''.JText::_('COM_PHOCAMENU_WARNING_DE
 				 .' return listItemTask(\'cb'. $i .'\',\''.$this->t['tasks'].'.delete\');'
 				 .'}';
 
-
+/*
 $iD = $i % 2;
 echo "\n\n";
 //echo '<tr class="row'.$iD.'" sortable-group-id="'.$item->category_id.'" item-id="'.$item->id.'" parents="'.$item->category_id.'" level="0">'. "\n";
 echo '<tr class="row'.$iD.'" sortable-group-id="'.$item->category_id.'" >'. "\n";
 
 echo $r->tdOrder($canChange, $saveOrder, $orderkey, $item->ordering);
-echo $r->td(JHtml::_('grid.id', $i, $item->id), "small ");
+echo $r->td(JHtml::_('grid.id', $i, $item->id), "small ");*/
 
+echo $r->startTr($i, isset($item->catid) ? (int)$item->catid : 0);
+echo $r->firstColumn($i, $item->id, $canChange, $saveOrder, $orderkey, $item->ordering);
+echo $r->secondColumn($i, $item->id, $canChange, $saveOrder, $orderkey, $item->ordering);
+
+/*
 $checkO = '';
 if ($item->checked_out) {
 	$checkO .= JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, $this->t['tasks'].'.', $canCheckin);
@@ -124,6 +134,21 @@ if ($canCreate || $canEdit) {
 }
 //$checkO .= '<br /><span class="smallsub">(<span>'.JText::_($this->t['l'].'_FIELD_ALIAS_LABEL').':</span>'. $this->escape($item->alias).')</span>';
 echo $r->td($checkO, "small ");
+*/
+$o = array();
+if ($item->checked_out) {
+	$o[] = HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, $this->t['tasks'] . '.', $canCheckin);
+}
+if ($canCreate || $canEdit) {
+	$o[] = '<span class="ph-editinplace-text ph-eip-text ph-eip-title" id="group' . ':' .'title'.':'.(int)$item->id . '">' . PhocaText::filterValue($item->title, 'text') . '</span>';
+} else {
+	$o[] = $this->escape($item->title);
+}
+
+echo $r->td(implode("\n", $o), 'small');
+
+
+
 
 
 echo $r->td(JHtml::_('jgrid.published', $item->published, $i, $this->t['tasks'].'.', $canChange), "small  ph-center");
@@ -135,7 +160,7 @@ $vO = '<a href="'. $linkView.'" title="'. JText::_('COM_PHOCAMENU_VIEW_GROUP_ITE
 	.'</a>';
 echo $r->td($vO, "small  ph-center");
 
-
+/*
 $vD = '';
 if ($canDelete) {
 $vD = '<a href="'. $linkRemove.'" onclick="'.$onClickRemove.'" title="'. JText::_('COM_PHOCAMENU_DELETE').'"'
@@ -144,17 +169,33 @@ $vD = '<a href="'. $linkRemove.'" onclick="'.$onClickRemove.'" title="'. JText::
 		. '<div class="ph-icon-task"><i class="duotone icon-purge"></i></div>'
 	.'</a>';
 }
-echo $r->td($vD, "small  ph-center");
+echo $r->td($vD, "small  ph-center");*/
+
+$action = '<div class="ph-action-inline-icon-box">';
+if ($canCreate || $canEdit) {
+	$action .= '<a href="' . JRoute::_($linkEdit) . '" title="'. JText::_('COM_PHOCAMENU_EDIT').'"><span class="ph-icon-task"><i class="duotone icon-pencil"></i></span></a>';
+}
+
+if ($canDelete) {
+$action .= '<a class="ph-action-inline-icon-box" href="'. $linkRemove.'" onclick="'.$onClickRemove.'" title="'. JText::_('COM_PHOCAMENU_DELETE').'"'
+	.' onclick="return confirm(\''.JText::_('COM_PHOCAMENU_WARNING_DELETE_GROUP').'\');">'
+	//. JHTML::_('image', $this->t['i'].'icon-16-trash.png', JText::_('COM_PHOCAMENU_DELETE') )
+		. '<span class="ph-icon-task"><i class="duotone icon-purge"></i></span>'
+	.'</a>';
+}
+$action .= '</div>';
+
+echo $r->td($action, "small  ph-center");
 
 
 echo $r->tdLanguage($item->language, $item->language_title, $this->escape($item->language_title));
 echo $r->td($item->id, "small ");
 
-echo '</tr>'. "\n";
+echo $r->endTr();
 
 	}
 }
-echo '</tbody>'. "\n";
+echo $r->endTblBody();
 
 echo $r->tblFoot($this->pagination->getListFooter(), 15);
 echo $r->endTable();

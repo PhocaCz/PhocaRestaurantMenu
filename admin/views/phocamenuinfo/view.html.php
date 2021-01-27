@@ -12,12 +12,16 @@ jimport( 'joomla.application.component.view' );
 class PhocaMenuCpViewPhocaMenuInfo extends JViewLegacy
 {
 	protected $t;
+	protected $r;
 
 	function display($tpl = null) {
 
 		$this->t	= PhocaMenuUtils::setVars();
-		JHTML::stylesheet( $this->t['s'] );
-		JHTML::_('behavior.tooltip');
+
+		$this->r		= new PhocaMenuRenderAdminView();
+		$this->t['component_head'] 	= $this->t['l'].'_PHOCA_MENU';
+		$this->t['component_links']	= $this->r->getLinks(1);
+		//JHTML::_('behavior.tooltip');
 		$class	= $this->t['n'] . 'Utils';
 		$this->t['version'] = $class::getExtensionVersion();
 		$this->addToolbar();

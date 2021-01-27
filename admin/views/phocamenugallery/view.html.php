@@ -21,7 +21,7 @@ if (!class_exists('PhocaGalleryLoader')) {
 phocagalleryimport('phocagallery.render.renderadmin');
 phocagalleryimport('phocagallery.path.path');
 phocagalleryimport('phocagallery.file.file');
-phocagalleryimport('phocagallery.file.filethumbnail'); 
+phocagalleryimport('phocagallery.file.filethumbnail');
 phocagalleryimport('phocagallery.html.category');
 class PhocaMenuCpViewPhocaMenuGallery extends JViewLegacy
 {
@@ -30,24 +30,35 @@ class PhocaMenuCpViewPhocaMenuGallery extends JViewLegacy
 	protected $pagination;
 	protected $state;
 	protected $t;
+	protected $r;
+	protected $type;
 	protected $field;
 	protected $fce;
-	
+	public $filterForm;
+	public $activeFilters;
+
 	function display($tpl = null) {
+
+	    $this->t			= PhocaMenuUtils::setVars('gallery');
+	    $this->r		    = new PhocaMenuRenderAdminViews('gallery');
+	    $this->type			= PhocaMenuHelper::getUrlType('gallery');
 
 		$this->items		= $this->get('Items');
 		$this->pagination	= $this->get('Pagination');
 		$this->state		= $this->get('State');
+		$this->filterForm   = $this->get('FilterForm');
+		$this->activeFilters = $this->get('ActiveFilters');
 		$this->field		= JFactory::getApplication()->input->get('field');
 		$this->fce 			= 'phocaSelectImage_'.$this->field;
-		
+
+
 		foreach ($this->items as &$item) {
 			$this->ordering[$item->catid][] = $item->id;
 		}
-		
+
 		JHTML::stylesheet('media/com_phocagallery/css/administrator/phocagallery.css' );
 		$params 	= JComponentHelper::getParams('com_phocagallery');
-		
+
 		// Button
 		JHTML::_('behavior.modal', 'a.modal_phocagalleryimgs');
 		$this->button = new JObject();
@@ -58,11 +69,11 @@ class PhocaMenuCpViewPhocaMenuGallery extends JViewLegacy
 		//$this->button->set('name', 'image');
 		$this->button->set('modalname', 'modal_phocagalleryimgs');
 		$this->button->set('options', "{handler: 'image', size: {x: 200, y: 150}}");
-		
+
 		parent::display($tpl);
-		
+
 	}
-	
+
 	protected function getSortFields() {
 		return array(
 			'a.ordering'	=> JText::_('JGRID_HEADING_ORDERING'),

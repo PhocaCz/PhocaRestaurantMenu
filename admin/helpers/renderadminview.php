@@ -8,78 +8,48 @@
  */
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-class PhocaMenuRenderAdminView
+use Joomla\CMS\Session\Session;
+use Phoca\Render\Adminview;
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+
+class PhocaMenuRenderAdminView extends AdminView
 {
-	public function __construct(){}
-	
-	public function startForm($option, $view, $itemId, $id = 'adminForm', $name = 'adminForm') {
-		return '<div id="'.$view.'"><form action="'.JRoute::_('index.php?option='.$option . '&layout=edit&id='.(int) $itemId).'" method="post" name="'.$name.'" id="'.$id.'" class="form-validate">'."\n"
-		.'<div class="row-fluid">'."\n";
+	public $view 			= '';
+	public $viewtype		= 2;
+	public $option			= '';
+	public $optionLang  	= '';
+	public $compatible		= false;
+	public $sidebar 		= true;
+	protected $document		= false;
+
+	public function __construct(){
+		parent::__construct();
+		$this->loadMedia();
+
 	}
-	
-	public function startFormRoute($view, $route, $id = 'adminForm', $name = 'adminForm') {
-		return '<div id="'.$view.'"><form action="'.JRoute::_($route).'" method="post" name="'.$name.'" id="'.$id.'" class="form-validate">'."\n"
-		.'<div class="row-fluid">'."\n";
-	}
-	
-	public function endForm() {
-		return '</div>'."\n".'</form>'."\n".'</div>'."\n";
-	}
-	
-	public function formInputs() {
-	
-		return '<input type="hidden" name="task" value="" />'. "\n"
-		. JHtml::_('form.token'). "\n";
-	}
-	
-	public function navigation($tabs) {
-		$o = '<ul class="nav nav-tabs">';
-		$i = 0;
-		foreach($tabs as $k => $v) {
-			$cA = 0;
-			if ($i == 0) {
-				$cA = 'class="active"';
-			}
-			$o .= '<li '.$cA.'><a href="#'.$k.'" data-toggle="tab">'. $v.'</a></li>'."\n";
-			$i++;
-		}
-		$o .= '</ul>';
-		return $o;
-	}
-	
-	public function group($form, $formArray, $clear = 0) {
-		$o = '';
-		if (!empty($formArray)) {
-			if ($clear == 1) {
-				foreach ($formArray as $value) {
-					$o .= '<div>'. $form->getLabel($value) . '</div>'."\n"
-					. '<div class="clearfix"></div>'. "\n"
-					. '<div>' . $form->getInput($value). '</div>'."\n";
-				} 
-			} else {
-				foreach ($formArray as $value) {
-					$o .= '<div class="control-group">'."\n"
-					. '<div class="control-label">'. $form->getLabel($value) . '</div>'."\n"
-					. '<div class="controls">' . $form->getInput($value). '</div>'."\n"
-					. '</div>' . "\n";
-				}
-			}
-		}
-		return $o;
-	}
-	
-	public function item($form, $item, $suffix = '') {
-		$value = $o = '';
-		if ($suffix != '') {
-			$value = $suffix;
-		} else {
-			$value = $form->getInput($item);
-		}
-		$o .= '<div class="control-group">'."\n";
-		$o .= '<div class="control-label">'. $form->getLabel($item) . '</div>'."\n"
-		. '<div class="controls">' . $value.'</div>'."\n"
-		. '</div>' . "\n";
-		return $o;
+
+	public function loadMedia() {
+		$urlEip = JURI::base(true).'/index.php?option='.$this->option.'&task='.str_replace('com_', '', $this->option).'editinplace.editinplacetext&format=json&'. Session::getFormToken().'=1';
+
+		Joomla\CMS\HTML\HTMLHelper::_('jquery.framework', false);
+		HTMLHelper::_('script', 'media/'.$this->option.'/js/jeditable/jquery.jeditable.min.js', array('version' => 'auto'));
+		HTMLHelper::_('script', 'media/'.$this->option.'/js/jeditable/jquery.jeditable.autogrow.min.js', array('version' => 'auto'));
+		HTMLHelper::_('script', 'media/'.$this->option.'/js/jeditable/jquery.autogrowtextarea.js', array('version' => 'auto'));
+		HTMLHelper::_('script', 'media/'.$this->option.'/js/jeditable/jquery.phocajeditable.js', array('version' => 'auto'));
+		HTMLHelper::_('script', 'media/'.$this->option.'/js/jeditable/jquery.jeditable.masked.min.js', array('version' => 'auto'));
+		HTMLHelper::_('script', 'media/'.$this->option.'/js/jeditable/jquery.maskedinput.min.js', array('version' => 'auto'));
+		HTMLHelper::_('stylesheet', 'media/'.$this->option.'/js/jeditable/phocajeditable.css', array('version' => 'auto'));
+
+
+		$this->document->addScriptOptions('phLang', array(
+			'PHOCA_CLICK_TO_EDIT' => JText::_('COM_PHOCAMENU_CLICK_TO_EDIT'),
+			'PHOCA_CANCEL' => JText::_('COM_PHOCAMENU_CANCEL'),
+			'PHOCA_SUBMIT' => JText::_('COM_PHOCAMENU_SUBMIT'),
+			'PHOCA_PLEASE_RELOAD_PAGE_TO_SEE_UPDATED_INFORMATION' => JText::_('COM_PHOCAMENU_PLEASE_RELOAD_PAGE_TO_SEE_UPDATED_INFORMATION')
+		));
+		$this->document->addScriptOptions('phVars', array('token' => Session::getFormToken(), 'urleditinplace' => $urlEip));
+
 	}
 }
 ?>

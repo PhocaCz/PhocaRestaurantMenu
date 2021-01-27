@@ -2,7 +2,7 @@
 
 
 
-![Phoca Restaurant Menu](https://github.com/PhocaCz/PhocaRestaurantMenu/blob/master/phocamenu.png)
+![Phoca Restaurant Menu](https://github.com/PhocaCz/PhocaRestaurantMenu/blob/master/phocamenu.png?raw=true)
 
 # Phoca Restaurant Menu
 
@@ -88,7 +88,7 @@ Phoca Restaurant Menu is Joomla! CMS component. This component allows creating m
 
 ## Version
 
-3.2.0
+3.3.0
 
 
 

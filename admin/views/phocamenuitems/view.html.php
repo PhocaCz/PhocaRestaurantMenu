@@ -15,6 +15,7 @@ class PhocaMenuCpViewPhocaMenuItems extends JViewLegacy
 	protected $pagination;
 	protected $state;
 	protected $t;
+	protected $r;
 	protected $type;
 	protected $typeup;
 	public $filterForm;
@@ -24,6 +25,7 @@ class PhocaMenuCpViewPhocaMenuItems extends JViewLegacy
 	function display($tpl = null) {
 
 		$this->t			= PhocaMenuUtils::setVars('item');
+		$this->r 			= new PhocaMenuRenderAdminViews();
 		$this->items		= $this->get('Items');
 		$this->pagination	= $this->get('Pagination');
 		$this->state		= $this->get('State');
@@ -40,7 +42,7 @@ class PhocaMenuCpViewPhocaMenuItems extends JViewLegacy
 			$this->ordering[$item->catid][] = $item->id;
 		}
 
-		JHTML::stylesheet( $this->t['s'] );
+
 
 		// Breadcrumbs
 		$this->typeup 	= PhocaMenuHelper::getBackCategoryUrl('group', $this->type['value'], $this->type['valuecatid']);
@@ -56,6 +58,7 @@ class PhocaMenuCpViewPhocaMenuItems extends JViewLegacy
 	    $this->p['screenshot_css'] 		= $params->get('screenshot_css', '');
 	    $this->p['enable_screenshot'] 	= $params->get('enable_screenshot', 0);
 	    $this->p['remove_stylesheet_string'] 	= $params->get('remove_stylesheet_string', '');
+
 		$bar 				= JToolbar::getInstance('toolbar');
 		$this->state		= $this->get('State');
 		$user  				= JFactory::getUser();
@@ -192,10 +195,10 @@ class PhocaMenuCpViewPhocaMenuItems extends JViewLegacy
 		JToolbarHelper::divider();
 
 		if ($canDo->get('core.manage')) {
-			//$bar->appendButton( 'Custom', '<a href="'.$this->t['linkconfig'].'"><span class="icon-32-settings" title="'.JText::_('COM_PHOCAMENU_SETTINGS').'" type="Custom"></span>'.JText::_('COM_PHOCAMENU_SETTINGS').'</a>');
+			//$bar->appendButton( 'Custom', '<a href="'.$this->t['linkconfig'].'"><span class="icon-32-settings" title="'.JText::_('COM_PHOCAMENU_MENU_SETTINGS').'" type="Custom"></span>'.JText::_('COM_PHOCAMENU_MENU_SETTINGS').'</a>');
 
 			JToolbarHelper::divider();
-			$dhtml = '<a href="'.$this->t['linkconfig'].'" class="btn btn-small"><i class="icon-ph-settings" title="'.JText::_('COM_PHOCAMENU_SETTINGS').'"></i> '.JText::_('COM_PHOCAMENU_SETTINGS').'</a>';
+			$dhtml = '<a href="'.$this->t['linkconfig'].'" class="btn btn-small"><i class="icon-ph-settings" title="'.JText::_('COM_PHOCAMENU_MENU_SETTINGS').'"></i> '.JText::_('COM_PHOCAMENU_MENU_SETTINGS').'</a>';
 				$bar->appendButton('Custom', $dhtml);
 		}
 

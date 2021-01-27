@@ -29,12 +29,12 @@ class PhocaMenuModelMenu extends JModelLegacy
 		$this->_data	= null;
 	}
 
-	function &getData($type = 1) {
-		$this->_loadData($type);
+	function &getData($type = 1, $paramsS = array()) {
+		$this->_loadData($type, $paramsS);
 		return $this->_data;
 	}
 
-	function _loadData($type = 1) {
+	function _loadData($type = 1, $paramsS = array()) {
 
 		if (empty($this->_data)) {
 
@@ -79,6 +79,31 @@ class PhocaMenuModelMenu extends JModelLegacy
 				} else {
 					$wheresLang = '';
 				}
+			}
+
+			// Specific parameters, e.g. set by plugin
+			if (isset($paramsS['lang']) && $paramsS['lang'] !== '' && $paramsS['lang'] !== '*') {
+				$wheresLang = 'a.language ='.$this->_db->quote(strip_tags($paramsS['lang']));
+			}
+			if (isset($paramsS['displayheader']) && $paramsS['displayheader'] !== '') {
+
+				$displayHeader = (int)$paramsS['displayheader'];
+			}
+			if (isset($paramsS['displayfooter']) && $paramsS['displayfooter'] !== '') {
+				$displayFooter = (int)$paramsS['displayfooter'];
+			}
+			if (isset($paramsS['displayheaderdate']) && $paramsS['displayheaderdate'] !== '') {
+				$displayHeaderDate = (int)$paramsS['displayheaderdate'];
+			}
+			if (isset($paramsS['displaycurrentday']) && $paramsS['displaycurrentday'] !== '') {
+				$displayCurrentDay = (int)$paramsS['displaycurrentday'];
+			}
+
+			if (isset($paramsS['menulist']) && !empty(['menulist'])) {
+				$menuListIdsArray = $paramsS['menulist'];
+			}
+			if (isset($paramsS['menuday']) && !empty(['menuday'])) {
+				$menuDayIdsArray = $paramsS['menuday'];
 			}
 
 
@@ -295,6 +320,7 @@ class PhocaMenuModelMenu extends JModelLegacy
 						. ' ORDER BY ordering ASC';
 			$this->_db->setQuery($query);
 			$this->_data['imagesum'] = $this->_db->loadObject();
+
 
 			$wheres = array();// clear $wheres
 			return (boolean) $this->_data;

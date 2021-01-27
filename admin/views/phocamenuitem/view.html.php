@@ -16,20 +16,29 @@ class PhocaMenuCpViewPhocaMenuItem extends JViewLegacy
 	protected $form;
 	protected $tpl;
 	protected $type;
+	protected $r;
+	protected $t;
 
 
 	public function display($tpl = null) {
 
+		$app			= JFactory::getApplication();
 		$this->t		= PhocaMenuUtils::setVars('item');
+		$this->r		= new PhocaMenuRenderAdminView();
 		$this->state	= $this->get('State');
 		$this->form		= $this->get('Form');
 		$this->item		= $this->get('Item');
 		$this->type		= PhocaMenuHelper::getUrlType('item');
 
-		JHTML::stylesheet( $this->t['s'] );
+
+		// Possible non existing type when creating item from all items view
+		//if ((int)$this->type['value'] < 1) {
+			//$app->redirect(JRoute::_('index.php?option=com_phocamenu', false), JText::_('COM_PHOCAMENU_ERROR_NO_MENU_TYPE_VIEW_FOUND'), 'error');
+		//};
 
 		// Set type for JForm
 		$this->item->type = $this->type['value'];
+		$this->t['typeback']   = $app->input->get('typeback', '', 'string');
 
 		$this->addToolbar();
 		parent::display($tpl);
@@ -65,6 +74,8 @@ class PhocaMenuCpViewPhocaMenuItem extends JViewLegacy
 		}
 		else {
 			JToolbarHelper::cancel('phocamenuitem.cancel', 'JToolbar_CLOSE');
+
+			//JToolbarHelper::cancel('phocamenuallitem.cancel', 'JToolbar_CLOSE');
 		}
 
 		JToolbarHelper::divider();

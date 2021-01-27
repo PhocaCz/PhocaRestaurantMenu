@@ -23,12 +23,17 @@ class PhocaMenuHelper
 		$typeValue	= $app->input->get('type', 0, 'int');
 
 
+
+
+
 		$typeviewBack	= $app->input->get('typeback', '', 'string');
+
 
 
 		if ($typeview == 'config' || $typeview == 'email' || $typeview == 'multipleedit' || $typeview == 'rawedit') {
 			$typeInfo	= PhocaMenuHelper::getTypeInfo($typeviewBack, $typeValue);
 		} else {
+
 			$typeInfo	= PhocaMenuHelper::getTypeInfo($typeview, $typeValue);
 		}
 
@@ -79,8 +84,32 @@ class PhocaMenuHelper
 						 .'&typeback='.(string)$typeviewBack.$suffix;
 			}
 		} else {
-			// Standard append except Config
-			$appendUrl	= '&type='.(int)$typeValue.'&'.$typeInfo['catid'].'='. (int)$catid;
+
+			// NEW ITEM - when we are in All items and click new, we need to select which group will be the new item
+			// This only applies to new items, so the group is always gid
+			$new	= $app->input->get('new', array(0), 'array');
+			if (isset($new['category_id']) && (int)$new['category_id'] > 0) {
+
+				$typeFound = self::getTypeByCategory((int)$new['category_id'], 'Item', 0);
+
+				if ($typeFound && (int)$typeFound > 0) {
+					$typeBackUrl = $typeviewBack != '' ? '&typeback=' . (string)$typeviewBack : '';
+					$appendUrl   = '&type=' . (int)$typeFound . '&gid=' . (int)$new['category_id'] . $typeBackUrl;
+					return $appendUrl;
+				} else {
+					return false;
+				}
+
+			} else {
+				
+				if ((int)$typeValue < 1) {
+					return false;
+				}
+
+				// Standard append except Config
+				$typeBackUrl = $typeviewBack != '' ? '&typeback=' . (string)$typeviewBack : '';
+				$appendUrl   = '&type=' . (int)$typeValue . '&' . $typeInfo['catid'] . '=' . (int)$catid . $typeBackUrl;
+			}
 		}
 
 		return $appendUrl;
@@ -186,6 +215,9 @@ class PhocaMenuHelper
 	 */
 	public static function getUrlType($typeview = 'group') {
 
+
+
+
 		$app = JFactory::getApplication();
 		$post 		= $app->input->post->getArray();
 		$get		= $app->input->get->getArray();
@@ -233,27 +265,36 @@ class PhocaMenuHelper
 		return $type;
 	}
 
-	public static function getTypeByCategory($catId = 0, $table = 'Group') {
+	public static function getTypeByCategory($catId = 0, $table = 'Group', $fallBack = 1) {
 		if ((int)$catId > 0) {
 			$db					= JFactory::getDBO();
 
-			$tableS = 'group';
+
 			switch ($table) {
 				case 'Day':
 					$tableS = 'day';
+					$columnS = 'a.id';
 				break;
 				case 'List':
 					$tableS = 'list';
+					$columnS = 'a.id';
+				break;
+				case 'Item':
+					$tableS = 'item';
+					$columnS = 'a.catid';
 				break;
 				case 'Group':
 				default:
 					$tableS = 'group';
+					$columnS = 'a.id';
 				break;
 
 			}
+
+
 			$query = 'SELECT a.type'
 				. ' FROM #__phocamenu_'.$tableS.' AS a'
-				. ' WHERE a.id = '.(int)$catId
+				. ' WHERE '.$columnS.' = '.(int)$catId
 				. ' LIMIT 1';
 
 			$db->setQuery($query);
@@ -262,6 +303,13 @@ class PhocaMenuHelper
 
 			if (isset($catType->type) && (int)$catType->type > 0) {
 				return (int)$catType->type;
+			} else {
+				// If there is no type, we set the default one - 1
+				// But if fllback is disabled, return false
+				if ($fallBack == 0) {
+					return false;
+				}
+
 			}
 		}
 		// Default type is set to 1
@@ -269,7 +317,7 @@ class PhocaMenuHelper
 	}
 
 	// Quick function for selects
-	public static function getTitleByType($type) {
+	public static function getTitleByType($type, $format = 0) {
 
 		$title = '';
 		switch ($type) {
@@ -281,7 +329,12 @@ class PhocaMenuHelper
 			case 6: $title =JText::_('COM_PHOCAMENU_BREAKFAST_MENU');	break;
 			case 7: $title =JText::_('COM_PHOCAMENU_LUNCH_MENU');		break;
 			case 8: $title =JText::_('COM_PHOCAMENU_DINNER_MENU');		break;
-			default:				'';	break;
+			default: $title = '';	break;
+		}
+
+
+		if ($format == 1) {
+			$title = '<div class="badge prm-badge-'.$type.'"">'.$title.'</div>';
 		}
 		return $title;
 	}
@@ -321,6 +374,14 @@ class PhocaMenuHelper
 			$app->redirect(JRoute::_('index.php?option=com_phocamenu', false), JText::_('COM_PHOCAMENU_ERROR_NO_MENU_TYPE_VIEW_FOUND') . $errTxt, 'error');
 		}
 
+		if ($typeview == 'gallery') {
+			$typeInfo['backlink']		= '';
+			$typeInfo['catid']			= -1;
+			$typeInfo['backlinktxt']	= 'COM_PHOCAMENU_CONTROL_PANEL';
+			$typeInfo['text']			= JText::_('COM_PHOCAMENU_GALLERY');
+			return $typeInfo;
+		}
+
 
 		switch ($type) {
 
@@ -341,7 +402,7 @@ class PhocaMenuHelper
 					case 'config':
 						$typeInfo['backlink']		= '';
 						$typeInfo['backlinktxt']	= '';
-						$typeInfo['text']			= JText::_('COM_PHOCAMENU_DAILY_MENU'). ' ' . JText::_('COM_PHOCAMENU_SETTINGS');
+						$typeInfo['text']			= JText::_('COM_PHOCAMENU_DAILY_MENU'). ' ' . JText::_('COM_PHOCAMENU_MENU_SETTINGS');
 					break;
 
 					case 'email':
@@ -369,8 +430,21 @@ class PhocaMenuHelper
 
 			
 
+			case -1:
+				// All items
+				$typeInfo['catid']			= 'gid';
+				$typeInfo['backlink']		= '&view=phocamenuallitems';
+				$typeInfo['backlinktxt']	= 'COM_PHOCAMENU_ALL_ITEMS';
+				$typeInfo['text']			= JText::_('COM_PHOCAMENU_ALL_ITEMS'). ' ' . JText::_('COM_PHOCAMENU_ITEM');
+				$typeInfo['pref']			= '';
+				$typeInfo['frontview']		= '';
+				$typeInfo['render']			= '';
+				$typeInfo['title']			= JText::_('COM_PHOCAMENU_ALL_ITEMS');
+			break;
+
 			case 0:
 			default:
+
 				//$view		= JFactory::getApplication()->input->get('view');
 				$view		= $app->input->get('view', '', 'string');
 				$wTxt	= $view != '' ? JText::_('COM_PHOCAMENU_VIEW').': '. $view : '';
@@ -520,6 +594,10 @@ class PhocaMenuHelper
 	}
 
 	public static function getDate($date, $dateFormat, $dateClass = 0, $language = '') {
+
+		if ($language == '*') {
+			$language = '';// Don't reload base config language
+		}
 
 		if ((int)$dateClass == 1) {
 			// We call this function from frontend and backend, so no JPATH_SITE can be used

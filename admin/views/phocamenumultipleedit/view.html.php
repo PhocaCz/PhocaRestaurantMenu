@@ -17,6 +17,7 @@ class PhocaMenuCpViewPhocaMenuMultipleEdit extends JViewLegacy
 	//protected $item;
 	//protected $form;
 	protected $t;
+	protected $r;
 	protected $type;
 	protected $typeinfo;
 	protected $formdata;
@@ -25,6 +26,7 @@ class PhocaMenuCpViewPhocaMenuMultipleEdit extends JViewLegacy
 	public function display($tpl = null) {
 
 		$this->t		= PhocaMenuUtils::setVars('multipleedit');
+		$this->r		= new PhocaMenuRenderAdminView();
 		$this->state	= $this->get('State');
 		$this->type		= PhocaMenuHelper::getUrlType('multipleedit');
 		$this->formdata	= $this->get('FormData');
@@ -34,7 +36,7 @@ class PhocaMenuCpViewPhocaMenuMultipleEdit extends JViewLegacy
 		$document		= JFactory::getDocument();
 		$document->addScript(JURI::root(true).'/media/com_phocamenu/js/addrow.js');
 		JHTML::stylesheet('media/com_phocamenu/css/phocamenu.css' );
-		JHTML::stylesheet('media/com_phocamenu/css/administrator/phocamenu.css' );
+
 
 		$this->params 						= JComponentHelper::getParams( 'com_phocamenu' );
 		$this->t['enableeditoremail']		= $this->params->get( 'enable_editor_email', 1 );

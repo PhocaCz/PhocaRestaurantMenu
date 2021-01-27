@@ -2,12 +2,12 @@
 <extension type="component" method="upgrade" version="3.9">
 	<name>com_phocamenu</name>
 	<author>Jan Pavelka (www.phoca.cz)</author>
-	<creationDate>09/06/2020</creationDate>
+	<creationDate>26/01/2021</creationDate>
 	<authorEmail></authorEmail>
 	<authorUrl>https://www.phoca.cz</authorUrl>
 	<copyright>Jan Pavelka</copyright>
 	<license>GNU/GPL</license>
-	<version>3.2.0 Lite</version>
+	<version>3.3.0</version>
 	<description>COM_PHOCAMENU_XML_DESCRIPTION</description>
 	<scriptfile>script.php</scriptfile>
 	<projectName>PhocaRestaurantMenu</projectName>
@@ -42,7 +42,7 @@
 
 	<media destination="com_phocamenu" folder="media">
 		<folder>css</folder>
-		<folder>duoton</folder>
+		<folder>duotone</folder>
 		<folder>images</folder>
 		<folder>js</folder>
 		<filename>index.html</filename>
@@ -60,6 +60,8 @@
 			<submenu>
 				<menu img="media/com_phocamenu/images/administrator/icon-16-prm-menu-cp.png" alt="COM_PHOCAMENU_CONTROLPANEL" view="phocamenucp" link="option=com_phocamenu">COM_PHOCAMENU_CONTROLPANEL</menu>
 				<menu img="media/com_phocamenu/images/administrator/icon-16-prm-menu-dm.png" alt="COM_PHOCAMENU_DAILY_MENU" view="phocamenugroups" link="option=com_phocamenu&amp;view=phocamenugroups&amp;type=1">COM_PHOCAMENU_DAILY_MENU</menu>
+				
+				<menu img="media/com_phocamenu/images/administrator/icon-16-prm-menu-al.png" alt="COM_PHOCAMENU_ALL_ITEMS" view="phocamenuallitems" link="option=com_phocamenu&amp;view=phocamenuallitems">COM_PHOCAMENU_ALL_ITEMS</menu>
 				<menu img="media/com_phocamenu/images/administrator/icon-16-prm-menu-info.png" alt="COM_PHOCAMENU_INFO" view="phocamenuinfo" link="option=com_phocamenu&amp;view=phocamenuinfo">COM_PHOCAMENU_INFO</menu>
 			</submenu>
 
@@ -69,6 +71,7 @@
 			<folder>help</folder>
 			<folder>helpers</folder>
 			<folder>install</folder>
+			<folder>libraries</folder>
 			<folder>models</folder>
 			<folder>tables</folder>
 			<folder>update</folder>

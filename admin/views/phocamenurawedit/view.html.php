@@ -17,6 +17,7 @@ class PhocaMenuCpViewPhocaMenuRawEdit extends JViewLegacy
 	//protected $item;
 	//protected $form;
 	protected $t;
+	protected $r;
 	protected $type;
 	protected $typeinfo;
 	protected $formdata;
@@ -25,6 +26,7 @@ class PhocaMenuCpViewPhocaMenuRawEdit extends JViewLegacy
 	public function display($tpl = null) {
 
 		$this->t		= PhocaMenuUtils::setVars('rawedit');
+		$this->r		= new PhocaMenuRenderAdminView();
 		$this->state	= $this->get('State');
 		$this->type		= PhocaMenuHelper::getUrlType('rawedit');
 		$this->formdata	= $this->get('FormData');

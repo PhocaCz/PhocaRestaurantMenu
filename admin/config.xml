@@ -43,7 +43,7 @@
 				<option value="0">COM_PHOCAMENU_DEFAULT</option>
 				<option value="1">COM_PHOCAMENU_CZECH</option>
 			</field>
-		<field name="day_date_format" type="list" default="4" label="COM_PHOCAMENU_FIELD_DATE_FORMAT_DAY_LABEL" description="COM_PHOCAMENU_FIELD_DATE_FORMAT_DAY_DESC">
+		<field name="day_date_format" type="list" default="DATE_FORMAT_LC" label="COM_PHOCAMENU_FIELD_DATE_FORMAT_DAY_LABEL" description="COM_PHOCAMENU_FIELD_DATE_FORMAT_DAY_DESC">
 				<option value="DATE_FORMAT_LC">DATE_FORMAT_LC</option>
 				<option value="DATE_FORMAT_LC1">DATE_FORMAT_LC1</option>
 				<option value="DATE_FORMAT_LC2">DATE_FORMAT_LC2</option>
@@ -55,7 +55,7 @@
 				<option value="l, d. F Y">l, d. F Y</option>
 		</field>
 		
-		<field name="week_date_format" type="list" default="4" label="COM_PHOCAMENU_FIELD_DATE_FORMAT_WEEK_LABEL" description="COM_PHOCAMENU_FIELD_DATE_FORMAT_WEEK_DESC">
+		<field name="week_date_format" type="list" default="DATE_FORMAT_LC" label="COM_PHOCAMENU_FIELD_DATE_FORMAT_WEEK_LABEL" description="COM_PHOCAMENU_FIELD_DATE_FORMAT_WEEK_DESC">
 				<option value="DATE_FORMAT_LC">DATE_FORMAT_LC</option>
 				<option value="DATE_FORMAT_LC1">DATE_FORMAT_LC1</option>
 				<option value="DATE_FORMAT_LC2">DATE_FORMAT_LC2</option>
@@ -145,7 +145,7 @@
 			<field name="enable_bb_code" type="list" default="0" label="COM_PHOCAMENU_FIELD_ENABLE_BB_CODE_LABEL" description="COM_PHOCAMENU_FIELD_ENABLE_BB_CODE_DESC" >
 				<option value="0">COM_PHOCAMENU_NO</option>
 				<option value="1">COM_PHOCAMENU_YES</option>
-				<option value="2">COM_PHOCAMENU_YES_ONLY_BR(Only [BR])</option>
+				<option value="2">COM_PHOCAMENU_YES_ONLY_BR</option>
 			</field>
 		
 		<field name="display_toolbar_tools" type="list" default="1" label="COM_PHOCAMENU_FIELD_DISPLAY_TOOLBAR_TOOLS_LABEL" description="COM_PHOCAMENU_FIELD_DISPLAY_TOOLBAR_TOOLS_DESC">

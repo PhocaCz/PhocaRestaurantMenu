@@ -1,0 +1,17 @@
+.com_phocamenu.layout- {
+	background: #F8F7F3;
+}
+.com_phocamenu #j-main-container table {
+	background: #fff;
+	border-radius: 3px
+}
+
+.ph-extension-info-box {
+	background: #F0EEE7;
+	padding: 1em;
+}
+.ph-extension-links-box {
+	margin-top: 1em;
+	padding: 1em;
+	background: #F0EEE7;
+}

@@ -402,4 +402,5 @@ class PhocaMenuCpControllerPhocaMenuConfig extends PhocaMenuControllerForm
 	}
 }
 
+
 ?>

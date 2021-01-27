@@ -15,12 +15,14 @@ class PhocaMenuCpViewPhocaMenuConfig extends JViewLegacy
 	protected $item;
 	protected $form;
 	protected $t;
+	protected $r;
 	protected $type;
 
 
 	public function display($tpl = null) {
 
 		$this->t		= PhocaMenuUtils::setVars('config');
+		$this->r		= new PhocaMenuRenderAdminView();
 		$this->state	= $this->get('State');
 		$this->form		= $this->get('Form');
 		$this->item		= $this->get('Item');
@@ -29,7 +31,7 @@ class PhocaMenuCpViewPhocaMenuConfig extends JViewLegacy
 		// Set type for JForm
 		$this->item->type = $this->type['value'];
 
-		JHTML::stylesheet( $this->t['s'] );
+
 
 		$this->addToolbar();
 		parent::display($tpl);

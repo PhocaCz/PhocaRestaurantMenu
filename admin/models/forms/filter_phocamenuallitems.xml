@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+<fieldset addfieldpath="/administrator/components/com_phocamenu/models/fields">
+	<fields name="filter">
+		
+		
+	<field name="search" type="text" inputmode="search" label="COM_PHOCAMENU_SEARCH" description="COM_PHOCAMENU_SEARCH" hint="JSEARCH_FILTER" />
+
+		<field name="published" type="list" label="JOPTION_FILTER_PUBLISHED" description="JOPTION_FILTER_PUBLISHED_DESC" onchange="this.form.submit();" >
+		
+		<option value="">JOPTION_SELECT_PUBLISHED</option>
+		<option value="1">COM_PHOCAMENU_PUBLISHED</option>
+		<option value="0">COM_PHOCAMENU_UNPUBLISHED</option>
+		</field>
+		
+		<field name="type" type="list" label="COM_PHOCAMENU_FILTER_TYPE" description="COM_PHOCAMENU_FILTER_TYPE_DESC" onchange="this.form.submit();" >
+		
+		<option value="">COM_PHOCAMENU_SELECT_MENU_TYPE</option>
+		<option value="1">COM_PHOCAMENU_DAILY_MENU</option>
+		<option value="2">COM_PHOCAMENU_WEEKLY_MENU</option>
+		<option value="3">COM_PHOCAMENU_BILL_OF_FARE</option>
+		<option value="4">COM_PHOCAMENU_BEVERAGE_LIST</option>
+		<option value="5">COM_PHOCAMENU_WINE_LIST</option>
+		<option value="6">COM_PHOCAMENU_BREAKFAST_MENU</option>
+		<option value="7">COM_PHOCAMENU_LUNCH_MENU</option>
+		<option value="8">COM_PHOCAMENU_DINNER_MENU</option>
+		</field>
+		
+		
+		<!--
+		<field name="category_id" type="PhocaMenuCategory" menutype="item" hideselect="1" label="JOPTION_FILTER_CATEGORY" description="JOPTION_FILTER_CATEGORY_DESC"   onchange="this.form.submit();" />
+-->
+	
+		<field name="language" type="contentlanguage" label="JOPTION_FILTER_LANGUAGE" description="JOPTION_FILTER_LANGUAGE_DESC" onchange="this.form.submit();">
+			<option value="">JOPTION_SELECT_LANGUAGE</option>
+			<option value="*">JALL</option>
+		</field>
+	
+		<input type="hidden" name="form_submited" value="1"/>
+	</fields>
+
+	<fields name="list">
+		<field name="fullordering" type="list" label="COM_PHOCAMENU_LIST_FULL_ORDERING" description="COM_PHOCAMENU_LIST_FULL_ORDERING_DESC" onchange="this.form.submit();" default="a.title ASC" validate="options" >
+			<option value="">JGLOBAL_SORT_BY</option>
+			<option value="a.ordering ASC">JGRID_HEADING_ORDERING_ASC</option>
+			<option value="a.ordering DESC">JGRID_HEADING_ORDERING_DESC</option>
+			<option value="a.quantity ASC">COM_PHOCAMENU_QUANTITY_ASC</option>
+			<option value="a.quantity DESC">COM_PHOCAMENU_QUANTITY_DESC</option>
+			<option value="a.title ASC">JGLOBAL_TITLE_ASC</option>
+			<option value="a.title DESC">JGLOBAL_TITLE_DESC</option>
+			
+			<option value="a.type ASC">COM_PHOCAMENU_TYPE_ASC</option>
+			<option value="a.type DESC">COM_PHOCAMENU_TYPE_DESC</option>
+			<option value="day.title ASC">COM_PHOCAMENU_DAY_ASC</option>
+			<option value="day.title DESC">COM_PHOCAMENU_DAY_DESC</option>
+			<option value="list.title ASC">COM_PHOCAMENU_LIST_ASC</option>
+			<option value="list.title DESC">COM_PHOCAMENU_LIST_DESC</option>
+			<option value="c.title ASC">COM_PHOCAMENU_GROUP_ASC</option>
+			<option value="c.title DESC">COM_PHOCAMENU_GROUP_DESC</option>
+			
+			
+			<option value="a.price ASC">COM_PHOCAMENU_PRICE_ASC</option>
+			<option value="a.price DESC">COM_PHOCAMENU_PRICE_DESC</option>
+			<option value="a.price2 ASC">COM_PHOCAMENU_SECOND_PRICE_ASC</option>
+			<option value="a.price2 DESC">COM_PHOCAMENU_SECOND_PRICE_DESC</option>
+			<option value="a.catid ASC">COM_PHOCAMENU_GROUP_ASC</option>
+			<option value="a.catid DESC">COM_PHOCAMENU_GROUP_DESC</option>
+			<option value="a.published ASC" >COM_PHOCAMENU_PUBLISHED_ASC</option>
+			<option value="a.published DESC" >COM_PHOCAMENU_PUBLISHED_DESC</option>
+
+			<option value="a.language ASC">JGRID_HEADING_LANGUAGE_ASC</option>
+			<option value="a.language DESC">JGRID_HEADING_LANGUAGE_DESC</option>
+			<option value="a.id ASC">JGRID_HEADING_ID_ASC</option>
+			<option value="a.id DESC">JGRID_HEADING_ID_DESC</option>
+		</field>
+
+		<field name="limit" type="limitbox" label="COM_PHOCAMENU_LIST_LIMIT" description="COM_PHOCAMENU_LIST_LIMIT_DESC" class="input-mini" default="25" onchange="this.form.submit();" />
+	</fields>
+	</fieldset>
+</form>

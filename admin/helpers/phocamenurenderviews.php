@@ -195,8 +195,8 @@ class PhocaMenuRenderViews
 		// Remove empty table - because of TCPDF
 		$o = str_replace($tag['tableitem-o'].$tag['tableitem-c'], '', $o);
 
-
 		$o .= PhocaMenuHelper::renderCode($params->get( 'render_code', 1 ), $method);
+
 		return $o;
 	}
 
@@ -417,7 +417,7 @@ class PhocaMenuRenderViews
 				$tag['row-group-h-o']	= '<div class="row row-fluid pm-group-header-row">';
 				$tag['row-group-h-c']	= '</div>';
 
-				$tag['image-o']			= '<div class="span2 pmimage">';
+				$tag['image-o']			= '<div class="span1 pmimage">'; // when changed then the count of columns must be changed too: renderFormItem (1257)
 				$tag['quantity-o']		= '<div class="span1 pmquantity">';
 				$tag['priceprefix-o']	= '<div class="span1 pmpriceprefix pm-right">';
 
@@ -485,7 +485,7 @@ class PhocaMenuRenderViews
 				$tag['row-group-h-o']	= '<div class="row row-fluid pm-group-header-row">';
 				$tag['row-group-h-c']	= '</div>';
 
-				$tag['image-o']			= '<div class="col-xs-12 col-sm-2 col-md-2 pmimage">';
+				$tag['image-o']			= '<div class="col-xs-12 col-sm-1 col-md-1 pmimage">';// when changed then the count of columns must be changed too: renderFormItem (1257)
 				$tag['quantity-o']		= '<div class="col-xs-12 col-sm-1 col-md-1 pmquantity">';
 				$tag['priceprefix-o']	= '<div class="col-xs-12 col-sm-1 col-md-1 pmpriceprefix pm-right">';
 
@@ -647,7 +647,7 @@ class PhocaMenuRenderViews
 			} else {
 				$row['img'] = $tag['image-o'] . $image . $tag['image-c'];
 				$desc['img']= $tag['image-o'] . '' . $tag['image-c'];
-				$c = $c + 2;
+				$c = $c + 1;//CHANGE DEPEND ON ROW 1297 (BS2) or 1365 (BS3) if span1 or com-md-1 then +1, if span2 or col-md-2 then + 2
 			}
 
 			$row['quantity'] = $tag['quantity-o'] . $itemObject->quantity . $tag['space']  . $tag['quantity-c'];
@@ -1038,6 +1038,9 @@ class PhocaMenuRenderViews
 		$print = $app->input->get('print', 0, 'int');
 		$admin = $app->input->get('admin', 0, 'int');
 
+		if ($method == 1) {
+			return $method;
+		}
 
 		if ($print == 1) {
 			return $method;

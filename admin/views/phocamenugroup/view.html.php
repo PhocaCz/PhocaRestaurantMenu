@@ -15,18 +15,21 @@ class PhocaMenuCpViewPhocaMenuGroup extends JViewLegacy
 	protected $item;
 	protected $form;
 	protected $t;
+	protected $r;
 	protected $type;
 
 
 	public function display($tpl = null) {
 
+
+		$this->r		= new PhocaMenuRenderAdminView();
 		$this->t		= PhocaMenuUtils::setVars('group');
 		$this->state	= $this->get('State');
 		$this->form		= $this->get('Form');
 		$this->item		= $this->get('Item');
 		$this->type		= PhocaMenuHelper::getUrlType('group');
 
-		JHTML::stylesheet( $this->t['s'] );
+
 
 		// Set type for JForm
 		$this->item->type = $this->type['value'];

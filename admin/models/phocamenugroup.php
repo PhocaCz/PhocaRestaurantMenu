@@ -575,12 +575,23 @@ class PhocaMenuCpModelPhocaMenuGroup extends JModelAdmin
 
 	protected function generateNewTitle($category_id, $alias, $title)
 	{
-		// Alter the title & alias
+		// Alter the title & alias - we use title in Phoca Menu
 		$table = $this->getTable();
-		while ($table->load(array('alias' => $alias)))
-		{
-			$title = StringHelper::increment($title);
-			$alias = StringHelper::increment($alias, 'dash');
+		//while ($table->load(array('alias'=>$title, 'catid'=> $category_id))) {
+		while ($table->load(array('title'=>$title, 'catid'=> $category_id))) {
+
+			$m = null;
+			if (preg_match('#-(\d+)$#', $alias, $m)) {
+				$alias = preg_replace('#-(\d+)$#', '-'.($m[1] + 1).'', $alias);
+			} else {
+				$alias .= '-2';
+			}
+			if (preg_match('#\((\d+)\)$#', $title, $m)) {
+				$title = preg_replace('#\(\d+\)$#', '('.($m[1] + 1).')', $title);
+			} else {
+				$title .= ' (2)';
+			}
+
 		}
 
 		return array($title, $alias);

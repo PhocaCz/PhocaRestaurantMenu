@@ -141,5 +141,4 @@ class PhocaMenuCpModelPhocaMenuConfig extends JModelAdmin
 	}
 }
 
-
 ?>

@@ -28,10 +28,11 @@ class PhocaMenuControllerForm extends JControllerForm
 		if (empty($this->option)) {
 			$this->option = 'com_'.strtolower($this->getName());
 		}
-		
+
 		if (empty($this->typeview)) {
 			$this->typeview = 'group';
 		}
+
 
 		// Guess the JText message prefix. Defaults to the option.
 		if (empty($this->text_prefix)) {
@@ -42,7 +43,7 @@ class PhocaMenuControllerForm extends JControllerForm
 		if (empty($this->context)) {
 			$r = null;
 			if (!preg_match('/(.*)Controller(.*)/i', get_class($this), $r)) {
-				
+
 				throw new Exception(JText::_('JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME'), 500);
 			}
 			$this->context = strtolower($r[2]);
@@ -54,8 +55,9 @@ class PhocaMenuControllerForm extends JControllerForm
 		}
 
 		// Guess the list view as the plural of the item view.
+
 		if (empty($this->view_list)) {
-		
+
 
 			// Simple pluralisation based on public domain snippet by Paul Osman
 			// For more complex types, just manually set the variable in your class.
@@ -75,6 +77,8 @@ class PhocaMenuControllerForm extends JControllerForm
 					break;
 				}
 			}
+
+
 		}
 
 		// Apply, Save & New, and Save As copy should be standard on forms.
@@ -97,13 +101,15 @@ class PhocaMenuControllerForm extends JControllerForm
 		// Access check.
 		if (!$this->allowAdd()) {
 			$this->setRedirect(JRoute::_('index.php?option='.$this->option.'&view='.$this->view_list.$this->getRedirectToListAppend(), false));
-			
+
 			throw new Exception(JText::_('JLIB_APPLICATION_ERROR_CREATE_RECORD_NOT_PERMITTED'), 403);
 		}
 
 		// Clear the record edit information from the session.
 		$app->setUserState($context.'.id', null);
 		$app->setUserState($context.'.data', null);
+
+
 
 		// Redirect to the edit screen.
 		$this->setRedirect(JRoute::_('index.php?option='.$this->option.'&view='.$this->view_item.$this->getRedirectToItemAppend(), false));
@@ -119,8 +125,8 @@ class PhocaMenuControllerForm extends JControllerForm
 	{
 		return JFactory::getUser()->authorise('core.edit', $this->option);
 	}
-	
-	
+
+
 
 	protected function allowSave($data, $key = 'id')
 	{
@@ -146,11 +152,20 @@ class PhocaMenuControllerForm extends JControllerForm
 		$checkin	= property_exists($table, 'checked_out');
 		$context	= "$this->option.edit.$this->context";
 
+
+
 		if (empty($key)) {
 			$key = $table->getKeyName();
 		}
 
 		$recordId	= $app->input->getInt($key);
+
+
+		// Typeback means for example that we go to edit from "phocamenuallitems" view so instead of returning to standard "phocamenuitems" view we go back to "phocamenuallitems" view
+		$typeBack   = $app->input->get('typeback', '', 'string');
+		if ($typeBack != '') {
+		    $this->view_list = $typeBack;
+        }
 
 		// Attempt to check-in the current record.
 		if ($recordId) {
@@ -176,6 +191,8 @@ class PhocaMenuControllerForm extends JControllerForm
 			}
 		}
 
+
+
 		// Clean the session data and redirect.
 		$this->releaseEditId($context, $recordId);
 		$app->setUserState($context.'.data',	null);
@@ -193,6 +210,9 @@ class PhocaMenuControllerForm extends JControllerForm
 		$cid		= JFactory::getApplication()->input->get('cid', array(), 'post', 'array');
 		$context	= "$this->option.edit.$this->context";
 		$append		= '';
+
+
+
 
 		if (empty($key)) {
 			$key = $table->getKeyName();
@@ -216,14 +236,18 @@ class PhocaMenuControllerForm extends JControllerForm
 			// Check-out failed, display a notice but allow the user to see the record.
 			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_CHECKOUT_FAILED', $model->getError()));
 			$this->setMessage($this->getError(), 'error');
+
 			$this->setRedirect('index.php?option='.$this->option.'&view='.$this->view_item.$this->getRedirectToItemAppend($recordId, $key));
 
 			return false;
 		}
 		else {
+
 			// Check-out succeeded, push the new record id into the session.
 			$this->holdEditId($context, $recordId);
 			$app->setUserState($context.'.data', null);
+
+
 			$this->setRedirect('index.php?option='.$this->option.'&view='.$this->view_item.$this->getRedirectToItemAppend($recordId, $key));
 
 			return true;
@@ -265,6 +289,12 @@ class PhocaMenuControllerForm extends JControllerForm
 		}
 
 		$recordId	= $app->input->getInt($key);
+
+		// Typeback means for example that we go to edit from "phocamenuallitems" view so instead of returning to standard "phocamenuitems" view we go back to "phocamenuallitems" view
+		$typeBack   = $app->input->get('typeback', '', 'string');
+		if ($typeBack != '') {
+		    $this->view_list = $typeBack;
+        }
 
 		$session	= JFactory::getSession();
 		$registry	= $session->get('registry');
@@ -358,13 +388,13 @@ class PhocaMenuControllerForm extends JControllerForm
 		}
 
 		// Save succeeded, check-in the record.
-		
+
 		if ($checkin && $model->checkin($validData[$key]) === false) {
 			// Save the data in the session.
 			$app->setUserState($context.'.data', $validData);
 
 			// Check-in failed, go back to the record and display a notice.
-			
+
 			$app->enqueueMessage(JText::sprintf('ERROR_CHECKIN_SAVED', $model->getError()), 'error');
 			$this->setRedirect('index.php?option='.$this->option.'&view='.$this->view_item.$this->getRedirectToItemAppend($recordId, $key));
 
@@ -410,7 +440,7 @@ class PhocaMenuControllerForm extends JControllerForm
 
 		return true;
 	}
-	
+
 	protected function getRedirectToItemAppend($recordId = null, $key = 'id')
 	{
 		$tmpl		= JFactory::getApplication()->input->get('tmpl');
@@ -453,7 +483,7 @@ class PhocaMenuControllerForm extends JControllerForm
 
 		return $append . $aUrl;
 	}
-	
+
 	public function batch($model = null) {
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 		return parent::batch($model);

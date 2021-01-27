@@ -43,7 +43,7 @@ class TablePhocaMenuConfig extends JTable
 			$this->alias = JFactory::getDate()->format("Y-m-d-H-i-s");
 		}
 
-		$registry = new JRegistry;
+		/*$registry = new JRegistry;
         if (isset($item->metadata)) {
 
 		    $registry->loadString($this->metadata);
@@ -66,6 +66,8 @@ class TablePhocaMenuConfig extends JTable
 		}
 		$registry->loadArray($this->metadata);
 		$this->metadata = (string)$registry;
+		*/
+		$this->metadata = '';
 
 		return true;
 	}

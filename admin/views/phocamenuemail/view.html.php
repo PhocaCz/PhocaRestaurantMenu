@@ -18,6 +18,7 @@ class PhocaMenuCpViewPhocaMenuEmail extends JViewLegacy
 	protected $item;
 	protected $form;
 	protected $t;
+	protected $r;
 	protected $type;
 	protected $typeinfo;
 	protected $bodytext;
@@ -29,6 +30,7 @@ class PhocaMenuCpViewPhocaMenuEmail extends JViewLegacy
 
 		$app = JFactory::getApplication();
 		$this->t		= PhocaMenuUtils::setVars('email');
+		$this->r		= new PhocaMenuRenderAdminView();
 		$this->state	= $this->get('State');
 		$this->form		= $this->get('Form');
 		$this->item		= $this->get('Item');
@@ -43,7 +45,7 @@ class PhocaMenuCpViewPhocaMenuEmail extends JViewLegacy
 		// Set type for JForm
 		$this->item->type = $this->type['value'];
 
-		JHTML::stylesheet( $this->t['s'] );
+
 
 		$this->params 					= JComponentHelper::getParams( 'com_phocamenu' );
 		$this->t['enableeditoremail']	= $this->params->get( 'enable_editor_email', 1 );

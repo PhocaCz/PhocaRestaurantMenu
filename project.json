@@ -80,6 +80,12 @@
 				"title": "COM_PHOCAMENU_DINNER_MENU"
 			},
 			"9" : {
+				"image": "icon-16-prm-menu-al.png",
+				"view": "phocamenuallitems",
+				"link": "option=com_phocamenu&amp;view=phocamenuallitems",
+				"title": "COM_PHOCAMENU_ALL_ITEMS"
+			},
+			"10" : {
 				"image": "icon-16-prm-menu-info.png",
 				"view": "phocamenuinfo",
 				"link": "option=com_phocamenu&amp;view=phocamenuinfo",

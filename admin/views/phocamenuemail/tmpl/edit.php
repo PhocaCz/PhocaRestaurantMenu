@@ -9,48 +9,43 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License version 2 or later;
  */
 defined('_JEXEC') or die;
-JHtml::_('behavior.tooltip');
-JHtml::_('behavior.formvalidation');
-JHtml::_('behavior.keepalive');
-JHtml::_('formbehavior.chosen', 'select');
 
-$class		= $this->t['n'] . 'RenderAdminView';
-$r 			=  new $class();
+$r 			=  $this->r;
 
-?>
-<script type="text/javascript">
+$js = '
 	Joomla.submitbutton = function(task)
 	{
-		if (task == '<?php echo $this->t['task'] ?>.cancel' || document.formvalidator.isValid(document.getElementById('adminForm'))) {
+		if (task == \''. $this->t['task'] .'.cancel\' || document.formvalidator.isValid(document.getElementById(\'adminForm\'))) {
 
-			Joomla.submitform(task, document.getElementById('adminForm'));
-			if (task == '<?php echo $this->t['task'] ?>.send' || task == '<?php echo $this->t['task'] ?>.sendandsave') {
+			Joomla.submitform(task, document.getElementById(\'adminForm\'));
+			if (task == \''. $this->t['task'] .'.send\' || task == \''.  $this->t['task'] .'.sendandsave\') {
 
 				if (tinyMCE.get("message").isHidden()) {tinyMCE.get("message").show()};
 				tinyMCE.get("message").save();
 				if (tinyMCE.get("message").isHidden()) {tinyMCE.get("message").show()}; tinyMCE.get("message").save();
 
-				document.getElementById('sending-email').style.display='block';
+				document.getElementById(\'sending-email\').style.display=\'block\';
 			}
 		}
 		else {
-			alert('<?php echo JText::_('JGLOBAL_VALIDATION_FORM_FAILED', true);?>');
+			alert(\''. JText::_('JGLOBAL_VALIDATION_FORM_FAILED', true).'\');
 		}
-	}
-</script><?php
+	}';
+
+JFactory::getDocument()->addScriptDeclaration($js);
 
 echo '<div id="prm-box-edit">'. "\n";
 echo $r->startFormRoute($this->t['o'], '', 'adminForm', 'adminForm');
 // First Column
-echo '<div class="span10 form-horizontal">';
+echo '<div class="span12 form-horizontal">';
 $tabs = array (
 'general' 		=> JText::_($this->t['l'].'_SEND_EMAIL')
 );
 echo $r->navigation($tabs);
 
-echo '<div class="tab-content">'. "\n";
+echo $r->startTabs();
 
-echo '<div class="tab-pane active" id="general">'."\n";
+echo $r->startTab('general', $tabs['general'], 'active');
 
 echo '<div class="ph-can-be-saved">'. "\n";
 echo '<h3>'.JText::_('COM_PHOCAMENU_EMAIL_DETAILS_CAN_BE_SAVED').'</h3>'."\n";
@@ -82,27 +77,9 @@ echo '<div class="clearfix ph-clearfix"></div>'. "\n";
 
 
 
-
-if (isset($this->bodytext['itemlanguage']) && $this->bodytext['itemlanguage'] != '') {
-	$filterLang = $this->bodytext['itemlanguage'];
-} else {
-	$filterLang = $this->state->get('filter.language');
-	if ($filterLang == '') {
-		$filterLang = '*';
-	}
-}
-
-
 //echo $r->formInputs();
 
-echo '</div>'. "\n";
-
-
-echo '</div>';//end tab content
-echo '</div>';//end span10
-
-// Second Column
-echo '<div class="span2">';
+echo '<div class="ph-float-right ph-admin-additional-box">';
 if ($this->t['admintool'] == 1 && (int)$this->t['atid'] > 0) {
 	// Don't select language as we asked the specific id
 } else if (isset($this->bodytext['itemlanguage']) && $this->bodytext['itemlanguage'] != '') {
@@ -121,9 +98,20 @@ if ($this->t['admintool'] == 1 && (int)$this->t['atid'] > 0) {
 	echo JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language')). "\n";
 	echo '</select>'. "\n";
 }
+echo '</div>';
+
+echo $r->endTab();
 
 
-echo '</div>';//end span2
+echo $r->endTabs();
+echo '</div>';//end span10
+
+// Second Column
+//echo '<div class="span2">';
+
+
+
+//echo '</div>';//end span2
 
 if (isset($this->formdata['itemlanguage']) && $this->formdata['itemlanguage'] != '') {
 	$filterLang = $this->formdata['itemlanguage'];

@@ -10,6 +10,8 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
+JLoader::registerPrefix('Phocamenu', JPATH_ADMINISTRATOR . '/components/com_phocamenu/libraries/phocamenu');
+require JPATH_ADMINISTRATOR . '/components/com_phocamenu/libraries/autoloadPhoca.php';
 require_once( JPATH_COMPONENT.'/controller.php' );
 require_once( JPATH_COMPONENT.'/helpers/phocamenu.php' );
 require_once( JPATH_COMPONENT.'/helpers/phocamenuutils.php' );
@@ -19,6 +21,7 @@ require_once( JPATH_COMPONENT.'/helpers/renderadminviews.php' );
 require_once( JPATH_COMPONENT.'/helpers/phocamenurender.php' );
 require_once( JPATH_COMPONENT.'/helpers/phocamenuextension.php' );
 require_once( JPATH_COMPONENT.'/helpers/html/batch.php' );
+require_once( JPATH_COMPONENT.'/helpers/html/new.php' );
 require_once( JPATH_COMPONENT.'/helpers/controllers/controlleradmin.php' );
 require_once( JPATH_COMPONENT.'/helpers/controllers/controllerform.php' );
 jimport('joomla.application.component.controller');

@@ -42,7 +42,7 @@ class PhocaMenuGallery
 		// MODAL BOX
 		// -------------------------------------------------------
 		else if ($paramsG['imagedetailwindow'] == 2) {
-	JHTML::_('behavior.modal', 'a.modal-button');
+	 JHTML::_('behavior.modal', 'a.modal-button');
 			$cssSbox = " #sbox-window {background-color:".$paramsG['modalboxbordercolor']	.";padding:".$paramsG['modalboxborderwidth']."px} \n"
 					 .  " #sbox-overlay {background-color:".$paramsG['modalboxoverlaycolor'].";} \n";
 			$document->addCustomTag( "<style type=\"text/css\">\n" . $cssSbox . "\n" . " </style>\n");
