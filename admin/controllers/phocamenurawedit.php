@@ -15,8 +15,8 @@ class PhocaMenuCpControllerPhocaMenuRawEdit extends PhocaMenuControllerForm
 	protected $option 	= 'com_phocamenu';
 	protected $typeview	= 'rawedit';
 	public $typeAlias 	= 'com_phocamenu.phocamenurawedit';
-	
-	
+
+
 	public function cancel($key = NULL)
 	{
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
@@ -35,9 +35,11 @@ class PhocaMenuCpControllerPhocaMenuRawEdit extends PhocaMenuControllerForm
 		$app->setUserState($context.'.id',		null);
 		$app->setUserState($context.'.data',	null);
 
-		$this->setRedirect(JRoute::_('index.php?option=com_phocamenu'.$this->getRedirectToListAppend(1), false));
+		//$this->setRedirect(JRoute::_('index.php?option=com_phocamenu'.$this->getRedirectToListAppend(1), false));
+		// WHEN RAW EDIT SAVES - there are new IDs for lists/days/groups/items so we go back to root
+		$this->setRedirect(JRoute::_('index.php?option=com_phocamenu'.$this->getRedirectToListAppend(2), false));
 	}
-	
+
 	public function edit($key = NULL, $urlVar = NULL)
 	{
 		// Initialise variables.
@@ -57,16 +59,16 @@ class PhocaMenuCpControllerPhocaMenuRawEdit extends PhocaMenuControllerForm
 		return true;
 	}
 
-	
-	
+
+
 	function save($key = NULL, $urlVar = NULL) {
-		
+
 		$app		= JFactory::getApplication();
 		$post 		= $app->input->post->getArray();
-		
+
 		//$get		= $app->input->get->getArray();
-		
-		
+
+
 		//$model		= $this->getModel();
 		//$table		= $model->getTable();
 		//$cid		= JFactory::getApplication()->input->get('cid', array(), 'post', 'array');
@@ -76,62 +78,64 @@ class PhocaMenuCpControllerPhocaMenuRawEdit extends PhocaMenuControllerForm
 		$append		= '';
 
 		$errorMsg			= '';
-		$model 	= $this->getModel( 'phocamenurawedit' );	
-		
+		$model 	= $this->getModel( 'phocamenurawedit' );
+
 		$return	= $model->save($post, $errorMsg);
 		if ($return) {
-			$msg 	= JText::_( 'COM_PHOCAMENU_SUCCESS_MODIFICATION_SAVED_MULTIPLE' );
+			$msg 	= JText::_( 'COM_PHOCAMENU_SUCCESS_MODIFICATION_SAVED_RAW' );
 		} else {
-			$msg 	= JText::_( 'COM_PHOCAMENU_ERROR_MODIFICATION_SAVED_MULTIPLE' );
+			$msg 	= JText::_( 'COM_PHOCAMENU_ERROR_MODIFICATION_SAVED_RAW' );
 		}
-		
+
 		if ($errorMsg != '') {
-			$msg .= '. '.$errorMsg. '.'; 
+			$msg .= '. '.$errorMsg. '.';
 			$app->enqueueMessage($msg, 'error');
 		} else {
 			$app->enqueueMessage($msg, 'message');
 		}
-		
-		
-		
+
+
+
 		switch ( JFactory::getApplication()->input->get('task') ) {
 			case 'apply':
 				$this->setRedirect(JRoute::_('index.php?option='.$this->option.$this->getRedirectToItemAppend(), false));
 			break;
-			
+
 			case 'save':
 			default:
-				$this->setRedirect(JRoute::_('index.php?option=com_phocamenu'.$this->getRedirectToListAppend(1), false));
+				// WHEN RAW EDIT SAVES - there are new IDs for lists/days/groups/items so we go back to root
+				$this->setRedirect(JRoute::_('index.php?option=com_phocamenu'.$this->getRedirectToListAppend(2), false));
+
 			break;
 		}
-		
+
 		return true;
 	}
-	
-	
-	function export() { 
+
+
+	function export() {
 		$app		= JFactory::getApplication();
 		$post 		= $app->input->post->getArray();
-		
+
 		$file		= $post['menudata'];
 		$lang		= $post['language'];
-		
+
 		$lang		= str_replace('*', '', strip_tags($lang));
 		if ($lang != '') {
 			$lang = '-'.$lang;
 		}
-		
-		
+
+
 		if (function_exists('mb_strlen')) {
 			$fileSize = mb_strlen($file, '8bit');
 		} else {
 			$fileSize = strlen($file);
 		}
 		$mimeType = 'text/plain';
-		
+
 		// Clean the output buffer
 		ob_end_clean();
-		
+
 		// test for protocol and set the appropriate headers
 		jimport( 'joomla.environment.uri' );
 		$_tmp_uri 		= JURI::getInstance( JURI::current() );
@@ -180,20 +184,20 @@ class PhocaMenuCpControllerPhocaMenuRawEdit extends PhocaMenuControllerForm
 				else
 					$resultRange = $httpRange[0] . '-' . $httpRange[1];
 				//header("Content-Range: bytes ".$httpRange . $newFileSize .'/'. $fileSize);
-			} 
+			}
 		}
 		header("Content-Length: ". $resultLenght);
 		header("Content-Range: bytes " . $resultRange . '/' . $fileSize);
 		header("Content-Type: " . (string)$mimeType);
 		header('Content-Disposition: attachment; filename="prm-export'.$lang.'.txt"');
 		header("Content-Transfer-Encoding: binary\n");
-		
-	
+
+
 		echo $file;
 		flush();
 		exit;
 	}
-	
+
 	protected function getRedirectToItemAppend($recordId = null, $key = 'id', $bUrlUse = 0)
 	{
 		$tmpl		= JFactory::getApplication()->input->get('tmpl');
@@ -201,8 +205,8 @@ class PhocaMenuCpControllerPhocaMenuRawEdit extends PhocaMenuControllerForm
 		$append		= '';
 		$aUrl		= PhocaMenuHelper::getUrlApend($this->typeview);
 		$bUrl		= PhocaMenuHelper::getUrlApend($this->typeview, 1);
-		
-		
+
+
 
 		// Setup redirect info.
 		if ($tmpl) {
@@ -216,32 +220,34 @@ class PhocaMenuCpControllerPhocaMenuRawEdit extends PhocaMenuControllerForm
 		if ($recordId) {
 			$append .= '&'.$key.'='.$recordId;
 		}
-		
+
 		if ($bUrlUse == 1) {
 			return $append . $bUrl;
 		} else {
 			return '&view='.$this->view_item.$append . $aUrl;
 		}
 	}
-	
-	protected function getRedirectToListAppend($bUrlUse = 0)
-	{
-		$tmpl		= JFactory::getApplication()->input->get('tmpl');
-		$append		= '';
-		$aUrl		= PhocaMenuHelper::getUrlApend($this->typeview);
-		$bUrl		= PhocaMenuHelper::getUrlApend($this->typeview, 1);
+
+	protected function getRedirectToListAppend($bUrlUse = 0) {
+		$tmpl   = JFactory::getApplication()->input->get('tmpl');
+		$append = '';
+		$aUrl   = PhocaMenuHelper::getUrlApend($this->typeview);
+
+		if ((int)$bUrlUse > 0) {
+			$bUrl = PhocaMenuHelper::getUrlApend($this->typeview, (int)$bUrlUse);
+		}
 
 		// Setup redirect info.
 		if ($tmpl) {
 			$append .= '&tmpl='.$tmpl;
 		}
 
-		if ($bUrlUse == 1) {
+		if ((int)$bUrlUse > 0) {
 			return $append . $bUrl;
 		} else {
 			return '&view='.$this->view_list.$append . $aUrl;
 		}
 	}
-	
+
 }
 ?>

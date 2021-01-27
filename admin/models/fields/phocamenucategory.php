@@ -15,39 +15,56 @@ class JFormFieldPhocaMenuCategory extends JFormField
 	protected $type 		= 'PhocaMenuCategory';
 
 	protected function getInput() {
-		
+
+	    $app        = JFactory::getApplication();
 		$db 		= JFactory::getDBO();
 		$list		= '';
 		$typeView	= $this->element['menutype'] ? (string)$this->element['menutype'] : 'group';
 		$hideSelect	= $this->element['hideselect'] &&  $this->element['hideselect'] == 1 ? (int)$this->element['hideselect'] : 0;
 		$catid 		= $this->form->getValue('catid') ? (int) $this->form->getValue('catid') : 0;
+
+
+
 		if ($this->form->getValue('type') != 0) {
 			$type['value']	= (int)$this->form->getValue('type');
-			
+
 		} else {
 			$type	= PhocaMenuHelper::getUrlType($typeView);
+
+
 			if ((int)$catid == 0) {
 				$catid = $type['valuecatid'];
+
+				if (isset($type['method']) && $type['method'] == 'get' && $catid > 0) {
+				    // Force catid when we link it directly for example in menu link
+				    $this->value = $catid;
+
+				    //if ($this->value == 0) {
+                    //	$this->value = $catid;
+                    //}
+                }
 			}
+
+
 		}
-		
-		if ($this->value == 0) {
-			$this->value = $catid;
-		}
-		
+
+
+
+
+
 		$attr 		= '';
 		$attr 		.= $this->element['onchange'] ? ' onchange="'.(string) $this->element['onchange'].'" ' : ' ';
 		$attr		.= ' class="inputbox"';
-		
+
 		$query = '';
 		$output= '';
-		
+
 		if ($typeView == 'item') {
 			// Select groups which have the same day or the same list
 			$query 		= 'SELECT a.title AS text, a.id AS value, a.catid as category_id'
 					. ' FROM #__phocamenu_group AS a'
 					. ' WHERE a.type = '.(int)$type['value']
-					
+
 					. ' AND a.catid = (SELECT ag.catid'
 									. ' FROM #__phocamenu_group AS ag'
 									. ' WHERE ag.id = '.(int)$catid.')'
@@ -55,7 +72,7 @@ class JFormFieldPhocaMenuCategory extends JFormField
 					. ' ORDER BY a.ordering';
 			$selectText = JText::_('COM_PHOCAMENU_SELECT_GROUP');
 		} else {
-			
+
 			switch ($type['value']){
 				case 2:
 					$selectText = JText::_('COM_PHOCAMENU_SELECT_DAY');
@@ -67,7 +84,7 @@ class JFormFieldPhocaMenuCategory extends JFormField
 					$selectText = JText::_('COM_PHOCAMENU_SELECT_LIST');
 				break;
 			}
-			
+
 			switch ($type['value']){
 				case 2:
 				case 3:
@@ -79,42 +96,42 @@ class JFormFieldPhocaMenuCategory extends JFormField
 					. ' WHERE a.type = '.(int)$type['value']
 				//	. ' WHERE a.published = 1'
 					. ' ORDER BY a.ordering';
-				
+
 					$db->setQuery( $query );
 					$itemList = $db->loadObjectList();
 					if ($hideSelect != 1) {
 						array_unshift($itemList, JHTML::_('select.option', '', '- '.$selectText.' -', 'value', 'text'));
 					}
 					$list = JHTML::_( 'select.genericlist', $itemList, $this->name, $attr, 'value', 'text', $this->value, $this->id);
-					
+
 				break;
 			}
 		}
-			
+
 		if ($query != '') {
 			$db->setQuery( $query );
 			$categories = $db->loadObjectList();
-			
+
 			if ($hideSelect != 1) {
 				array_unshift($categories, JHTML::_('select.option', '', '- '.$selectText.' -', 'value', 'text'));
 			}
 			$output = JHTML::_( 'select.genericlist', $categories, $this->name, $attr, 'value', 'text', $this->value, $this->id);
 		}
-		
+
 		return $output;
 	}
-	
+
 	protected function getLabel() {
 		echo '<div class="clearfix ph-clearfix"></div>';
-		
+
 		$typeView	= $this->element['menutype'] ? (string)$this->element['menutype'] : 'group';
 		if ($this->form->getValue('type') != 0) {
 			$type['value']	= (int)$this->form->getValue('type');
-			
+
 		} else {
 			$type	= PhocaMenuHelper::getUrlType($typeView);
 		}
-		
+
 		switch ($typeView){
 			case 2:
 				$this->element['label']	= 'COM_PHOCAMENU_FIELD_DAY_LABEL';
@@ -128,7 +145,7 @@ class JFormFieldPhocaMenuCategory extends JFormField
 				$this->description		= 'COM_PHOCAMENU_FIELD_GROUP_DESC';
 			break;
 		}
-		
+
 		switch ($type['value']){
 			case 2:
 				if ($typeView == 'group') {
@@ -155,8 +172,8 @@ class JFormFieldPhocaMenuCategory extends JFormField
 				$this->description		= 'COM_PHOCAMENU_FIELD_GROUP_DESC';
 			break;
 		}
-		
-		
+
+
 		return parent::getLabel();
 		echo '<div class="clearfix ph-clearfix"></div>';
 	}

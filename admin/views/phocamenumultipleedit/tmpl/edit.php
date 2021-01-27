@@ -35,15 +35,6 @@ echo $r->startTabs();
 
 echo $r->startTab('general', $tabs['general'], 'active');
 
-$method = $this->typeinfo['render'];
-$output = PhocaMenuRenderViews::$method($this->formdata, $this->t, $this->params, null, 3);
-
-
-if (isset($output) && $output != '') {
-	echo $output;
-}
-
-
 echo '<div class="ph-float-right ph-admin-additional-box">';
 if ($this->t['admintool'] == 1 && (int)$this->t['atid'] > 0) {
 	// Don't select language as we asked the specific id
@@ -64,6 +55,17 @@ if ($this->t['admintool'] == 1 && (int)$this->t['atid'] > 0) {
 	echo '</select>'. "\n";
 }
 echo '</div>';
+
+$method = $this->typeinfo['render'];
+$output = PhocaMenuRenderViews::$method($this->formdata, $this->t, $this->params, null, 3);
+
+
+if (isset($output) && $output != '') {
+	echo $output;
+}
+
+
+
 
 echo $r->endTab();
 

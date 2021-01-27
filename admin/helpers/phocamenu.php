@@ -54,7 +54,10 @@ class PhocaMenuHelper
 		if ($typeview == 'config' || $typeview == 'email' || $typeview == 'multipleedit'  || $typeview == 'rawedit') {
 
 
-			if ($returnBack == 1) {
+			if ($returnBack == 2) {
+				// We are going back from RAW - there are new IDs for lists/days/groups/items so we need to go back to root
+				$appendUrl	= '&view=phocamenu'.$typeInfo['root'];
+			} else if ($returnBack == 1) {
 				// We are going back from Config
 				$appendUrl	= '&view=phocamenu'.$typeInfo['view'].'s'
 						 .'&type='.(int)$typeValue.'&'.$typeInfo['catid'].'='. (int)$catid;
@@ -88,6 +91,8 @@ class PhocaMenuHelper
 			// NEW ITEM - when we are in All items and click new, we need to select which group will be the new item
 			// This only applies to new items, so the group is always gid
 			$new	= $app->input->get('new', array(0), 'array');
+
+
 			if (isset($new['category_id']) && (int)$new['category_id'] > 0) {
 
 				$typeFound = self::getTypeByCategory((int)$new['category_id'], 'Item', 0);
@@ -101,7 +106,7 @@ class PhocaMenuHelper
 				}
 
 			} else {
-				
+
 				if ((int)$typeValue < 1) {
 					return false;
 				}
@@ -426,6 +431,7 @@ class PhocaMenuHelper
 				$typeInfo['frontview']		= 'dailymenu';
 				$typeInfo['render']			= 'renderDailyMenu';
 				$typeInfo['title']			= JText::_('COM_PHOCAMENU_DAILY_MENU');
+				$typeInfo['root']			= '&view=phocamenugroups&type=1';
 			break;
 
 			
@@ -440,6 +446,7 @@ class PhocaMenuHelper
 				$typeInfo['frontview']		= '';
 				$typeInfo['render']			= '';
 				$typeInfo['title']			= JText::_('COM_PHOCAMENU_ALL_ITEMS');
+				$typeInfo['root']			= '&view=phocamenuallitems';
 			break;
 
 			case 0:
@@ -936,7 +943,7 @@ class PhocaMenuHelper
 	}
 
 	public static function isMenuEnabled() {
-		return false;
+		return true;
 	}
 
 	public static function cleanRawOutput($string) {

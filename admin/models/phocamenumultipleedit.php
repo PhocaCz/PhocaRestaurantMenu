@@ -35,14 +35,20 @@ class PhocaMenuCpModelPhocaMenuMultipleEdit extends JModelAdmin
 
 		$wheresLang = '';
 		$content['itemlanguage'] = '';
-		if ($this->getState('filter.language')) {
+
+		if (!$this->getState('filter.language')) {
+			// If there is no language set we need to set empty or * to not load all language versions
+			$wheresLang = ' (a.language ='.$this->_db->Quote('*').' OR a.language ='.$this->_db->Quote('').')';
+		} else if ($this->getState('filter.language')) {
 			//Possible old format data
-			if ($this->getState('filter.language') == '*') {
+			if ($this->getState('filter.language') == '*' || $this->getState('filter.language') == '') {
 				$wheresLang = ' (a.language ='.$this->_db->Quote('*').' OR a.language ='.$this->_db->Quote('').')';
 			} else {
 				$wheresLang = ' a.language ='.$this->_db->Quote($this->getState('filter.language'));
 			}
 		}
+
+
 
 
 		//DAY

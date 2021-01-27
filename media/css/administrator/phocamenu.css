@@ -849,7 +849,8 @@ a img, img {border:0px;text-decoration:none;}
 	margin-right: 0.3em;
 }
 
-#ph
+
+
 #phAdminEdit .form-horizontal .tab-content {
 	position: relative;
 }
@@ -863,6 +864,18 @@ a img, img {border:0px;text-decoration:none;}
 	background: #f0f0f0;
 	/*z-index: 1;*/
 }
+
+.view-phocamenurawedit #phAdminEdit .form-horizontal .tab-content .ph-admin-additional-box,
+.view-phocamenumultipleedit #phAdminEdit .form-horizontal .tab-content .ph-admin-additional-box {
+	position: relative;
+	float: right;
+}
+
+.view-phocamenurawedit #phAdminEdit .form-horizontal .tab-content .alert,
+.view-phocamenumultipleedit #phAdminEdit .form-horizontal .tab-content .alert {
+	width: 50%;
+}
+
 .ph-admin-additional-box-img-box {
 	text-align: center;
 }

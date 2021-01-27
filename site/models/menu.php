@@ -55,12 +55,18 @@ class PhocaMenuModelMenu extends JModelLegacy
 			$wheresLang = '';
 
 			if ($this->getState('filter.language')) {
-				$wheresLang =  'a.language IN ('.$this->_db->Quote(JFactory::getLanguage()->getTag()).','.$this->_db->Quote('*').')';
+
+				// If set to this:
+				//$wheresLang =  'a.language IN ('.$this->_db->Quote(JFactory::getLanguage()->getTag()).','.$this->_db->Quote('*').')';
+				// Then config table can load header from all languages instead of current
+				$wheresLang =  'a.language IN ('.$this->_db->Quote(JFactory::getLanguage()->getTag()).')';
+				// Possible FR: make $wheresLang different for different tables (config, item, etc.)
 			} else {
 				// Because of possible duplicity, we can get the last item but we need to differentiate between languages
 				// all language is "" or "*"
 				$wheresLang =  'a.language IN (\'\','.$this->_db->Quote('*').')';
 			}
+
 
 			/* Specific data from ADMINISTRATOR
 			 * In administration you can display data from menu type or you can display one list(day) from menu type

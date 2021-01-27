@@ -36,16 +36,6 @@ echo $r->startTabs();
 
 echo $r->startTab('general', $tabs['general'], 'active');
 
-$method = $this->typeinfo['render'];
-$output = PhocaMenuRenderViews::$method($this->formdata, $this->t, $this->params, null, 6);
-
-
-echo '<div class="alert alert-warning"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>'.JText::_('COM_PHOCAMENU_ADDING_WRONG_FORMAT_WARNING').'</div>';
-
-if (isset($output) && $output != '') {
-	echo $output;
-}
-
 echo '<div class="ph-float-right ph-admin-additional-box">';
 if ($this->t['admintool'] == 1 && (int)$this->t['atid'] > 0) {
 	// Don't select language as we asked the specific id
@@ -66,6 +56,18 @@ if ($this->t['admintool'] == 1 && (int)$this->t['atid'] > 0) {
 	echo '</select>'. "\n";
 }
 echo '</div>';
+
+$method = $this->typeinfo['render'];
+$output = PhocaMenuRenderViews::$method($this->formdata, $this->t, $this->params, null, 6);
+
+
+echo '<div class="alert alert-warning"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>'.JText::_('COM_PHOCAMENU_ADDING_WRONG_FORMAT_WARNING').'</div>';
+
+if (isset($output) && $output != '') {
+	echo $output;
+}
+
+
 
 echo $r->endTab();
 
