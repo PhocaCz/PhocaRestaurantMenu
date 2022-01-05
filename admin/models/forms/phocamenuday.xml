@@ -5,9 +5,9 @@
 <field name="id" type="text" default="0" label="JGLOBAL_FIELD_ID_LABEL" required="true" readonly="true" class="readonly" />
 <field name="type" type="hidden" default="0" label="COM_PHOCAMENU_FIELD_TYPE_LABEL"  readonly="true" class="readonly" />
 
-<field name="title" type="PhocaMenuCalendar" daytype="day" class="inputbox" size="40" label="COM_PHOCAMENU_FIELD_DAY_LABEL" description="COM_PHOCAMENU_FIELD_DAY_DESC" required="true" />
+<field name="title" type="PhocaMenuCalendar" daytype="day" class="form-control" size="40" label="COM_PHOCAMENU_FIELD_DAY_LABEL" description="COM_PHOCAMENU_FIELD_DAY_DESC" required="true" />
 
-<field name="ordering" type="PhocaMenuOrdering" menutype="day" class="inputbox" label="COM_PHOCAMENU_FIELD_ORDERING_LABEL" description="COM_PHOCAMENU_FIELD_ORDERING_DESC" />
+<field name="ordering" type="PhocaMenuOrdering" menutype="day" class="form-select" label="COM_PHOCAMENU_FIELD_ORDERING_LABEL" description="COM_PHOCAMENU_FIELD_ORDERING_DESC" />
 
 
 	</fieldset>
@@ -18,7 +18,7 @@
 		<option value="1">JPUBLISHED</option>
 		<option	value="0">JUNPUBLISHED</option>
 	</field>
-	<field name="language" type="contentlanguage" label="JFIELD_LANGUAGE_LABEL" description="COM_PHOCAMENU_FIELD_LANGUAGE_DAY_DESC" class="inputbox">
+	<field name="language" type="contentlanguage" label="JFIELD_LANGUAGE_LABEL" description="COM_PHOCAMENU_FIELD_LANGUAGE_DAY_DESC" class="form-select">
 		<option value="*">JALL</option>
 	</field>
 </fieldset>

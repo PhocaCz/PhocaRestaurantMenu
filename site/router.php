@@ -1,129 +1,78 @@
 <?php
 /**
-* @version		$Id: router.php 6676 2007-02-19 05:52:03Z Jinx $
-* @package		Joomla
-* @copyright	Copyright (C) 2005 - 2007 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+ * @package     Joomla.Site
+ * @subpackage  com_phocamaps
+ *
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
 defined('_JEXEC') or die;
+use Joomla\CMS\Component\Router\RouterView;
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Component\Router\RouterViewConfiguration;
+use Joomla\CMS\Component\Router\Rules\MenuRules;
+use Joomla\CMS\Component\Router\Rules\StandardRules;
+use Joomla\CMS\Component\Router\Rules\NomenuRules;
+use Joomla\CMS\Factory;
+
+
+/**
+ * Routing class of com_phocamaps
+ *
+ * @since  3.3
+ */
+
+
+class PhocamenuRouter extends RouterView
+{
+	protected $noIDs = false;
+
+	/**
+	 * Content Component router constructor
+	 *
+	 * @param   JApplicationCms  $app   The application object
+	 * @param   JMenu            $menu  The menu object to work with
+	 */
+	public function __construct($app = null, $menu = null)
+	{
+
+        $views = array('beveragelist', 'breakfastmenu', 'dailymenu', 'dinnermenu', 'foodmenu', 'lunchmenu', 'weeklymenu', 'winelist');
+        foreach ($views as $k => $v) {
+           $m = new RouterViewConfiguration($v);
+           $this->registerView($m);
+		}
+
+
+		parent::__construct($app, $menu);
+
+        //$this->attachRule(new MenuRules($this));
+		$this->attachRule(new StandardRules($this));
+		$this->attachRule(new NomenuRules($this));
+
+
+
+	}
+}
+
+
 function PhocaMenuBuildRoute(&$query)
 {
-	$segments = array();
-	
-	/*if(isset($query['view']))
-	{
-		$segments[] = $query['view'];
-		unset($query['view']);
-	};*/
-	
-/*	if(isset($query['type']))
-	{
-		$segments[] = $query['type'];
-		unset($query['type']);
-	};
-	*/
-	
-	/*if(isset($query['tmpl']))
-	{
-		$segments[] = $query['tmpl'];
-		unset($query['tmpl']);
-	};*/
-	
 
-	
-	/*if(isset($query['print']))
-	{
-		$segments[] = $query['print'];
-		unset($query['print']);
-	};
-	if(isset($query['format']))
-	{
-		$segments[] = $query['format'];
-		unset($query['format']);
-	};*/
-	
+	$app = Factory::getApplication();
+	$router = new PhocamenuRouter($app, $app->getMenu());
 
-	unset($query['view']);
-	return $segments;
+	return $router->build($query);
 }
+
 
 function PhocaMenuParseRoute($segments)
-{		
-	$vars = array();
-	
-	//Get the active menu item
+{
 
-	$app 	= JFactory::getApplication('site');
-	$menu  = $app->getMenu();
-	$item	= &$menu->getActive();
 
-	// Count route segments
-	$count = count($segments);
+	$app = Factory::getApplication();
+	$router = new PhocamenuRouter($app, $app->getMenu());
 
-	
-	//Handle View and Identifier
-	switch($item->query['view'])
-	{	
-		case 'beveragelist'   :
-		{
-			$vars['view']	= 'beveragelist';
-		//	$vars['type']	= $segments[$count-2];
-			$vars['tmpl']	= $segments[$count-1];
-		} break;
-		
-		case 'dailymenu'   :
-		{
-			$vars['view']	= 'dailymenu';
-		//	$vars['type']	= $segments[$count-2];
-			$vars['tmpl']	= $segments[$count-1];
-		} break;
-		
-		case 'foodmenu'   :
-		{
-			$vars['view']	= 'foodmenu';
-		//	$vars['type']	= $segments[$count-2];
-			$vars['tmpl']	= $segments[$count-1];
-		} break;
-		
-		case 'weeklymenu'   :
-		{
-			$vars['view']	= 'weeklymenu';
-		//	$vars['type']	= $segments[$count-2];
-			$vars['tmpl']	= $segments[$count-1];
-		} break;
-		
-		case 'winelist'   :
-		{
-			$vars['view']	= 'winelist';
-		//	$vars['type']	= $segments[$count-2];
-			$vars['tmpl']	= $segments[$count-1];
-		} break;
-		
-		case 'breakfastmenu'   :
-		{
-			$vars['view']	= 'breakfastmenu';
-		//	$vars['type']	= $segments[$count-2];
-			$vars['tmpl']	= $segments[$count-1];
-		} break;
-		case 'lunchmenu'   :
-		{
-			$vars['view']	= 'lunchmenu';
-		//	$vars['type']	= $segments[$count-2];
-			$vars['tmpl']	= $segments[$count-1];
-		} break;
-		case 'dinnermenu'   :
-		{
-			$vars['view']	= 'dinnermenu';
-		//	$vars['type']	= $segments[$count-2];
-			$vars['tmpl']	= $segments[$count-1];
-		} break;
-	}
-
-	return $vars;
+	return $router->parse($segments);
 }
-?>
+

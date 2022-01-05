@@ -13,10 +13,11 @@
 				<option value="2">COM_PHOCAMENU_YES_BELOW_ITEMS</option>
 			</field>
 			
-			<field name="html_output" default="1" size="10" type="list" label="COM_PHOCAMENU_FIELD_HTML_OUTPUT_LABEL" description="COM_PHOCAMENU_FIELD_HTML_OUTPUT_DESC" >
+			<field name="html_output" default="1" type="list" label="COM_PHOCAMENU_FIELD_HTML_OUTPUT_LABEL" description="COM_PHOCAMENU_FIELD_HTML_OUTPUT_DESC" >
 		<option value="1">COM_PHOCAMENU_TABLES</option>
-		<option value="2">COM_PHOCAMENU_BOOTSTRAP2</option>
-		<option value="3">COM_PHOCAMENU_BOOTSTRAP3</option>
+		<!--<option value="2">COM_PHOCAMENU_BOOTSTRAP2</option>
+        <option value="3">COM_PHOCAMENU_BOOTSTRAP3</option>-->
+        <option value="5">COM_PHOCAMENU_BOOTSTRAP5</option>
 		</field>
 		
 		<field name="phocahead2" type="phocahead"  default="COM_PHOCAMENU_CONFIG_PRICE_SETTINGS_LABEL" label="" description="" />
@@ -75,11 +76,9 @@
 				<option value="medium">COM_PHOCAMENU_MEDIUM</option>
 			</field>
 		
-		<field name="image_detail_window" type="list" default="2" label="COM_PHOCAMENU_FIELD_DETAIL_WINDOW_LABEL" description="COM_PHOCAMENU_FIELD_DETAIL_WINDOW_DESC">
-			<option value="1">COM_PHOCAMENU_STANDARD_POPUP_WINDOW</option>
-			<option value="2">COM_PHOCAMENU_MODAL_BOX_IMG_ONLY</option>
-			<option value="3">COM_PHOCAMENU_SHADOWBOX</option>
-			<option value="5">COM_PHOCAMENU_HIGHSLIDE_IMG_ONLY</option>
+		<field name="image_detail_window" type="list" default="0" label="COM_PHOCAMENU_FIELD_DETAIL_WINDOW_LABEL" description="COM_PHOCAMENU_FIELD_DETAIL_WINDOW_DESC">
+			<option value="0">COM_PHOCAMENU_NONE</option>
+            <option value="1">COM_PHOCAMENU_STANDARD_POPUP_WINDOW</option>
 		</field>
 		
 		
@@ -87,9 +86,9 @@
 	<field name="front_modal_box_height" default="560" size="4" type="text" label="COM_PHOCAMENU_FIELD_DETAIL_WINDOW_HEIGHT_LABEL" description="COM_PHOCAMENU_FIELD_DETAIL_WINDOW_HEIGHT_DESC" />
 		
 		
-		
-		<field name="detail_window_background_color" default="#ffffff" size="10" type="phocacolortext" label="COM_PHOCAMENU_FIELD_DETAIL_WINDOW_BACKGROUND_COLOR_LABEL" description="COM_PHOCAMENU_FIELD_DETAIL_WINDOW_BACKGROUND_COLOR_DESC" />
-		<field name="modal_box_overlay_color" default="#000000" size="10" type="phocacolortext" label="COM_PHOCAMENU_FIELD_MODAL_BOX_OVERLAY_COLOR_LABEL" description="COM_PHOCAMENU_FIELD_MODAL_BOX_OVERLAY_COLOR_DESC" />
+		<!--
+		<field name="detail_window_background_color" default="#ffffff" size="10" type="color" label="COM_PHOCAMENU_FIELD_DETAIL_WINDOW_BACKGROUND_COLOR_LABEL" description="COM_PHOCAMENU_FIELD_DETAIL_WINDOW_BACKGROUND_COLOR_DESC" />
+		<field name="modal_box_overlay_color" default="#000000" size="10" type="color" label="COM_PHOCAMENU_FIELD_MODAL_BOX_OVERLAY_COLOR_LABEL" description="COM_PHOCAMENU_FIELD_MODAL_BOX_OVERLAY_COLOR_DESC" />
 		<field name="modal_box_overlay_opacity" default="0.3" size="10" type="list" label="COM_PHOCAMENU_FIELD_MODAL_BOX_OVERLAY_OPACITY_LABEL" description="COM_PHOCAMENU_FIELD_MODAL_BOX_OVERLAY_OPACITY_DESC" >
 		<option value="0">0 %</option>
 		<option value="0.1">10 %</option>
@@ -104,39 +103,39 @@
 		<option value="1">100 %</option>
 		</field>
 		
-		<field name="modal_box_border_color" default="#6b6b6b" size="10" type="phocacolortext" label="COM_PHOCAMENU_FIELD_MODAL_BOX_BORDER_COLOR_LABEL" description="COM_PHOCAMENU_FIELD_MODAL_BOX_BORDER_COLOR_DESC" />
+		<field name="modal_box_border_color" default="#6b6b6b" size="10" type="color" label="COM_PHOCAMENU_FIELD_MODAL_BOX_BORDER_COLOR_LABEL" description="COM_PHOCAMENU_FIELD_MODAL_BOX_BORDER_COLOR_DESC" />
 		<field name="modal_box_border_width" default="2" size="10" type="text" label="COM_PHOCAMENU_FIELD_MODAL_BOX_BORDER_WIDTH_LABEL" description="COM_PHOCAMENU_FIELD_MODAL_BOX_BORDER_WIDTH_DESC" />
 		
-		
+    -->
 		
 </fieldset>		
 <fieldset name="administration" label="COM_PHOCAMENU_CONFIG_HEAD_ADMINISTRATION_LABEL">
 		
-		<field name="enable_editor" type="radio" class="btn-group btn-group-yesno" default="1" label="COM_PHOCAMENU_FIELD_ENABLE_HTML_EDITOR_LABEL" description="COM_PHOCAMENU_FIELD_ENABLE_HTML_EDITOR_DESC" >
+		<field name="enable_editor" type="radio" class="btn-group btn-group-yesno" layout="joomla.form.field.radio.switcher" default="1" label="COM_PHOCAMENU_FIELD_ENABLE_HTML_EDITOR_LABEL" description="COM_PHOCAMENU_FIELD_ENABLE_HTML_EDITOR_DESC" >
 				<option value="0">COM_PHOCAMENU_NO</option>
 				<option value="1">COM_PHOCAMENU_YES</option>
 			</field>
-		<field name="enable_editor_email" type="radio" class="btn-group btn-group-yesno" default="1" label="COM_PHOCAMENU_FIELD_ENABLE_HTML_EDITOR_EMAIL_LABEL" description="COM_PHOCAMENU_FIELD_ENABLE_HTML_EDITOR_EMAIL_DESC" >
-				<option value="0">COM_PHOCAMENU_NO</option>
-				<option value="1">COM_PHOCAMENU_YES</option>
-			</field>
-			
-			<field name="enable_desc_multiple" type="radio" class="btn-group btn-group-yesno" default="1" label="COM_PHOCAMENU_FIELD_ENABLE_DESC_MULTIPLE_LABEL" description="COM_PHOCAMENU_FIELD_ENABLE_DESC_MULTIPLE_DESC" >
-				<option value="0">COM_PHOCAMENU_NO</option>
-				<option value="1">COM_PHOCAMENU_YES</option>
-			</field>
-			<field name="enable_desc_multiple_group" type="radio" class="btn-group btn-group-yesno" default="1" label="COM_PHOCAMENU_FIELD_ENABLE_DESC_MULTIPLE_GROUP_LABEL" description="COM_PHOCAMENU_FIELD_ENABLE_DESC_MULTIPLE_GROUP_DESC" >
+		<field name="enable_editor_email" type="radio" class="btn-group btn-group-yesno" layout="joomla.form.field.radio.switcher" default="1" label="COM_PHOCAMENU_FIELD_ENABLE_HTML_EDITOR_EMAIL_LABEL" description="COM_PHOCAMENU_FIELD_ENABLE_HTML_EDITOR_EMAIL_DESC" >
 				<option value="0">COM_PHOCAMENU_NO</option>
 				<option value="1">COM_PHOCAMENU_YES</option>
 			</field>
 			
+			<field name="enable_desc_multiple" type="radio" class="btn-group btn-group-yesno" layout="joomla.form.field.radio.switcher" default="1" label="COM_PHOCAMENU_FIELD_ENABLE_DESC_MULTIPLE_LABEL" description="COM_PHOCAMENU_FIELD_ENABLE_DESC_MULTIPLE_DESC" >
+				<option value="0">COM_PHOCAMENU_NO</option>
+				<option value="1">COM_PHOCAMENU_YES</option>
+			</field>
+			<field name="enable_desc_multiple_group" type="radio" class="btn-group btn-group-yesno" layout="joomla.form.field.radio.switcher" default="1" label="COM_PHOCAMENU_FIELD_ENABLE_DESC_MULTIPLE_GROUP_LABEL" description="COM_PHOCAMENU_FIELD_ENABLE_DESC_MULTIPLE_GROUP_DESC" >
+				<option value="0">COM_PHOCAMENU_NO</option>
+				<option value="1">COM_PHOCAMENU_YES</option>
+			</field>
 			
-			<field name="displayheaderdate" type="radio" class="btn-group btn-group-yesno" default="1" label="COM_PHOCAMENU_DISPLAY_HEADER_DATE_LABEL" description="COM_PHOCAMENU_DISPLAY_HEADER_DATE_DESC">
+			
+			<field name="displayheaderdate" type="radio" class="btn-group btn-group-yesno" layout="joomla.form.field.radio.switcher" default="1" label="COM_PHOCAMENU_DISPLAY_HEADER_DATE_LABEL" description="COM_PHOCAMENU_DISPLAY_HEADER_DATE_DESC">
 				<option value="0">COM_PHOCAMENU_HIDE</option>
 				<option value="1">COM_PHOCAMENU_SHOW</option>
 			</field>
 			
-			<field name="displaydayname" type="radio" class="btn-group btn-group-yesno" default="1" label="COM_PHOCAMENU_DISPLAY_DAY_TITLE_LABEL" description="COM_PHOCAMENU_DISPLAY_DAY_TITLE_DESC">
+			<field name="displaydayname" type="radio" class="btn-group btn-group-yesno" layout="joomla.form.field.radio.switcher" default="1" label="COM_PHOCAMENU_DISPLAY_DAY_TITLE_LABEL" description="COM_PHOCAMENU_DISPLAY_DAY_TITLE_DESC">
 				<option value="0">COM_PHOCAMENU_HIDE</option>
 				<option value="1">COM_PHOCAMENU_SHOW</option>
 			</field>
@@ -153,19 +152,19 @@
 				<option value="1">COM_PHOCAMENU_YES</option>
 				<option value="2">COM_PHOCAMENU_YES_NO_LISTS_AND_DAYS</option>
 		</field>
-		<field name="display_item_tools" type="radio" class="btn-group btn-group-yesno" default="1" label="COM_PHOCAMENU_FIELD_DISPLAY_ITEM_TOOLS_LABEL" description="COM_PHOCAMENU_FIELD_DISPLAY_ITEM_TOOLS_DESC">
+		<field name="display_item_tools" type="radio" class="btn-group btn-group-yesno" layout="joomla.form.field.radio.switcher" default="1" label="COM_PHOCAMENU_FIELD_DISPLAY_ITEM_TOOLS_LABEL" description="COM_PHOCAMENU_FIELD_DISPLAY_ITEM_TOOLS_DESC">
 				<option value="1">COM_PHOCAMENU_YES</option>
 				<option value="0">COM_PHOCAMENU_NO</option>
 		</field>
 		
 		
 		
-		<field name="enable_cache" type="radio" class="btn-group btn-group-yesno" default="0" label="COM_PHOCAMENU_FIELD_ENABLE_CACHE_LABEL" description="COM_PHOCAMENU_FIELD_ENABLE_CACHE_DESC">
+		<field name="enable_cache" type="radio" class="btn-group btn-group-yesno" layout="joomla.form.field.radio.switcher" default="0" label="COM_PHOCAMENU_FIELD_ENABLE_CACHE_LABEL" description="COM_PHOCAMENU_FIELD_ENABLE_CACHE_DESC">
 	<option value="1">COM_PHOCAMENU_YES</option>
 	<option value="0">COM_PHOCAMENU_NO</option>
 </field>
 
-<field name="comma_point" type="radio" class="btn-group btn-group-yesno" default="0" label="COM_PHOCAMENU_FIELD_REPLACE_COMMA_WITH_POINT_LABEL" description="COM_PHOCAMENU_FIELD_REPLACE_COMMA_WITH_POINT_DESC">
+<field name="comma_point" type="radio" class="btn-group btn-group-yesno" layout="joomla.form.field.radio.switcher" default="0" label="COM_PHOCAMENU_FIELD_REPLACE_COMMA_WITH_POINT_LABEL" description="COM_PHOCAMENU_FIELD_REPLACE_COMMA_WITH_POINT_DESC">
 	<option value="1">COM_PHOCAMENU_YES</option>
 	<option value="0">COM_PHOCAMENU_NO</option>
 </field>	
@@ -181,16 +180,17 @@
 
 <field name="phocahead6" type="phocahead"  default="COM_PHOCAMENU_CONFIG_SCREENSHOT_SETTINGS_LABEL" label="" description="" />
 
-<field name="enable_screenshot" type="radio" class="btn-group btn-group-yesno" default="0" label="COM_PHOCAMENU_FIELD_ENABLE_SCREENSHOT_LABEL" description="COM_PHOCAMENU_FIELD_ENABLE_SCREENSHOT_DESC">
+<field name="enable_screenshot" type="radio" class="btn-group btn-group-yesno" layout="joomla.form.field.radio.switcher" default="0" label="COM_PHOCAMENU_FIELD_ENABLE_SCREENSHOT_LABEL" description="COM_PHOCAMENU_FIELD_ENABLE_SCREENSHOT_DESC">
 	<option value="0">COM_PHOCAMENU_NO</option>
 	<option value="1">COM_PHOCAMENU_YES</option>
 </field>
 <field name="screenshot_css" type="textarea" rows="5" cols="30" default="" label="COM_PHOCAMENU_FIELD_SCREENSHOT_CSS_LABEL" filter="raw" description="COM_PHOCAMENU_FIELD_SCREENSHOT_CSS_DESC" />
 
-<field name="html_output_admin" default="1" size="10" type="list" label="COM_PHOCAMENU_FIELD_HTML_OUTPUT_ADMIN_LABEL" description="COM_PHOCAMENU_FIELD_HTML_OUTPUT_ADMIN_DESC" >
+<field name="html_output_admin" default="1" type="list" label="COM_PHOCAMENU_FIELD_HTML_OUTPUT_ADMIN_LABEL" description="COM_PHOCAMENU_FIELD_HTML_OUTPUT_ADMIN_DESC" >
 		<option value="1">COM_PHOCAMENU_TABLES</option>
-		<option value="2">COM_PHOCAMENU_BOOTSTRAP2</option>
-		<option value="3">COM_PHOCAMENU_BOOTSTRAP3</option>
+		<!--<option value="2">COM_PHOCAMENU_BOOTSTRAP2</option>
+        <option value="3">COM_PHOCAMENU_BOOTSTRAP3</option>-->
+        <option value="3">COM_PHOCAMENU_BOOTSTRAP5</option>
 		</field>
 		
 		<field name="remove_stylesheet_string" default="" size="10" type="text" label="COM_PHOCAMENU_FIELD_REMOVE_STYLESHEET_STRING_LABEL" description="COM_PHOCAMENU_FIELD_REMOVE_STYLESHEET_STRING_DESC" />

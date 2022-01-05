@@ -9,8 +9,10 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License version 2 or later;
  */
 defined('_JEXEC') or die;
+use Joomla\CMS\MVC\View\HtmlView;
+use Joomla\CMS\Factory;
 jimport('joomla.application.component.view');
-class PhocaMenuFrontViewPdf extends JViewLegacy
+class PhocaMenuFrontViewPdf extends HtmlView
 {
 	public $button;
 	protected $params;
@@ -20,7 +22,7 @@ class PhocaMenuFrontViewPdf extends JViewLegacy
 	
 	function display($tpl = null) {
 		
-		$app				= JFactory::getApplication();		
+		$app				= Factory::getApplication();		
 		$this->params		= $app->getParams();
 		$model 				= $this->getModel('Menu');
 		$type				= PhocaMenuHelper::getTypeByView($this->_name);

@@ -10,6 +10,9 @@
  */
 
 defined('JPATH_PLATFORM') or die;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
 
 abstract class PhocaMenuNew
 {
@@ -17,20 +20,20 @@ abstract class PhocaMenuNew
 	public static function item($category = 0)
 	{
 
-		$db = JFactory::getDBO();
+		$db = Factory::getDBO();
 
 		$groupOptions =array();
 
-		//$groupOptions[] = JHTML::_('select.option', '-1', JText::_('All Groups'));
+		//$groupOptions[] = JHtml::_('select.option', '-1', JText::_('All Groups'));
 
 		if ($category == 1) {
 			$e = PhocaMenuHelper::isMenuEnabled();
 
-			$groupOptions[] = JHTML::_('select.option', '1,' . 0, '['.JText::_('COM_PHOCAMENU_DAILY_MENU').']');
+			$groupOptions[] = HTMLHelper::_('select.option', '1,' . 0, '['.Text::_('COM_PHOCAMENU_DAILY_MENU').']');
 			if ($e) {
-				$groupOptions[] = JHTML::_('select.option', '6,' . 0, '['.JText::_('COM_PHOCAMENU_BREAKFAST_MENU').']');
-				$groupOptions[] = JHTML::_('select.option', '7,' . 0, '['.JText::_('COM_PHOCAMENU_LUNCH_MENU').']');
-				$groupOptions[] = JHTML::_('select.option', '8,' . 0, '['.JText::_('COM_PHOCAMENU_DINNER_MENU').']');
+				$groupOptions[] = HTMLHelper::_('select.option', '6,' . 0, '['.Text::_('COM_PHOCAMENU_BREAKFAST_MENU').']');
+				$groupOptions[] = HTMLHelper::_('select.option', '7,' . 0, '['.Text::_('COM_PHOCAMENU_LUNCH_MENU').']');
+				$groupOptions[] = HTMLHelper::_('select.option', '8,' . 0, '['.Text::_('COM_PHOCAMENU_DINNER_MENU').']');
 			}
 
 			$query = 'SELECT menulist.id as listid, menulist.title as listtitle, menulist.type as listtype'
@@ -51,10 +54,10 @@ abstract class PhocaMenuNew
 				$title = '';
 				$title .= '['.PhocaMenuHelper::getTitleByType((int)$group->daytype).'] - ';
 				if (isset($group->daytitle) && $group->daytitle != '') {
-					$title .= JHTML::Date($group->daytitle, 'Y-m-d');
+					$title .= HTMLHelper::Date($group->daytitle, 'Y-m-d');
 				}
 				$title = str_replace('[np]', '', $title);
-				$groupOptions[] = JHTML::_('select.option', 'd,' . $group->dayid, $title);
+				$groupOptions[] = HTMLHelper::_('select.option', 'd,' . $group->dayid, $title);
 			}
 			foreach($lists as $group){
 
@@ -64,7 +67,7 @@ abstract class PhocaMenuNew
 					$title .= $group->listtitle;
 				}
 				$title = str_replace('[np]', '', $title);
-				$groupOptions[] = JHTML::_('select.option', 'l,' . $group->listid, $title);
+				$groupOptions[] = HTMLHelper::_('select.option', 'l,' . $group->listid, $title);
 			}
 
 		} else {
@@ -89,7 +92,7 @@ abstract class PhocaMenuNew
 					$title .= '['.PhocaMenuHelper::getTitleByType((int)$group->grouptype).'] - ';
 				}
 				if (isset($group->daytitle) && $group->daytitle != '') {
-					$title .= JHTML::Date($group->daytitle, 'Y-m-d') . " - " . $group->title;
+					$title .= HTMLHelper::Date($group->daytitle, 'Y-m-d') . " - " . $group->title;
 				} else if (isset($group->listtitle) && $group->listtitle != '') {
 					$title .= $group->listtitle . " - " . $group->title;
 				} else {
@@ -98,35 +101,35 @@ abstract class PhocaMenuNew
 
 				$title = str_replace('[np]', '', $title);
 
-				$groupOptions[] = JHTML::_('select.option', $group->id, $title);
+				$groupOptions[] = HTMLHelper::_('select.option', $group->id, $title);
 				$groupcount++;
 			}
 		}
 
 		/*$groupList=array();
-		$groupList["title"]= JText::_('Group filter');
-		$groupList["html"] = JHTML::_('select.genericlist', $groupOptions, 'phocamenugroup_filter_value', 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'value', 'text', $this->filter_value );
+		$groupList["title"]= Text::_('Group filter');
+		$groupList["html"] = HTMLHelper::_('select.genericlist', $groupOptions, 'phocamenugroup_filter_value', 'class="form-control" size="1" onchange="document.adminForm.submit();"', 'value', 'text', $this->filter_value );
 		return $groupList;
 */
 
 		$return = array();
 		if (empty($groupOptions)) {
 			$return['status'] = 0;
-			$return['output'] = '<div class="alert alert-danger">'.JText::_('COM_PHOCAMENU_NO_GROUP_FOUND_CREATE_GROUP_FIRST').'</div>';
+			$return['output'] = '<div class="alert alert-danger">'.Text::_('COM_PHOCAMENU_NO_GROUP_FOUND_CREATE_GROUP_FIRST').'</div>';
 			return $return;
 		}
 		// Create the batch selector to change select the category by which to move or copy.
 		$lines = array(
 			'<label id="batch-choose-action-lbl" for="batch-choose-action">',
-			JText::_('COM_PHOCAMENU_SELECT_GROUP'),
+			Text::_('COM_PHOCAMENU_SELECT_GROUP'),
 			'</label>',
 			'<fieldset id="batch-choose-action" class="combo">',
-				'<select name="new[category_id]" class="inputbox" id="batch-category-id">',
+				'<select name="new[category_id]" class="form-select" id="batch-category-id">',
 					/*'<option value="">'.JText::_('JSELECT').'</option>',
 					/*JHtml::_('select.options',	JHtml::_('category.options', $extension, array('published' => (int) $published))),*/
-					JHTML::_('select.options',  $groupOptions ),
+					HTMLHelper::_('select.options',  $groupOptions ),
 				'</select>',
-				//JHTML::_( 'select.radiolist', $options, 'batch[move_copy]', '', 'value', 'text', 'm'),
+				//JHtml::_( 'select.radiolist', $options, 'batch[move_copy]', '', 'value', 'text', 'm'),
 			'</fieldset>'
 		);
 

@@ -9,6 +9,11 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License version 2 or later;
  */
 defined('_JEXEC') or die();
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Session\Session;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
 
 class PhocaMenuCpControllerPhocaMenuRawEdit extends PhocaMenuControllerForm
 {
@@ -19,16 +24,16 @@ class PhocaMenuCpControllerPhocaMenuRawEdit extends PhocaMenuControllerForm
 
 	public function cancel($key = NULL)
 	{
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
-		$app		= JFactory::getApplication();
+		$app		= Factory::getApplication();
 		//$model		= $this->getModel();
 		//$table		= $model->getTable();
 		//$checkin	= property_exists($table, 'checked_out');
 		$context	= "$this->option.edit.$this->context";
-		$tmpl		= JFactory::getApplication()->input->get('tmpl');
-		$layout		= JFactory::getApplication()->input->get('layout', 'edit');
+		$tmpl		= Factory::getApplication()->input->get('tmpl');
+		$layout		= Factory::getApplication()->input->get('layout', 'edit');
 		$append		= '';
 
 		// Clean the session data and redirect.
@@ -37,19 +42,19 @@ class PhocaMenuCpControllerPhocaMenuRawEdit extends PhocaMenuControllerForm
 
 		//$this->setRedirect(JRoute::_('index.php?option=com_phocamenu'.$this->getRedirectToListAppend(1), false));
 		// WHEN RAW EDIT SAVES - there are new IDs for lists/days/groups/items so we go back to root
-		$this->setRedirect(JRoute::_('index.php?option=com_phocamenu'.$this->getRedirectToListAppend(2), false));
+		$this->setRedirect(Route::_('index.php?option=com_phocamenu'.$this->getRedirectToListAppend(2), false));
 	}
 
 	public function edit($key = NULL, $urlVar = NULL)
 	{
 		// Initialise variables.
-		$app		= JFactory::getApplication();
+		$app		= Factory::getApplication();
 		//$model		= $this->getModel();
 		//$table		= $model->getTable();
 		//$cid		= JFactory::getApplication()->input->get('cid', array(), 'post', 'array');
 		$context	= "$this->option.edit.$this->context";
-		$tmpl		= JFactory::getApplication()->input->get('tmpl');
-		$layout		= JFactory::getApplication()->input->get('layout', 'edit');
+		$tmpl		= Factory::getApplication()->input->get('tmpl');
+		$layout		= Factory::getApplication()->input->get('layout', 'edit');
 		$append		= '';
 		$recordId	= '';
 
@@ -63,7 +68,7 @@ class PhocaMenuCpControllerPhocaMenuRawEdit extends PhocaMenuControllerForm
 
 	function save($key = NULL, $urlVar = NULL) {
 
-		$app		= JFactory::getApplication();
+		$app		= Factory::getApplication();
 		$post 		= $app->input->post->getArray();
 
 		//$get		= $app->input->get->getArray();
@@ -73,22 +78,23 @@ class PhocaMenuCpControllerPhocaMenuRawEdit extends PhocaMenuControllerForm
 		//$table		= $model->getTable();
 		//$cid		= JFactory::getApplication()->input->get('cid', array(), 'post', 'array');
 		$context	= "$this->option.edit.$this->context";
-		$tmpl		= JFactory::getApplication()->input->get('tmpl');
-		$layout		= JFactory::getApplication()->input->get('layout', 'edit');
+		$tmpl		= Factory::getApplication()->input->get('tmpl');
+		$layout		= Factory::getApplication()->input->get('layout', 'edit');
 		$append		= '';
 
-		$errorMsg			= '';
+		$msg		= '';
+		$errorMsg	= '';
 		$model 	= $this->getModel( 'phocamenurawedit' );
 
 		$return	= $model->save($post, $errorMsg);
 		if ($return) {
-			$msg 	= JText::_( 'COM_PHOCAMENU_SUCCESS_MODIFICATION_SAVED_RAW' );
+			$msg 	.= Text::_( 'COM_PHOCAMENU_SUCCESS_MODIFICATION_SAVED_RAW' );
 		} else {
-			$msg 	= JText::_( 'COM_PHOCAMENU_ERROR_MODIFICATION_SAVED_RAW' );
+			$errorMsg 	.= Text::_( 'COM_PHOCAMENU_ERROR_MODIFICATION_SAVED_RAW' );
 		}
 
 		if ($errorMsg != '') {
-			$msg .= '. '.$errorMsg. '.';
+			$msg .= ' '.$errorMsg. ' ';
 			$app->enqueueMessage($msg, 'error');
 		} else {
 			$app->enqueueMessage($msg, 'message');
@@ -96,15 +102,15 @@ class PhocaMenuCpControllerPhocaMenuRawEdit extends PhocaMenuControllerForm
 
 
 
-		switch ( JFactory::getApplication()->input->get('task') ) {
+		switch ( Factory::getApplication()->input->get('task') ) {
 			case 'apply':
-				$this->setRedirect(JRoute::_('index.php?option='.$this->option.$this->getRedirectToItemAppend(), false));
+				$this->setRedirect(Route::_('index.php?option='.$this->option.$this->getRedirectToItemAppend(), false));
 			break;
 
 			case 'save':
 			default:
 				// WHEN RAW EDIT SAVES - there are new IDs for lists/days/groups/items so we go back to root
-				$this->setRedirect(JRoute::_('index.php?option=com_phocamenu'.$this->getRedirectToListAppend(2), false));
+				$this->setRedirect(Route::_('index.php?option=com_phocamenu'.$this->getRedirectToListAppend(2), false));
 
 			break;
 		}
@@ -114,7 +120,7 @@ class PhocaMenuCpControllerPhocaMenuRawEdit extends PhocaMenuControllerForm
 
 
 	function export() {
-		$app		= JFactory::getApplication();
+		$app		= Factory::getApplication();
 		$post 		= $app->input->post->getArray();
 
 		$file		= $post['menudata'];
@@ -138,7 +144,7 @@ class PhocaMenuCpControllerPhocaMenuRawEdit extends PhocaMenuControllerForm
 
 		// test for protocol and set the appropriate headers
 		jimport( 'joomla.environment.uri' );
-		$_tmp_uri 		= JURI::getInstance( JURI::current() );
+		$_tmp_uri 		= Uri::getInstance( Uri::current() );
 		$_tmp_protocol 	= $_tmp_uri->getScheme();
 		if ($_tmp_protocol == "https") {
 			// SSL Support
@@ -200,8 +206,8 @@ class PhocaMenuCpControllerPhocaMenuRawEdit extends PhocaMenuControllerForm
 
 	protected function getRedirectToItemAppend($recordId = null, $key = 'id', $bUrlUse = 0)
 	{
-		$tmpl		= JFactory::getApplication()->input->get('tmpl');
-		$layout		= JFactory::getApplication()->input->get('layout', 'edit');
+		$tmpl		= Factory::getApplication()->input->get('tmpl');
+		$layout		= Factory::getApplication()->input->get('layout', 'edit');
 		$append		= '';
 		$aUrl		= PhocaMenuHelper::getUrlApend($this->typeview);
 		$bUrl		= PhocaMenuHelper::getUrlApend($this->typeview, 1);
@@ -229,7 +235,7 @@ class PhocaMenuCpControllerPhocaMenuRawEdit extends PhocaMenuControllerForm
 	}
 
 	protected function getRedirectToListAppend($bUrlUse = 0) {
-		$tmpl   = JFactory::getApplication()->input->get('tmpl');
+		$tmpl   = Factory::getApplication()->input->get('tmpl');
 		$append = '';
 		$aUrl   = PhocaMenuHelper::getUrlApend($this->typeview);
 

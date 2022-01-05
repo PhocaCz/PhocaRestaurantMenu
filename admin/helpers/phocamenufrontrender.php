@@ -10,10 +10,16 @@
  */
 use Joomla\CMS\HTML\HTMLHelper;
 defined('_JEXEC') or die;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Registry\Registry;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
 jimport('joomla.html.parameter');
 class PhocaMenuFrontRender
 {
-	public static function renderFrontIcons($pdf = false, $print = false, $email = false, $printView = false, $rss = 0, $paramsIcons){
+	public static function renderFrontIcons($pdf = false, $print = false, $email = false, $printView = false, $rss = 0, $paramsIcons = ''){
 
 		$output = '';
 		if ($pdf || $print || $email || (int)$rss > 0) {
@@ -31,7 +37,7 @@ class PhocaMenuFrontRender
 				}
 
 				if ($email) {
-					$output .= PhocaMenuFrontRender::getIconEmail($paramsIcons) . '&nbsp;';
+					//$output .= PhocaMenuFrontRender::getIconEmail($paramsIcons) . '&nbsp;';
 				}
 				if ((int)$rss > 0) {
 					$output .= PhocaMenuFrontRender::getIconRSS($paramsIcons) . '&nbsp;';
@@ -39,7 +45,8 @@ class PhocaMenuFrontRender
 			} else {
 				$output .= '<div id="phPrintButton">'. PhocaMenuFrontRender::getIconPrintScreen($paramsIcons) . '&nbsp;'
 						. ' <a href="javascript: void window.close()">'
-						. JHTML::_('image', 'media/com_phocamenu/images/icon-16-close.png', JText::_( 'Close Window' ))
+						//. HTMLHelper::_('image', 'media/com_phocamenu/images/icon-16-close.png', Text::_( 'Close Window' ))
+						.'<div class="icon-times fa-times icon-fw phc-grey" title="'.Text::_('COM_PHOCAMENU_CLOSE').'"></div>'
 						. '</a></div>';
 			}
 
@@ -57,22 +64,29 @@ class PhocaMenuFrontRender
 
 		// Plugin is installed, Plugin is enabled
 		if ($pluginPDF == 1 && $componentPDF == 1) {
-			$pluginPDFP	 	=JPluginHelper::getPlugin('phocapdf', 'restaurantmenu');
-			$pluginP 		= new JRegistry( $pluginPDFP->params );
+			$pluginPDFP	 	=PluginHelper::getPlugin('phocapdf', 'restaurantmenu');
+			$pluginP 		= new Registry( $pluginPDFP->params );
 
 
 			$pdfDestination	= $pluginP->get('pdf_destination', 'S');
 
-			$view	= JFactory::getApplication()->input->get( 'view' );
+			$view	= Factory::getApplication()->input->get( 'view' );
 			$url	= 'index.php?option=com_phocamenu&view='.$view.'&tmpl=component&format=pdf';
+
+			$itemId	= Factory::getApplication()->input->get( 'Itemid', 0, 'int' );
+			if ((int)$itemId > 0) {
+				$url .= '&Itemid='.(int)$itemId;
+			}
+
 			$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';
 
 			if ($paramsIcons) {
-				$text = JHTML::_('image', 'media/com_phocamenu/images/icon-16-pdf.png', JText::_('COM_PHOCAMENU_PRINT_PDF'));
+				//$text = HTMLHelper::_('image', 'media/com_phocamenu/images/icon-16-pdf.png', Text::_('COM_PHOCAMENU_PRINT_PDF'));
+				$text = '<div class="icon-file-pdf fa-file-pdf icon-fw phc-red"></div>';
 			} else {
-				$text = JText::_('COM_PHOCAMENU_PRINT_PDF');
+				$text = Text::_('COM_PHOCAMENU_PRINT_PDF');
 			}
-			$attribs['title']	= JText::_( 'COM_PHOCAMENU_PDF' );
+			$attribs['title']	= Text::_( 'COM_PHOCAMENU_PDF' );
 
 			$browser = PhocaMenuHelper::PhocaMenuBrowserDetection('browser');
 			if ($browser == 'msie7' || $browser == 'msie8') {
@@ -85,10 +99,10 @@ class PhocaMenuFrontRender
 				}
 			}
 
-			$output	= JHTML::_('link', JRoute::_($url), $text, $attribs);
+			$output	= HTMLHelper::_('link', Route::_($url), $text, $attribs);
 
 		} else {
-			$output = '<a href="#" title="'.JText::_('COM_PHOCAMENU_ERROR_PHOCA_PDF_RESTAURANT_MENU_PLUGIN_NOT_INSTALLED').'">'.JHTML::_('image', 'media/com_phocamenu/images/icon-16-pdf-dis.png', JText::_('COM_PHOCAMENU_PRINT_PDF')) . '</a>';
+			$output = '<a href="#" title="'.Text::_('COM_PHOCAMENU_ERROR_PHOCA_PDF_RESTAURANT_MENU_PLUGIN_NOT_INSTALLED').'">'.HTMLHelper::_('image', 'media/com_phocamenu/images/icon-16-pdf-dis.png', Text::_('COM_PHOCAMENU_PRINT_PDF')) . '</a>';
 		}
 
 
@@ -97,29 +111,36 @@ class PhocaMenuFrontRender
 
 	public static function getIconPrint($paramsIcons) {
 
-		$view	= JFactory::getApplication()->input->get( 'view' );
+		$view	= Factory::getApplication()->input->get( 'view' );
 		$url	= 'index.php?option=com_phocamenu&view='.$view.'&tmpl=component&print=1';
 		$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';
 
-		if ($paramsIcons) {
-			$text = JHTML::_('image', 'media/com_phocamenu/images/icon-16-print.png', JText::_('Print'));
-		} else {
-			$text = JText::_('Print');
+		$itemId	= Factory::getApplication()->input->get( 'Itemid', 0, 'int' );
+		if ((int)$itemId > 0) {
+			$url .= '&Itemid='.(int)$itemId;
 		}
-		$attribs['title']	= JText::_( 'Print' );
+
+		if ($paramsIcons) {
+			//$text = HTMLHelper::_('image', 'media/com_phocamenu/images/icon-16-print.png', Text::_('Print'));
+			$text = '<div class="icon-print fa-print icon-fw phc-grey"></div>';
+		} else {
+			$text = Text::_('Print');
+		}
+		$attribs['title']	= Text::_( 'Print' );
 		$attribs['onclick'] = "window.open(this.href,'win2','".$status."'); return false;";
-		$output				= JHTML::_('link', JRoute::_($url), $text, $attribs);
+		$output				= HTMLHelper::_('link', Route::_($url), $text, $attribs);
 		return $output;
 	}
 
 	public static function getIconEmail($paramsIcons) {
 
 
-		require_once JPATH_SITE . '/components/com_mailto/helpers/mailto.php';
+		return '';
+	/*	require_once JPATH_SITE . '/components/com_mailto/helpers/mailto.php';
 
-		$uri      = JUri::getInstance();
+		$uri      = Uri::getInstance();
 		$base     = $uri->toString(array('scheme', 'host', 'port'));
-		$template = JFactory::getApplication()->getTemplate();
+		$template = Factory::getApplication()->getTemplate();
 		$link     = $uri->toString();
 		$url      = 'index.php?option=com_mailto&tmpl=component&template=' . $template . '&link=' . MailToHelper::addLink($link);
 
@@ -127,28 +148,34 @@ class PhocaMenuFrontRender
 		$status = 'width=400,height=400,menubar=yes,resizable=yes';
 
 		if ($paramsIcons) {
-			$text = JHTML::_('image', 'media/com_phocamenu/images/icon-16-email.png', JText::_('Email'));
+			$text = HTMLHelper::_('image', 'media/com_phocamenu/images/icon-16-email.png', Text::_('Email'));
 		} else {
-			$text = JText::_('Email');
+			$text = Text::_('Email');
 		}
-		$attribs['title']	= JText::_( 'Email' );
+		$attribs['title']	= Text::_( 'Email' );
 		$attribs['onclick'] = "window.open(this.href,'win2','".$status."'); return false;";
-		$output				= JHTML::_('link', JRoute::_($url), $text, $attribs);
-		return $output;
+		$output				= HTMLHelper::_('link', Route::_($url), $text, $attribs);
+		return $output;*/
 	}
 
 	public static function getIconRSS($paramsIcons) {
 
-		$view	= JFactory::getApplication()->input->get( 'view' );
+		$view	= Factory::getApplication()->input->get( 'view' );
 		$url	= 'index.php?option=com_phocamenu&view='.$view.'&format=feed';
 
-		if ($paramsIcons) {
-			$text = JHTML::_('image', 'media/com_phocamenu/images/icon-16-feed.png', JText::_('RSS'));
-		} else {
-			$text = JText::_('RSS');
+		$itemId	= Factory::getApplication()->input->get( 'Itemid', 0, 'int' );
+		if ((int)$itemId > 0) {
+			$url .= '&Itemid='.(int)$itemId;
 		}
 
-		$output = '<a href="'.JRoute::_($url).'" title="'.JText::_('RSS').'">'.$text . '</a>';
+		if ($paramsIcons) {
+			//$text = HTMLHelper::_('image', 'media/com_phocamenu/images/icon-16-feed.png', Text::_('RSS'));
+			$text = '<div class="icon-feed fa-feed icon-fw phc-orange" title="'.Text::_('COM_PHOCAMENU_RSS').'"></div>';
+		} else {
+			$text = Text::_('COM_PHOCAMENU_RSS');
+		}
+
+		$output = '<a href="'.Route::_($url).'" title="'.Text::_('COM_PHOCAMENU_RSS').'">'.$text . '</a>';
 
 		return $output;
 	}
@@ -156,9 +183,10 @@ class PhocaMenuFrontRender
 	public static function getIconPrintScreen($paramsIcons) {
 
 		if ($paramsIcons) {
-			$text = JHTML::_('image', 'media/com_phocamenu/images/icon-16-print.png', JText::_('Print'));
+			//$text = HTMLHelper::_('image', 'media/com_phocamenu/images/icon-16-print.png', Text::_('Print'));
+			$text = '<div class="icon-print fa-print icon-fw phc-red" title="'.Text::_('COM_PHOCAMENU_PRINT').'"></div>';
 		} else {
-			$text = JText::_('Print');
+			$text = Text::_('COM_PHOCAMENU_PRINT');
 		}
 		$output = '<a href="javascript: void()" onclick="document.getElementById(\'phPrintButton\').style.visibility = \'hidden\';window.print();return false;">'.$text.'</a>';
 		return $output;

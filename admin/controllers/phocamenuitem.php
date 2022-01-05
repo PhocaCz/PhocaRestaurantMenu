@@ -10,6 +10,9 @@
  */
 
 defined('_JEXEC') or die();
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Session\Session;
+use Joomla\CMS\Router\Route;
 class PhocaMenuCpControllerPhocaMenuItem extends PhocaMenuControllerForm
 {
 	protected $option 	= 'com_phocamenu';
@@ -17,9 +20,9 @@ class PhocaMenuCpControllerPhocaMenuItem extends PhocaMenuControllerForm
 	public $typeAlias 	= 'com_phocamenu.phocamenuitem';
 	
 	public function batch($model = null) {
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 		$model	= $this->getModel('phocamenuitem', '', array());
-		$this->setRedirect(JRoute::_('index.php?option=com_phocamenu&view=phocamenuitems'.$this->getRedirectToListAppend(), false));
+		$this->setRedirect(Route::_('index.php?option=com_phocamenu&view=phocamenuitems'.$this->getRedirectToListAppend(), false));
 		return parent::batch($model);
 	}
 

@@ -9,45 +9,49 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License version 2 or later;
  */
 defined('_JEXEC') or die();
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Session\Session;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Router\Route;
 
 class PhocaMenuCpControllerPhocaMenuMultipleEdit extends PhocaMenuControllerForm
 {
 	protected $option 	= 'com_phocamenu';
 	protected $typeview	= 'multipleedit';
 	public $typeAlias 	= 'com_phocamenu.phocamenumultipleedit';
-	
-	
+
+
 	public function cancel($key = NULL)
 	{
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
-		$app		= JFactory::getApplication();
+		$app		= Factory::getApplication();
 		//$model		= $this->getModel();
 		//$table		= $model->getTable();
 		//$checkin	= property_exists($table, 'checked_out');
 		$context	= "$this->option.edit.$this->context";
-		$tmpl		= JFactory::getApplication()->input->get('tmpl');
-		$layout		= JFactory::getApplication()->input->get('layout', 'edit');
+		$tmpl		= Factory::getApplication()->input->get('tmpl');
+		$layout		= Factory::getApplication()->input->get('layout', 'edit');
 		$append		= '';
 
 		// Clean the session data and redirect.
 		$app->setUserState($context.'.id',		null);
 		$app->setUserState($context.'.data',	null);
 
-		$this->setRedirect(JRoute::_('index.php?option=com_phocamenu'.$this->getRedirectToListAppend(1), false));
+		$this->setRedirect(Route::_('index.php?option=com_phocamenu'.$this->getRedirectToListAppend(1), false));
 	}
-	
+
 	public function edit($key = NULL, $urlVar = NULL)
 	{
 		// Initialise variables.
-		$app		= JFactory::getApplication();
+		$app		= Factory::getApplication();
 		//$model		= $this->getModel();
 		//$table		= $model->getTable();
 		//$cid		= JFactory::getApplication()->input->get('cid', array(), 'post', 'array');
 		$context	= "$this->option.edit.$this->context";
-		$tmpl		= JFactory::getApplication()->input->get('tmpl');
-		$layout		= JFactory::getApplication()->input->get('layout', 'edit');
+		$tmpl		= Factory::getApplication()->input->get('tmpl');
+		$layout		= Factory::getApplication()->input->get('layout', 'edit');
 		$append		= '';
 		$recordId	= '';
 
@@ -57,67 +61,68 @@ class PhocaMenuCpControllerPhocaMenuMultipleEdit extends PhocaMenuControllerForm
 		return true;
 	}
 
-	
-	
+
+
 	function save($key = NULL, $urlVar = NULL) {
-		
-		$app		= JFactory::getApplication();
+
+		$app		= Factory::getApplication();
 		//$post 		= $app->input->post->getArray();
 		//$model		= $this->getModel();
 		//$table		= $model->getTable();
 		//$cid		= JFactory::getApplication()->input->get('cid', array(), 'post', 'array');
 		$context	= "$this->option.edit.$this->context";
-		$tmpl		= JFactory::getApplication()->input->get('tmpl');
-		$layout		= JFactory::getApplication()->input->get('layout', 'edit');
+		$tmpl		= Factory::getApplication()->input->get('tmpl');
+		$layout		= Factory::getApplication()->input->get('layout', 'edit');
 		$append		= '';
-		
+
 		$data['itemdesc'] 	= $app->input->get('itemdesc',array(),'array');
 		$data['message'] 	= $app->input->get('message',array(),'array');
 		$post				= $app->input->post->getArray();
-		
+
+
 		$post['itemdesc']	= $data['itemdesc'];
 		$post['message']	= $data['message'];
-		
+
 
 
 		$errorMsg			= '';
-		$model 	= $this->getModel( 'phocamenumultipleedit' );		
+		$model 	= $this->getModel( 'phocamenumultipleedit' );
 		$return	= $model->save($post, $errorMsg);
 		if ($return) {
-			$msg 	= JText::_( 'COM_PHOCAMENU_SUCCESS_MODIFICATION_SAVED_MULTIPLE' );
+			$msg 	= Text::_( 'COM_PHOCAMENU_SUCCESS_MODIFICATION_SAVED_MULTIPLE' );
 		} else {
-			$msg 	= JText::_( 'COM_PHOCAMENU_ERROR_MODIFICATION_SAVED_MULTIPLE' );
+			$msg 	= Text::_( 'COM_PHOCAMENU_ERROR_MODIFICATION_SAVED_MULTIPLE' );
 		}
-		
+
 		if ($errorMsg != '') {
-			$msg .= '. '.$errorMsg. '.'; 
+			$msg .= '. '.$errorMsg. '.';
 		}
-		
+
 		$this->setMessage($msg);
-		
-		switch ( JFactory::getApplication()->input->get('task') ) {
+
+		switch ( Factory::getApplication()->input->get('task') ) {
 			case 'apply':
-				$this->setRedirect(JRoute::_('index.php?option='.$this->option.$this->getRedirectToItemAppend(), false));
+				$this->setRedirect(Route::_('index.php?option='.$this->option.$this->getRedirectToItemAppend(), false));
 			break;
-			
+
 			case 'save':
 			default:
-				$this->setRedirect(JRoute::_('index.php?option=com_phocamenu'.$this->getRedirectToListAppend(1), false));
+				$this->setRedirect(Route::_('index.php?option=com_phocamenu'.$this->getRedirectToListAppend(1), false));
 			break;
 		}
-		
+
 		return true;
 	}
-	
+
 	protected function getRedirectToItemAppend($recordId = null, $key = 'id', $bUrlUse = 0)
 	{
-		$tmpl		= JFactory::getApplication()->input->get('tmpl');
-		$layout		= JFactory::getApplication()->input->get('layout', 'edit');
+		$tmpl		= Factory::getApplication()->input->get('tmpl');
+		$layout		= Factory::getApplication()->input->get('layout', 'edit');
 		$append		= '';
 		$aUrl		= PhocaMenuHelper::getUrlApend($this->typeview);
 		$bUrl		= PhocaMenuHelper::getUrlApend($this->typeview, 1);
-		
-		
+
+
 
 		// Setup redirect info.
 		if ($tmpl) {
@@ -131,17 +136,17 @@ class PhocaMenuCpControllerPhocaMenuMultipleEdit extends PhocaMenuControllerForm
 		if ($recordId) {
 			$append .= '&'.$key.'='.$recordId;
 		}
-		
+
 		if ($bUrlUse == 1) {
 			return $append . $bUrl;
 		} else {
 			return '&view='.$this->view_item.$append . $aUrl;
 		}
 	}
-	
+
 	protected function getRedirectToListAppend($bUrlUse = 0)
 	{
-		$tmpl		= JFactory::getApplication()->input->get('tmpl');
+		$tmpl		= Factory::getApplication()->input->get('tmpl');
 		$append		= '';
 		$aUrl		= PhocaMenuHelper::getUrlApend($this->typeview);
 		$bUrl		= PhocaMenuHelper::getUrlApend($this->typeview, 1);
@@ -157,6 +162,6 @@ class PhocaMenuCpControllerPhocaMenuMultipleEdit extends PhocaMenuControllerForm
 			return '&view='.$this->view_list.$append . $aUrl;
 		}
 	}
-	
+
 }
 ?>

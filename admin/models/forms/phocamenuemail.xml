@@ -15,7 +15,7 @@
 	</fieldset>
 	
 	<fieldset name="publish" label="COM_PHOCAMENU_GROUP_LABEL_PUBLISHING_DETAILS" >
-	<field name="language" type="contentlanguage" label="JFIELD_LANGUAGE_LABEL" description="COM_PHOCAMENU_FIELD_LANGUAGE_CONFIG_DESC" class="inputbox">
+	<field name="language" type="contentlanguage" label="JFIELD_LANGUAGE_LABEL" description="COM_PHOCAMENU_FIELD_LANGUAGE_CONFIG_DESC" class="form-select">
 		<option value="*">JALL</option>
 	</field>
 </fieldset>

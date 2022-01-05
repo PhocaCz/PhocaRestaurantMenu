@@ -5,19 +5,19 @@
 <field name="id" type="text" default="0" label="JGLOBAL_FIELD_ID_LABEL" required="true" readonly="true" class="readonly" />
 <field name="type" type="hidden" default="0" label="COM_PHOCAMENU_FIELD_TYPE_LABEL"  readonly="true" class="readonly" />
 
-<field name="title" type="text" daytype="day" class="inputbox" size="40" label="COM_PHOCAMENU_FIELD_LIST_LABEL" description="COM_PHOCAMENU_FIELD_LIST_DESC" required="true" />
+<field name="title" type="text" daytype="day" class="form-control" size="40" label="COM_PHOCAMENU_FIELD_LIST_LABEL" description="COM_PHOCAMENU_FIELD_LIST_DESC" required="true" />
 
-<field name="ordering" type="PhocaMenuOrdering" menutype="list" class="inputbox" label="COM_PHOCAMENU_FIELD_ORDERING_LABEL" description="COM_PHOCAMENU_FIELD_ORDERING_DESC" />
+<field name="ordering" type="PhocaMenuOrdering" menutype="list" class="form-select" label="COM_PHOCAMENU_FIELD_ORDERING_LABEL" description="COM_PHOCAMENU_FIELD_ORDERING_DESC" />
 	</fieldset>
 	
 	
 <fieldset name="publish" label="COM_PHOCAMENU_GROUP_LABEL_PUBLISHING_DETAILS" >
-	<field name="published" type="radio" class="btn-group btn-group-yesno" label="COM_PHOCAMENU_FIELD_PUBLISHED_LABEL" description="COM_PHOCAMENU_FIELD_PUBLISHED_DESC" size="1" default="1">
+	<field name="published" type="list" class="form-select-color-state" label="COM_PHOCAMENU_FIELD_PUBLISHED_LABEL" description="COM_PHOCAMENU_FIELD_PUBLISHED_DESC" size="1" default="1">
 		<option value="1">JPUBLISHED</option>
 		<option	value="0">JUNPUBLISHED</option>
 	</field>
 	
-	<field name="language" type="contentlanguage" label="JFIELD_LANGUAGE_LABEL" description="COM_PHOCAMENU_FIELD_LANGUAGE_LIST_DESC" class="inputbox">
+	<field name="language" type="contentlanguage" label="JFIELD_LANGUAGE_LABEL" description="COM_PHOCAMENU_FIELD_LANGUAGE_LIST_DESC" class="form-select">
 		<option value="*">JALL</option>
 	</field>
 </fieldset>

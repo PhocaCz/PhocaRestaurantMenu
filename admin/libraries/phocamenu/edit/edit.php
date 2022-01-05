@@ -172,7 +172,7 @@ class PhocamenuEdit
 
 
 			// TEST CHECKOUT
-			$user = JFactory::getUser();
+			$user = Factory::getUser();
 
 			// Get an instance of the row to checkout.
 			Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/'.$option.'/tables');
@@ -254,7 +254,7 @@ class PhocamenuEdit
 
 
 			/*
-			$db	= JFactory::getDBO();
+			$db	= Factory::getDBO();
 			$q	= 'UPDATE '.$tableDb.' SET '.$db->quoteName($column).' = '.$db->quote($options['value']).' WHERE id = '.(int)$idRow;
 
 			$db->setQuery($q);

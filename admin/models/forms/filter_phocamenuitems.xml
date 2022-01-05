@@ -13,7 +13,7 @@
 		<option value="0">COM_PHOCAMENU_UNPUBLISHED</option>
 		</field>
 		
-		<field name="category_id" type="PhocaMenuCategory" menutype="item" hideselect="1" label="JOPTION_FILTER_CATEGORY" description="JOPTION_FILTER_CATEGORY_DESC"   onchange="this.form.submit();" />
+		<field name="category_id" type="PhocaMenuCategory" class="form-select" menutype="item" hideselect="1" label="JOPTION_FILTER_CATEGORY" description="JOPTION_FILTER_CATEGORY_DESC"   onchange="this.form.submit();" />
 
 	
 		<field name="language" type="contentlanguage" label="JOPTION_FILTER_LANGUAGE" description="JOPTION_FILTER_LANGUAGE_DESC" onchange="this.form.submit();">

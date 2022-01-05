@@ -194,8 +194,8 @@
 
 #phocamenu .pmimage a img,
 #phocamenu .pm-item table tr td div.pmimage a img {
-	border:1px solid #ccc;
-	padding:1px;
+	/*border:1px solid #ccc;
+	padding:1px;*/
 }
 
 
@@ -484,3 +484,10 @@ div.pmquantity-bl {
 		margin-top: -35px;
 	}
 }
+
+
+.phc-red {color: #a60000;}
+.phc-grey {color: #555555}
+.phc-green {color: #559d22;}
+.phc-orange {color:orange;}
+.phc-brown {color: #a5572a;}

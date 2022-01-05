@@ -9,8 +9,12 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  */
 defined('_JEXEC') or die();
+use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Language\Text;
 jimport('joomla.application.component.modeladmin');
-class PhocaMenuCpModelPhocaMenuRawEdit extends JModelAdmin
+class PhocaMenuCpModelPhocaMenuRawEdit extends AdminModel
 {
 	protected	$option 		= 'com_phocamenu';
 	protected 	$text_prefix	= 'com_phocamenu';
@@ -29,8 +33,8 @@ class PhocaMenuCpModelPhocaMenuRawEdit extends JModelAdmin
 		 */
 
 		$type 		= PhocaMenuHelper::getUrlType('rawedit');
-		$adminTool 	= JFactory::getApplication()->input->get('admintool', 0, '', 'int');
-		$atid		= JFactory::getApplication()->input->get( 'atid', 0, '', 'int' );
+		$adminTool 	= Factory::getApplication()->input->get('admintool', 0, '', 'int');
+		$atid		= Factory::getApplication()->input->get( 'atid', 0, '', 'int' );
 		$content	= array();
 
 		$wheresLang = '';
@@ -184,9 +188,9 @@ class PhocaMenuCpModelPhocaMenuRawEdit extends JModelAdmin
 
 	public function save($post, &$errorMsg = '') {
 
-		$app			= JFactory::getApplication();
+		$app			= Factory::getApplication();
 		$type 			= PhocaMenuHelper::getUrlType('rawedit');
-		$paramsC 		= $app->isClient('administrator') ? JComponentHelper::getParams('com_phocamenu') : $app->getParams();
+		$paramsC 		= $app->isClient('administrator') ? ComponentHelper::getParams('com_phocamenu') : $app->getParams();
 		$item_delimiter	= $paramsC->get( 'item_delimiter', 1 );
 		if ($item_delimiter == 1) {
 			$item_delimiter = ";";
@@ -262,7 +266,7 @@ class PhocaMenuCpModelPhocaMenuRawEdit extends JModelAdmin
 
 
 		// Data
-		$db 				= JFactory::getDBO();
+		$db 				= Factory::getDBO();
 		$data				= array();
 		$data['language'] 	= $lang;
 		$data['type'] 		= $type['value'];
@@ -311,14 +315,14 @@ class PhocaMenuCpModelPhocaMenuRawEdit extends JModelAdmin
 			// DAILY MENU
 			if ($data['type'] == 1) {
 				if (!isset($dN['date']) || (isset($dN['date']) && $dN['date'] == '')) {
-					$msg = JText::_('COM_PHOCAMENU_ERROR_NO_DATE_FOUND');
+					$msg = Text::_('COM_PHOCAMENU_ERROR_NO_DATE_FOUND');
 					$app->enqueueMessage($msg, 'error');
 					return false;
 				}
 			}
 
 			if (empty($dN['group'][0])) {
-				$msg = JText::_('COM_PHOCAMENU_ERROR_NO_GROUP_FOUND');
+				$msg = Text::_('COM_PHOCAMENU_ERROR_NO_GROUP_FOUND');
 				$app->enqueueMessage($msg, 'error');
 				return false;
 			}
@@ -397,25 +401,25 @@ class PhocaMenuCpModelPhocaMenuRawEdit extends JModelAdmin
 
 			if ($data['type'] == 2) {
 				if (!isset($dN['date_from']) || (isset($dN['date_from']) && $dN['date_from'] == '')) {
-					$msg = JText::_('COM_PHOCAMENU_ERROR_NO_DATE_FROM_FOUND');
+					$msg = Text::_('COM_PHOCAMENU_ERROR_NO_DATE_FROM_FOUND');
 					$app->enqueueMessage($msg, 'error');
 					return false;
 				}
 				if (!isset($dN['date_to']) || (isset($dN['date_to']) && $dN['date_to'] == '')) {
-					$msg = JText::_('COM_PHOCAMENU_ERROR_NO_DATE_TO_FOUND');
+					$msg = Text::_('COM_PHOCAMENU_ERROR_NO_DATE_TO_FOUND');
 					$app->enqueueMessage($msg, 'error');
 					return false;
 				}
 			}
 
 			if (empty($dN['daylist'][1])) {
-				$msg = JText::_('COM_PHOCAMENU_ERROR_NO_DAY_FOUND');
+				$msg = Text::_('COM_PHOCAMENU_ERROR_NO_DAY_FOUND');
 				$app->enqueueMessage($msg, 'error');
 				return false;
 			}
 
 			if (empty($dN['group'][1])) {
-				$msg = JText::_('COM_PHOCAMENU_ERROR_NO_GROUP_FOUND');
+				$msg = Text::_('COM_PHOCAMENU_ERROR_NO_GROUP_FOUND');
 				$app->enqueueMessage($msg, 'error');
 				return false;
 			}
@@ -479,11 +483,11 @@ class PhocaMenuCpModelPhocaMenuRawEdit extends JModelAdmin
 				$l++;
 
 				if ($data['type'] == 2) {
-					$q = ' INSERT INTO #__phocamenu_day ( `type`, `title`, `language`, `published`, `ordering`) VALUES'
-						.' ('.(int)$data['type'].', '.$db->quote(strip_tags($v)).', '.$db->quote($data['language']).', 1, '.(int)$l.')';
+					$q = ' INSERT INTO #__phocamenu_day ( `type`, `title`, `alias`, `language`, `published`, `ordering`) VALUES'
+						.' ('.(int)$data['type'].', '.$db->quote(strip_tags($v)).', \'\' , '.$db->quote($data['language']).', 1, '.(int)$l.')';
 				} else {
-					$q = ' INSERT INTO #__phocamenu_list ( `type`, `title`, `language`, `published`, `ordering`) VALUES'
-						.' ('.(int)$data['type'].', '.$db->quote(strip_tags($v)).', '.$db->quote($data['language']).', 1, '.(int)$l.')';
+					$q = ' INSERT INTO #__phocamenu_list ( `type`, `title`, `alias`, `language`, `published`, `ordering`) VALUES'
+						.' ('.(int)$data['type'].', '.$db->quote(strip_tags($v)).', \'\' , '.$db->quote($data['language']).', 1, '.(int)$l.')';
 				}
 				$db->setQuery($q);
 				$db->execute();
@@ -541,7 +545,7 @@ class PhocaMenuCpModelPhocaMenuRawEdit extends JModelAdmin
 		if (empty($this->context)) {
 			$this->context = strtolower($this->option.'.'.$this->getName());
 		}
-		$app 		= JFactory::getApplication('administrator');
+		$app 		= Factory::getApplication('administrator');
 		$language 	= $app->getUserStateFromRequest($this->context.'.filter.language', 'filter_language', '');
 
 
@@ -550,7 +554,7 @@ class PhocaMenuCpModelPhocaMenuRawEdit extends JModelAdmin
 			$this->context = strtolower($this->option.'.'.$this->getName());
 		}
 
-		$app 		= JFactory::getApplication('administrator');
+		$app 		= Factory::getApplication('administrator');
 		$language	= PhocaMenuHelper::getLangAdmin();
 
 		if ($language == '') {
@@ -567,8 +571,8 @@ class PhocaMenuCpModelPhocaMenuRawEdit extends JModelAdmin
 		if (empty($this->context)) {
 			$this->context = strtolower($this->option.'.'.$this->getName());
 		}
-		$app 		= JFactory::getApplication('administrator');
-		$type		= JFactory::getApplication()->input->get('type', 0, '', 'int');
+		$app 		= Factory::getApplication('administrator');
+		$type		= Factory::getApplication()->input->get('type', 0, '', 'int');
 
 		$lang = $app->getUserStateFromRequest($this->context.'.filter.language', 'filter_language', $language);
 

@@ -7,9 +7,17 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  */
 defined('_JEXEC') or die();
+use Joomla\CMS\MVC\View\HtmlView;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Toolbar\Toolbar;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\HTML\HTMLHelper;
 jimport( 'joomla.application.component.view' );
 
-class PhocaMenuCpViewPhocaMenuItems extends JViewLegacy
+class PhocaMenuCpViewPhocaMenuItems extends HtmlView
 {
 	protected $items;
 	protected $pagination;
@@ -46,7 +54,7 @@ class PhocaMenuCpViewPhocaMenuItems extends JViewLegacy
 
 		// Breadcrumbs
 		$this->typeup 	= PhocaMenuHelper::getBackCategoryUrl('group', $this->type['value'], $this->type['valuecatid']);
-		$this->t['breadcrumb']	= PhocaMenuHelper::getBreadcrumbs($this->type['info']['text'], $this->type['info']['backlink']. $this->typeup['urlup'], JText::_($this->type['info']['backlinktxt']), $this->typeup['backlink'], JText::_($this->typeup['backlinktxt']));
+		$this->t['breadcrumb']	= PhocaMenuHelper::getBreadcrumbs($this->type['info']['text'], $this->type['info']['backlink']. $this->typeup['urlup'], Text::_($this->type['info']['backlinktxt']), $this->typeup['backlink'], Text::_($this->typeup['backlinktxt']));
 
 		$this->addToolbar();
 		parent::display($tpl);
@@ -54,14 +62,14 @@ class PhocaMenuCpViewPhocaMenuItems extends JViewLegacy
 
 	protected function addToolbar() {
 
-		$params 			= JComponentHelper::getParams( 'com_phocamenu' );
+		$params 			= ComponentHelper::getParams( 'com_phocamenu' );
 	    $this->p['screenshot_css'] 		= $params->get('screenshot_css', '');
 	    $this->p['enable_screenshot'] 	= $params->get('enable_screenshot', 0);
 	    $this->p['remove_stylesheet_string'] 	= $params->get('remove_stylesheet_string', '');
 
-		$bar 				= JToolbar::getInstance('toolbar');
+		$bar 				= Toolbar::getInstance('toolbar');
 		$this->state		= $this->get('State');
-		$user  				= JFactory::getUser();
+		$user  				= Factory::getUser();
 
 
 
@@ -76,21 +84,21 @@ class PhocaMenuCpViewPhocaMenuItems extends JViewLegacy
 		require_once JPATH_COMPONENT.'/helpers/phocamenuitems.php';
 		$canDo	= phocamenuitemsHelper::getActions($this->t, $this->state->get('filter.category_id'));
 
-		JToolbarHelper::title( $this->type['info']['text'] , 'file-2' );
+		ToolbarHelper::title( $this->type['info']['text'] , 'file-2' );
 
 		//$bar->appendButton( 'Link', 'back', $this->type['info']['backlinktxt'], 'index.php?option=com_phocamenu'.$this->type['info']['backlink']. $this->typeup['urlup'] );
 
-		$dhtml = '<a href="index.php?option=com_phocamenu'.$this->type['info']['backlink']. $this->typeup['urlup'].'" class="btn btn-small"><i class="icon-ph-back" title="'.JText::_($this->type['info']['backlinktxt']).'"></i> '.JText::_($this->type['info']['backlinktxt']).'</a>';
+		$dhtml = '<a href="index.php?option=com_phocamenu'.$this->type['info']['backlink']. $this->typeup['urlup'].'" class="btn btn-small"><i class="icon-ph-back" title="'.Text::_($this->type['info']['backlinktxt']).'"></i> '.Text::_($this->type['info']['backlinktxt']).'</a>';
 		$bar->appendButton('Custom', $dhtml);
 
-		JToolbarHelper::divider();
+		ToolbarHelper::divider();
 
 		$backCatidSpec = '';
 		if (isset($this->type['actualcatid']) && (int)$this->type['actualcatid'] > 0) {
 			$backCatidSpec 	=  '&'.$this->type['info']['catid'].'='.(int)$this->type['actualcatid'];
 		}
 		$langSuffix = PhocaMenuHelper::getLangSuffix($this->state->get('filter.language'));
-		$this->t['linkpreview'] = JURI::root().'index.php?option=com_phocamenu&view='.$this->type['info']['frontview'].'&tmpl=component&admin=1'.$langSuffix;
+		$this->t['linkpreview'] = Uri::root().'index.php?option=com_phocamenu&view='.$this->type['info']['frontview'].'&tmpl=component&admin=1'.$langSuffix;
 		$this->t['linkemail'] 	= 'index.php?option=com_phocamenu&task=phocamenuemail.edit&type='.$this->type['value'].'&typeback=item'. $backCatidSpec;
 		$this->t['linkmultiple']= 'index.php?option=com_phocamenu&task=phocamenumultipleedit.edit&type='.$this->type['value'].'&typeback=item'.$backCatidSpec;
 		$this->t['linkraw']= 'index.php?option=com_phocamenu&task=phocamenurawedit.edit&type='.$this->type['value'].'&typeback=item'.$backCatidSpec;
@@ -101,34 +109,35 @@ class PhocaMenuCpViewPhocaMenuItems extends JViewLegacy
 
 
 		if ($canDo->get('core.create')) {
-			JToolbarHelper::addNew( 'phocamenuitem.add','JToolbar_NEW');
+			ToolbarHelper::addNew( 'phocamenuitem.add','JToolbar_NEW');
 		}
 		if ($canDo->get('core.edit')) {
-			JToolbarHelper::editList('phocamenuitem.edit','JToolbar_EDIT');
+			ToolbarHelper::editList('phocamenuitem.edit','JToolbar_EDIT');
 			if ($displayToolbars) {
 				//$bar->appendButton( 'Custom', '<a href="'.$this->t['linkmultiple'].'"><span class="icon-32-multiple" title="'.JText::_('COM_PHOCAMENU_MULTIPLE_EDIT').'" type="Custom"></span>'.JText::_('COM_PHOCAMENU_MULTIPLE_EDIT').'</a>');
-				$dhtml = '<a href="'.$this->t['linkmultiple'].'" class="btn btn-small"><i class="icon-ph-multiple" title="'.JText::_('COM_PHOCAMENU_MULTIPLE_EDIT').'"></i> '.JText::_('COM_PHOCAMENU_MULTIPLE_EDIT').'</a>';
+				$dhtml = '<joomla-toolbar-button><a href="'.$this->t['linkmultiple'].'" class="btn btn-small"><i class="icon-ph-multiple" title="'.Text::_('COM_PHOCAMENU_MULTIPLE_EDIT').'"></i> '.Text::_('COM_PHOCAMENU_MULTIPLE_EDIT').'</a></joomla-toolbar-button>';
 				$bar->appendButton('Custom', $dhtml);
-				$dhtml = '<a href="'.$this->t['linkraw'].'" class="btn btn-small"><i class="icon-ph-raw" title="'.JText::_('COM_PHOCAMENU_RAW_EDIT').'"></i> '.JText::_('COM_PHOCAMENU_RAW_EDIT').'</a>';
+				$dhtml = '<joomla-toolbar-button><a href="'.$this->t['linkraw'].'" class="btn btn-small"><i class="icon-ph-raw" title="'.Text::_('COM_PHOCAMENU_RAW_EDIT').'"></i> '.Text::_('COM_PHOCAMENU_RAW_EDIT').'</a></joomla-toolbar-button>';
 				$bar->appendButton('Custom', $dhtml);
 			}
 		}
 
+		$this->t['modal_bottom'] = '';
 		if ($canDo->get('core.manage')) {
 
 			if ($displayToolbars) {
 				//$bar->appendButton( 'Custom', '<a href="'.$this->t['linkemail'].'"><span class="icon-32-email" title="'.JText::_('COM_PHOCAMENU_EMAIL').'" type="Custom"></span>'.JText::_('COM_PHOCAMENU_EMAIL').'</a>');
-				//JToolbarHelper::preview( JURI::root().$this->t['linkpreview'] );
+				//JToolbarHelper::preview( JUri::root().$this->t['linkpreview'] );
 				//$bar->appendButton( 'Popup', 'prmpreview', 'COM_PHOCAMENU_PREVIEW', $this->t['linkpreview']);
 
-				$dhtml = '<a href="'.$this->t['linkemail'].'" class="btn btn-small"><i class="icon-ph-email" title="'.JText::_('COM_PHOCAMENU_EMAIL').'"></i> '.JText::_('COM_PHOCAMENU_EMAIL').'</a>';
+				$dhtml = '<joomla-toolbar-button><a href="'.$this->t['linkemail'].'" class="btn btn-small"><i class="icon-ph-email" title="'.Text::_('COM_PHOCAMENU_EMAIL').'"></i> '.Text::_('COM_PHOCAMENU_EMAIL').'</a></joomla-toolbar-button>';
 				$bar->appendButton('Custom', $dhtml);
 
 				// PREVIEW
-				//JToolbarHelper::preview( JURI::root().$this->t['linkpreview'] );
+				//JToolbarHelper::preview( JUri::root().$this->t['linkpreview'] );
 				//$bar->appendButton( 'Popup', 'prmpreview', 'COM_PHOCAMENU_PREVIEW', $this->t['linkpreview']);
 
-				JHtml::_('jquery.framework');
+				HTMLHelper::_('jquery.framework');
 
 				$html 		= array();
 				$idA		= 'phMenuPreview';
@@ -136,28 +145,32 @@ class PhocaMenuCpViewPhocaMenuItems extends JViewLegacy
 				// Screenshot
 				$buttonScreenshot = '';
 				if ($this->p['enable_screenshot'] == 1) {
-					$buttonScreenshot = ' <button type="button" class="btn btn-primary phPrintButton" data-id="'.$idA.'">' . JText::_('COM_PHOCAMENU_TAKE_SCREENSHOT') . '</button>';
+					$buttonScreenshot = ' <button type="button" class="btn btn-primary phPrintButton" data-id="'.$idA.'">' . Text::_('COM_PHOCAMENU_TAKE_SCREENSHOT') . '</button>';
 					PhocamenuRender::renderScreenshotScript($idA, $this->p);
 				}
 
 
-				$html[] = '<a href="#'.$idA.'" role="button" class="btn btn-small" data-toggle="modal" title="' . JText::_('COM_PHOCAMENU_PREVIEW') . '">'
+				$html[] = '<joomla-toolbar-button><a href="'.$this->t['linkpreview'].'" role="button" class="btn btn-small" data-toggle="modal" data-bs-toggle="modal" data-bs-target="#'.$idA.'" title="' . Text::_('COM_PHOCAMENU_PREVIEW') . '">'
 					. '<span class="icon-ph-preview"></span> '
-					. JText::_('COM_PHOCAMENU_PREVIEW') . '</a>';
+					. Text::_('COM_PHOCAMENU_PREVIEW') . '</a></joomla-toolbar-button>';
 
-				$html[] = JHtml::_(
+				// TO DO - waiting for final solution in Joomla
+				//https://github.com/joomla/joomla-cms/issues/35506
+				//$html[] = HTMLHelper::_(
+				// paste to the bottom of default.php
+				$this->t['modal_bottom'] = HTMLHelper::_(
 					'bootstrap.renderModal',
 					$idA,
 					array(
 
 						'url'    => $this->t['linkpreview'],
-						'title'  => JText::_('COM_PHOCAMENU_PREVIEW'),
-						'width'  => '700px',
-						'height' => '400px',
+						'title'  => Text::_('COM_PHOCAMENU_PREVIEW'),
+						'width'  => '',
+						'height' => '',
 						'modalWidth' => '80',
 						'bodyHeight' => '70',
-						'footer' => '<button type="button" class="btn" data-dismiss="modal" aria-hidden="true">'
-							. JText::_('COM_PHOCAMENU_CLOSE') . '</button>'. $buttonScreenshot
+						'footer' => '<button type="button" class="btn" data-bs-dismiss="modal" aria-hidden="true">'
+							. Text::_('COM_PHOCAMENU_CLOSE') . '</button>'. $buttonScreenshot
 					)
 				);
 
@@ -172,51 +185,56 @@ class PhocaMenuCpViewPhocaMenuItems extends JViewLegacy
 		}
 
 		if ($canDo->get('core.edit.state')) {
-			JToolbarHelper::divider();
-			JToolbarHelper::custom('phocamenuitems.publish', 'publish.png', 'publish_f2.png','JToolbar_PUBLISH', true);
-			JToolbarHelper::custom('phocamenuitems.unpublish', 'unpublish.png', 'unpublish_f2.png', 'JToolbar_UNPUBLISH', true);
+			ToolbarHelper::divider();
+			ToolbarHelper::custom('phocamenuitems.publish', 'publish.png', 'publish_f2.png','JToolbar_PUBLISH', true);
+			ToolbarHelper::custom('phocamenuitems.unpublish', 'unpublish.png', 'unpublish_f2.png', 'JToolbar_UNPUBLISH', true);
 		}
 
 		if ($canDo->get('core.delete')) {
-			JToolbarHelper::deleteList( JText::_( 'COM_PHOCAMENU_WARNING_DELETE_ITEMS' ), 'phocamenuitems.delete', 'COM_PHOCAMENU_DELETE');
+			ToolbarHelper::deleteList( 'COM_PHOCAMENU_WARNING_DELETE_ITEMS', 'phocamenuitems.delete', 'COM_PHOCAMENU_DELETE');
 		}
 
 		// Add a batch button
 		if ($user->authorise('core.edit'))
 		{
-			JHtml::_('bootstrap.renderModal', 'collapseModal');
-			$title = JText::_('JToolbar_BATCH');
+			/*HTMLHelper::_('bootstrap.renderModal', 'collapseModal');
+			$title = Text::_('JToolbar_BATCH');
 			$dhtml = "<button data-toggle=\"modal\" data-target=\"#collapseModal\" class=\"btn btn-small\">
 						<i class=\"icon-checkbox-partial\" title=\"$title\"></i>
 						$title</button>";
-			$bar->appendButton('Custom', $dhtml, 'batch');
+			$bar->appendButton('Custom', $dhtml, 'batch');*/
+
+			$bar->popupButton('batch')
+				->text('JTOOLBAR_BATCH')
+				->selector('collapseModal')
+				->listCheck(true);
 		}
 
-		JToolbarHelper::divider();
+		//ToolbarHelper::divider();
 
 		if ($canDo->get('core.manage')) {
 			//$bar->appendButton( 'Custom', '<a href="'.$this->t['linkconfig'].'"><span class="icon-32-settings" title="'.JText::_('COM_PHOCAMENU_MENU_SETTINGS').'" type="Custom"></span>'.JText::_('COM_PHOCAMENU_MENU_SETTINGS').'</a>');
 
-			JToolbarHelper::divider();
-			$dhtml = '<a href="'.$this->t['linkconfig'].'" class="btn btn-small"><i class="icon-ph-settings" title="'.JText::_('COM_PHOCAMENU_MENU_SETTINGS').'"></i> '.JText::_('COM_PHOCAMENU_MENU_SETTINGS').'</a>';
+			ToolbarHelper::divider();
+			$dhtml = '<joomla-toolbar-button><a href="'.$this->t['linkconfig'].'" class="btn btn-small"><i class="icon-ph-settings" title="'.Text::_('COM_PHOCAMENU_MENU_SETTINGS').'"></i> '.Text::_('COM_PHOCAMENU_MENU_SETTINGS').'</a></joomla-toolbar-button>';
 				$bar->appendButton('Custom', $dhtml);
 		}
 
-		JToolbarHelper::divider();
-		JToolbarHelper::help( 'screen.phocamenu', true );
+		ToolbarHelper::divider();
+		ToolbarHelper::help( 'screen.phocamenu', true );
 	}
 
 	protected function getSortFields() {
 		return array(
-			'a.ordering'	=> JText::_('JGRID_HEADING_ORDERING'),
-			'a.quantity' 	=> JText::_($this->t['l'] . '_QUANTITY'),
-			'a.title' 		=> JText::_($this->t['l'] . '_TITLE'),
-			'a.price' 		=> JText::_($this->t['l'] . '_PRICE'),
-			'a.price2' 		=> JText::_($this->t['l'] . '_PRICE2'),
-			'a.catid' 		=> JText::_($this->t['l'] . '_GROUP'),
-			'a.published' 	=> JText::_($this->t['l'] . '_PUBLISHED'),
-			'language' 		=> JText::_('JGRID_HEADING_LANGUAGE'),
-			'a.id' 			=> JText::_('JGRID_HEADING_ID')
+			'a.ordering'	=> Text::_('JGRID_HEADING_ORDERING'),
+			'a.quantity' 	=> Text::_($this->t['l'] . '_QUANTITY'),
+			'a.title' 		=> Text::_($this->t['l'] . '_TITLE'),
+			'a.price' 		=> Text::_($this->t['l'] . '_PRICE'),
+			'a.price2' 		=> Text::_($this->t['l'] . '_PRICE2'),
+			'a.catid' 		=> Text::_($this->t['l'] . '_GROUP'),
+			'a.published' 	=> Text::_($this->t['l'] . '_PUBLISHED'),
+			'language' 		=> Text::_('JGRID_HEADING_LANGUAGE'),
+			'a.id' 			=> Text::_('JGRID_HEADING_ID')
 		);
 	}
 }

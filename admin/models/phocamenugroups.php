@@ -9,9 +9,12 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License version 2 or later;
  */
 defined( '_JEXEC' ) or die();
+use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Component\ComponentHelper;
 jimport( 'joomla.application.component.modellist' );
 
-class PhocaMenuCpModelPhocaMenuGroups extends JModelList
+class PhocaMenuCpModelPhocaMenuGroups extends ListModel
 {
 	protected	$option 		= 'com_phocamenu';
 
@@ -45,7 +48,7 @@ class PhocaMenuCpModelPhocaMenuGroups extends JModelList
 	protected function populateState($ordering = 'a.title', $direction = 'ASC')
 	{
 
-		$app 	= JFactory::getApplication('administrator');
+		$app 	= Factory::getApplication('administrator');
 		$type 	= PhocaMenuHelper::getUrlType('group');
 
 		$search = $app->getUserStateFromRequest($this->context.'.filter.search', 'filter_search');
@@ -66,7 +69,7 @@ class PhocaMenuCpModelPhocaMenuGroups extends JModelList
 			case 5:
 				$categoryId = $app->getUserStateFromRequest($this->context.'.filter.category_id', 'filter_category_id', null);
 				// Don't user populateState if we are returning back from Edit View (it can happen that here the categor will be changed
-				$postCatid	= JFactory::getApplication()->input->get('filter_category_id', 0, 'POST', 'int');
+				$postCatid	= Factory::getApplication()->input->get('filter_category_id', 0, 'POST', 'int');
 				if ((int)$postCatid > 0) {
 					$this->setState('filter.category_id', $categoryId);
 				} else {
@@ -80,7 +83,7 @@ class PhocaMenuCpModelPhocaMenuGroups extends JModelList
 		$this->setState('filter.language', $language);
 
 		// Load the parameters.
-		$params = JComponentHelper::getParams('com_phocamenu');
+		$params = ComponentHelper::getParams('com_phocamenu');
 		$this->setState('params', $params);
 
 		// List state information.

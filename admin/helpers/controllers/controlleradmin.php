@@ -9,9 +9,15 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License version 2 or later;
  */
 defined('JPATH_BASE') or die;
+use Joomla\CMS\MVC\Controller\AdminController;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Session\Session;
+use Joomla\CMS\Factory;
+use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Router\Route;
 jimport('joomla.application.component.controller');
 
-class PhocaMenuControllerAdmin extends JControllerAdmin
+class PhocaMenuControllerAdmin extends AdminController
 {
 	protected $option;
 	protected $text_prefix;
@@ -50,7 +56,7 @@ class PhocaMenuControllerAdmin extends JControllerAdmin
 			$r = null;
 			if (!preg_match('/(.*)Controller(.*)/i', get_class($this), $r)) {
 
-				throw new Exception(JText::_('JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME'), 500);
+				throw new Exception(Text::_('JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME'), 500);
 			}
 			$this->view_list = strtolower($r[2]);
 		}
@@ -59,30 +65,30 @@ class PhocaMenuControllerAdmin extends JControllerAdmin
 	function delete()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		// Get items to remove from the request.
-		$cid	= JFactory::getApplication()->input->get('cid', array(), '', 'array');
+		$cid	= Factory::getApplication()->input->get('cid', array(), '', 'array');
 		$aUrl	= PhocaMenuHelper::getUrlApend($this->typeview);
 
 		if (!is_array($cid) || count($cid) < 1) {
-			throw new Exception(JText::_($this->text_prefix.'_NO_ITEM_SELECTED'), 500);
+			throw new Exception(Text::_($this->text_prefix.'_NO_ITEM_SELECTED'), 500);
 		} else {
 			// Get the model.
 			$model = $this->getModel();
 			// Make sure the item ids are integers
 			jimport('joomla.utilities.arrayhelper');
-			\Joomla\Utilities\ArrayHelper::toInteger($cid);
+			ArrayHelper::toInteger($cid);
 
 			// Remove the items.
 			if ($model->delete($cid)) {
-				$this->setMessage(JText::plural($this->text_prefix.'_N_ITEMS_DELETED', count($cid)));
+				$this->setMessage(Text::plural($this->text_prefix.'_N_ITEMS_DELETED', count($cid)));
 			} else {
 				$this->setMessage($model->getError(), 'error');
 			}
 		}
 
-		$this->setRedirect(JRoute::_('index.php?option='.$this->option.'&view='.$this->view_list.$aUrl, false));
+		$this->setRedirect(Route::_('index.php?option='.$this->option.'&view='.$this->view_list.$aUrl, false));
 	}
 
 	public function display($cachable = false, $urlparams = false)
@@ -93,26 +99,26 @@ class PhocaMenuControllerAdmin extends JControllerAdmin
 	function publish()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		// Get items to publish from the request.
-		$cid	= JFactory::getApplication()->input->get('cid', array(), '', 'array');
+		$cid	= Factory::getApplication()->input->get('cid', array(), '', 'array');
 		$data	= array('publish' => 1, 'unpublish' => 0, 'archive'=> 2, 'trash' => -2, 'report'=>-3);
 		$task 	= $this->getTask();
-		$value	= \Joomla\Utilities\ArrayHelper::getValue($data, $task, 0, 'int');
+		$value	= ArrayHelper::getValue($data, $task, 0, 'int');
 
 		$aUrl	= PhocaMenuHelper::getUrlApend($this->typeview);
 
 
 
 		if (empty($cid)) {
-			throw new Exception(JText::_($this->text_prefix.'_NO_ITEM_SELECTED'), 500);
+			throw new Exception(Text::_($this->text_prefix.'_NO_ITEM_SELECTED'), 500);
 		} else {
 			// Get the model.
 			$model = $this->getModel();
 
 			// Make sure the item ids are integers
-			\Joomla\Utilities\ArrayHelper::toInteger($cid);
+			ArrayHelper::toInteger($cid);
 
 			// Publish the items.
 			if (!$model->publish($cid, $value)) {
@@ -127,21 +133,21 @@ class PhocaMenuControllerAdmin extends JControllerAdmin
 				} else {
 					$ntext = $this->text_prefix.'_N_ITEMS_TRASHED';
 				}
-				$this->setMessage(JText::plural($ntext, count($cid)));
+				$this->setMessage(Text::plural($ntext, count($cid)));
 			}
 		}
 
-		$this->setRedirect(JRoute::_('index.php?option='.$this->option.'&view='.$this->view_list.$aUrl, false));
+		$this->setRedirect(Route::_('index.php?option='.$this->option.'&view='.$this->view_list.$aUrl, false));
 	}
 
 	public function reorder()
 	{
 		// Check for request forgeries.
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
-		$user	= JFactory::getUser();
-		$ids	= JFactory::getApplication()->input->get('cid', null, 'post', 'array');
+		$user	= Factory::getUser();
+		$ids	= Factory::getApplication()->input->get('cid', null, 'post', 'array');
 		$inc	= ($this->getTask() == 'orderup') ? -1 : +1;
 		$aUrl	= PhocaMenuHelper::getUrlApend($this->typeview);
 
@@ -149,13 +155,13 @@ class PhocaMenuControllerAdmin extends JControllerAdmin
 		$return = $model->reorder($ids, $inc);
 		if ($return === false) {
 			// Reorder failed.
-			$message = JText::sprintf('JLIB_APPLICATION_ERROR_REORDER_FAILED', $model->getError());
-			$this->setRedirect(JRoute::_('index.php?option='.$this->option.'&view='.$this->view_list.$aUrl, false), $message, 'error');
+			$message = Text::sprintf('JLIB_APPLICATION_ERROR_REORDER_FAILED', $model->getError());
+			$this->setRedirect(Route::_('index.php?option='.$this->option.'&view='.$this->view_list.$aUrl, false), $message, 'error');
 			return false;
 		} else {
 			// Reorder succeeded.
-			$message = JText::_('JLIB_APPLICATION_SUCCESS_ITEM_REORDERED');
-			$this->setRedirect(JRoute::_('index.php?option='.$this->option.'&view='.$this->view_list.$aUrl, false), $message);
+			$message = Text::_('JLIB_APPLICATION_SUCCESS_ITEM_REORDERED');
+			$this->setRedirect(Route::_('index.php?option='.$this->option.'&view='.$this->view_list.$aUrl, false), $message);
 			return true;
 		}
 	}
@@ -163,16 +169,16 @@ class PhocaMenuControllerAdmin extends JControllerAdmin
 	public function saveorder()
 	{
 		// Check for request forgeries.
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		// Get the input
-		$pks	= JFactory::getApplication()->input->get('cid',	null,	'post',	'array');
-		$order	= JFactory::getApplication()->input->get('order',	null,	'post',	'array');
+		$pks	= Factory::getApplication()->input->get('cid',	null,	'post',	'array');
+		$order	= Factory::getApplication()->input->get('order',	null,	'post',	'array');
 		$aUrl	= PhocaMenuHelper::getUrlApend($this->typeview);
 
 		// Sanitize the input
-		\Joomla\Utilities\ArrayHelper::toInteger($pks);
-		\Joomla\Utilities\ArrayHelper::toInteger($order);
+		ArrayHelper::toInteger($pks);
+		ArrayHelper::toInteger($order);
 
 		// Get the model
 		$model = $this->getModel();
@@ -183,14 +189,14 @@ class PhocaMenuControllerAdmin extends JControllerAdmin
 		if ($return === false)
 		{
 			// Reorder failed
-			$message = JText::sprintf('JLIB_APPLICATION_ERROR_REORDER_FAILED', $model->getError());
-			$this->setRedirect(JRoute::_('index.php?option='.$this->option.'&view='.$this->view_list.$aUrl, false), $message, 'error');
+			$message = Text::sprintf('JLIB_APPLICATION_ERROR_REORDER_FAILED', $model->getError());
+			$this->setRedirect(Route::_('index.php?option='.$this->option.'&view='.$this->view_list.$aUrl, false), $message, 'error');
 			return false;
 		} else
 		{
 			// Reorder succeeded.
-			$this->setMessage(JText::_('JLIB_APPLICATION_SUCCESS_ORDERING_SAVED'));
-			$this->setRedirect(JRoute::_('index.php?option='.$this->option.'&view='.$this->view_list.$aUrl, false));
+			$this->setMessage(Text::_('JLIB_APPLICATION_SUCCESS_ORDERING_SAVED'));
+			$this->setRedirect(Route::_('index.php?option='.$this->option.'&view='.$this->view_list.$aUrl, false));
 			return true;
 		}
 	}
@@ -198,23 +204,23 @@ class PhocaMenuControllerAdmin extends JControllerAdmin
 	public function checkin()
 	{
 		// Check for request forgeries.
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
-		$user	= JFactory::getUser();
-		$ids	= JFactory::getApplication()->input->get('cid', null, 'post', 'array');
+		$user	= Factory::getUser();
+		$ids	= Factory::getApplication()->input->get('cid', null, 'post', 'array');
 		$aUrl	= PhocaMenuHelper::getUrlApend($this->typeview);
 		$model 	= $this->getModel();
 		$return = $model->checkin($ids);
 		if ($return === false) {
 			// Checkin failed.
-			$message = JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError());
-			$this->setRedirect(JRoute::_('index.php?option='.$this->option.'&view='.$this->view_list.$aUrl, false), $message, 'error');
+			$message = Text::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError());
+			$this->setRedirect(Route::_('index.php?option='.$this->option.'&view='.$this->view_list.$aUrl, false), $message, 'error');
 			return false;
 		} else {
 			// Checkin succeeded.
-			$message =  JText::plural($this->text_prefix.'_N_ITEMS_CHECKED_IN', count($ids));
-			$this->setRedirect(JRoute::_('index.php?option='.$this->option.'&view='.$this->view_list.$aUrl, false), $message);
+			$message =  Text::plural($this->text_prefix.'_N_ITEMS_CHECKED_IN', count($ids));
+			$this->setRedirect(Route::_('index.php?option='.$this->option.'&view='.$this->view_list.$aUrl, false), $message);
 			return true;
 		}
 	}

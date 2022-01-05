@@ -7,8 +7,12 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  */
 defined('_JEXEC') or die;
+use Joomla\CMS\MVC\View\HtmlView;
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 jimport('joomla.application.component.view');
-class PhocaMenuFrontViewHtml extends JViewLegacy
+class PhocaMenuFrontViewHtml extends HtmlView
 {
 	public $button;
 	protected $params;
@@ -18,7 +22,7 @@ class PhocaMenuFrontViewHtml extends JViewLegacy
 
 	function display($tpl = null) {
 
-		$app						= JFactory::getApplication();
+		$app						= Factory::getApplication();
 		$this->params				= $app->getParams();
 		$this->t['printview'] 		= $app->input->get('print', 0, 'int');
 		$model 						= $this->getModel('Menu');
@@ -54,8 +58,8 @@ class PhocaMenuFrontViewHtml extends JViewLegacy
 		if ((int)$this->t['printview'] == 1 ) {
 
 			$this->t['phocagallery']		= 0;
-			JHTML::stylesheet( $css );
-			JHTML::stylesheet( $cssP );
+			HTMLHelper::stylesheet( $css );
+			HTMLHelper::stylesheet( $cssP );
 
 			$this->t['customclockcode'] 	= '';
 			$this->paramsg					= array();
@@ -63,7 +67,7 @@ class PhocaMenuFrontViewHtml extends JViewLegacy
 
 		} else if ($this->t['phocagallery'] == 0) {
 
-			JHTML::stylesheet( $css );
+			HTMLHelper::stylesheet( $css );
 			if ($type != 1) {
 				$this->t['customclockcode'] 	= '';
 			}
@@ -73,10 +77,10 @@ class PhocaMenuFrontViewHtml extends JViewLegacy
 		} else {
 
 			$this->t['phocagallery']			= 1;
-			JHTML::stylesheet( $css );
+			HTMLHelper::stylesheet( $css );
 			PhocaMenuHelper::includePhocaGallery();
 
-			$this->paramsg['imagedetailwindow']				= $this->params->get( 'image_detail_window', 2 );
+			$this->paramsg['imagedetailwindow']				= $this->params->get( 'image_detail_window', 0 );
 			$this->paramsg['detailwindowbackgroundcolor']	= $this->params->get( 'detail_window_background_color', '#ffffff' );
 			$this->paramsg['modalboxoverlaycolor']			= $this->params->get( 'modal_box_overlay_color', '#000000' );
 			$this->paramsg['modalboxoverlayopacity']		= $this->params->get( 'modal_box_overlay_opacity', 0.3 );
@@ -100,7 +104,7 @@ class PhocaMenuFrontViewHtml extends JViewLegacy
 
 	protected function _prepareDocument() {
 
-		$app		= JFactory::getApplication();
+		$app		= Factory::getApplication();
 		$menus		= $app->getMenu();
 		$pathway 	= $app->getPathway();
 		//$this->params		= &$app->getParams();
@@ -113,14 +117,14 @@ class PhocaMenuFrontViewHtml extends JViewLegacy
 		if ($menu) {
 			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
 		} else {
-			$this->params->def('page_heading', JText::_('COM_PHOCAMENU_PHOCAMENU'));
+			$this->params->def('page_heading', Text::_('COM_PHOCAMENU_PHOCAMENU'));
 		}
 
 		$title = $this->params->get('page_title', '');
 		if (empty($title)) {
 			$title = htmlspecialchars_decode($app->get('sitename'));
 		} else if ($app->get('sitename_pagetitles', 0)) {
-			$title = JText::sprintf('JPAGETITLE', htmlspecialchars_decode($app->get('sitename')), $title);
+			$title = Text::sprintf('JPAGETITLE', htmlspecialchars_decode($app->get('sitename')), $title);
 		}
 		$this->document->setTitle($title);
 

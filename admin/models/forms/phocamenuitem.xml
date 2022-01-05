@@ -7,26 +7,26 @@
 
 <field name="catid" type="PhocaMenuCategory" menutype="item" label="COM_PHOCAMENU_FIELD_CATEGORY_LABEL" description="COM_PHOCAMENU_FIELD_CATEGORY_DESC" required="true" />
 
-<field name="title" type="text" class="inputbox" size="40" label="COM_PHOCAMENU_FIELD_TITLE_LABEL" description="COM_PHOCAMENU_FIELD_TITLE_DESC" required="true" />
-<field name="quantity" type="text" class="inputbox" size="40" label="COM_PHOCAMENU_FIELD_QUANTITY_LABEL" description="COM_PHOCAMENU_FIELD_QUANTITY_DESC"  />
-<field name="price" type="text" class="inputbox" size="40" label="COM_PHOCAMENU_FIELD_PRICE_LABEL" description="COM_PHOCAMENU_FIELD_PRICE_DESC" />
-<field name="price2" type="text" class="inputbox" size="40" label="COM_PHOCAMENU_FIELD_PRICE2_LABEL" description="COM_PHOCAMENU_FIELD_PRICE2_DESC" />
+<field name="title" type="text" class="form-control" size="40" label="COM_PHOCAMENU_FIELD_TITLE_LABEL" description="COM_PHOCAMENU_FIELD_TITLE_DESC" required="true" />
+<field name="quantity" type="text" class="form-control" size="40" label="COM_PHOCAMENU_FIELD_QUANTITY_LABEL" description="COM_PHOCAMENU_FIELD_QUANTITY_DESC"  />
+<field name="price" type="text" class="form-control" size="40" label="COM_PHOCAMENU_FIELD_PRICE_LABEL" description="COM_PHOCAMENU_FIELD_PRICE_DESC" />
+<field name="price2" type="text" class="form-control" size="40" label="COM_PHOCAMENU_FIELD_PRICE2_LABEL" description="COM_PHOCAMENU_FIELD_PRICE2_DESC" />
 
-<field name="imageid" type="phocaselectimage" manager="file" label="COM_PHOCAMENU_FIELD_IMAGE_ID_LABEL" description="COM_PHOCAMENU_FIELD_IMAGE_ID_DESC" class="inputbox" size="40" />
+<field name="imageid" type="phocaselectimage" manager="file" label="COM_PHOCAMENU_FIELD_IMAGE_ID_LABEL" description="COM_PHOCAMENU_FIELD_IMAGE_ID_DESC" class="form-control" size="40" />
 
-<field name="ordering" type="PhocaMenuOrdering" menutype="item" table="file" class="inputbox" label="COM_PHOCAMENU_FIELD_ORDERING_LABEL" description="COM_PHOCAMENU_FIELD_ORDERING_DESC" />
+<field name="ordering" type="PhocaMenuOrdering" menutype="item" table="file" class="form-select" label="COM_PHOCAMENU_FIELD_ORDERING_LABEL" description="COM_PHOCAMENU_FIELD_ORDERING_DESC" />
 
-<field name="description" type="editor" buttons="true" hide="pagebreak,readmore" class="inputbox" label="COM_PHOCAMENU_FIELD_ITEM_DESCRIPTION_LABEL" description="COM_PHOCAMENU_FIELD_ITEM_DESCRIPTION_DESC" filter="JComponentHelper::filterText" />
+<field name="description" type="editor" buttons="true" hide="pagebreak,readmore" class="form-control" label="COM_PHOCAMENU_FIELD_ITEM_DESCRIPTION_LABEL" description="COM_PHOCAMENU_FIELD_ITEM_DESCRIPTION_DESC" filter="JComponentHelper::filterText" />
 
 	</fieldset>
 
 
 <fieldset name="publish" label="COM_PHOCAMENU_GROUP_LABEL_PUBLISHING_DETAILS" >
-	<field name="published" type="radio" class="btn-group btn-group-yesno" label="COM_PHOCAMENU_FIELD_PUBLISHED_LABEL" description="COM_PHOCAMENU_FIELD_PUBLISHED_DESC" size="1" default="1">
+	<field name="published" type="list" class="form-select-color-state" label="COM_PHOCAMENU_FIELD_PUBLISHED_LABEL" description="COM_PHOCAMENU_FIELD_PUBLISHED_DESC" size="1" default="1">
 		<option value="1">JPUBLISHED</option>
 		<option	value="0">JUNPUBLISHED</option>
 	</field>
-	<field name="language" type="contentlanguage" label="JFIELD_LANGUAGE_LABEL" description="COM_PHOCAMENU_FIELD_LANGUAGE_ITEM_DESC" class="inputbox">
+	<field name="language" type="contentlanguage" label="JFIELD_LANGUAGE_LABEL" description="COM_PHOCAMENU_FIELD_LANGUAGE_ITEM_DESC" class="form-select">
 		<option value="*">JALL</option>
 	</field>
 </fieldset>

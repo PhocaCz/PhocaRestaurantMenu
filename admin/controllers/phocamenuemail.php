@@ -7,6 +7,11 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  */
 defined('_JEXEC') or die();
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Session\Session;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Mail\MailHelper;
 class PhocaMenuCpControllerPhocaMenuEmail extends PhocaMenuControllerForm
 {
 	protected $option 	= 'com_phocamenu';
@@ -18,16 +23,16 @@ class PhocaMenuCpControllerPhocaMenuEmail extends PhocaMenuControllerForm
 	public function cancel($key = NULL)
 	{
 
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
-		$app		= JFactory::getApplication();
+		$app		= Factory::getApplication();
 		//$model		= $this->getModel();
 		//$table		= $model->getTable();
 		//$checkin	= property_exists($table, 'checked_out');
 		$context	= "$this->option.edit.$this->context";
-		$tmpl		= JFactory::getApplication()->input->get('tmpl');
-		$layout		= JFactory::getApplication()->input->get('layout', 'edit');
+		$tmpl		= Factory::getApplication()->input->get('tmpl');
+		$layout		= Factory::getApplication()->input->get('layout', 'edit');
 		$append		= '';
 
 		// Clean the session data and redirect.
@@ -35,7 +40,7 @@ class PhocaMenuCpControllerPhocaMenuEmail extends PhocaMenuControllerForm
 		$app->setUserState($context.'.data',	null);
 
 
-		$this->setRedirect(JRoute::_('index.php?option=com_phocamenu'.$this->getRedirectToListAppend(1), false));
+		$this->setRedirect(Route::_('index.php?option=com_phocamenu'.$this->getRedirectToListAppend(1), false));
 	}
 
 	/*
@@ -44,10 +49,10 @@ class PhocaMenuCpControllerPhocaMenuEmail extends PhocaMenuControllerForm
 	 /*
 	 public function cancel($key = null)
 	{
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
-		$app		= JFactory::getApplication();
+		$app		= Factory::getApplication();
 		$model		= $this->getModel();
 		$table		= $model->getTable();
 		$checkin	= property_exists($table, 'checked_out');
@@ -64,9 +69,9 @@ class PhocaMenuCpControllerPhocaMenuEmail extends PhocaMenuControllerForm
 			// Check we are holding the id in the edit list.
 			if (!$this->checkEditId($context, $recordId)) {
 				// Somehow the person just went to the form - we don't allow that.
-				$this->setError(JText::_('JLIB_APPLICATION_ERROR_UNHELD_ID'));
+				$this->setError(Text::_('JLIB_APPLICATION_ERROR_UNHELD_ID'));
 				$this->setMessage($this->getError(), 'error');
-				$this->setRedirect(JRoute::_('index.php?option='.$this->option.$this->getRedirectToListAppend(1), false));
+				$this->setRedirect(Route::_('index.php?option='.$this->option.$this->getRedirectToListAppend(1), false));
 
 				return false;
 			}
@@ -74,7 +79,7 @@ class PhocaMenuCpControllerPhocaMenuEmail extends PhocaMenuControllerForm
 			if ($checkin) {
 				if ($model->checkin($recordId) === false) {
 					// Check-in failed, go back to the record and display a notice.
-					$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()));
+					$this->setError(Text::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()));
 					$this->setMessage($this->getError(), 'error');
 					$this->setRedirect('index.php?option='.$this->option.$this->getRedirectToItemAppend($recordId, $key, 1));
 
@@ -87,7 +92,7 @@ class PhocaMenuCpControllerPhocaMenuEmail extends PhocaMenuControllerForm
 		$this->releaseEditId($context, $recordId);
 		$app->setUserState($context.'.data',	null);
 
-		$this->setRedirect(JRoute::_('index.php?option='.$this->option.$this->getRedirectToListAppend(1), false));
+		$this->setRedirect(Route::_('index.php?option='.$this->option.$this->getRedirectToListAppend(1), false));
 
 		return true;
 	}*/
@@ -99,10 +104,10 @@ class PhocaMenuCpControllerPhocaMenuEmail extends PhocaMenuControllerForm
 	public function edit($key = NULL, $urlVar = NULL)
 	{
 		// Initialise variables.
-		$app		= JFactory::getApplication();
+		$app		= Factory::getApplication();
 		$model		= $this->getModel();
 		$table		= $model->getTable();
-		$cid		= JFactory::getApplication()->input->get('cid', array(), 'post', 'array');
+		$cid		= Factory::getApplication()->input->get('cid', array(), 'post', 'array');
 		$context	= "$this->option.edit.$this->context";
 		$append		= '';
 
@@ -111,7 +116,7 @@ class PhocaMenuCpControllerPhocaMenuEmail extends PhocaMenuControllerForm
 		}
 
 		//Language
-		$filterLanguage		= JFactory::getApplication()->input->get('filter_language', array(), 'post', 'string');
+		$filterLanguage		= Factory::getApplication()->input->get('filter_language', array(), 'post', 'string');
 		$model->setLangAndLoadContent($filterLanguage);
 
 		// Try to find config by type (only one id used)
@@ -131,9 +136,9 @@ class PhocaMenuCpControllerPhocaMenuEmail extends PhocaMenuControllerForm
 
 		// Access check.
 		if (!$this->allowEdit(array($key => $recordId), $key)) {
-			$this->setError(JText::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'));
+			$this->setError(Text::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'));
 			$this->setMessage($this->getError(), 'error');
-			$this->setRedirect(JRoute::_('index.php?option='.$this->option.$this->getRedirectToListAppend(), false));
+			$this->setRedirect(Route::_('index.php?option='.$this->option.$this->getRedirectToListAppend(), false));
 
 			return false;
 		}
@@ -141,7 +146,7 @@ class PhocaMenuCpControllerPhocaMenuEmail extends PhocaMenuControllerForm
 		// Attempt to check-out the new record for editing and redirect.
 		if ($checkin && !$model->checkout($recordId)) {
 			// Check-out failed, display a notice but allow the user to see the record.
-			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_CHECKOUT_FAILED', $model->getError()));
+			$this->setError(Text::sprintf('JLIB_APPLICATION_ERROR_CHECKOUT_FAILED', $model->getError()));
 			$this->setMessage($this->getError(), 'error');
 			$this->setRedirect('index.php?option='.$this->option.$this->getRedirectToItemAppend($recordId, $key));
 
@@ -168,14 +173,14 @@ class PhocaMenuCpControllerPhocaMenuEmail extends PhocaMenuControllerForm
 	{
 
 		// Check for request forgeries.
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
-		$app		= JFactory::getApplication();
-		$lang		= JFactory::getLanguage();
+		$app		= Factory::getApplication();
+		$lang		= Factory::getLanguage();
 		$model		= $this->getModel();
 		$table		= $model->getTable();
-		$data		= JFactory::getApplication()->input->get('jform', array(), 'post', 'array');
+		$data		= Factory::getApplication()->input->get('jform', array(), 'post', 'array');
 		//$message	= JFactory::getApplication()->input->get('message', '', 'post', 'array');
 		//$data['messagemail'] = $message[0];
 		//$data['messagemail']= JFactory::getApplication()->input->get( 'message', null, '', 'html' );
@@ -194,7 +199,7 @@ class PhocaMenuCpControllerPhocaMenuEmail extends PhocaMenuControllerForm
 		$recordId	= $app->input->getInt($key);
 
 
-		$session	= JFactory::getSession();
+		$session	= Factory::getSession();
 		$registry	= $session->get('registry');
 
 		// PHOCAEDIT
@@ -203,9 +208,9 @@ class PhocaMenuCpControllerPhocaMenuEmail extends PhocaMenuControllerForm
 		} else {
 			if (!$this->checkEditId($context, $recordId)) {
 				// Somehow the person just went to the form and saved it - we don't allow that.
-				$this->setError(JText::_('JLIB_APPLICATION_ERROR_UNHELD_ID'));
+				$this->setError(Text::_('JLIB_APPLICATION_ERROR_UNHELD_ID'));
 				$this->setMessage($this->getError(), 'error');
-				$this->setRedirect(JRoute::_('index.php?option='.$this->option.$this->getRedirectToListAppend(1), false));
+				$this->setRedirect(Route::_('index.php?option='.$this->option.$this->getRedirectToListAppend(1), false));
 
 				return false;
 			}
@@ -219,7 +224,7 @@ class PhocaMenuCpControllerPhocaMenuEmail extends PhocaMenuControllerForm
 			// Check-in the original row.
 			if ($checkin  && $model->checkin($data[$key]) === false) {
 				// Check-in failed, go back to the item and display a notice.
-				$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()));
+				$this->setError(Text::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()));
 				$this->setMessage($this->getError(), 'error');
 				$this->setRedirect('index.php?option='.$this->option.$this->getRedirectToItemAppend($recordId,'id',1));
 
@@ -233,9 +238,9 @@ class PhocaMenuCpControllerPhocaMenuEmail extends PhocaMenuControllerForm
 
 		// Access check.
 		if (!$this->allowSave($data)) {
-			$this->setError(JText::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'));
+			$this->setError(Text::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'));
 			$this->setMessage($this->getError(), 'error');
-			$this->setRedirect(JRoute::_('index.php?option='.$this->option.$this->getRedirectToListAppend(1), false));
+			$this->setRedirect(Route::_('index.php?option='.$this->option.$this->getRedirectToListAppend(1), false));
 
 			return false;
 		}
@@ -274,7 +279,7 @@ class PhocaMenuCpControllerPhocaMenuEmail extends PhocaMenuControllerForm
 			$app->setUserState($context.'.data', $data);
 
 			// Redirect back to the edit screen.
-			$this->setRedirect(JRoute::_('index.php?option='.$this->option.$this->getRedirectToItemAppend($recordId, $key,1), false));
+			$this->setRedirect(Route::_('index.php?option='.$this->option.$this->getRedirectToItemAppend($recordId, $key,1), false));
 
 			return false;
 		}
@@ -285,8 +290,8 @@ class PhocaMenuCpControllerPhocaMenuEmail extends PhocaMenuControllerForm
 			$app->setUserState($context.'.data', $validData);
 
 			// Redirect back to the edit screen.
-			$app->enqueueMessage(JText::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()), 'error');
-			$this->setRedirect(JRoute::_('index.php?option='.$this->option.$this->getRedirectToItemAppend($recordId, $key, 1), false));
+			$app->enqueueMessage(Text::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()), 'error');
+			$this->setRedirect(Route::_('index.php?option='.$this->option.$this->getRedirectToItemAppend($recordId, $key, 1), false));
 
 			return false;
 		}
@@ -299,13 +304,13 @@ class PhocaMenuCpControllerPhocaMenuEmail extends PhocaMenuControllerForm
 
 			// Check-in failed, go back to the record and display a notice.
 
-			$app->enqueueMessage(JText::sprintf('Error_Checkin_saved', $model->getError()), 'error');
+			$app->enqueueMessage(Text::sprintf('Error_Checkin_saved', $model->getError()), 'error');
 			$this->setRedirect('index.php?option='.$this->option.$this->getRedirectToItemAppend($recordId, $key, 1));
 
 			return false;
 		}
 
-		$this->setMessage(JText::_(($lang->hasKey($this->text_prefix.'_SAVE_SUCCESS') ? $this->text_prefix : 'JLIB_APPLICATION') .  '_SAVE_SUCCESS'));
+		$this->setMessage(Text::_(($lang->hasKey($this->text_prefix.'_SAVE_SUCCESS') ? $this->text_prefix : 'JLIB_APPLICATION') .  '_SAVE_SUCCESS'));
 
 		// Redirect the user and adjust session state based on the chosen task.
 		switch ($task)
@@ -317,7 +322,7 @@ class PhocaMenuCpControllerPhocaMenuEmail extends PhocaMenuControllerForm
 				$app->setUserState($context.'.data', null);
 
 				// Redirect back to the edit screen.
-				$this->setRedirect(JRoute::_('index.php?option='.$this->option.$this->getRedirectToItemAppend($recordId, $key), false));
+				$this->setRedirect(Route::_('index.php?option='.$this->option.$this->getRedirectToItemAppend($recordId, $key), false));
 				break;
 
 			case 'sendandsave':
@@ -332,13 +337,13 @@ class PhocaMenuCpControllerPhocaMenuEmail extends PhocaMenuControllerForm
 				PhocaMenuCpControllerPhocaMenuEmail::sendEmail($data, $errorMsg);
 
 				if ($errorMsg != '') {
-					$msg .= $errorMsg . '<br />' . JText::_('COM_PHOCAMENU_EMAIL_NOT_SENT');
+					$msg .= $errorMsg . '<br />' . Text::_('COM_PHOCAMENU_EMAIL_NOT_SENT');
 				} else {
-					$msg .= JText::_( 'COM_PHOCAMENU_EMAIL_IF_NO_ERROR_EMAIL_SENT' ) . '.';
+					$msg .= Text::_( 'COM_PHOCAMENU_EMAIL_IF_NO_ERROR_EMAIL_SENT' ) . '.';
 				}
 
 				// Redirect to the list screen.
-				$this->setRedirect(JRoute::_('index.php?option='.$this->option.$this->getRedirectToListAppend(1), false), $msg);
+				$this->setRedirect(Route::_('index.php?option='.$this->option.$this->getRedirectToListAppend(1), false), $msg);
 				break;
 
 			default:
@@ -347,7 +352,7 @@ class PhocaMenuCpControllerPhocaMenuEmail extends PhocaMenuControllerForm
 				$app->setUserState($context.'.data', null);
 
 				// Redirect to the list screen.
-				$this->setRedirect(JRoute::_('index.php?option='.$this->option.$this->getRedirectToListAppend(1), false));
+				$this->setRedirect(Route::_('index.php?option='.$this->option.$this->getRedirectToListAppend(1), false));
 				break;
 		}
 
@@ -361,17 +366,17 @@ class PhocaMenuCpControllerPhocaMenuEmail extends PhocaMenuControllerForm
 
 	protected function getExistingId() {
 		// Only one id for the one type
-		$typeValue	= JFactory::getApplication()->input->get('type', 0, '', 'int');
+		$typeValue	= Factory::getApplication()->input->get('type', 0, '', 'int');
 
 		//Language
 		if (empty($this->context)) {
 			$this->context = strtolower($this->option.'.'.$this->getName());
 		}
-		$app 	= JFactory::getApplication('administrator');
+		$app 	= Factory::getApplication('administrator');
 		$language = $app->getUserStateFromRequest($this->context.'.filter.language', 'filter_language', '');
 
 
-		$db = JFactory::getDBO();
+		$db = Factory::getDBO();
 		$query = 'SELECT a.id'
 				.' FROM #__phocamenu_email AS a'
 				.' WHERE a.type = '.(int)$typeValue
@@ -392,20 +397,20 @@ class PhocaMenuCpControllerPhocaMenuEmail extends PhocaMenuControllerForm
 	function send() {
 
 
-		$app		= JFactory::getApplication();
+		$app		= Factory::getApplication();
 		$post 		= $app->input->post->getArray();
 		$post				= $post['jform'];
 
 
-		$cid				= JFactory::getApplication()->input->get( 'cid', array(0), 'post', 'array' );
+		$cid				= Factory::getApplication()->input->get( 'cid', array(0), 'post', 'array' );
 		$post['id'] 		= (int) $cid[0];//only one item in the database for every view
 		$aUrl				= PhocaMenuHelper::getUrlApend($this->typeview);
 		$post['messagemail']= $app->input->get( 'message', '', 'raw');
 		$post['message']	= '';// it is automatically generated, cannot be saved here (into the database)
 		$post['published']	= 1;
 		$append		= '';
-		$tmpl		= JFactory::getApplication()->input->get('tmpl');
-		$layout		= JFactory::getApplication()->input->get('layout', 'edit');
+		$tmpl		= Factory::getApplication()->input->get('tmpl');
+		$layout		= Factory::getApplication()->input->get('layout', 'edit');
 
 
 		// Setup redirect info.
@@ -416,7 +421,7 @@ class PhocaMenuCpControllerPhocaMenuEmail extends PhocaMenuControllerForm
 			$append .= '&layout='.$layout;
 		}
 
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 		$model 	= $this->getModel( 'phocamenuemail' );
 
 		// Doesn't return true or false, failure message instead of false
@@ -424,32 +429,32 @@ class PhocaMenuCpControllerPhocaMenuEmail extends PhocaMenuControllerForm
 		$errorMsg 	= '';
 		PhocaMenuCpControllerPhocaMenuEmail::sendEmail($post, $errorMsg);
 		/*if ( PhocaMenuCpControllerPhocaMenuEmail::sendEmail($post)) {
-			$msg .= ". ".JText::_( 'Email sent' );
+			$msg .= ". ".Text::_( 'Email sent' );
 		} else {
-			$msg .= ". ".JText::_( 'Email not sent' );
+			$msg .= ". ".Text::_( 'Email not sent' );
 		}*/
 		if ($errorMsg != '') {
-			$msg .= $errorMsg . '<br />' . JText::_('COM_PHOCAMENU_EMAIL_NOT_SENT');
+			$msg .= $errorMsg . '<br />' . Text::_('COM_PHOCAMENU_EMAIL_NOT_SENT');
 		} else {
-			$msg .= JText::_( 'COM_PHOCAMENU_EMAIL_IF_NO_ERROR_EMAIL_SENT' ) . '.';
+			$msg .= Text::_( 'COM_PHOCAMENU_EMAIL_IF_NO_ERROR_EMAIL_SENT' ) . '.';
 		}
 
-		$this->setRedirect(JRoute::_('index.php?option='.$this->option.$this->getRedirectToListAppend(1), false), $msg);
+		$this->setRedirect(Route::_('index.php?option='.$this->option.$this->getRedirectToListAppend(1), false), $msg);
 
 	}
 
 	function sendEmail($post, &$errorMsg) {
 
-		$app		= JFactory::getApplication();
-		$db 		= JFactory::getDBO();
+		$app		= Factory::getApplication();
+		$db 		= Factory::getDBO();
 		$siteName 	= $app->get( 'sitename' );
-		$document	= JFactory::getDocument();
+		$document	= Factory::getDocument();
 
 
 
 		jimport('joomla.mail.helper');
 		// FROM
-		if (isset($post['from']) && $post['from'] != '' && JMailHelper::isEmailAddress($post['from'])) {
+		if (isset($post['from']) && $post['from'] != '' && MailHelper::isEmailAddress($post['from'])) {
 			$from = $post['from'];
 		} else {
 			$query = 'SELECT name, email, sendEmail' .
@@ -460,7 +465,7 @@ class PhocaMenuCpControllerPhocaMenuEmail extends PhocaMenuControllerForm
 			if (isset($userData->email) && $userData->email != '') {
 				$from = $userData->email;
 			} else {
-				$errorMsg = JText::_('COM_PHOCAMENU_NO_EMAIL_FROM_FOUND' );
+				$errorMsg = Text::_('COM_PHOCAMENU_NO_EMAIL_FROM_FOUND' );
 				return false;
 			}
 		}
@@ -499,7 +504,7 @@ class PhocaMenuCpControllerPhocaMenuEmail extends PhocaMenuControllerForm
 		if (isset($post['subject']) && $post['subject'] != '') {
 			$subject	= $post['subject'];
 		} else {
-			$subject	= JText::_('Menu');
+			$subject	= Text::_('Menu');
 		}
 
 		if (isset($post['messagemail']) && $post['messagemail'] != '') {
@@ -534,7 +539,7 @@ class PhocaMenuCpControllerPhocaMenuEmail extends PhocaMenuControllerForm
 				unset ($to[$kt]);
 			}
 			$vt 		= trim($vt);
-			if (!JMailHelper::isEmailAddress($vt)) {
+			if (!MailHelper::isEmailAddress($vt)) {
 				$wrongTo[] = $vt;
 			} else {
 				$to[$kt] = $vt;
@@ -542,7 +547,7 @@ class PhocaMenuCpControllerPhocaMenuEmail extends PhocaMenuControllerForm
 		}
 
 		if (!empty($wrongTo)) {
-			$errorMsg = JText::_('COM_PHOCAMENU_INCORRECT_EMAIL_TO' ) . ': ';
+			$errorMsg = Text::_('COM_PHOCAMENU_INCORRECT_EMAIL_TO' ) . ': ';
 			foreach ($wrongTo as $key => $value) {
 				$errorMsg .= $value . '<br />';
 			}
@@ -554,7 +559,7 @@ class PhocaMenuCpControllerPhocaMenuEmail extends PhocaMenuControllerForm
 				unset ($cc[$kt]);
 			}
 			$vt 		= trim($vt);
-			if (!JMailHelper::isEmailAddress($vt)) {
+			if (!MailHelper::isEmailAddress($vt)) {
 				$wrongCc[] = $vt;
 			} else {
 				$cc[$kt] = $vt;
@@ -562,7 +567,7 @@ class PhocaMenuCpControllerPhocaMenuEmail extends PhocaMenuControllerForm
 		}
 
 		if (!empty($wrongCc)) {
-			$errorMsg = JText::_('COM_PHOCAMENU_INCORRECT_EMAIL_CC' ) . ': ';
+			$errorMsg = Text::_('COM_PHOCAMENU_INCORRECT_EMAIL_CC' ) . ': ';
 			foreach ($wrongCc as $key => $value) {
 				$errorMsg .= $value . '<br />';
 			}
@@ -574,7 +579,7 @@ class PhocaMenuCpControllerPhocaMenuEmail extends PhocaMenuControllerForm
 				unset ($bcc[$kt]);
 			}
 			$vt 		= trim($vt);
-			if (!JMailHelper::isEmailAddress($vt)) {
+			if (!MailHelper::isEmailAddress($vt)) {
 				$wrongBcc[] = $vt;
 			} else {
 				$bcc[$kt] = $vt;
@@ -583,7 +588,7 @@ class PhocaMenuCpControllerPhocaMenuEmail extends PhocaMenuControllerForm
 
 
 		if (!empty($wrongBcc)) {
-			$errorMsg = JText::_('COM_PHOCAMENU_INCORRECT_EMAIL_BCC' ) . ': ';
+			$errorMsg = Text::_('COM_PHOCAMENU_INCORRECT_EMAIL_BCC' ) . ': ';
 			foreach ($wrongBcc as $key => $value) {
 				$errorMsg .= $value . '<br />';
 			}
@@ -594,7 +599,7 @@ class PhocaMenuCpControllerPhocaMenuEmail extends PhocaMenuControllerForm
 		$replytoname	= $fromName;
 
 
-		$mail = JFactory::getMailer();
+		$mail = Factory::getMailer();
 		//$mail->sendMail($from, $fromName, $recipient, $subject, $body, $mode = false, $cc = null, $bcc = null, $attachment = null, $replyTo = null, $replyToName = null)
 		//sendMail($from, $fromName, $recipient, $subject, $body, $mode = false, $cc = null, $bcc = null, $attachment = null,$replyTo = null, $replyToName = null)
 
@@ -607,8 +612,8 @@ class PhocaMenuCpControllerPhocaMenuEmail extends PhocaMenuControllerForm
 
 	protected function getRedirectToItemAppend($recordId = null, $key = 'id', $bUrlUse = 0)
 	{
-		$tmpl		= JFactory::getApplication()->input->get('tmpl');
-		$layout		= JFactory::getApplication()->input->get('layout', 'edit');
+		$tmpl		= Factory::getApplication()->input->get('tmpl');
+		$layout		= Factory::getApplication()->input->get('layout', 'edit');
 		$append		= '';
 		$aUrl		= PhocaMenuHelper::getUrlApend($this->typeview);
 		$bUrl		= PhocaMenuHelper::getUrlApend($this->typeview, 1);
@@ -637,7 +642,7 @@ class PhocaMenuCpControllerPhocaMenuEmail extends PhocaMenuControllerForm
 
 	protected function getRedirectToListAppend($bUrlUse = 0)
 	{
-		$tmpl		= JFactory::getApplication()->input->get('tmpl');
+		$tmpl		= Factory::getApplication()->input->get('tmpl');
 		$append		= '';
 		$aUrl		= PhocaMenuHelper::getUrlApend($this->typeview);
 		$bUrl		= PhocaMenuHelper::getUrlApend($this->typeview, 1);

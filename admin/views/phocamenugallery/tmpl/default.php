@@ -9,19 +9,23 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License version 2 or later;
  */
 defined('_JEXEC') or die;
-
+use Joomla\CMS\Factory;
+use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Filesystem\File;
+
 use Phoca\Text\Text as PhocaText;
 
 $task		= 'phocagalleryimg';
 
 
 $r 			= $this->r;
-$app		= JFactory::getApplication();
+$app		= Factory::getApplication();
 $option 	= $app->input->get('option');
 $tasks		= $task . 's';
 $OPT		= strtoupper($option);
-$user		= JFactory::getUser();
+$user		= Factory::getUser();
 $userId		= $user->get('id');
 $listOrder	= $this->escape($this->state->get('list.ordering'));
 $listDirn	= $this->escape($this->state->get('list.direction'));
@@ -60,7 +64,7 @@ echo $r->selectFilterCategory(PhocaGalleryCategory::options($option), 'JOPTION_S
 */
 
 
-echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this));
+echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this));
 
 echo $r->startTable('categoryList');
 
@@ -72,11 +76,11 @@ echo $r->startTblHeader();
 echo $r->firstColumnHeader($listDirn, $listOrder);
 echo $r->secondColumnHeader($listDirn, $listOrder);
 
-echo '<th class="ph-image">'.JText::_( $OPT. '_IMAGE' ).'</th>'."\n";
-echo '<th class="ph-title">'.JHTML::_('grid.sort',  	$OPT.'_TITLE', 'a.title', $listDirn, $listOrder ).'</th>'."\n";
-echo '<th class="ph-filename">'.JHTML::_('grid.sort',  	$OPT.'_FILENAME', 'a.filename', $listDirn, $listOrder ).'</th>'."\n";
-echo '<th class="ph-functions">'.JText::_( $OPT. '_FUNCTIONS' ).'</th>'."\n";
-echo '<th class="ph-id">'.JHTML::_('grid.sort',  		$OPT.'_ID', 'a.id', $listDirn, $listOrder ).'</th>'."\n";
+echo '<th class="ph-image">'.Text::_( $OPT. '_IMAGE' ).'</th>'."\n";
+echo '<th class="ph-title">'.HTMLHelper::_('grid.sort',  	$OPT.'_TITLE', 'a.title', $listDirn, $listOrder ).'</th>'."\n";
+echo '<th class="ph-filename">'.HTMLHelper::_('grid.sort',  	$OPT.'_FILENAME', 'a.filename', $listDirn, $listOrder ).'</th>'."\n";
+echo '<th class="ph-functions">'.Text::_( $OPT. '_FUNCTIONS' ).'</th>'."\n";
+echo '<th class="ph-id">'.HTMLHelper::_('grid.sort',  		$OPT.'_ID', 'a.id', $listDirn, $listOrder ).'</th>'."\n";
 
 echo $r->endTblHeader();
 
@@ -118,7 +122,7 @@ echo $r->firstColumn($i, $item->id, $canChange, $saveOrder, $orderkey, $item->or
 echo $r->secondColumn($i, $item->id, $canChange, $saveOrder, $orderkey, $item->ordering);
 
 $fileOriginal = PhocaGalleryFile::getFileOriginal($item->filename);
-if (!JFile::exists($fileOriginal)) {
+if (!File::exists($fileOriginal)) {
 	$item->fileoriginalexist = 0;
 } else {
 	$fileThumb 		= PhocaGalleryFileThumbnail::getOrCreateThumbnail($item->filename, false, 0, 0, 0);
@@ -126,22 +130,22 @@ if (!JFile::exists($fileOriginal)) {
 	$item->fileoriginalexist = 1;
 }
 
-echo $r->tdImage($item, $this->button, 'COM_PHOCAMENU_ENLARGE_IMAGE');
+echo $r->tdImage($item, '', 'COM_PHOCAMENU_ENLARGE_IMAGE');
 $checkO = '';
 if ($item->checked_out) {
-	$checkO .= JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, $tasks.'.', $canCheckin);
+	$checkO .= HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, $tasks.'.', $canCheckin);
 }
 
 $checkO .= $this->escape($item->title);
 
-$checkO .= ' <span class="smallsub">(<span>'.JText::_($OPT.'_FIELD_ALIAS_LABEL').':</span>'. $this->escape($item->alias).')</span>';
+$checkO .= ' <span class="smallsub">(<span>'.Text::_($OPT.'_FIELD_ALIAS_LABEL').':</span>'. $this->escape($item->alias).')</span>';
 echo $r->td($checkO, "small ");
 
 if (isset($item->extid) && $item->extid !='') {
 	if (isset($item->exttype) && $item->exttype == 1) {
-		echo $r->td(JText::_('COM_PHOCAGALLERY_FACEBOOK_STORED_FILE'));
+		echo $r->td(Text::_('COM_PHOCAGALLERY_FACEBOOK_STORED_FILE'));
 	} else {
-		echo $r->td(JText::_('COM_PHOCAGALLERY_PICASA_STORED_FILE'));
+		echo $r->td(Text::_('COM_PHOCAGALLERY_PICASA_STORED_FILE'));
 	}
 } else {
 	echo $r->td($item->filename);
@@ -149,7 +153,7 @@ if (isset($item->extid) && $item->extid !='') {
 
 echo '<td align="center">'
 	.'<a href="#" onclick="if (window.parent) window.parent.'.$this->fce.'('.$item->id.');">'
-	. JHTML::_( 'image', 'media/com_phocamenu/images/administrator/icon-16-insert.png', JText::_('COM_PHOCAMENU_INSERT_ID'))
+	. '<span class="phc-green icon-arrow-down-2"></span>'
 	.'</a></td>';
 
 

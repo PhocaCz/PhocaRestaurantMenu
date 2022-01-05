@@ -26,6 +26,7 @@
 	background: #f5f5f5;
 	position: relative;
 	padding: 0.5em;
+    border: 1px solid #fff;
 }
 
 .ph-editinplace-text form {
@@ -48,6 +49,8 @@
 .ph-editinplace-text form input {
 	width: 8em !important;
 	margin: -1px 0 0 0.5em !important;
+    border-radius: .25rem;
+    padding: 0.7em;
 }
 
 .ph-editinplace-text.ph-eip-title form input {

@@ -9,16 +9,19 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  */
 defined('_JEXEC') or die;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\Factory;
+use Joomla\Utilities\ArrayHelper;
 jimport('joomla.application.component.model');
 
-class PhocaMenuModelMenu extends JModelLegacy
+class PhocaMenuModelMenu extends BaseDatabaseModel
 {
 	var $_id = null;
 	var $_data = null;
 
 	function __construct() {
 		parent::__construct();
-		$app	= JFactory::getApplication();
+		$app	= Factory::getApplication();
 		$id 	= $app->input->get('id', 0, '', 'int');
 		$this->setState('filter.language',$app->getLanguageFilter());
 		$this->setId((int)$id);
@@ -38,7 +41,7 @@ class PhocaMenuModelMenu extends JModelLegacy
 
 		if (empty($this->_data)) {
 
-			$app	= JFactory::getApplication();
+			$app	= Factory::getApplication();
 			$params				= $app->getParams();
 
 			/* Specific data from FRONTEND
@@ -59,7 +62,7 @@ class PhocaMenuModelMenu extends JModelLegacy
 				// If set to this:
 				//$wheresLang =  'a.language IN ('.$this->_db->Quote(JFactory::getLanguage()->getTag()).','.$this->_db->Quote('*').')';
 				// Then config table can load header from all languages instead of current
-				$wheresLang =  'a.language IN ('.$this->_db->Quote(JFactory::getLanguage()->getTag()).')';
+				$wheresLang =  'a.language IN ('.$this->_db->Quote(Factory::getLanguage()->getTag()).')';
 				// Possible FR: make $wheresLang different for different tables (config, item, etc.)
 			} else {
 				// Because of possible duplicity, we can get the last item but we need to differentiate between languages
@@ -205,7 +208,7 @@ class PhocaMenuModelMenu extends JModelLegacy
 					if (!is_array($menuListIdsArray) && (int)$menuListIdsArray > 0) {
 						$wheres[]	= ' a.id = '.(int)$menuListIdsArray;
 					} else {
-						\Joomla\Utilities\ArrayHelper::toInteger($menuListIdsArray);
+						ArrayHelper::toInteger($menuListIdsArray);
 						$menuListIds = implode( ',', $menuListIdsArray );
 						$wheres[]	= ' a.id IN ( '.$menuListIds.' )';
 					}
@@ -236,7 +239,7 @@ class PhocaMenuModelMenu extends JModelLegacy
 				// Front
 				if ($displayCurrentDay == 1) {
 					jimport('joomla.utilities.date');
-					$date		= JFactory::getDate();
+					$date		= Factory::getDate();
 					$dateFrom	= $date->format('Y-m-d 00:00:00');
 					$dateTo		= $date->format('Y-m-d 23:59:59');
 					$wheres[]	= ' a.title BETWEEN \''.$dateFrom.'\' AND \''.$dateTo.'\'';
@@ -245,7 +248,7 @@ class PhocaMenuModelMenu extends JModelLegacy
 					if (!is_array($menuDayIdsArray) && (int)$menuDayIdsArray > 0) {
 						$wheres[]	= ' a.id = '.(int)$menuDayIdsArray;
 					} else {
-						\Joomla\Utilities\ArrayHelper::toInteger($menuDayIdsArray);
+						ArrayHelper::toInteger($menuDayIdsArray);
 						$menuDayIds = implode( ',', $menuDayIdsArray );
 						$wheres[]	= ' a.id IN ( '.$menuDayIds.' )';
 					}

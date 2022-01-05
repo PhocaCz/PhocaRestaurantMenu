@@ -9,17 +9,24 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License version 2 or later;
  */
 defined('_JEXEC') or die();
+use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Table\Table;
+use Joomla\Registry\Registry;
+use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Language\Text;
 jimport('joomla.application.component.modeladmin');
 use Joomla\String\StringHelper;
 
-class PhocaMenuCpModelPhocaMenuGroup extends JModelAdmin
+class PhocaMenuCpModelPhocaMenuGroup extends AdminModel
 {
 	protected	$option 		= 'com_phocamenu';
 	protected 	$text_prefix	= 'com_phocamenu';
 
 	protected function canDelete($record)
 	{
-		$user = JFactory::getUser();
+		$user = Factory::getUser();
 
 		if ($record->catid) {
 			return $user->authorise('core.delete', 'com_phocamenu.phocamenugroup.'.(int) $record->catid);
@@ -30,7 +37,7 @@ class PhocaMenuCpModelPhocaMenuGroup extends JModelAdmin
 
 	protected function canEditState($record)
 	{
-		$user = JFactory::getUser();
+		$user = Factory::getUser();
 
 		if ($record->catid) {
 			return $user->authorise('core.edit.state', 'com_phocamenu.phocamenugroup.'.(int) $record->catid);
@@ -41,12 +48,12 @@ class PhocaMenuCpModelPhocaMenuGroup extends JModelAdmin
 
 	public function getTable($type = 'PhocaMenuGroup', $prefix = 'Table', $config = array())
 	{
-		return JTable::getInstance($type, $prefix, $config);
+		return Table::getInstance($type, $prefix, $config);
 	}
 
 	public function getForm($data = array(), $loadData = true) {
 
-		$app	= JFactory::getApplication();
+		$app	= Factory::getApplication();
 		$form 	= $this->loadForm('com_phocamenu.phocamenugroup', 'phocamenugroup', array('control' => 'jform', 'load_data' => $loadData));
 
 		if (empty($form)) {
@@ -58,7 +65,7 @@ class PhocaMenuCpModelPhocaMenuGroup extends JModelAdmin
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$data = JFactory::getApplication()->getUserState('com_phocamenu.edit.phocamenugroup.data', array());
+		$data = Factory::getApplication()->getUserState('com_phocamenu.edit.phocamenugroup.data', array());
 
 		if (empty($data)) {
 			$data = $this->getItem();
@@ -71,7 +78,7 @@ class PhocaMenuCpModelPhocaMenuGroup extends JModelAdmin
 	{
 		if ($item = parent::getItem($pk)) {
 			// Convert the params field to an array.
-			$registry = new JRegistry;
+			$registry = new Registry;
 			//$registry->loadString($item->metadata);
 			//$item->metadata = $registry->toArray();
 		}
@@ -82,14 +89,14 @@ class PhocaMenuCpModelPhocaMenuGroup extends JModelAdmin
 	protected function prepareTable($table)
 	{
 		jimport('joomla.filter.output');
-		$date = JFactory::getDate();
-		$user = JFactory::getUser();
+		$date = Factory::getDate();
+		$user = Factory::getUser();
 
 		$table->title		= htmlspecialchars_decode($table->title, ENT_QUOTES);
-		$table->alias		= JApplicationHelper::stringURLSafe($table->alias);
+		$table->alias		= ApplicationHelper::stringURLSafe($table->alias);
 
 		if (empty($table->alias)) {
-			$table->alias = JApplicationHelper::stringURLSafe($table->title);
+			$table->alias = ApplicationHelper::stringURLSafe($table->title);
 		}
 
 		if (empty($table->id)) {
@@ -98,7 +105,7 @@ class PhocaMenuCpModelPhocaMenuGroup extends JModelAdmin
 
 			// Set ordering to the last item if not set
 			if (empty($table->ordering)) {
-				$db = JFactory::getDbo();
+				$db = Factory::getDbo();
 				$db->setQuery('SELECT MAX(ordering) FROM #__phocamenu_group WHERE catid = '. (int) $table->catid . ' AND type = '. (int) $table->type);
 				$max = $db->loadResult();
 
@@ -123,13 +130,13 @@ class PhocaMenuCpModelPhocaMenuGroup extends JModelAdmin
 
 	function delete(&$cid = array()) {
 
-		$db 	= JFactory::getDBO();
+		$db 	= Factory::getDBO();
 		$result = false;
 
 		// - - - - - - - - - - - - - - -
 		// FIRST - Are there some items in the group?
 		if (count( $cid )) {
-			\Joomla\Utilities\ArrayHelper::toInteger($cid);
+			ArrayHelper::toInteger($cid);
 			$cids = implode( ',', $cid );
 
 
@@ -143,7 +150,7 @@ class PhocaMenuCpModelPhocaMenuGroup extends JModelAdmin
 			$db->setQuery( $query );
 
 			if (!($rows = $db->loadObjectList())) {
-				throw new Exception(JText::_('COM_PHOCAMENU_ERROR_DB_LOAD_DATA'), 500);
+				throw new Exception(Text::_('COM_PHOCAMENU_ERROR_DB_LOAD_DATA'), 500);
 				return false;
 			}
 
@@ -163,7 +170,7 @@ class PhocaMenuCpModelPhocaMenuGroup extends JModelAdmin
 				. ' WHERE id IN ( '.$cids.' )';
 				$db->setQuery( $query );
 				if (!$db->execute()) {
-					$this->setError($this->_db->getErrorMsg());
+					throw new Exception($db->getError());
 					return false;
 				}
 			}
@@ -173,7 +180,7 @@ class PhocaMenuCpModelPhocaMenuGroup extends JModelAdmin
 		$msg = '';
 		if (count( $errItem )) {
 			$cidsItem = implode( ", ", $errItem );
-			$msg 	 .= JText::sprintf( 'COM_PHOCAMENU_WARNING_GROUP_CONTAIN_ITEMS', $cidsItem );
+			$msg 	 .= Text::sprintf( 'COM_PHOCAMENU_WARNING_GROUP_CONTAIN_ITEMS', $cidsItem );
 
 			$this->setError($msg);
 			return false;
@@ -185,16 +192,16 @@ class PhocaMenuCpModelPhocaMenuGroup extends JModelAdmin
 	{
 		$tableN 	= '';
 		$typeN		= '';
-		$errMove	= JText::_('COM_PHOCAMENU_ERROR_BATCH_MOVE_MENU_TYPE_NOT_FOUND');
+		$errMove	= Text::_('COM_PHOCAMENU_ERROR_BATCH_MOVE_MENU_TYPE_NOT_FOUND');
 		if (isset($value) && $value != '') {
 			$vA = explode(',', $value);
 			if (isset($vA[0])) {
 				if ($vA[0] == 'd') {
 					$tableN = 'Day';
-					$errMove	= JText::_('COM_PHOCAMENU_ERROR_BATCH_MOVE_DAY_NOT_FOUND');
+					$errMove	= Text::_('COM_PHOCAMENU_ERROR_BATCH_MOVE_DAY_NOT_FOUND');
 				} else if ($vA[0] == 'l') {
 					$tableN 	= 'List';
-					$errMove	= JText::_('COM_PHOCAMENU_ERROR_BATCH_MOVE_LIST_NOT_FOUND');
+					$errMove	= Text::_('COM_PHOCAMENU_ERROR_BATCH_MOVE_LIST_NOT_FOUND');
 
 				} else {
 					// Groups are directly in type - they don't have any day or list: e.g. Daily Menu
@@ -206,7 +213,7 @@ class PhocaMenuCpModelPhocaMenuGroup extends JModelAdmin
 						$typeN	= (int)$vA[0];
 					}
 					$tableN 	= '';
-					$errMove	= JText::_('COM_PHOCAMENU_ERROR_BATCH_MOVE_MENU_TYPE_NOT_FOUND');
+					$errMove	= Text::_('COM_PHOCAMENU_ERROR_BATCH_MOVE_MENU_TYPE_NOT_FOUND');
 				}
 			}
 			if (isset($vA[1])) {
@@ -233,7 +240,7 @@ class PhocaMenuCpModelPhocaMenuGroup extends JModelAdmin
 			// ALL TYPES WITH DAYS OR LISTS
 			// Check that the category exists
 			if ($categoryId) {
-				$categoryTable = JTable::getInstance('PhocaMenu'.(string)$tableN, 'Table');
+				$categoryTable = Table::getInstance('PhocaMenu'.(string)$tableN, 'Table');
 				if (!$categoryTable->load($categoryId)) {
 					if ($error = $categoryTable->getError()) {
 						// Fatal error
@@ -266,10 +273,10 @@ class PhocaMenuCpModelPhocaMenuGroup extends JModelAdmin
 
 
 		// Check that the user has create permission for the component
-		$extension	= JFactory::getApplication()->input->get('option');
-		$user		= JFactory::getUser();
+		$extension	= Factory::getApplication()->input->get('option');
+		$user		= Factory::getUser();
 		if (!$user->authorise('core.create', $extension)) {
-			$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_CREATE'));
+			$this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_CREATE'));
 			return false;
 		}
 
@@ -290,7 +297,7 @@ class PhocaMenuCpModelPhocaMenuGroup extends JModelAdmin
 				}
 				else {
 					// Not fatal error
-					$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
+					$this->setError(Text::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
 					continue;
 				}
 			}
@@ -359,16 +366,16 @@ class PhocaMenuCpModelPhocaMenuGroup extends JModelAdmin
 		$tableN 	= '';
 		$typeN		= '';
 
-		$errMove	= JText::_('COM_PHOCAMENU_ERROR_BATCH_MOVE_MENU_TYPE_NOT_FOUND');
+		$errMove	= Text::_('COM_PHOCAMENU_ERROR_BATCH_MOVE_MENU_TYPE_NOT_FOUND');
 		if (isset($value) && $value != '') {
 			$vA = explode(',', $value);
 			if (isset($vA[0])) {
 				if ($vA[0] == 'd') {
 					$tableN = 'Day';
-					$errMove	= JText::_('COM_PHOCAMENU_ERROR_BATCH_MOVE_DAY_NOT_FOUND');
+					$errMove	= Text::_('COM_PHOCAMENU_ERROR_BATCH_MOVE_DAY_NOT_FOUND');
 				} else if ($vA[0] == 'l') {
 					$tableN 	= 'List';
-					$errMove	= JText::_('COM_PHOCAMENU_ERROR_BATCH_MOVE_LIST_NOT_FOUND');
+					$errMove	= Text::_('COM_PHOCAMENU_ERROR_BATCH_MOVE_LIST_NOT_FOUND');
 
 				} else {
 					// Groups are directly in type - they don't have any day or list: e.g. Daily Menu
@@ -380,7 +387,7 @@ class PhocaMenuCpModelPhocaMenuGroup extends JModelAdmin
 						$typeN	= (int)$vA[0];
 					}
 					$tableN 	= '';
-					$errMove	= JText::_('COM_PHOCAMENU_ERROR_BATCH_MOVE_MENU_TYPE_NOT_FOUND');
+					$errMove	= Text::_('COM_PHOCAMENU_ERROR_BATCH_MOVE_MENU_TYPE_NOT_FOUND');
 				}
 			}
 			if (isset($vA[1])) {
@@ -406,7 +413,7 @@ class PhocaMenuCpModelPhocaMenuGroup extends JModelAdmin
 
 
 			if ($categoryId) {
-				$categoryTable = JTable::getInstance('PhocaMenu'.(string)$tableN, 'Table');
+				$categoryTable = Table::getInstance('PhocaMenu'.(string)$tableN, 'Table');
 				if (!$categoryTable->load($categoryId)) {
 					if ($error = $categoryTable->getError()) {
 						// Fatal error
@@ -436,15 +443,15 @@ class PhocaMenuCpModelPhocaMenuGroup extends JModelAdmin
 		}
 
 		// Check that user has create and edit permission for the component
-		$extension	= JFactory::getApplication()->input->get('option');
-		$user		= JFactory::getUser();
+		$extension	= Factory::getApplication()->input->get('option');
+		$user		= Factory::getUser();
 		if (!$user->authorise('core.create', $extension)) {
-			$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_CREATE'));
+			$this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_CREATE'));
 			return false;
 		}
 
 		if (!$user->authorise('core.edit', $extension)) {
-			$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
+			$this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
 			return false;
 		}
 
@@ -460,7 +467,7 @@ class PhocaMenuCpModelPhocaMenuGroup extends JModelAdmin
 				}
 				else {
 					// Not fatal error
-					$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
+					$this->setError(Text::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
 					continue;
 				}
 			}
@@ -502,7 +509,7 @@ class PhocaMenuCpModelPhocaMenuGroup extends JModelAdmin
 
 		// Sanitize user ids.
 		$pks = array_unique($pks);
-		\Joomla\Utilities\ArrayHelper::toInteger($pks);
+		ArrayHelper::toInteger($pks);
 
 		// Remove any values of zero.
 		if (array_search(0, $pks, true)) {
@@ -510,7 +517,7 @@ class PhocaMenuCpModelPhocaMenuGroup extends JModelAdmin
 		}
 
 		if (empty($pks)) {
-			$this->setError(JText::_('JGLOBAL_NO_ITEM_SELECTED'));
+			$this->setError(Text::_('JGLOBAL_NO_ITEM_SELECTED'));
 			return false;
 		}
 
@@ -529,7 +536,7 @@ class PhocaMenuCpModelPhocaMenuGroup extends JModelAdmin
 		//if (!empty($commands['category_id'])) {
 		if (isset($commands['category_id']))
 		{
-			$cmd = \Joomla\Utilities\ArrayHelper::getValue($commands, 'move_copy', 'c');
+			$cmd = ArrayHelper::getValue($commands, 'move_copy', 'c');
 
 			if ($cmd == 'c')
 			{
@@ -561,7 +568,7 @@ class PhocaMenuCpModelPhocaMenuGroup extends JModelAdmin
 		}
 
 		if (!$done) {
-			$this->setError(JText::_('JLIB_APPLICATION_ERROR_INSUFFICIENT_BATCH_INFORMATION'));
+			$this->setError(Text::_('JLIB_APPLICATION_ERROR_INSUFFICIENT_BATCH_INFORMATION'));
 			return false;
 		}
 
@@ -613,11 +620,11 @@ class PhocaMenuCpModelPhocaMenuGroup extends JModelAdmin
 			.' SET type = ' . $this->_db->Quote($type)
 			.' WHERE catid = '.(int) $id;
 		$this->_db->setQuery($query);
-
-		if (!$this->_db->query()) {
+		$this->_db->execute();
+		/*if (!$this->_db->execute()) {
 			$this->setError('Database Error Changing Item Types');
 			return false;
-		}
+		}*/
 
 		return true;
 	}

@@ -9,21 +9,26 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License version 2 or later;
  */
 defined('_JEXEC') or die();
-/*
+use Joomla\CMS\Form\FormField;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
+
 if (! class_exists('PhocaGalleryLoader')) {
     require_once( JPATH_ADMINISTRATOR.'/components/com_phocagallery/libraries/loader.php');
 }
 phocagalleryimport('phocagallery.render.renderadmin');
 phocagalleryimport('phocagallery.html.category');
-*/
+phocagalleryimport('phocagallery.html.categoryhtml');
 
-class JFormFieldPhocaMenuGalleryCategory extends JFormField
+
+class JFormFieldPhocaMenuGalleryCategory extends FormField
 {
 	protected $type 		= 'PhocaMenuGalleryCategory';
 
 	protected function getInput() {
 
-		$db = JFactory::getDBO();
+		$db = Factory::getDBO();
 		$ignorePublished = 0;
 
        //build the list of categories
@@ -38,18 +43,18 @@ class JFormFieldPhocaMenuGalleryCategory extends JFormField
 
 		$catId	= -1;
 
-		//$javascript 	= 'class="inputbox" size="1" onchange="Joomla.submitform( );"';
+		//$javascript 	= 'class="form-control" size="1" onchange="Joomla.submitform( );"';
 
 		$attr = '';
 		$attr .= $this->element['onchange'] ? ' onchange="'.(string) $this->element['onchange'].'"' : '';
 		$attr .= $this->required ? ' required aria-required="true"' : '';
-		$attr .= ' class="inputbox"';
+		$attr .= ' class="form-control"';
 
 		$tree = array();
 		$text = '';
-		$tree = PhocaGalleryCategory::CategoryTreeOption($phocagallerys, $tree, 0, $text, $catId);
-		array_unshift($tree, Joomla\CMS\HTML\HTMLHelper::_('select.option', '', '- '.JText::_('COM_PHOCAGALLERY_SELECT_CATEGORY').' -', 'value', 'text'));
-		return Joomla\CMS\HTML\HTMLHelper::_('select.genericlist',  $tree,  $this->name, trim($attr), 'value', 'text', $this->value, $this->id );
+		$tree = PhocaGalleryCategoryhtml::CategoryTreeOption($phocagallerys, $tree, 0, $text, $catId);
+		array_unshift($tree, HTMLHelper::_('select.option', '', '- '.Text::_('COM_PHOCAGALLERY_SELECT_CATEGORY').' -', 'value', 'text'));
+		return HTMLHelper::_('select.genericlist',  $tree,  $this->name, trim($attr), 'value', 'text', $this->value, $this->id );
 	}
 }
 ?>

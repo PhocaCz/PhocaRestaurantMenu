@@ -9,9 +9,12 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License version 2 or later;
  */
 defined('JPATH_BASE') or die;
+use Joomla\CMS\Form\FormField;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
 jimport('joomla.form.formfield');
 
-class JFormFieldPhocaTextWarning extends JFormField
+class JFormFieldPhocaTextWarning extends FormField
 {
 	protected $type 		= 'PhocaTextWarning';
 
@@ -37,7 +40,7 @@ class JFormFieldPhocaTextWarning extends JFormField
 		if ($warning != '') {
 			//$html .= '<div style="margin-left:10px;">'.JHtml::_('image', 'administrator/components/com_phocamaps/assets/images/icon-16-warning.png', '' ) . '</div><div>' . JText::_($warning).'</div>';
 			
-			$html .='<div style="position:relative;margin-left:250px;margin-top:-28px;">'.JHtml::_('image', 'media/com_phocamenu/images/icon-16-warning.png', '',array('style' => 'margin:0;padding:0;margin-right:5px;') ).' '.JText::_($warning).'</div><div style="clear:both"></div>';
+			$html .='<div style="position:relative;margin-left:250px;margin-top:-28px;">'.HTMLHelper::_('image', 'media/com_phocamenu/images/icon-16-warning.png', '',array('style' => 'margin:0;padding:0;margin-right:5px;') ).' '.Text::_($warning).'</div><div style="clear:both"></div>';
 		}
 		
 		

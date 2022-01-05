@@ -9,9 +9,15 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License version 2 or later;
  */
 defined('_JEXEC') or die();
+use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\Table\Table;
+use Joomla\CMS\Factory;
+use Joomla\Registry\Registry;
+use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Language\Text;
 jimport('joomla.application.component.modeladmin');
 
-class PhocaMenuCpModelPhocaMenuEmail extends JModelAdmin
+class PhocaMenuCpModelPhocaMenuEmail extends AdminModel
 {
 	protected	$option 		= 'com_phocamenu';
 	protected 	$text_prefix	= 'com_phocamenu';
@@ -25,12 +31,12 @@ class PhocaMenuCpModelPhocaMenuEmail extends JModelAdmin
 
 	public function getTable($type = 'PhocaMenuEmail', $prefix = 'Table', $config = array())
 	{
-		return JTable::getInstance($type, $prefix, $config);
+		return Table::getInstance($type, $prefix, $config);
 	}
 
 	public function getForm($data = array(), $loadData = true) {
 
-		$app	= JFactory::getApplication();
+		$app	= Factory::getApplication();
 
 		$form 	= $this->loadForm('com_phocamenu.phocamenuemail', 'phocamenuemail', array('control' => 'jform', 'load_data' => $loadData));
 
@@ -43,7 +49,7 @@ class PhocaMenuCpModelPhocaMenuEmail extends JModelAdmin
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$data = JFactory::getApplication()->getUserState('com_phocamenu.edit.phocamenuemail.data', array());
+		$data = Factory::getApplication()->getUserState('com_phocamenu.edit.phocamenuemail.data', array());
 
 		if (empty($data)) {
 			$data = $this->getItem();
@@ -55,7 +61,7 @@ class PhocaMenuCpModelPhocaMenuEmail extends JModelAdmin
 	public function getItem($pk = null)
 	{
 
-		$type = JFactory::getApplication()->input->get('type', 0, '', 'int');
+		$type = Factory::getApplication()->input->get('type', 0, '', 'int');
 		$query = ' SELECT a.id '
 			    .' FROM #__phocamenu_email AS a'
 			    .' WHERE a.type ='.(int)$type
@@ -74,7 +80,7 @@ class PhocaMenuCpModelPhocaMenuEmail extends JModelAdmin
 
 		if ($item = parent::getItem($pk)) {
 			// Convert the params field to an array.
-			$registry = new JRegistry;
+			$registry = new Registry;
 			//$registry->loadString($item->metadata);
 			//$item->metadata = $registry->toArray();
 		}
@@ -85,14 +91,14 @@ class PhocaMenuCpModelPhocaMenuEmail extends JModelAdmin
 	protected function prepareTable($table)
 	{
 		jimport('joomla.filter.output');
-		$date = JFactory::getDate();
-		$user = JFactory::getUser();
+		$date = Factory::getDate();
+		$user = Factory::getUser();
 
 		$table->title		= htmlspecialchars_decode($table->title, ENT_QUOTES);
-		$table->alias		= JApplicationHelper::stringURLSafe($table->alias);
+		$table->alias		= ApplicationHelper::stringURLSafe($table->alias);
 
 		if (empty($table->alias)) {
-			$table->alias = JApplicationHelper::stringURLSafe($table->title);
+			$table->alias = ApplicationHelper::stringURLSafe($table->title);
 		}
 
 		if (empty($table->id)) {
@@ -101,7 +107,7 @@ class PhocaMenuCpModelPhocaMenuEmail extends JModelAdmin
 
 			// Set ordering to the last item if not set
 			if (empty($table->ordering)) {
-				$db = JFactory::getDbo();
+				$db = Factory::getDbo();
 				$db->setQuery('SELECT MAX(ordering) FROM #__phocamenu_email');
 				$max = $db->loadResult();
 
@@ -134,8 +140,8 @@ class PhocaMenuCpModelPhocaMenuEmail extends JModelAdmin
 		 */
 
 		$type 		= PhocaMenuHelper::getUrlType('email');
-		$adminTool 	= JFactory::getApplication()->input->get('admintool', 0, '', 'int');
-		$atid		= JFactory::getApplication()->input->get( 'atid', 0, '', 'int' );
+		$adminTool 	= Factory::getApplication()->input->get('admintool', 0, '', 'int');
+		$atid		= Factory::getApplication()->input->get( 'atid', 0, '', 'int' );
 		$content	= array();
 
 		$wheresLang = '';
@@ -271,7 +277,7 @@ class PhocaMenuCpModelPhocaMenuEmail extends JModelAdmin
 		if (empty($this->context)) {
 			$this->context = strtolower($this->option.'.'.$this->getName());
 		}
-		$app 		= JFactory::getApplication('administrator');
+		$app 		= Factory::getApplication('administrator');
 		$language 	= $app->getUserStateFromRequest($this->context.'.filter.language', 'filter_language', '');
 
 
@@ -287,8 +293,8 @@ class PhocaMenuCpModelPhocaMenuEmail extends JModelAdmin
 		if (empty($this->context)) {
 			$this->context = strtolower($this->option.'.'.$this->getName());
 		}
-		$app 		= JFactory::getApplication('administrator');
-		$type		= JFactory::getApplication()->input->get('type', 0, '', 'int');
+		$app 		= Factory::getApplication('administrator');
+		$type		= Factory::getApplication()->input->get('type', 0, '', 'int');
 
 		$lang = $app->getUserStateFromRequest($this->context.'.filter.language', 'filter_language', $language);
 
@@ -318,12 +324,12 @@ class PhocaMenuCpModelPhocaMenuEmail extends JModelAdmin
 				return true;
 			}
 
-			$user = \JFactory::getUser();
+			$user = Factory::getUser();
 
 			// Check if this is the user having previously checked out the row.
 			/*if ($table->{$checkedOutField} > 0 && $table->{$checkedOutField} != $user->get('id'))
 			{
-				$this->setError(\JText::_('JLIB_APPLICATION_ERROR_CHECKOUT_USER_MISMATCH'));
+				$this->setError(\Text::_('JLIB_APPLICATION_ERROR_CHECKOUT_USER_MISMATCH'));
 
 				return false;
 			}*/

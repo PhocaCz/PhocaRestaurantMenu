@@ -9,6 +9,9 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License version 2 or later;
  */
 defined('_JEXEC') or die;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 $r = $this->r;
 
 $js ='
@@ -16,7 +19,7 @@ Joomla.submitbutton = function(task) {
 	if (task == "'. $this->t['task'] .'.cancel" || document.formvalidator.isValid(document.getElementById("adminForm"))) {
 		Joomla.submitform(task, document.getElementById("adminForm"));
 	} else {
-		Joomla.renderMessages({"error": ["'. JText::_('JGLOBAL_VALIDATION_FORM_FAILED', true).'"]});
+		Joomla.renderMessages({"error": ["'. Text::_('JGLOBAL_VALIDATION_FORM_FAILED', true).'"]});
 	}
 }
 ';
@@ -27,13 +30,25 @@ echo $r->startFormRoute($this->t['o'], '', 'adminForm', 'adminForm');
 // First Column
 echo '<div class="span12 form-horizontal">';
 $tabs = array (
-'general' 		=> JText::_($this->t['l'].'_SETTINGS')
+'general' 		=> Text::_($this->t['l'].'_SETTINGS')
 );
 echo $r->navigation($tabs);
 
 echo $r->startTabs();
 
 echo $r->startTab('general', $tabs['general'], 'active');
+
+echo '<div class="ph-admin-additional-box">';
+
+	echo '<i class="icon-exclamation-triangle" title="'.Text::_('COM_PHOCAMENU_WARNING_SELECT_LANG').'" ></i> '. "\n";
+	// MUST BE SET AT THE BOTTOM
+	//<input type="hidden" name="task" value="phocamenuemail.edit" />
+	echo Text::_('COM_PHOCAMENU_SELECT_LANGUAGE').':'. "\n";
+	echo '<select name="filter_language" class="form-select" onchange="this.form.submit()">'. "\n";
+	echo HTMLHelper::_('select.options', HTMLHelper::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language'.(int)$this->item->type)). "\n";
+	echo '</select>'. "\n";
+
+echo '</div>';
 
 switch($this->type['value']) {
 	case 1:
@@ -64,19 +79,13 @@ echo $hiddenArray;
 echo '<input type="hidden" name="jform[type]" id="jform_type" value="'.$this->type['value'].'" />';
 
 $formArray 		= array ('header', 'footer');
+
+
+
+
 echo $r->group($this->form, $formArray, 1);
 //echo '<input type="hidden" name="jform[type]" id="jform_type" value="'.(int)$this->item->type.'" />';
 
-echo '<div class="ph-float-right ph-admin-additional-box">';
-
-$warning = '<span style="float:right;margin-right:5px;margin-top:-5px;" class="hasTip" title="'.JText::_('COM_PHOCAMENU_WARNING_SELECT_LANG').'">'.JHtml::_('image', 'media/com_phocamenu/images/administrator/icon-16-warning.png', '' ).'</span>'. "\n";
-
-echo JText::_('COM_PHOCAMENU_SELECT_LANGUAGE'). ''.$warning.' :'. "\n";
-echo '<select name="filter_language" class="inputbox" onchange="this.form.submit()">'. "\n";
-echo JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language'.(int)$this->item->type)). "\n";
-echo '</select>'. "\n";
-
-echo '</div>';
 
 echo $r->endTab();
 
@@ -103,7 +112,7 @@ $filterLang = $this->state->get('filter.language'.(int)$this->item->type);
 if ($filterLang == '') { $filterLang = '*';}
 echo '<input type="hidden" name="jform[language]" value="'.$filterLang.'" />'. "\n";
 echo '<input type="hidden" name="task" value="phocamenuconfig.edit" />'. "\n";
-echo JHtml::_('form.token');
+echo HTMLHelper::_('form.token');
 
 echo $r->endForm();
 echo '</div>'. "\n";

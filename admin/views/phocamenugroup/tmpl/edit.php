@@ -9,6 +9,8 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License version 2 or later;
  */
 defined('_JEXEC') or die;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 $r 			=  $this->r;
 
 $js ='
@@ -16,7 +18,7 @@ Joomla.submitbutton = function(task) {
 	if (task == "'. $this->t['task'] .'.cancel" || document.formvalidator.isValid(document.getElementById("adminForm"))) {
 		Joomla.submitform(task, document.getElementById("adminForm"));
 	} else {
-		Joomla.renderMessages({"error": ["'. JText::_('JGLOBAL_VALIDATION_FORM_FAILED', true).'"]});
+		Joomla.renderMessages({"error": ["'. Text::_('JGLOBAL_VALIDATION_FORM_FAILED', true).'"]});
 	}
 }
 ';
@@ -27,9 +29,9 @@ echo $r->startForm($this->t['o'], $this->t['task'], $this->item->id, 'adminForm'
 // First Column
 echo '<div class="span12 form-horizontal">';
 $tabs = array (
-'general' 		=> JText::_($this->t['l'].'_GENERAL_OPTIONS'),
-'publishing' 	=> JText::_($this->t['l'].'_PUBLISHING_OPTIONS'),
-'advanced' 		=> JText::_($this->t['l'].'_ADVANCED_OPTIONS')
+'general' 		=> Text::_($this->t['l'].'_GENERAL_OPTIONS'),
+'publishing' 	=> Text::_($this->t['l'].'_PUBLISHING_OPTIONS'),
+'advanced' 		=> Text::_($this->t['l'].'_ADVANCED_OPTIONS')
 );
 echo $r->navigation($tabs);
 

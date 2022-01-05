@@ -9,9 +9,12 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License version 2 or later;
  */
 defined( '_JEXEC' ) or die();
+use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Component\ComponentHelper;
 jimport( 'joomla.application.component.modellist' );
 
-class PhocaMenuCpModelPhocaMenuItems extends JModelList
+class PhocaMenuCpModelPhocaMenuItems extends ListModel
 {
 	protected	$option 		= 'com_phocamenu';
 
@@ -41,7 +44,7 @@ class PhocaMenuCpModelPhocaMenuItems extends JModelList
 	protected function populateState($ordering = 'a.title', $direction = 'ASC')
 	{
 
-		$app 	= JFactory::getApplication('administrator');
+		$app 	= Factory::getApplication('administrator');
 		$type 	= PhocaMenuHelper::getUrlType('item');
 
 
@@ -54,29 +57,38 @@ class PhocaMenuCpModelPhocaMenuItems extends JModelList
 		$state = $app->getUserStateFromRequest($this->context.'.filter.published', 'filter_published', '', 'string');
 		$this->setState('filter.published', $state);
 
-		// IMPORTANT - when $ GET and we get the ID by GET, then this all can be overriden in view.html.php
-		// as here in model it does not take any effect
-		$categoryId = $app->getUserStateFromRequest($this->context.'.filter.category_id', 'filter_category_id', 0);
-		// Don't user populateState if we are returning back from Edit View (it can happen that here the categor will be changed
-		$postCatid	= JFactory::getApplication()->input->get('filter_category_id', 0, 'POST', 'int');
-		if ((int)$postCatid > 0) {
-			$this->setState('filter.category_id', $categoryId);
-		} else {
-			$this->setState('filter.category_id', $type['valuecatid']);
-		}
+
+
+
+
 
 
 		$language = $app->getUserStateFromRequest($this->context.'.filter.language', 'filter_language', '');
 		$this->setState('filter.language', $language);
 
 		// Load the parameters.
-		$params = JComponentHelper::getParams('com_phocamenu');
+		$params = ComponentHelper::getParams('com_phocamenu');
 		$this->setState('params', $params);
 
 		// List state information.
 
 
 		parent::populateState($ordering, $direction);
+
+		// We need to do it after parent
+
+		// IMPORTANT - when $ GET and we get the ID by GET, then this all can be overriden in view.html.php
+		// as here in model it does not take any effect
+		$categoryId = $app->getUserStateFromRequest($this->context.'.filter.category_id', 'filter_category_id', 0);
+		// Don't user populateState if we are returning back from Edit View (it can happen that here the categor will be changed
+		$postCatid	= Factory::getApplication()->input->get('filter_category_id', 0, 'POST', 'int');
+
+		if ((int)$postCatid > 0) {
+			$this->setState('filter.category_id', $categoryId);
+		} else if ((int)$type['valuecatid'] > 0 && $type['method'] == 'get') {
+			$this->setState('filter.category_id', $type['valuecatid']);
+		}
+		// else leave the standard category changed by filter select box
 	}
 
 	protected function getStoreId($id = '')
@@ -100,6 +112,7 @@ class PhocaMenuCpModelPhocaMenuItems extends JModelList
 		$type 	= PhocaMenuHelper::getUrlType('item');
 
 		$categoryId = $this->getState('filter.category_id');
+
 
 		/*
 		$query = 'SELECT a.*, cc.title AS category, u.name AS editor '

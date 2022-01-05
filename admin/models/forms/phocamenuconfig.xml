@@ -7,20 +7,20 @@
 <field name="type" type="hidden" default="0" label="COM_PHOCAMENU_FIELD_TYPE_LABEL"  readonly="true" class="readonly" />
 
 
-<field name="date" type="PhocaMenuCalendar" daytype="config" class="inputbox" size="40" label="COM_PHOCAMENU_FIELD_DATE_LABEL" description="COM_PHOCAMENU_FIELD_DATE_DESC"  />
+<field name="date" type="PhocaMenuCalendar" daytype="config" class="form-control" size="40" label="COM_PHOCAMENU_FIELD_DATE_LABEL" description="COM_PHOCAMENU_FIELD_DATE_DESC"  />
 
-<field name="date_from" type="PhocaMenuCalendar" daytype="config" class="inputbox" size="40" label="COM_PHOCAMENU_FIELD_DATE_FROM_LABEL" description="COM_PHOCAMENU_FIELD_DATE_FROM_DESC"  />
+<field name="date_from" type="PhocaMenuCalendar" daytype="config" class="form-control" size="40" label="COM_PHOCAMENU_FIELD_DATE_FROM_LABEL" description="COM_PHOCAMENU_FIELD_DATE_FROM_DESC"  />
 
-<field name="date_to" type="PhocaMenuCalendar" daytype="config" class="inputbox" size="40" label="COM_PHOCAMENU_FIELD_DATE_TO_LABEL" description="COM_PHOCAMENU_FIELD_DATE_TO_DESC"  />
+<field name="date_to" type="PhocaMenuCalendar" daytype="config" class="form-control" size="40" label="COM_PHOCAMENU_FIELD_DATE_TO_LABEL" description="COM_PHOCAMENU_FIELD_DATE_TO_DESC"  />
 
 
-<field name="header" type="editor" buttons="true" hide="pagebreak,readmore" class="inputbox" label="COM_PHOCAMENU_FIELD_HEADER_LABEL" description="COM_PHOCAMENU_FIELD_HEADER_DESC" filter="JComponentHelper::filterText" />
-<field name="footer" type="editor" buttons="true" hide="pagebreak,readmore" class="inputbox" label="COM_PHOCAMENU_FIELD_FOOTER_LABEL" description="COM_PHOCAMENU_FIELD_FOOTER_DESC" filter="JComponentHelper::filterText" />
+<field name="header" type="editor" buttons="true" hide="pagebreak,readmore" class="form-control" label="COM_PHOCAMENU_FIELD_HEADER_LABEL" description="COM_PHOCAMENU_FIELD_HEADER_DESC" filter="JComponentHelper::filterText" />
+<field name="footer" type="editor" buttons="true" hide="pagebreak,readmore" class="form-control" label="COM_PHOCAMENU_FIELD_FOOTER_LABEL" description="COM_PHOCAMENU_FIELD_FOOTER_DESC" filter="JComponentHelper::filterText" />
 </fieldset>
 </fields>
 
 <fieldset name="publish" label="COM_PHOCAMENU_GROUP_LABEL_PUBLISHING_DETAILS" >
-	<field name="language" type="contentlanguage" label="JFIELD_LANGUAGE_LABEL" description="COM_PHOCAMENU_FIELD_LANGUAGE_CONFIG_DESC" class="inputbox">
+	<field name="language" type="contentlanguage" label="JFIELD_LANGUAGE_LABEL" description="COM_PHOCAMENU_FIELD_LANGUAGE_CONFIG_DESC" class="form-select">
 		<option value="*">JALL</option>
 	</field>
 </fieldset>
@@ -31,11 +31,11 @@
 
 	<field name="metakey" type="textarea"
 			label="JField_Meta_Keywords_Label" description="JField_Meta_Keywords_Desc"
-			class="inputbox" rows="3" cols="30" />
+			class="form-control" rows="3" cols="30" />
 
 <field name="metadesc" type="textarea"
 	label="JField_Meta_Description_Label" description="JField_Meta_Description_Desc"
-	class="inputbox" rows="3" cols="30" />
+	class="form-control" rows="3" cols="30" />
 
 
 

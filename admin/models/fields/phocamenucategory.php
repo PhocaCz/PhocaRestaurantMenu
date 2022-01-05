@@ -9,15 +9,19 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License version 2 or later;
  */
 defined('_JEXEC') or die();
+use Joomla\CMS\Form\FormField;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
 
-class JFormFieldPhocaMenuCategory extends JFormField
+class JFormFieldPhocaMenuCategory extends FormField
 {
 	protected $type 		= 'PhocaMenuCategory';
 
 	protected function getInput() {
 
-	    $app        = JFactory::getApplication();
-		$db 		= JFactory::getDBO();
+	    $app        = Factory::getApplication();
+		$db 		= Factory::getDBO();
 		$list		= '';
 		$typeView	= $this->element['menutype'] ? (string)$this->element['menutype'] : 'group';
 		$hideSelect	= $this->element['hideselect'] &&  $this->element['hideselect'] == 1 ? (int)$this->element['hideselect'] : 0;
@@ -54,7 +58,7 @@ class JFormFieldPhocaMenuCategory extends JFormField
 
 		$attr 		= '';
 		$attr 		.= $this->element['onchange'] ? ' onchange="'.(string) $this->element['onchange'].'" ' : ' ';
-		$attr		.= ' class="inputbox"';
+		$attr		.= ' class="form-select"';
 
 		$query = '';
 		$output= '';
@@ -70,18 +74,18 @@ class JFormFieldPhocaMenuCategory extends JFormField
 									. ' WHERE ag.id = '.(int)$catid.')'
 				//	. ' WHERE a.published = 1'
 					. ' ORDER BY a.ordering';
-			$selectText = JText::_('COM_PHOCAMENU_SELECT_GROUP');
+			$selectText = Text::_('COM_PHOCAMENU_SELECT_GROUP');
 		} else {
 
 			switch ($type['value']){
 				case 2:
-					$selectText = JText::_('COM_PHOCAMENU_SELECT_DAY');
+					$selectText = Text::_('COM_PHOCAMENU_SELECT_DAY');
 				break;
 				case 3:
 				case 4:
 				case 5:
 				default:
-					$selectText = JText::_('COM_PHOCAMENU_SELECT_LIST');
+					$selectText = Text::_('COM_PHOCAMENU_SELECT_LIST');
 				break;
 			}
 
@@ -100,9 +104,9 @@ class JFormFieldPhocaMenuCategory extends JFormField
 					$db->setQuery( $query );
 					$itemList = $db->loadObjectList();
 					if ($hideSelect != 1) {
-						array_unshift($itemList, JHTML::_('select.option', '', '- '.$selectText.' -', 'value', 'text'));
+						array_unshift($itemList, HTMLHelper::_('select.option', '', '- '.$selectText.' -', 'value', 'text'));
 					}
-					$list = JHTML::_( 'select.genericlist', $itemList, $this->name, $attr, 'value', 'text', $this->value, $this->id);
+					$list = HTMLHelper::_( 'select.genericlist', $itemList, $this->name, $attr, 'value', 'text', $this->value, $this->id);
 
 				break;
 			}
@@ -113,9 +117,9 @@ class JFormFieldPhocaMenuCategory extends JFormField
 			$categories = $db->loadObjectList();
 
 			if ($hideSelect != 1) {
-				array_unshift($categories, JHTML::_('select.option', '', '- '.$selectText.' -', 'value', 'text'));
+				array_unshift($categories, HTMLHelper::_('select.option', '', '- '.$selectText.' -', 'value', 'text'));
 			}
-			$output = JHTML::_( 'select.genericlist', $categories, $this->name, $attr, 'value', 'text', $this->value, $this->id);
+			$output = HTMLHelper::_( 'select.genericlist', $categories, $this->name, $attr, 'value', 'text', $this->value, $this->id);
 		}
 
 		return $output;
@@ -185,7 +189,7 @@ class JFormFieldPhocaMenuCategory extends JFormField
 
 		// Get the label text from the XML element, defaulting to the element name.
 		$text = $this->element['label'] ? (string) $this->element['label'] : (string) $this->element['name'];
-		$text = $this->translateLabel ? JText::_($text) : $text;
+		$text = $this->translateLabel ? Text::_($text) : $text;
 
 		// Build the class for the label.
 		$class = !empty($this->description) ? 'hasTip' : '';
@@ -197,7 +201,7 @@ class JFormFieldPhocaMenuCategory extends JFormField
 		// If a description is specified, use it to build a tooltip.
 		if (!empty($this->description)) {
 			$label .= ' title="'.htmlspecialchars(trim($text, ':').'::' .
-						($this->translateDescription ? JText::_($this->description) : $this->description), ENT_COMPAT, 'UTF-8').'"';
+						($this->translateDescription ? Text::_($this->description) : $this->description), ENT_COMPAT, 'UTF-8').'"';
 		}
 
 		// Add the label text and closing tag.

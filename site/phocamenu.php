@@ -7,6 +7,7 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  */
 defined( '_JEXEC' ) or die( 'Restricted access' ); 
+use Joomla\CMS\Factory;
 
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
@@ -18,7 +19,7 @@ require_once( JPATH_ADMINISTRATOR.'/components/com_phocamenu/helpers/phocamenure
 require_once( JPATH_ADMINISTRATOR.'/components/com_phocamenu/helpers/views/phocamenufrontview.html.php' );
 require_once( JPATH_ADMINISTRATOR.'/components/com_phocamenu/helpers/views/phocamenufrontview.pdf.php' );
 
-if($controller = JFactory::getApplication()->input->get('controller')) {
+if($controller = Factory::getApplication()->input->get('controller')) {
     $path = JPATH_COMPONENT.'/controllers/'.$controller.'.php';
     if (file_exists($path)) {
         require_once $path;
@@ -30,7 +31,7 @@ if($controller = JFactory::getApplication()->input->get('controller')) {
 $classname    = 'PhocaMenuController'.ucfirst($controller);
 $controller   = new $classname( );
 //$controller = JControllerLegacy::getInstance('PhocaMenu');
-$controller->execute(JFactory::getApplication()->input->get('task'));
+$controller->execute(Factory::getApplication()->input->get('task'));
 $controller->redirect();
 
 ?>

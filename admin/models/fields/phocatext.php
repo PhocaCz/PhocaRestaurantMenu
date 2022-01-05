@@ -7,17 +7,20 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  */
 defined('JPATH_BASE') or die;
+use Joomla\CMS\Form\FormField;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Component\ComponentHelper;
 jimport('joomla.form.formfield');
 
-class JFormFieldPhocaText extends JFormField
+class JFormFieldPhocaText extends FormField
 {
 	protected $type 		= 'PhocaText';
 	protected $phocaParams 	= null;
 
 	protected function getInput() {
 	
-		$document		= JFactory::getDocument();
-		$option 		= JFactory::getApplication()->input->get('option');
+		$document		= Factory::getDocument();
+		$option 		= Factory::getApplication()->input->get('option');
 		$globalValue 	= $this->_getPhocaParams( $this->element['name'] );
 		
 		// Initialize some field attributes.
@@ -59,7 +62,7 @@ class JFormFieldPhocaText extends JFormField
 	
 	protected function _setPhocaParams(){
 		$component 			= 'com_phocamenu';
-		$paramsC			= JComponentHelper::getParams($component) ;
+		$paramsC			= ComponentHelper::getParams($component) ;
 		$this->phocaParams	= $paramsC;
 	}
 

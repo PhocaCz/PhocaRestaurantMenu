@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="component" method="upgrade" version="3.9">
+<extension type="component" method="upgrade" version="4.0">
 	<name>com_phocamenu</name>
 	<author>Jan Pavelka (www.phoca.cz)</author>
-	<creationDate>27/01/2021</creationDate>
+	<creationDate>05/01/2022</creationDate>
 	<authorEmail></authorEmail>
 	<authorUrl>https://www.phoca.cz</authorUrl>
 	<copyright>Jan Pavelka</copyright>
 	<license>GNU/GPL</license>
-	<version>3.3.1</version>
+	<version>4.0.0Beta</version>
 	<description>COM_PHOCAMENU_XML_DESCRIPTION</description>
 	<scriptfile>script.php</scriptfile>
 	<projectName>PhocaRestaurantMenu</projectName>
@@ -32,19 +32,20 @@
 
 	<files folder="site">
 		<folder>helpers</folder>
-		<folder>models</folder>
 		<folder>views</folder>
-		<filename>controller.php</filename>
-		<filename>index.html</filename>
+		<folder>models</folder>
+		<filename>router2.php</filename>
 		<filename>phocamenu.php</filename>
+		<filename>index.html</filename>
 		<filename>router.php</filename>
+		<filename>controller.php</filename>
 	</files>
 
 	<media destination="com_phocamenu" folder="media">
-		<folder>css</folder>
 		<folder>duotone</folder>
-		<folder>images</folder>
+		<folder>css</folder>
 		<folder>js</folder>
+		<folder>images</folder>
 		<filename>index.html</filename>
 	</media>
 
@@ -60,27 +61,26 @@
 			<submenu>
 				<menu img="media/com_phocamenu/images/administrator/icon-16-prm-menu-cp.png" alt="COM_PHOCAMENU_CONTROLPANEL" view="phocamenucp" link="option=com_phocamenu">COM_PHOCAMENU_CONTROLPANEL</menu>
 				<menu img="media/com_phocamenu/images/administrator/icon-16-prm-menu-dm.png" alt="COM_PHOCAMENU_DAILY_MENU" view="phocamenugroups" link="option=com_phocamenu&amp;view=phocamenugroups&amp;type=1">COM_PHOCAMENU_DAILY_MENU</menu>
-				
 				<menu img="media/com_phocamenu/images/administrator/icon-16-prm-menu-al.png" alt="COM_PHOCAMENU_ALL_ITEMS" view="phocamenuallitems" link="option=com_phocamenu&amp;view=phocamenuallitems">COM_PHOCAMENU_ALL_ITEMS</menu>
 				<menu img="media/com_phocamenu/images/administrator/icon-16-prm-menu-info.png" alt="COM_PHOCAMENU_INFO" view="phocamenuinfo" link="option=com_phocamenu&amp;view=phocamenuinfo">COM_PHOCAMENU_INFO</menu>
 			</submenu>
 
 		<files folder="admin">
-			<folder>assets</folder>
-			<folder>controllers</folder>
-			<folder>help</folder>
-			<folder>helpers</folder>
-			<folder>install</folder>
 			<folder>libraries</folder>
-			<folder>models</folder>
-			<folder>tables</folder>
+			<folder>controllers</folder>
+			<folder>install</folder>
 			<folder>update</folder>
+			<folder>tables</folder>
+			<folder>helpers</folder>
 			<folder>views</folder>
-			<filename>access.xml</filename>
-			<filename>config.xml</filename>
-			<filename>controller.php</filename>
-			<filename>index.html</filename>
+			<folder>help</folder>
+			<folder>assets</folder>
+			<folder>models</folder>
 			<filename>phocamenu.php</filename>
+			<filename>index.html</filename>
+			<filename>config.xml</filename>
+			<filename>access.xml</filename>
+			<filename>controller.php</filename>
 		</files>
 
 		<languages folder="admin/language">

@@ -9,7 +9,8 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License version 2 or later;
  */
 defined( '_JEXEC' ) or die( 'Restricted access' );
-class TablePhocaMenuDay extends JTable
+use Joomla\CMS\Table\Table;
+class TablePhocaMenuDay extends Table
 {
 	function __construct( &$db ) {
 		parent::__construct( '#__phocamenu_day', 'id', $db );

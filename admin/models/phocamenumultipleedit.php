@@ -9,8 +9,11 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  */
 defined('_JEXEC') or die();
+use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 jimport('joomla.application.component.modeladmin');
-class PhocaMenuCpModelPhocaMenuMultipleEdit extends JModelAdmin
+class PhocaMenuCpModelPhocaMenuMultipleEdit extends AdminModel
 {
 	protected	$option 		= 'com_phocamenu';
 	protected 	$text_prefix	= 'com_phocamenu';
@@ -29,8 +32,8 @@ class PhocaMenuCpModelPhocaMenuMultipleEdit extends JModelAdmin
 		 */
 
 		$type 		= PhocaMenuHelper::getUrlType('multipleedit');
-		$adminTool 	= JFactory::getApplication()->input->get('admintool', 0, '', 'int');
-		$atid		= JFactory::getApplication()->input->get( 'atid', 0, '', 'int' );
+		$adminTool 	= Factory::getApplication()->input->get('admintool', 0, '', 'int');
+		$atid		= Factory::getApplication()->input->get( 'atid', 0, '', 'int' );
 		$content	= array();
 
 		$wheresLang = '';
@@ -187,6 +190,8 @@ class PhocaMenuCpModelPhocaMenuMultipleEdit extends JModelAdmin
 
 	public function save($post, &$errorMsg = '') {
 
+
+
 		$type 		= PhocaMenuHelper::getUrlType('multipleedit');
 		//$adminTool 	= JFactory::getApplication()->input->get('admintool', 0, '', 'int');
 		//$atid		= JFactory::getApplication()->input->get( 'atid', 0, '', 'int' );
@@ -248,18 +253,18 @@ class PhocaMenuCpModelPhocaMenuMultipleEdit extends JModelAdmin
 
 			// Bind the form fields table
 			if (!$row1->bind($data)) {
-				$this->setError($this->_db->getErrorMsg());
+				throw new Exception($row1->getError());
 				return false;
 			}
 			// Make sure table is valid
 			if (!$row1->check()) {
-				$this->setError($this->_db->getErrorMsg());
+				throw new Exception($row1->getError());
 				return false;
 			}
 
 			// Store table to the database
 			if (!$row1->store()) {
-				$this->setError($this->_db->getErrorMsg());
+				throw new Exception($row1->getError());
 				return false;
 			}
 		}
@@ -282,19 +287,19 @@ class PhocaMenuCpModelPhocaMenuMultipleEdit extends JModelAdmin
 
 				// Bind the form fields to table
 				if (!$rowD->bind($data)) {
-					$this->setError($this->_db->getErrorMsg());
+					throw new Exception($rowD->getError());
 					return false;
 				}
 
 				// Make sure the table is valid
 				if (!$rowD->check()) {
-					$this->setError($this->_db->getErrorMsg());
+					throw new Exception($rowD->getError());
 					return false;
 				}
 
 				// Store the table to the database
 				if (!$rowD->store()) {
-					$this->setError($this->_db->getErrorMsg());
+					throw new Exception($rowD->getError());
 					return false;
 				}
 			}
@@ -316,19 +321,19 @@ class PhocaMenuCpModelPhocaMenuMultipleEdit extends JModelAdmin
 
 				// Bind the form fields to table
 				if (!$rowL->bind($data)) {
-					$this->setError($this->_db->getErrorMsg());
+					throw new Exception($rowL->getError());
 					return false;
 				}
 
 				// Make sure the table is valid
 				if (!$rowL->check()) {
-					$this->setError($this->_db->getErrorMsg());
+					throw new Exception($rowL->getError());
 					return false;
 				}
 
 				// Store the table to the database
 				if (!$rowL->store()) {
-					$this->setError($this->_db->getErrorMsg());
+					throw new Exception($rowL->getError());
 					return false;
 				}
 			}
@@ -364,19 +369,19 @@ class PhocaMenuCpModelPhocaMenuMultipleEdit extends JModelAdmin
 
 				// Bind the form fields to table
 				if (!$rowG->bind($data)) {
-					$this->setError($this->_db->getErrorMsg());
+					throw new Exception($rowG->getError());
 					return false;
 				}
 
 				// Make sure the table is valid
 				if (!$rowG->check()) {
-					$this->setError($this->_db->getErrorMsg());
+					throw new Exception($rowG->getError());
 					return false;
 				}
 
 				// Store the table to the database
 				if (!$rowG->store()) {
-					$this->setError($this->_db->getErrorMsg());
+					throw new Exception($rowG->getError());
 					return false;
 				}
 
@@ -426,19 +431,19 @@ class PhocaMenuCpModelPhocaMenuMultipleEdit extends JModelAdmin
 
 				// Bind the form fields to table
 				if (!$rowI->bind($data)) {
-					$this->setError($this->_db->getErrorMsg());
+					throw new Exception($rowI->getError());
 					return false;
 				}
 
 				// Make sure the table is valid
 				if (!$rowI->check()) {
-					$this->setError($this->_db->getErrorMsg());
+					throw new Exception($rowI->getError());
 					return false;
 				}
 
 				// Store table to the database
 				if (!$rowI->store()) {
-					$this->setError($this->_db->getErrorMsg());
+					throw new Exception($rowI->getError());
 					return false;
 				}
 			}
@@ -454,7 +459,7 @@ class PhocaMenuCpModelPhocaMenuMultipleEdit extends JModelAdmin
 
 					// Security check, this situation should not appear as there is a js check (addrow.js)
 					if (count($valueCatid) > 50) {
-						$errorMsg = JText::_("COM_PHOCAMENU_ERROR_NOT_ADDED_NEW_ITEMS");
+						$errorMsg = Text::_("COM_PHOCAMENU_ERROR_NOT_ADDED_NEW_ITEMS");
 						return false;
 					}
 
@@ -483,6 +488,11 @@ class PhocaMenuCpModelPhocaMenuMultipleEdit extends JModelAdmin
 								$data['price']	= PhocaMenuHelper::replaceCommaWithPoint($data['price']);
 							}
 
+							if (isset($post['newitemprice2'][$keyCatid][$keyId])) {
+								$data['price2'] 	= $post['newitemprice2'][$keyCatid][$keyId];
+								$data['price2']	= PhocaMenuHelper::replaceCommaWithPoint($data['price2']);
+							}
+
 							if (isset($post['newitemdesc'][$keyCatid][$keyId])) {
 								$data['description'] 	= $post['newitemdesc'][$keyCatid][$keyId];
 							}
@@ -491,10 +501,14 @@ class PhocaMenuCpModelPhocaMenuMultipleEdit extends JModelAdmin
 								$data['published'] 	= $post['newitempublish'][$keyCatid][$keyId];
 							}
 
+							if (!isset($data['price2'])) {
+								$data['price2'] = '';
+							}
+
 							$rowI 		= $this->getTable('phocamenuitem');
 							// Bind the form fields to table
 							if (!$rowI->bind($data)) {
-								$this->setError($this->_db->getErrorMsg());
+								throw new Exception($rowI->getError());
 								return false;
 							}
 
@@ -506,13 +520,13 @@ class PhocaMenuCpModelPhocaMenuMultipleEdit extends JModelAdmin
 
 							// Make sure the table is valid
 							if (!$rowI->check()) {
-								$this->setError($this->_db->getErrorMsg());
+								throw new Exception($rowI->getError());
 								return false;
 							}
 
 							// Store table to the database
 							if (!$rowI->store()) {
-								$this->setError($this->_db->getErrorMsg());
+								throw new Exception($rowI->getError());
 								return false;
 							}
 						}
@@ -530,14 +544,15 @@ class PhocaMenuCpModelPhocaMenuMultipleEdit extends JModelAdmin
 			}
 		}
 
-		$db = JFactory::getDBO();
+
+		$db = Factory::getDBO();
 		if (count( $itemToDelete )) {
 			$cids = implode( ',', $itemToDelete );
 			$query = 'DELETE FROM #__phocamenu_item'
 			. ' WHERE id IN ( '.$cids.' )';
 			$db->setQuery( $query );
 			if (!$db->execute()) {
-				$this->setError($this->_db->getErrorMsg());
+				throw new Exception($db->getError());
 				return false;
 			}
 		}
@@ -550,7 +565,7 @@ class PhocaMenuCpModelPhocaMenuMultipleEdit extends JModelAdmin
 		if (empty($this->context)) {
 			$this->context = strtolower($this->option.'.'.$this->getName());
 		}
-		$app 		= JFactory::getApplication('administrator');
+		$app 		= Factory::getApplication('administrator');
 		$language 	= $app->getUserStateFromRequest($this->context.'.filter.language', 'filter_language', '');
 
 
@@ -559,7 +574,7 @@ class PhocaMenuCpModelPhocaMenuMultipleEdit extends JModelAdmin
 			$this->context = strtolower($this->option.'.'.$this->getName());
 		}
 
-		$app 		= JFactory::getApplication('administrator');
+		$app 		= Factory::getApplication('administrator');
 		$language	= PhocaMenuHelper::getLangAdmin();
 
 		if ($language == '') {
@@ -576,8 +591,8 @@ class PhocaMenuCpModelPhocaMenuMultipleEdit extends JModelAdmin
 		if (empty($this->context)) {
 			$this->context = strtolower($this->option.'.'.$this->getName());
 		}
-		$app 		= JFactory::getApplication('administrator');
-		$type		= JFactory::getApplication()->input->get('type', 0, '', 'int');
+		$app 		= Factory::getApplication('administrator');
+		$type		= Factory::getApplication()->input->get('type', 0, '', 'int');
 
 		$lang = $app->getUserStateFromRequest($this->context.'.filter.language', 'filter_language', $language);
 

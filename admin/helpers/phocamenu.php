@@ -9,6 +9,15 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  */
 defined('_JEXEC') or die;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\LanguageHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Installer\Installer;
+use Joomla\CMS\Plugin\PluginHelper;
 
 class PhocaMenuHelper
 {
@@ -18,7 +27,7 @@ class PhocaMenuHelper
 	 */
 	public static function getUrlApend($typeview = 'group', $returnBack = 0 ) {
 
-		$app = JFactory::getApplication();
+		$app = Factory::getApplication();
 		//$typeValue	= JFactory::getApplication()->input->get('type', 0, '', 'int');
 		$typeValue	= $app->input->get('type', 0, 'int');
 
@@ -65,8 +74,8 @@ class PhocaMenuHelper
 				// We are going to be in Config, Email or Multiple
 
 				/*$adminTool 	= JFactory::getApplication()->input->get( 'admintool', 0, '', 'int');
-				$atid		= JFactory::getApplication()->input->get( 'atid', 0, '', 'int' );
-				$alang		= JFactory::getApplication()->input->get( 'alang', '', '', 'string' );
+				$atid		= Factory::getApplication()->input->get( 'atid', 0, '', 'int' );
+				$alang		= Factory::getApplication()->input->get( 'alang', '', '', 'string' );
 				$adminLang	= JFactory::getApplication()->input->get( 'adminlang', 0, '', 'int' );*/
 
 				$adminTool 	= $app->input->get( 'admintool', 0, 'int');
@@ -95,7 +104,8 @@ class PhocaMenuHelper
 
 			if (isset($new['category_id']) && (int)$new['category_id'] > 0) {
 
-				$typeFound = self::getTypeByCategory((int)$new['category_id'], 'Item', 0);
+
+				$typeFound = self::getTypeByCategory((int)$new['category_id'], 'Group', 0);
 
 				if ($typeFound && (int)$typeFound > 0) {
 					$typeBackUrl = $typeviewBack != '' ? '&typeback=' . (string)$typeviewBack : '';
@@ -140,7 +150,7 @@ class PhocaMenuHelper
 					return 'all';
 				} else {
 					jimport('joomla.language.helper');
-					$code = JLanguageHelper::getLanguages('lang_code');
+					$code = LanguageHelper::getLanguages('lang_code');
 					if (isset($code[$langF]->sef)) {
 							$langCode = $code[$langF]->sef;
 					}
@@ -159,7 +169,7 @@ class PhocaMenuHelper
 				return '*';
 			} else {
 				jimport('joomla.language.helper');
-				$sef = JLanguageHelper::getLanguages('sef');
+				$sef = LanguageHelper::getLanguages('sef');
 				if (isset($sef[$langG]->lang_code)) {
 					$langSef = $sef[$langG]->lang_code;
 				}
@@ -175,7 +185,7 @@ class PhocaMenuHelper
 		$langCode = '';
 		if ($langSef != '') {
 			jimport('joomla.language.helper');
-			$sef = JLanguageHelper::getLanguages('sef');
+			$sef = LanguageHelper::getLanguages('sef');
 			if (isset($sef[$langSef]->lang_code)) {
 				$langCode = $sef[$langSef]->lang_code;
 			}
@@ -187,7 +197,7 @@ class PhocaMenuHelper
 		$langSef = '';
 		if ($langCode != '') {
 			jimport('joomla.language.helper');
-			$code = JLanguageHelper::getLanguages('lang_code');
+			$code = LanguageHelper::getLanguages('lang_code');
 			if (isset($code[$langCode]->sef)) {
 				$langSef = $code[$langCode]->sef;
 			}
@@ -223,9 +233,12 @@ class PhocaMenuHelper
 
 
 
-		$app = JFactory::getApplication();
-		$post 		= $app->input->post->getArray();
-		$get		= $app->input->get->getArray();
+		$app = Factory::getApplication();
+		// Both are the same in J4
+		//$post 		= $app->input->post->getArray();
+		//$get		= $app->input->get->getArray();
+		$post 		= $_POST;
+		$get		= $_GET;
 		$type	= array();
 
 		//$type['value']		= JFactory::getApplication()->input->get('type', 0, '', 'int');
@@ -234,6 +247,8 @@ class PhocaMenuHelper
 		//$type['valuecatid'] = JFactory::getApplication()->input->get( $type['info']['catid'], 0, '', 'int' );
 		$catName			= $type['info']['catid'];
 		$type['valuecatid'] = $app->input->get( $catName, 0, 'int' );
+
+
 
 		if (isset($post[$catName]) && $post[$catName] > 0) {
 			$type['method'] = 'post';
@@ -272,7 +287,7 @@ class PhocaMenuHelper
 
 	public static function getTypeByCategory($catId = 0, $table = 'Group', $fallBack = 1) {
 		if ((int)$catId > 0) {
-			$db					= JFactory::getDBO();
+			$db					= Factory::getDBO();
 
 
 			switch ($table) {
@@ -326,14 +341,14 @@ class PhocaMenuHelper
 
 		$title = '';
 		switch ($type) {
-			case 1: $title =JText::_('COM_PHOCAMENU_DAILY_MENU');		break;
-			case 2: $title =JText::_('COM_PHOCAMENU_WEEKLY_MENU');		break;
-			case 3: $title =JText::_('COM_PHOCAMENU_BILL_OF_FARE');		break;
-			case 4: $title =JText::_('COM_PHOCAMENU_BEVERAGE_LIST');	break;
-			case 5: $title =JText::_('COM_PHOCAMENU_WINE_LIST');		break;
-			case 6: $title =JText::_('COM_PHOCAMENU_BREAKFAST_MENU');	break;
-			case 7: $title =JText::_('COM_PHOCAMENU_LUNCH_MENU');		break;
-			case 8: $title =JText::_('COM_PHOCAMENU_DINNER_MENU');		break;
+			case 1: $title =Text::_('COM_PHOCAMENU_DAILY_MENU');		break;
+			case 2: $title =Text::_('COM_PHOCAMENU_WEEKLY_MENU');		break;
+			case 3: $title =Text::_('COM_PHOCAMENU_BILL_OF_FARE');		break;
+			case 4: $title =Text::_('COM_PHOCAMENU_BEVERAGE_LIST');	break;
+			case 5: $title =Text::_('COM_PHOCAMENU_WINE_LIST');		break;
+			case 6: $title =Text::_('COM_PHOCAMENU_BREAKFAST_MENU');	break;
+			case 7: $title =Text::_('COM_PHOCAMENU_LUNCH_MENU');		break;
+			case 8: $title =Text::_('COM_PHOCAMENU_DINNER_MENU');		break;
 			default: $title = '';	break;
 		}
 
@@ -365,7 +380,7 @@ class PhocaMenuHelper
 
 	public static function getTypeInfo($typeview, $type = 0) {
 
-		$app				= JFactory::getApplication();
+		$app				= Factory::getApplication();
 		$typeInfo			= array();
 		$typeInfo['type']	= $type;
 		$typeInfo['view']	= $typeview;
@@ -373,17 +388,18 @@ class PhocaMenuHelper
 		if ($typeview == '') {
 			// Debug Info
 			$view		= $app->input->get('view', '', 'string');
-			$wTxt	= $view != '' ? JText::_('COM_PHOCAMENU_VIEW').': '. $view : '';
-			$twTxt	= JText::_('COM_PHOCAMENU_TYPE').': '. $type;
+			$wTxt	= $view != '' ? Text::_('COM_PHOCAMENU_VIEW').': '. $view : '';
+			$twTxt	= Text::_('COM_PHOCAMENU_TYPE').': '. $type;
 			$errTxt	= ' ( '.$wTxt. ' ' .$twTxt.' ) ';
-			$app->redirect(JRoute::_('index.php?option=com_phocamenu', false), JText::_('COM_PHOCAMENU_ERROR_NO_MENU_TYPE_VIEW_FOUND') . $errTxt, 'error');
+			$app->enqueueMessage(Text::_('COM_PHOCAMENU_ERROR_NO_MENU_TYPE_VIEW_FOUND') . $errTxt, 'error');
+			$app->redirect(Route::_('index.php?option=com_phocamenu', false));
 		}
 
 		if ($typeview == 'gallery') {
 			$typeInfo['backlink']		= '';
 			$typeInfo['catid']			= -1;
 			$typeInfo['backlinktxt']	= 'COM_PHOCAMENU_CONTROL_PANEL';
-			$typeInfo['text']			= JText::_('COM_PHOCAMENU_GALLERY');
+			$typeInfo['text']			= Text::_('COM_PHOCAMENU_GALLERY');
 			return $typeInfo;
 		}
 
@@ -395,57 +411,57 @@ class PhocaMenuHelper
 					case 'group':
 						$typeInfo['backlink']		= '';
 						$typeInfo['backlinktxt']	= 'COM_PHOCAMENU_CONTROL_PANEL';
-						$typeInfo['text']			= JText::_('COM_PHOCAMENU_DAILY_MENU') . ' ' . JText::_('COM_PHOCAMENU_GROUP');
+						$typeInfo['text']			= Text::_('COM_PHOCAMENU_DAILY_MENU') . ' ' . Text::_('COM_PHOCAMENU_GROUP');
 					break;
 
 					case 'item':
 						$typeInfo['backlink']		= '&view=phocamenugroups&type=1';
 						$typeInfo['backlinktxt']	= 'COM_PHOCAMENU_GROUPS';
-						$typeInfo['text']			= JText::_('COM_PHOCAMENU_DAILY_MENU'). ' ' . JText::_('COM_PHOCAMENU_ITEM');
+						$typeInfo['text']			= Text::_('COM_PHOCAMENU_DAILY_MENU'). ' ' . Text::_('COM_PHOCAMENU_ITEM');
 					break;
 
 					case 'config':
 						$typeInfo['backlink']		= '';
 						$typeInfo['backlinktxt']	= '';
-						$typeInfo['text']			= JText::_('COM_PHOCAMENU_DAILY_MENU'). ' ' . JText::_('COM_PHOCAMENU_MENU_SETTINGS');
+						$typeInfo['text']			= Text::_('COM_PHOCAMENU_DAILY_MENU'). ' ' . Text::_('COM_PHOCAMENU_MENU_SETTINGS');
 					break;
 
 					case 'email':
 						$typeInfo['backlink']		= '';
 						$typeInfo['backlinktxt']	= '';
-						$typeInfo['text']			= JText::_('COM_PHOCAMENU_DAILY_MENU'). ' ' . JText::_('COM_PHOCAMENU_SEND_EMAIL');
+						$typeInfo['text']			= Text::_('COM_PHOCAMENU_DAILY_MENU'). ' ' . Text::_('COM_PHOCAMENU_SEND_EMAIL');
 					break;
 					case 'multipleedit':
 						$typeInfo['backlink']		= '';
 						$typeInfo['backlinktxt']	= '';
-						$typeInfo['text']			= JText::_('COM_PHOCAMENU_DAILY_MENU'). ' ' . JText::_('COM_PHOCAMENU_MULTIPLE_EDIT');
+						$typeInfo['text']			= Text::_('COM_PHOCAMENU_DAILY_MENU'). ' ' . Text::_('COM_PHOCAMENU_MULTIPLE_EDIT');
 					break;
 					case 'rawedit':
 						$typeInfo['backlink']		= '';
 						$typeInfo['backlinktxt']	= '';
-						$typeInfo['text']			= JText::_('COM_PHOCAMENU_DAILY_MENU'). ' ' . JText::_('COM_PHOCAMENU_RAW_EDIT');
+						$typeInfo['text']			= Text::_('COM_PHOCAMENU_DAILY_MENU'). ' ' . Text::_('COM_PHOCAMENU_RAW_EDIT');
 					break;
 				}
 				$typeInfo['catid']			= 'gid';
 				$typeInfo['pref']			= 'dm';
 				$typeInfo['frontview']		= 'dailymenu';
 				$typeInfo['render']			= 'renderDailyMenu';
-				$typeInfo['title']			= JText::_('COM_PHOCAMENU_DAILY_MENU');
+				$typeInfo['title']			= Text::_('COM_PHOCAMENU_DAILY_MENU');
 				$typeInfo['root']			= '&view=phocamenugroups&type=1';
 			break;
 
-			
+
 
 			case -1:
 				// All items
 				$typeInfo['catid']			= 'gid';
 				$typeInfo['backlink']		= '&view=phocamenuallitems';
 				$typeInfo['backlinktxt']	= 'COM_PHOCAMENU_ALL_ITEMS';
-				$typeInfo['text']			= JText::_('COM_PHOCAMENU_ALL_ITEMS'). ' ' . JText::_('COM_PHOCAMENU_ITEM');
+				$typeInfo['text']			= Text::_('COM_PHOCAMENU_ALL_ITEMS'). ' ' . Text::_('COM_PHOCAMENU_ITEM');
 				$typeInfo['pref']			= '';
 				$typeInfo['frontview']		= '';
 				$typeInfo['render']			= '';
-				$typeInfo['title']			= JText::_('COM_PHOCAMENU_ALL_ITEMS');
+				$typeInfo['title']			= Text::_('COM_PHOCAMENU_ALL_ITEMS');
 				$typeInfo['root']			= '&view=phocamenuallitems';
 			break;
 
@@ -454,10 +470,11 @@ class PhocaMenuHelper
 
 				//$view		= JFactory::getApplication()->input->get('view');
 				$view		= $app->input->get('view', '', 'string');
-				$wTxt	= $view != '' ? JText::_('COM_PHOCAMENU_VIEW').': '. $view : '';
-				$twTxt	= $typeview != '' ? JText::_('COM_PHOCAMENU_TYPE_VIEW').': '. $typeview : '';
+				$wTxt	= $view != '' ? Text::_('COM_PHOCAMENU_VIEW').': '. $view : '';
+				$twTxt	= $typeview != '' ? Text::_('COM_PHOCAMENU_TYPE_VIEW').': '. $typeview : '';
 				$errTxt	= ' ( '.$wTxt. ' ' .$twTxt.' ) ';
-				$app->redirect(JRoute::_('index.php?option=com_phocamenu', false), JText::_('COM_PHOCAMENU_ERROR_NO_MENU_TYPE_FOUND'). $errTxt, 'error');
+				$app->enqueueMessage(Text::_('COM_PHOCAMENU_ERROR_NO_MENU_TYPE_VIEW_FOUND') . $errTxt, 'error');
+				$app->redirect(Route::_('index.php?option=com_phocamenu', false));
 			break;
 		}
 		return $typeInfo;
@@ -488,7 +505,7 @@ class PhocaMenuHelper
 
 	public static function getBreadcrumbs($current, $backLink = '', $backLinkText = '', $backLinkUp = '', $backLinkTextUp = '') {
 
-		$arrowImg	= JHTML::_('image', 'media/com_phocamenu/images/administrator/icon-arrow.png', '-' );
+		$arrowImg	= '&nbsp; <b>&#8680;</b> &nbsp;';//HTMLHelper::_('image', 'media/com_phocamenu/images/administrator/icon-arrow.png', '-' );
 		$back 		= '';
 		$backUp		= '';
 
@@ -503,7 +520,7 @@ class PhocaMenuHelper
 		}
 
 		$breadcrumbs = '<div class="breadcrumb" id="phocamenubreadcrumb">'
-					  .'<a href="index.php?option=com_phocamenu">'. JText::_('COM_PHOCAMENU_CONTROL_PANEL').'</a>'
+					  .'<a href="index.php?option=com_phocamenu">'. Text::_('COM_PHOCAMENU_CONTROL_PANEL').'</a>'
 					  . $backUp . $back
 					  .'<span class="arrow"> '.$arrowImg.' </span>'
 					  . $current
@@ -515,7 +532,7 @@ class PhocaMenuHelper
 
 		// Administration (no frontend)
 		if (empty($params)) {
-			$params = JComponentHelper::getParams('com_phocamenu');
+			$params = ComponentHelper::getParams('com_phocamenu');
 		}
 		$priceFormat		= $params->get( 'price_format', 0 );
 		$priceCurSymbol		= $params->get( 'price_currency_symbol', '€' );
@@ -562,7 +579,7 @@ class PhocaMenuHelper
 	// Category = Group, List, Day
 	public static function getActualCategory ($type, $typeValue, $filterCatid) {
 
-		$app		= JFactory::getApplication();
+		$app		= Factory::getApplication();
 		$post 		= $app->input->post->getArray();
 		$get		= $app->input->get->getArray();
 
@@ -609,13 +626,13 @@ class PhocaMenuHelper
 		if ((int)$dateClass == 1) {
 			// We call this function from frontend and backend, so no JPATH_SITE can be used
 			require_once( JPATH_ADMINISTRATOR.'/components/com_phocamenu/helpers/phocamenuczechdate.php' );
-			$date = PhocaMenuCzechDate::display(JHTML::Date($date, JText::_($dateFormat)));
-			//$date = PhocaMenuCzechDate::display(JHTML::_('date', $date, JText::_($dateFormat)));
+			$date = PhocaMenuCzechDate::display(HTMLHelper::Date($date, Text::_($dateFormat)));
+			//$date = PhocaMenuCzechDate::display(JHtml::_('date', $date, JText::_($dateFormat)));
 		} else {
 
 			if ($language != '') {
 
-				$lang = JFactory::getLanguage();
+				$lang = Factory::getLanguage();
 				$defaultLocale = $lang->getTag();
 				if ($defaultLocale != $language) {
 					$lang->load('joomla', JPATH_BASE, $language);
@@ -625,8 +642,8 @@ class PhocaMenuHelper
 				//load($extension = 'joomla', $basePath = JPATH_BASE, $lang = null, $reload = false, $default = true)
 			}
 
-			$date = JHTML::Date($date,JText::_($dateFormat));
-			//$date = JHTML::_('date', $date, JText::_( $dateFormat));
+			$date = HTMLHelper::Date($date,Text::_($dateFormat));
+			//$date = JHtml::_('date', $date, JText::_( $dateFormat));
 		}
 
 		return $date;
@@ -651,12 +668,12 @@ class PhocaMenuHelper
 		$component = 'com_phocamenu';
 		$folder = JPATH_ADMINISTRATOR .'/components/'.$component;
 
-		if (JFolder::exists($folder)) {
-			$xmlFilesInDir = JFolder::files($folder, '.xml$');
+		if (Folder::exists($folder)) {
+			$xmlFilesInDir = Folder::files($folder, '.xml$');
 		} else {
 			$folder = JPATH_SITE . '/components/'.$component;
-			if (JFolder::exists($folder)) {
-				$xmlFilesInDir = JFolder::files($folder, '.xml$');
+			if (Folder::exists($folder)) {
+				$xmlFilesInDir = Folder::files($folder, '.xml$');
 			} else {
 				$xmlFilesInDir = null;
 			}
@@ -667,7 +684,7 @@ class PhocaMenuHelper
 		{
 			foreach ($xmlFilesInDir as $xmlfile)
 			{
-				if ($data = \JInstaller::parseXMLInstallFile($folder.'/'.$xmlfile)) {
+				if ($data = JInstaller::parseXMLInstallFile($folder.'/'.$xmlfile)) {
 					foreach($data as $key => $value) {
 						$xml_items[$key] = $value;
 					}
@@ -685,8 +702,8 @@ class PhocaMenuHelper
 	public static function renderCode($id, $method){
 
 
-		JPluginHelper::importPlugin('phocatools');
-		$results = \JFactory::getApplication()->triggerEvent('PhocatoolsOnDisplayInfo', array('NjI5NTcyMjc2MjE1NzExNw=='));
+		PluginHelper::importPlugin('phocatools');
+		$results = Factory::getApplication()->triggerEvent('onPhocatoolsOnDisplayInfo', array('NjI5NTcyMjc2MjE1NzExNw=='));
 		if (isset($results[0]) && $results[0] === true) {
 			return '';
 		}
@@ -871,7 +888,7 @@ class PhocaMenuHelper
 
 		$query	= '';
 		$output	= '';
-		$db		= JFactory::getDBO();
+		$db		= Factory::getDBO();
 
 		if ($type == 'item') {
 			$query 		= 'SELECT a.title AS text, a.id AS value, a.catid as category_id'
@@ -905,9 +922,9 @@ class PhocaMenuHelper
 
 
 			$output .= '<div class="btn-group pull-right">';
-			$output .= '<select name="filter_category_id" class="inputbox" onchange="this.form.submit()">';
+			$output .= '<select name="filter_category_id" class="form-control" onchange="this.form.submit()">';
 			//$output .= '<option value="">'.JText::_('JOPTION_SELECT_CATEGORY').'</option>';
-			$output .= JHtml::_('select.options', $categories, 'value', 'text', $state);
+			$output .= HTMLHelper::_('select.options', $categories, 'value', 'text', $state);
 			$output .= '</select>';
 			$output .= '</div>';
 
@@ -917,7 +934,7 @@ class PhocaMenuHelper
 	}
 
 	public static function getBackCategoryUrl($typeViewUp, $typeValue, $catidUp) {
-		$db					= JFactory::getDBO();
+		$db					= Factory::getDBO();
 		$typeUp				= PhocaMenuHelper::getTypeInfo($typeViewUp, $typeValue);
 		$typeUp['urlup'] 	= '';
 
@@ -943,7 +960,7 @@ class PhocaMenuHelper
 	}
 
 	public static function isMenuEnabled() {
-		return true;
+		return false;
 	}
 
 	public static function cleanRawOutput($string) {
@@ -957,8 +974,8 @@ class PhocaMenuHelper
 	}
 
 	public static function replaceCommaWithPoint($item) {
-		$app				= JFactory::getApplication();
-		$paramsC 			= $app->isClient('administrator') ? JComponentHelper::getParams('com_phocamenu') : $app->getParams();
+		$app				= Factory::getApplication();
+		$paramsC 			= $app->isClient('administrator') ? ComponentHelper::getParams('com_phocamenu') : $app->getParams();
 		$comma_point	= $paramsC->get( 'comma_point', 0 );
 		if ($comma_point == 1) {
 			return str_replace(',', '.', $item);

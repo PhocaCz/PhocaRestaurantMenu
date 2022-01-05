@@ -7,11 +7,13 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  */
 defined( '_JEXEC' ) or die( 'Restricted access' );
+use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
 use Joomla\CMS\Session\Session;
 use Phoca\Render\Adminview;
 use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 
 class PhocaMenuRenderAdminView extends AdminView
 {
@@ -30,9 +32,9 @@ class PhocaMenuRenderAdminView extends AdminView
 	}
 
 	public function loadMedia() {
-		$urlEip = JURI::base(true).'/index.php?option='.$this->option.'&task='.str_replace('com_', '', $this->option).'editinplace.editinplacetext&format=json&'. Session::getFormToken().'=1';
+		$urlEip = Uri::base(true).'/index.php?option='.$this->option.'&task='.str_replace('com_', '', $this->option).'editinplace.editinplacetext&format=json&'. Session::getFormToken().'=1';
 
-		Joomla\CMS\HTML\HTMLHelper::_('jquery.framework', false);
+		HTMLHelper::_('jquery.framework', false);
 		HTMLHelper::_('script', 'media/'.$this->option.'/js/jeditable/jquery.jeditable.min.js', array('version' => 'auto'));
 		HTMLHelper::_('script', 'media/'.$this->option.'/js/jeditable/jquery.jeditable.autogrow.min.js', array('version' => 'auto'));
 		HTMLHelper::_('script', 'media/'.$this->option.'/js/jeditable/jquery.autogrowtextarea.js', array('version' => 'auto'));
@@ -43,10 +45,10 @@ class PhocaMenuRenderAdminView extends AdminView
 
 
 		$this->document->addScriptOptions('phLang', array(
-			'PHOCA_CLICK_TO_EDIT' => JText::_('COM_PHOCAMENU_CLICK_TO_EDIT'),
-			'PHOCA_CANCEL' => JText::_('COM_PHOCAMENU_CANCEL'),
-			'PHOCA_SUBMIT' => JText::_('COM_PHOCAMENU_SUBMIT'),
-			'PHOCA_PLEASE_RELOAD_PAGE_TO_SEE_UPDATED_INFORMATION' => JText::_('COM_PHOCAMENU_PLEASE_RELOAD_PAGE_TO_SEE_UPDATED_INFORMATION')
+			'PHOCA_CLICK_TO_EDIT' => Text::_('COM_PHOCAMENU_CLICK_TO_EDIT'),
+			'PHOCA_CANCEL' => Text::_('COM_PHOCAMENU_CANCEL'),
+			'PHOCA_SUBMIT' => Text::_('COM_PHOCAMENU_SUBMIT'),
+			'PHOCA_PLEASE_RELOAD_PAGE_TO_SEE_UPDATED_INFORMATION' => Text::_('COM_PHOCAMENU_PLEASE_RELOAD_PAGE_TO_SEE_UPDATED_INFORMATION')
 		));
 		$this->document->addScriptOptions('phVars', array('token' => Session::getFormToken(), 'urleditinplace' => $urlEip));
 

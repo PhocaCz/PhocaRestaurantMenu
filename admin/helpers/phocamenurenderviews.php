@@ -7,6 +7,10 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  */
 defined('_JEXEC') or die();
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Component\ComponentHelper;
 class PhocaMenuRenderViews
 {
 
@@ -56,7 +60,7 @@ class PhocaMenuRenderViews
 
 			if ($method == 3) {
 				$o .= $tag['date-o'] . $date . '<br/>'
-				. JHTML::_('calendar', $data['config']->date, 'date['.$data['config']->id.']', 'date'.$data['config']->id, "%Y-%m-%d", array('class'=>'inputbox', 'size'=>'45',  'maxlength'=>'45')) . $tag['date-c'];
+				. HTMLHelper::_('calendar', $data['config']->date, 'date['.$data['config']->id.']', 'date'.$data['config']->id, "%Y-%m-%d", array('class'=>'inputbox', 'size'=>'45',  'maxlength'=>'45')) . $tag['date-c'];
 			} else if ($method == 6) {
 				$oP[] = '#'.$data['config']->date;
 			} else {
@@ -69,7 +73,7 @@ class PhocaMenuRenderViews
 			for ($g = 0, $gr = count($data['group']); $g < $gr; $g++) {
 
 				if ($method == 3) {
-					$o .= $tag['group-o'] . '<input size="30" type="text" name="group['.$data['group'][$g]->id.']" id="group'.$data['group'][$g]->id.'" value="'.$data['group'][$g]->title.'" />' . $tag['group-c'];
+					$o .= $tag['group-o'] . '<input size="30" class="form-control" type="text" name="group['.$data['group'][$g]->id.']" id="group'.$data['group'][$g]->id.'" value="'.$data['group'][$g]->title.'" />' . $tag['group-c'];
 				} else if ($method == 6) {
 					$oP[] = '###'.$data['group'][$g]->title;
 					if (!empty($data['group'][$g]->message)) {
@@ -151,13 +155,13 @@ class PhocaMenuRenderViews
 					$o .= $tag['tableitem-c'] . $tag['item-c'];
 					if ($method == 3) {
 						if ($displayAddRow == 1) {
-							$o .= '<div class="pm-addrow"><small><a href="#" onclick="addRow('.$data['group'][$g]->id.', 1); return false;">'.JText::_('COM_PHOCAMENU_ADD_ROW').'</a></small></div>';
+							$o .= '<div class="pm-addrow"><small><a href="#" onclick="addRow('.$data['group'][$g]->id.', 1); return false;">'.Text::_('COM_PHOCAMENU_ADD_ROW').'</a></small></div>';
 						}
 					}
 				}// end items
 
 				 if ($method == 3) {
-					$o .= $tag['message-o'] . '<textarea rows="2" cols="60" name="message[' . $data['group'][$g]->id .']" id="message' . $data['group'][$g]->id .'">'. $data['group'][$g]->message . '</textarea>'. $tag['message-c'];
+					$o .= $tag['message-o'] . '<textarea class="form-control" rows="2" cols="60" name="message[' . $data['group'][$g]->id .']" id="message' . $data['group'][$g]->id .'">'. $data['group'][$g]->message . '</textarea>'. $tag['message-c'];
 				} else {
 					if ($paramsC['displaygroupmsg'] == 2) {
 						$o .= $tag['message-o'] .  $data['group'][$g]->message . $tag['message-c'];
@@ -195,13 +199,13 @@ class PhocaMenuRenderViews
 		// Remove empty table - because of TCPDF
 		$o = str_replace($tag['tableitem-o'].$tag['tableitem-c'], '', $o);
 
-		$o .= PhocaMenuHelper::renderCode($params->get( 'render_code', 1 ), $method);
 
+        $o .= PhocaMenuHelper::renderCode($params->get( 'render_code', 1 ), $method);
 		return $o;
 	}
 
 
-	
+
 
 
 	public static function getStyle($method, $phocaGallery, $suffix = '') {
@@ -448,7 +452,7 @@ class PhocaMenuRenderViews
 
 			break;
 
-			// Bootstrap 3 (Frontend)
+		/*	// Bootstrap 3 (Frontend)
 			case 5:
 
 				$tag['header-o']		= '<div class="pm-header">';
@@ -515,7 +519,75 @@ class PhocaMenuRenderViews
 				$tag['spaceimg']		= '&nbsp;';
 
 			break;
+		*/
 
+			// Bootstrap 5 (Frontend)
+			case 5:
+
+				$tag['header-o']		= '<div class="pm-header">';
+				$tag['header-c']		= '</div>'. "\n";
+				$tag['date-o']			= '<div class="pm-date">';
+				$tag['date-c']			= '</div><div class="clearfix ph-clearfix"></div>'. "\n";
+				$tag['datesub-o']		= '<div class="pm-date-sub">';
+				$tag['datesub-c']		= '</div><div class="clearfix ph-clearfix"></div>'. "\n";
+				$tag['list-o']			= '<div class="pm-list">';
+				$tag['list-c']			= '</div>'. "\n";
+				$tag['group-o']			= '<div class="row pm-group">';
+				$tag['group-c']			= '</div>'. "\n";
+				$tag['evenbox-o']		= '<div class="row">';
+				$tag['oddbox-o']		= '<div class="row">';
+				$tag['groupleft-o']		= '<div class="row"><div class="col-xs-12 col-sm-6 col-md-6 pm-group-left-bs">';
+				$tag['groupleft-c']		= '</div>'. "\n";
+				$tag['groupright-o']	= '<div class="col-xs-12 col-sm-6 col-md-6 pm-group-right-bs">';
+				$tag['groupright-c']	= '</div></div>'. "\n";
+				$tag['item-o']			= '';
+				$tag['item-c']			= ''. "\n";
+				$tag['tableitem-o']		= '';
+				$tag['tableitem-c']		= ''. "\n";
+				$tag['message-o']		= '<div class="pm-message">';
+				$tag['message-c']		= '</div><div class="clearfix ph-clearfix"></div>'. "\n";
+
+				// Tag TITLE AND TAG DESCRIPTION IS COUNTED BELOW
+
+				$tag['row-box-o']		= '<div class="container ph-item-row-box">';
+				$tag['row-box-c']		= '</div>';
+				$tag['row-o']			= '<div class="row pm-item-row">';
+				$tag['row-c']			= '</div>';
+				$tag['row-desc-o']		= '<div class="row pm-desc-row">';
+				$tag['row-desc-c']		= '</div>';
+				$tag['row-group-h-o']	= '<div class="row pm-group-header-row">';
+				$tag['row-group-h-c']	= '</div>';
+
+				$tag['image-o']			= '<div class="col-xs-12 col-sm-1 col-md-1 pmimage">';// when changed then the count of columns must be changed too: renderFormItem (1257)
+				$tag['quantity-o']		= '<div class="col-xs-12 col-sm-1 col-md-1 pmquantity">';
+				$tag['priceprefix-o']	= '<div class="col-xs-12 col-sm-1 col-md-1 pmpriceprefix pm-right">';
+
+				$tag['price-o-span2']	= '<div class="col-xs-12 col-sm-2 col-md-2 pmprice pm-right">';
+				$tag['price-o-span1']	= '<div class="col-xs-12 col-sm-1 col-md-1 pmprice pm-right">';
+
+
+				$tag['groupheader1-o-span1']	= '<div class="col-xs-12 col-sm-1 col-md-1 pmgroupheader1">';
+				$tag['groupheader1-o-span2']	= '<div class="col-xs-12 col-sm-2 col-md-2 pmgroupheader1">';
+				$tag['groupheader2-o-span1']	= '<div class="col-xs-12 col-sm-1 col-md-1 pmgroupheader2">';
+				$tag['groupheader2-o-span2']	= '<div class="col-xs-12 col-sm-2 col-md-2 pmgroupheader2">';
+
+				$tag['image-c']			= '</div>'. "\n";
+				$tag['quantity-c']		= '</div>'. "\n";
+				$tag['priceprefix-c']	= '</div>'. "\n";
+				$tag['price-c']			= '</div>'. "\n";
+
+				$tag['groupheader1-c']	= '</div>'. "\n";
+				$tag['groupheader2-c']	= '</div>'. "\n";
+
+
+
+				$tag['footer-o']		= '<div class="pm-footer">';
+				$tag['footer-c']		= '</div><div class="clearfix ph-clearfix"></div>'. "\n";
+
+				$tag['space']			= '&nbsp;';
+				$tag['spaceimg']		= '&nbsp;';
+
+			break;
 
 
 
@@ -804,8 +876,8 @@ class PhocaMenuRenderViews
 
 	public static function renderFormItemRE($type, $tag, $groupObject, $itemObject, $pricePref, $method, $price2, $pricePref2, $displaySecondPrice) {
 
-		$app			= JFactory::getApplication();
-		$paramsC 		= $app->isClient('administrator') ? JComponentHelper::getParams('com_phocamenu') : $app->getParams();
+		$app			= Factory::getApplication();
+		$paramsC 		= $app->isClient('administrator') ? ComponentHelper::getParams('com_phocamenu') : $app->getParams();
 		$item_delimiter	= $paramsC->get( 'item_delimiter', 1 );
 		if ($item_delimiter == 1) {
 			$item_delimiter = ";";
@@ -837,12 +909,12 @@ class PhocaMenuRenderViews
 	public static function renderFormItemME($type, $tag, $groupObject, $itemObject, $pricePref, $method, $price2, $pricePref2, $displaySecondPrice) {
 
 		$o = '<tr class="pm-tr-row-'.$groupObject->id.'">'
-		. $tag['quantity-o'] .'<input size="8" type="text" name="itemquantity['.$itemObject->id.']" id="itemquantity'.$itemObject->id.'" value="'.$itemObject->quantity.'" />'. $tag['quantity-c']
-		. $tag['title-o'] .'<input size="60" type="text" name="itemtitle['.$itemObject->id.']" id="itemtitle'.$itemObject->id.'" value="'.$itemObject->title.'" />' . $tag['title-c']
+		. $tag['quantity-o'] .'<input size="8" class="form-control" type="text" name="itemquantity['.$itemObject->id.']" id="itemquantity'.$itemObject->id.'" value="'.$itemObject->quantity.'" />'. $tag['quantity-c']
+		. $tag['title-o'] .'<input size="60" class="form-control" type="text" name="itemtitle['.$itemObject->id.']" id="itemtitle'.$itemObject->id.'" value="'.$itemObject->title.'" />' . $tag['title-c']
 		. $tag['priceprefix-o'] . $pricePref. $tag['space'] . $tag['priceprefix-c']
-		. $tag['price-o'].'<input size="8" type="text" name="itemprice['.$itemObject->id.']" id="itemprice'.$itemObject->id.'" value="'.$itemObject->price.'" />'. $tag['price-c'];
+		. $tag['price-o'].'<input size="8" class="form-control" type="text" name="itemprice['.$itemObject->id.']" id="itemprice'.$itemObject->id.'" value="'.$itemObject->price.'" />'. $tag['price-c'];
 		if ($displaySecondPrice == 1) {
-			$o .= $tag['price2-o'].'<input size="8" type="text" name="itemprice2['.$itemObject->id.']" id="itemprice2'.$itemObject->id.'" value="'.$itemObject->price2.'" />'. $tag['price2-c'];
+			$o .= $tag['price2-o'].'<input size="8" class="form-control" type="text" name="itemprice2['.$itemObject->id.']" id="itemprice2'.$itemObject->id.'" value="'.$itemObject->price2.'" />'. $tag['price2-c'];
 		}
 		$o .= '<td align="center"><input type="radio" name="itempublish['.$itemObject->id.']" id="itempublish'.$itemObject->id.'" value="1" '. (((int)$itemObject->published == 1) ? 'checked="checked"' : '' ).' /></td>'
 		. '<td align="center"><input type="radio" name="itempublish['.$itemObject->id.']" id="itempublish'.$itemObject->id.'" value="0" '. (((int)$itemObject->published != 1) ? 'checked="checked"' : '' ).' /></td>'
@@ -857,7 +929,7 @@ class PhocaMenuRenderViews
 			$editor = \Joomla\CMS\Editor\Editor::getInstance();
 			$description = $editor->display( 'itemdesc[' . $itemObject->id .']',  $itemObject->description, '550', '300', '60', '2', array('pagebreak', 'phocadownload', 'readmore') );
 		} else {
-			$description = '<textarea rows="2" cols="60" name="itemdesc[' . $itemObject->id .']" id="itemdesc' . $itemObject->id .'">'. $itemObject->description . '</textarea>';
+			$description = '<textarea rows="2" class="form-control" cols="60" name="itemdesc[' . $itemObject->id .']" id="itemdesc' . $itemObject->id .'">'. $itemObject->description . '</textarea>';
 		}
 
 		if ($displaySecondPrice == 1) {
@@ -889,10 +961,12 @@ class PhocaMenuRenderViews
 
 		$o = '<tr>'
 		. '<td colspan="'.$colspan.'">'
-		. '<td align="center" title="'.JText::_('COM_PHOCAMENU_PUBLISH').'">'.JHTML::_('image', 'media/com_phocamenu/images/icon-16-publish.png', JText::_('COM_PHOCAMENU_PUBLISH')).'</td>'
-		. '<td align="center" title="'.JText::_('COM_PHOCAMENU_UNPUBLISH').'">'.JHTML::_('image', 'media/com_phocamenu/images/icon-16-unpublish.png', JText::_('COM_PHOCAMENU_UNPUBLISH')).'</td>'
-		. '<td align="center" title="'.JText::_('COM_PHOCAMENU_DELETE').'">'.JHTML::_('image', 'media/com_phocamenu/images/icon-16-trash.png', JText::_('COM_PHOCAMENU_DELETE')).'</td>'
+		. '<td align="center" title="'.Text::_('COM_PHOCAMENU_PUBLISH').'"><div class="icon-publish fa-publish icon-fw phc-green" title="'.Text::_('COM_PHOCAMENU_PUBLISH').'"></div></td>'
+		. '<td align="center" title="'.Text::_('COM_PHOCAMENU_UNPUBLISH').'"><div class="icon-delete fa-delete icon-fw phc-red" title="'.Text::_('COM_PHOCAMENU_UNPUBLISH').'"></div></td>'
+		. '<td align="center" title="'.Text::_('COM_PHOCAMENU_DELETE').'"><div class="icon-purge fa-purge icon-fw phc-brown" title="'.Text::_('COM_PHOCAMENU_DELETE').'"></div></td>'
 		. '</tr>';
+
+
 
 		return $o;
 	}
@@ -963,12 +1037,12 @@ class PhocaMenuRenderViews
 		$o = '';
 		$headerGroup = '';
 		if ($groupObject->header_price != '') {
-			$headerGroup .= $tag['groupheader1-o']	. '<input size="8" type="text" name="groupheaderprice['.$groupObject->id.']" id="groupheaderprice'.$groupObject->id.'" value="'.$groupObject->header_price.'" />' . $tag['groupheader1-c']	;
+			$headerGroup .= $tag['groupheader1-o']	. '<input size="8" class="form-control" type="text" name="groupheaderprice['.$groupObject->id.']" id="groupheaderprice'.$groupObject->id.'" value="'.$groupObject->header_price.'" />' . $tag['groupheader1-c']	;
 		} else {
 			$headerGroup .= '<td></td>';
 		}
 		if ($groupObject->display_second_price == 1 && $groupObject->header_price2 != '') {
-			$headerGroup .= $tag['groupheader2-o']	. '<input size="8" type="text" name="groupheaderprice2['.$groupObject->id.']" id="groupheaderprice'.$groupObject->id.'" value="'.$groupObject->header_price2.'" />' .$tag['groupheader1-c']	;
+			$headerGroup .= $tag['groupheader2-o']	. '<input size="8" class="form-control" type="text" name="groupheaderprice2['.$groupObject->id.']" id="groupheaderprice'.$groupObject->id.'" value="'.$groupObject->header_price2.'" />' .$tag['groupheader1-c']	;
 		} else {
 			$headerGroup .= '<td></td>';
 		}
@@ -998,7 +1072,7 @@ class PhocaMenuRenderViews
 
 	public static function renderFormCompleteRE($oP) {
 
-		$oPO = '<textarea name="menudata" id="menudata" rows="30" style="width: 90%;">';
+		$oPO = '<textarea class="form-control" name="menudata" id="menudata" rows="30" style="width: 90%;">';
 		if (!empty($oP)) {
 			$oPO .= implode("\n", $oP);
 		}
@@ -1022,8 +1096,8 @@ class PhocaMenuRenderViews
 				 .'</div>';
 			}else {
 				$o .=  '<table><tr>'
-				 .'<td class="pmclock" colspan="2">'.$tmpl['customclockcode'].'</td>'
-				 .'<td class="pmtext">' . $data['config']->header . '</td>'
+				 .'<td class="pmclock" colspan="2">'.$code.'</td>'
+				 .'<td class="pmtext">' . $header . '</td>'
 				 .'</tr></table>';
 			}
 		} else {
@@ -1034,7 +1108,7 @@ class PhocaMenuRenderViews
 
 	public static function setMethod($params, $method) {
 
-		$app = JFactory::getApplication();
+		$app = Factory::getApplication();
 		$print = $app->input->get('print', 0, 'int');
 		$admin = $app->input->get('admin', 0, 'int');
 
@@ -1062,11 +1136,17 @@ class PhocaMenuRenderViews
             if ($params->get( 'html_output_admin', 1 ) == 3 ) {
                 return 5;
             }
+            if ($params->get( 'html_output_admin', 1 ) == 5 ) {
+                return 5;
+            }
         } else {
 		    if ($params->get( 'html_output', 1 ) == 2 ) {
 			    return 4;
 		    }
             if ($params->get( 'html_output', 1 ) == 3 ) {
+                return 5;
+            }
+            if ($params->get( 'html_output', 1 ) == 5 ) {
                 return 5;
             }
         }

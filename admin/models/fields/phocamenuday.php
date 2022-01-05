@@ -9,18 +9,24 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License version 2 or later;
  */
 defined('_JEXEC') or die();
+use Joomla\CMS\Form\FormField;
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
-class JFormFieldPhocaMenuDay extends JFormField
+class JFormFieldPhocaMenuDay extends FormField
 {
 	protected $type 		= 'PhocaMenuDay';
 
 	protected function getInput() {
-	
+
+	    HTMLHelper::_('stylesheet', 'media/com_phocamenu/css/administrator/phocamenu.css', array('version' => 'auto'));
+
 		$html = array();
 		$attr = '';
 		$warning	= ( (string)$this->element['phocawarning'] ? $this->element['phocawarning'] : '' );
 		$phocaDay	= ( (string)$this->element['phocaday'] ? $this->element['phocaday'] : '' );
-		$attr 	   .= $this->element['class'] ? ' class="'.(string) $this->element['class'].'"' : '';
+		$attr 	   .= $this->element['class'] ? ' class="'.(string) $this->element['class'].'"' : 'class="form-select"';
 
 		// To avoid user's confusion, readonly="true" should imply disabled="true".
 		if ( (string) $this->element['readonly'] == 'true' || (string) $this->element['disabled'] == 'true') {
@@ -30,8 +36,8 @@ class JFormFieldPhocaMenuDay extends JFormField
 		$attr .= $this->multiple ? ' multiple="multiple"' : '';
 		$attr .= $this->element['onchange'] ? ' onchange="'.(string) $this->element['onchange'].'"' : '';
 
-		
-		$db = JFactory::getDBO();
+
+		$db = Factory::getDBO();
 
 		$query = 'SELECT a.title AS text, a.id AS value'
 		. ' FROM #__phocamenu_day AS a'
@@ -41,12 +47,12 @@ class JFormFieldPhocaMenuDay extends JFormField
 		$db->setQuery( $query );
 		$days = $db->loadObjectList();
 
-		$html[] = JHtml::_('select.genericlist', $days, $this->name, trim($attr), 'value', 'text', $this->value, $this->id);
-		
+		$html[] = HTMLHelper::_('select.genericlist', $days, $this->name, trim($attr), 'value', 'text', $this->value, $this->id);
+
 		if ($warning != '') {
-			$html[] ='<div style="position:relative;margin-left:250px;margin-top:-28px;" class="error hasTip" title="'.JText::_($warning).'">'.JHtml::_('image', 'media/com_phocamenu/images/icon-16-warning.png', '',array('style' => 'margin:0;padding:0;margin-right:5px;') ).'</div><div style="clear:both"></div>';
+			$html[] ='<div><i class="icon-exclamation-triangle phi-fc-yd" title="'.Text::_($warning).'" ></i></div>';
 		}
-		
+
 		return implode($html);
 	}
 }

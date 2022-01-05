@@ -7,6 +7,8 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  */
 defined( '_JEXEC' ) or die( 'Restricted access' );
+use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\Factory;
 
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
@@ -25,7 +27,7 @@ require_once( JPATH_COMPONENT.'/helpers/html/new.php' );
 require_once( JPATH_COMPONENT.'/helpers/controllers/controlleradmin.php' );
 require_once( JPATH_COMPONENT.'/helpers/controllers/controllerform.php' );
 jimport('joomla.application.component.controller');
-$controller	= JControllerLegacy::getInstance('PhocaMenuCp');
-$controller->execute(JFactory::getApplication()->input->get('task'));
+$controller	= BaseController::getInstance('PhocaMenuCp');
+$controller->execute(Factory::getApplication()->input->get('task'));
 $controller->redirect();
 ?>

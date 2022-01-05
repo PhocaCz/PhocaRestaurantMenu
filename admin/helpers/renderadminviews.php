@@ -7,12 +7,16 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  */
 defined( '_JEXEC' ) or die( 'Restricted access' );
+use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Router\Route;
 
 use Joomla\CMS\Session\Session;
 use Phoca\Render\Adminviews;
 use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
 
 
 class PhocaMenuRenderAdminViews extends AdminViews
@@ -35,9 +39,9 @@ class PhocaMenuRenderAdminViews extends AdminViews
 	}
 
 	public function loadMedia() {
-		$urlEip = JURI::base(true).'/index.php?option='.$this->option.'&task='.str_replace('com_', '', $this->option).'editinplace.editinplacetext&format=json&'. Session::getFormToken().'=1';
+		$urlEip = Uri::base(true).'/index.php?option='.$this->option.'&task='.str_replace('com_', '', $this->option).'editinplace.editinplacetext&format=json&'. Session::getFormToken().'=1';
 
-		Joomla\CMS\HTML\HTMLHelper::_('jquery.framework', false);
+		HTMLHelper::_('jquery.framework', false);
 		HTMLHelper::_('script', 'media/'.$this->option.'/js/jeditable/jquery.jeditable.min.js', array('version' => 'auto'));
 		HTMLHelper::_('script', 'media/'.$this->option.'/js/jeditable/jquery.jeditable.autogrow.min.js', array('version' => 'auto'));
 		HTMLHelper::_('script', 'media/'.$this->option.'/js/jeditable/jquery.autogrowtextarea.js', array('version' => 'auto'));
@@ -48,13 +52,13 @@ class PhocaMenuRenderAdminViews extends AdminViews
 
 
 		$this->document->addScriptOptions('phLang', array(
-			'PHOCA_CLICK_TO_EDIT' => JText::_('COM_PHOCAMENU_CLICK_TO_EDIT'),
-			'PHOCA_CANCEL' => JText::_('COM_PHOCAMENU_CANCEL'),
-			'PHOCA_SUBMIT' => JText::_('COM_PHOCAMENU_SUBMIT'),
-			'PHOCA_PLEASE_RELOAD_PAGE_TO_SEE_UPDATED_INFORMATION' => JText::_('COM_PHOCAMENU_PLEASE_RELOAD_PAGE_TO_SEE_UPDATED_INFORMATION')
+			'PHOCA_CLICK_TO_EDIT' => Text::_('COM_PHOCAMENU_CLICK_TO_EDIT'),
+			'PHOCA_CANCEL' => Text::_('COM_PHOCAMENU_CANCEL'),
+			'PHOCA_SUBMIT' => Text::_('COM_PHOCAMENU_SUBMIT'),
+			'PHOCA_PLEASE_RELOAD_PAGE_TO_SEE_UPDATED_INFORMATION' => Text::_('COM_PHOCAMENU_PLEASE_RELOAD_PAGE_TO_SEE_UPDATED_INFORMATION')
 		));
 
-		$params = JComponentHelper::getParams($this->option);
+		$params = ComponentHelper::getParams($this->option);
 		// PHOCAMENU Specific
 		//$dateFormat	= 'DATE_FORMAT_LC';
 		$dateFormat	= $params->get( 'day_date_format', 'DATE_FORMAT_LC' );
@@ -65,30 +69,21 @@ class PhocaMenuRenderAdminViews extends AdminViews
 	}
 
 
-	/* TODO:
+	/* TO DO:
 	* CHANGE PATHS
 	* SET NEW PARAM IN PG: '/media/com_phocagallery/images/administrator/'
 	*/
 	public function tdImage($item, $button, $txtE, $class = '', $avatarAbs = '', $avatarRel = '') {
+
 		$o = '<td class="'.$class.'">'. "\n";
-		$o .= '<div class="phocagallery-box-file">'. "\n"
-			.' <center>'. "\n"
-			.'  <div class="phocagallery-box-file-first">'. "\n"
-			.'   <div class="phocagallery-box-file-second">'. "\n"
-			.'    <div class="phocagallery-box-file-third">'. "\n"
-			.'     <center>'. "\n";
+		$o .= '<div class="phocagallery-box-file">';
 
 		if ($avatarAbs != '' && $avatarRel != '') {
 			// AVATAR
-			if (JFile::exists($avatarAbs.$item->avatar)){
-				$o .= '<a class="'. $button->modalname.'"'
-				.' title="'. $button->text.'"'
-				.' href="'.JURI::root().$avatarRel.$item->avatar.'" '
-				.' rel="'. $button->options.'" >'
-				.'<img src="'.JURI::root().$avatarRel.$item->avatar.'?imagesid='.md5(uniqid(time())).'" alt="'.Text::_($txtE).'" />'
-				.'</a>';
+			if (File::exists($avatarAbs.$item->avatar)){
+				$o .= '<img src="'.Uri::root().$avatarRel.$item->avatar.'?imagesid='.md5(uniqid(time())).'" alt="'.Text::_($txtE).'" />';
 			} else {
-				$o .= JHTML::_( 'image', '/media/com_phocagallery/images/administrator/phoca_thumb_s_no_image.gif', '');
+				$o .= HTMLHelper::_( 'image', '/media/com_phocagallery/images/administrator/phoca_thumb_s_no_image.gif', '');
 			}
 		} else {
 			// PICASA
@@ -99,34 +94,25 @@ class PhocaMenuRenderAdminViews extends AdminViews
 				$correctImageRes 	= PhocaGalleryImage::correctSizeWithRate($resW[2], $resH[2], 50, 50);
 				$imgLink			= $item->extl;
 
-				$o .= '<a class="'. $button->modalname.'" title="'.$button->text.'" href="'. $imgLink .'" rel="'. $button->options.'" >'
-				. '<img src="'.$item->exts.'?imagesid='.md5(uniqid(time())).'" width="'.$correctImageRes['width'].'" height="'.$correctImageRes['height'].'" alt="'.Text::_($txtE).'" />'
-				.'</a>'. "\n";
+				$o .= '<img src="'.$item->exts.'?imagesid='.md5(uniqid(time())).'" width="'.$correctImageRes['width'].'" height="'.$correctImageRes['height'].'" alt="'.Text::_($txtE).'" />' . "\n";
 			} else if (isset ($item->fileoriginalexist) && $item->fileoriginalexist == 1) {
 
 				$imageRes			= PhocaGalleryImage::getRealImageSize($item->filename, 'small');
 				$correctImageRes 	= PhocaGalleryImage::correctSizeWithRate($imageRes['w'], $imageRes['h'], 50, 50);
 				$imgLink			= PhocaGalleryFileThumbnail::getThumbnailName($item->filename, 'large');
 
-				$o .= '<a class="'. $button->modalname.'" title="'. $button->text.'" href="'. JURI::root(). $imgLink->rel.'" rel="'. $button->options.'" >'
-				. '<img src="'.JURI::root().$item->linkthumbnailpath.'?imagesid='.md5(uniqid(time())).'" width="'.$correctImageRes['width'].'" height="'.$correctImageRes['height'].'" alt="'.Text::_($txtE).'" />'
-				.'</a>'. "\n";
+				$o .= '<img src="'.Uri::root().$item->linkthumbnailpath.'?imagesid='.md5(uniqid(time())).'" width="'.$correctImageRes['width'].'" height="'.$correctImageRes['height'].'" alt="'.Text::_($txtE).'" />'. "\n";
 			} else {
-				$o .= JHTML::_( 'image', 'media/com_phocagallery/images/administrator/phoca_thumb_s_no_image.gif', '');
+				$o .= HTMLHelper::_( 'image', 'media/com_phocagallery/images/administrator/phoca_thumb_s_no_image.gif', '');
 			}
 		}
-		$o .= '     </center>'. "\n"
-			.'    </div>'. "\n"
-			.'   </div>'. "\n"
-			.'  </div>'. "\n"
-			.' </center>'. "\n"
-			.'</div>'. "\n";
+		$o .= '</div>'. "\n";
 		$o .=  '</td>'. "\n";
 		return $o;
 	}
 
 	public function startFormType($option, $type, $view, $id = 'adminForm', $name = 'adminForm') {
-		return '<div id="'.$view.'"><form action="'.JRoute::_('index.php?option='.$option.'&view='.$view.'&type='.(int)$type).'" method="post" name="'.$name.'" id="'.$id.'">'."\n";
+		return '<div id="'.$view.'"><form action="'.Route::_('index.php?option='.$option.'&view='.$view.'&type='.(int)$type).'" method="post" name="'.$name.'" id="'.$id.'">'."\n";
 	}
 }
 ?>

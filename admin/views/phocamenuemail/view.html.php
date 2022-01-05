@@ -7,12 +7,18 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  */
 defined('_JEXEC') or die();
+use Joomla\CMS\MVC\View\HtmlView;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Toolbar\Toolbar;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Toolbar\ToolbarHelper;
 jimport( 'joomla.application.component.view' );
 require_once( JPATH_ADMINISTRATOR.'/components/com_phocamenu/helpers/phocamenurenderviews.php' );
 
 use Joomla\CMS\Editor\Editor;
 
-class PhocaMenuCpViewPhocaMenuEmail extends JViewLegacy
+class PhocaMenuCpViewPhocaMenuEmail extends HtmlView
 {
 	protected $state;
 	protected $item;
@@ -28,13 +34,13 @@ class PhocaMenuCpViewPhocaMenuEmail extends JViewLegacy
 
 	public function display($tpl = null) {
 
-		$app = JFactory::getApplication();
+		$app = Factory::getApplication();
 		$this->t		= PhocaMenuUtils::setVars('email');
 		$this->r		= new PhocaMenuRenderAdminView();
 		$this->state	= $this->get('State');
 		$this->form		= $this->get('Form');
 		$this->item		= $this->get('Item');
-		$editor 		= JFactory::getConfig()->get('editor');
+		$editor 		= Factory::getConfig()->get('editor');
 		$this->editor 	= Editor::getInstance($editor);
 
 
@@ -47,7 +53,7 @@ class PhocaMenuCpViewPhocaMenuEmail extends JViewLegacy
 
 
 
-		$this->params 					= JComponentHelper::getParams( 'com_phocamenu' );
+		$this->params 					= ComponentHelper::getParams( 'com_phocamenu' );
 		$this->t['enableeditoremail']	= $this->params->get( 'enable_editor_email', 1 );
 		$this->t['phocagallery'] 		= 0;
 		$this->t['customclockcode'] 	= '';
@@ -66,27 +72,27 @@ class PhocaMenuCpViewPhocaMenuEmail extends JViewLegacy
 	protected function addToolbar() {
 
 		require_once JPATH_COMPONENT.'/helpers/phocamenuemail.php';
-		JFactory::getApplication()->input->set('hidemainmenu', true);
-		$bar 		= JToolbar::getInstance('toolbar');
-		$user		= JFactory::getUser();
+		Factory::getApplication()->input->set('hidemainmenu', true);
+		$bar 		= Toolbar::getInstance('toolbar');
+		$user		= Factory::getUser();
 		$isNew		= ($this->item->id == 0);
 		$checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'));
 		$canDo		= PhocaMenuEmailHelper::getActions($this->t, $this->state->get('filter.email_id'));
 		//$paramsC 	= JComponentHelper::getParams('com_phocamenu');
 
-		$text = $isNew ? JText::_( 'COM_PHOCAMENU_NEW' ) : JText::_('COM_PHOCAMENU_EDIT');
-		JToolbarHelper::title(   $this->type['info']['text']  , 'envelope');
+		$text = $isNew ? Text::_( 'COM_PHOCAMENU_NEW' ) : Text::_('COM_PHOCAMENU_EDIT');
+		ToolbarHelper::title(   $this->type['info']['text']  , 'envelope');
 
 		// If not checked out, can save the item.
 		if (!$checkedOut && $canDo->get('core.manage')){
-			JToolbarHelper::custom('phocamenuemail.send', 'ph-email', '', 'COM_PHOCAMENU_SEND', false);
+			ToolbarHelper::custom('phocamenuemail.send', 'ph-email', '', 'COM_PHOCAMENU_SEND', false);
 
 		}
 
 		if (!$checkedOut && $canDo->get('core.edit')){
-			JToolbarHelper::custom('phocamenuemail.sendandsave', 'ph-emailsave', '', 'COM_PHOCAMENU_SEND_AND_SAVE', false);
-			JToolbarHelper::apply('phocamenuemail.apply', 'JToolbar_APPLY');
-			JToolbarHelper::save('phocamenuemail.save', 'JToolbar_SAVE');
+			ToolbarHelper::custom('phocamenuemail.sendandsave', 'ph-emailsave', '', 'COM_PHOCAMENU_SEND_AND_SAVE', false);
+			ToolbarHelper::apply('phocamenuemail.apply', 'JToolbar_APPLY');
+			ToolbarHelper::save('phocamenuemail.save', 'JToolbar_SAVE');
 			//JToolbarHelper::addNew('phocamenuemail.save2new', 'JToolbar_SAVE_AND_NEW');
 
 		}
@@ -95,14 +101,14 @@ class PhocaMenuCpViewPhocaMenuEmail extends JViewLegacy
 			//JToolbarHelper::custom('phocamenuemail.save2copy', 'copy.png', 'copy_f2.png', 'JToolbar_SAVE_AS_COPY', false);
 		}
 		if (empty($this->item->id))  {
-			JToolbarHelper::cancel('phocamenuemail.cancel', 'JToolbar_CANCEL');
+			ToolbarHelper::cancel('phocamenuemail.cancel', 'JToolbar_CANCEL');
 		}
 		else {
-			JToolbarHelper::cancel('phocamenuemail.cancel', 'JToolbar_CLOSE');
+			ToolbarHelper::cancel('phocamenuemail.cancel', 'JToolbar_CLOSE');
 		}
 
-		JToolbarHelper::divider();
-		JToolbarHelper::help( 'screen.phocamenu', true );
+		ToolbarHelper::divider();
+		ToolbarHelper::help( 'screen.phocamenu', true );
 	}
 }
 ?>

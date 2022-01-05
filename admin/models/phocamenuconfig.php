@@ -9,9 +9,14 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License version 2 or later;
  */
 defined('_JEXEC') or die();
+use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\Table\Table;
+use Joomla\CMS\Factory;
+use Joomla\Registry\Registry;
+use Joomla\CMS\Application\ApplicationHelper;
 jimport('joomla.application.component.modeladmin');
 
-class PhocaMenuCpModelPhocaMenuConfig extends JModelAdmin
+class PhocaMenuCpModelPhocaMenuConfig extends AdminModel
 {
 	protected	$option 		= 'com_phocamenu';
 	protected 	$text_prefix	= 'com_phocamenu';
@@ -25,12 +30,12 @@ class PhocaMenuCpModelPhocaMenuConfig extends JModelAdmin
 
 	public function getTable($type = 'PhocaMenuConfig', $prefix = 'Table', $config = array())
 	{
-		return JTable::getInstance($type, $prefix, $config);
+		return Table::getInstance($type, $prefix, $config);
 	}
 
 	public function getForm($data = array(), $loadData = true) {
 
-		$app	= JFactory::getApplication();
+		$app	= Factory::getApplication();
 
 		$form 	= $this->loadForm('com_phocamenu.phocamenuconfig', 'phocamenuconfig', array('control' => 'jform', 'load_data' => $loadData));
 
@@ -43,7 +48,7 @@ class PhocaMenuCpModelPhocaMenuConfig extends JModelAdmin
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$data = JFactory::getApplication()->getUserState('com_phocamenu.edit.phocamenuconfig.data', array());
+		$data = Factory::getApplication()->getUserState('com_phocamenu.edit.phocamenuconfig.data', array());
 
 		if (empty($data)) {
 			$data = $this->getItem();
@@ -57,7 +62,7 @@ class PhocaMenuCpModelPhocaMenuConfig extends JModelAdmin
 		if ($item = parent::getItem($pk)) {
 			// Convert the params field to an array.
             if (isset($item->metadata)) {
-                $registry = new JRegistry;
+                $registry = new Registry;
                 $registry->loadString($item->metadata);
                 $item->metadata = $registry->toArray();
             }
@@ -69,15 +74,27 @@ class PhocaMenuCpModelPhocaMenuConfig extends JModelAdmin
 	protected function prepareTable($table)
 	{
 		jimport('joomla.filter.output');
-		$date = JFactory::getDate();
-		$user = JFactory::getUser();
+		$date = Factory::getDate();
+		$user = Factory::getUser();
 
 		$table->title		= htmlspecialchars_decode($table->title, ENT_QUOTES);
-		$table->alias		= JApplicationHelper::stringURLSafe($table->alias);
+		$table->alias		= ApplicationHelper::stringURLSafe($table->alias);
 
 		if (empty($table->alias)) {
-			$table->alias = JApplicationHelper::stringURLSafe($table->title);
+			$table->alias = ApplicationHelper::stringURLSafe($table->title);
 		}
+
+		if ($table->date_from == '0') {
+			$table->date_from = '00-00-00 00:00:00';
+		}
+		if ($table->date_to == '0') {
+			$table->date_to = '00-00-00 00:00:00';
+		}
+
+		if ($table->date == '0') {
+			$table->date = '00-00-00 00:00:00';
+		}
+
 
 		if (empty($table->id)) {
 			// Set the values
@@ -85,7 +102,7 @@ class PhocaMenuCpModelPhocaMenuConfig extends JModelAdmin
 
 			// Set ordering to the last item if not set
 			if (empty($table->ordering)) {
-				$db = JFactory::getDbo();
+				$db = Factory::getDbo();
 				$db->setQuery('SELECT MAX(ordering) FROM #__phocamenu_config');
 				$max = $db->loadResult();
 
@@ -116,7 +133,7 @@ class PhocaMenuCpModelPhocaMenuConfig extends JModelAdmin
 		if (empty($this->context)) {
 			$this->context = strtolower($this->option.'.'.$this->getName());
 		}
-		$app 		= JFactory::getApplication('administrator');
+		$app 		= Factory::getApplication('administrator');
 		$type		= $app->input->get('type', 0, 'int');
 		$language 	= $app->getUserStateFromRequest($this->context.'.filter.language'.(int)$type, 'filter_language', '');
 
@@ -133,12 +150,13 @@ class PhocaMenuCpModelPhocaMenuConfig extends JModelAdmin
 		if (empty($this->context)) {
 			$this->context = strtolower($this->option.'.'.$this->getName());
 		}
-		$app 		= JFactory::getApplication('administrator');
+		$app 		= Factory::getApplication('administrator');
 		$type		= $app->input->get('type', 0, 'int');
 
 		$lang = $app->getUserStateFromRequest($this->context.'.filter.language'.(int)$type, 'filter_language', $language);
 
 	}
 }
+// utf-8 Test: ľúčžľčžňžčđ
 
 ?>

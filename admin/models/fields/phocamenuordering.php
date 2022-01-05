@@ -10,10 +10,12 @@
  */
 
 defined('JPATH_BASE') or die;
+use Joomla\CMS\Form\FormField;
+use Joomla\CMS\HTML\HTMLHelper;
 jimport('joomla.html.html');
 jimport('joomla.form.formfield');
 
-class JFormFieldPhocaMenuOrdering extends JFormField
+class JFormFieldPhocaMenuOrdering extends FormField
 {
 
 	protected $type = 'PhocaMenuOrdering';
@@ -25,10 +27,10 @@ class JFormFieldPhocaMenuOrdering extends JFormField
 
 		// Get some field values from the form.
 		$id			= (int) $this->form->getValue('id');
-		
+
 		if ($this->element['menutype']) {
 			switch (strtolower($this->element['menutype'])) {
-			
+
 				case "day":
 					$whereLabel	=	'';
 					$whereValue	=	'';
@@ -50,14 +52,14 @@ class JFormFieldPhocaMenuOrdering extends JFormField
 					$whereValue	=	(int) $this->form->getValue('catid');
 					$table		=	'#__phocamenu_group';
 				break;
-				
+
 			}
 		} else {
 			$whereLabel	=	'catid';
 			$whereValue	=	(int) $this->form->getValue('catid');
 			$table		=	'#__phocamenu_group';
 		}
-		
+
 		// Initialize some field attributes.
 		$attr .= $this->element['class'] ? ' class="'.(string) $this->element['class'].'"' : '';
 		$attr .= ((string) $this->element['disabled'] == 'true') ? ' disabled="disabled"' : '';
@@ -69,11 +71,11 @@ class JFormFieldPhocaMenuOrdering extends JFormField
 
 		$wheres		= array();
 		$wheres[] 	= ' type = '.(int) $this->form->getValue('type');
-		if ($whereLabel != '') {	
+		if ($whereLabel != '') {
 			$wheres[] = ' '.$whereLabel.' = ' . (int) $whereValue;
 		}
-		
-		
+
+
 		// Build the query for the ordering list.
 		$query = ' SELECT ordering AS value, title AS text'
 				.' FROM ' . $table
@@ -82,12 +84,12 @@ class JFormFieldPhocaMenuOrdering extends JFormField
 
 		// Create a read-only list (no name) with a hidden input to store the value.
 		if ((string) $this->element['readonly'] == 'true') {
-			$html[] = JHtml::_('list.ordering', '', $query, trim($attr), $this->value, $id ? 0 : 1);
+			$html[] = HTMLHelper::_('list.ordering', '', $query, trim($attr), $this->value, $id ? 0 : 1);
 			$html[] = '<input type="hidden" name="'.$this->name.'" value="'.$this->value.'"/>';
 		}
 		// Create a regular list.
 		else {
-			$html[] = JHtml::_('list.ordering', $this->name, $query, trim($attr), $this->value, $id ? 0 : 1);
+			$html[] = HTMLHelper::_('list.ordering', $this->name, $query, trim($attr), $this->value, $id ? 0 : 1);
 		}
 
 		return implode($html);

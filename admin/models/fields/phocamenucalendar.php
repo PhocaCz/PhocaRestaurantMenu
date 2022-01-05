@@ -10,11 +10,15 @@
  */
 
 defined('JPATH_BASE') or die;
+use Joomla\CMS\Form\FormField;
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 
 jimport('joomla.html.html');
 jimport('joomla.form.formfield');
 
-class JFormFieldPhocaMenuCalendar extends JFormField
+class JFormFieldPhocaMenuCalendar extends FormField
 {
 	public $type = 'PhocaMenuCalendar';
 
@@ -24,7 +28,7 @@ class JFormFieldPhocaMenuCalendar extends JFormField
 		$format 	= $this->element['format'] ? (string) $this->element['format'] : 'Y-m-d';
 		$dayType 	= $this->element['daytype'] ? (string) $this->element['daytype'] : 'day';
 
-		$params = JComponentHelper::getParams( 'com_phocamenu' );
+		$params = ComponentHelper::getParams( 'com_phocamenu' );
 		$tmpl	= array();
 		$tmpl['dateclass']		= $params->get( 'date_class', 0 );
 		
@@ -85,8 +89,8 @@ class JFormFieldPhocaMenuCalendar extends JFormField
 		}
 
 		// Get some system objects.
-		$config = JFactory::getConfig();
-		$user	= JFactory::getUser();
+		$config = Factory::getConfig();
+		$user	= Factory::getUser();
 
 		// If a known filter is given use it.
 		switch (strtoupper((string) $this->element['filter']))
@@ -96,7 +100,7 @@ class JFormFieldPhocaMenuCalendar extends JFormField
 				if ((int) $this->value)
 				{
 					// Get a date object based on the correct timezone.
-					$date = JFactory::getDate($this->value, 'UTC');
+					$date = Factory::getDate($this->value, 'UTC');
 					$date->setTimezone(new DateTimeZone($config->get('offset')));
 
 					// Transform the date string.
@@ -109,7 +113,7 @@ class JFormFieldPhocaMenuCalendar extends JFormField
 				if ((int) $this->value)
 				{
 					// Get a date object based on the correct timezone.
-					$date = JFactory::getDate($this->value, 'UTC');
+					$date = Factory::getDate($this->value, 'UTC');
 					$date->setTimezone(new DateTimeZone($user->getParam('timezone', $config->get('offset'))));
 
 					// Transform the date string.
@@ -119,7 +123,7 @@ class JFormFieldPhocaMenuCalendar extends JFormField
 		}
 
 		$output = ''.$date . '<br />';
-		$output .= JHtml::_('calendar', $this->value, $this->name, $this->id, $format, $attributes).'<div class="clearfix ph-clearfix"></div>';
+		$output .= HTMLHelper::_('calendar', $this->value, $this->name, $this->id, $format, $attributes).'<div class="clearfix ph-clearfix"></div>';
 		return $output;
 	}
 	

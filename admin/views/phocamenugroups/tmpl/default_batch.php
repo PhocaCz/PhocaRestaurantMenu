@@ -1,54 +1,60 @@
 <?php
-/*
- * @package		Joomla.Framework
- * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
- *
- * @component Phoca Component
+/* @package Joomla
+ * @copyright Copyright (C) Open Source Matters. All rights reserved.
+ * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
+ * @extension Phoca Extension
  * @copyright Copyright (C) Jan Pavelka www.phoca.cz
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License version 2 or later;
+ * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  */
-defined('_JEXEC') or die;
 
+defined('_JEXEC') or die;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 
-$published = $this->state->get('filter.state');
-
+//$published = $this->state->get('filter.published');
 ?>
-<div class="modal hide fade" id="collapseModal">
-	<div class="modal-header">
-		<button type="button" role="presentation" class="close" data-dismiss="modal">x</button>
-		<h3><?php echo JText::_($this->t['l'] . '_BATCH_OPTIONS_GROUPS');?></h3>
-	</div>
-	<div class="modal-body">
-		<p><?php /* echo JText::_('COM_CONTENT_BATCH_TIP');*/ ?></p>
-		<?php /*<div class="control-group">
-			<div class="controls">
-				<?php echo LayoutHelper::render('joomla.html.batch.access', []);?>
-			</div>
-		</div> */ ?>
-		<div class="control-group">
-			<div class="controls">
-				<?php echo LayoutHelper::render('joomla.html.batch.language', []); ?>
-			</div>
-		</div>
-		<?php if ($published >= 0) : ?>
-		<div class="control-group">
-			<div class="controls">
-				<?php
-				$class	=	$this->t['n'].'Batch';
-				echo $class::item($published, 1);
-				?>
-			</div>
-		</div>
-		<?php endif; ?>
-	</div>
-	<div class="modal-footer">
-		<button class="btn" type="button" onclick="document.id('batch-category-id').value='';document.id('batch-access').value='';document.id('batch-language-id').value=''" data-dismiss="modal">
-			<?php echo JText::_('JCANCEL'); ?>
+
+<div id="collapseModal" role="dialog" tabindex="-1" class="joomla-modal modal fade">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+			<h3 class="modal-title"><?php echo Text::_('COM_PHOCAMENU_BATCH_OPTIONS_GROUPS');?></h3>
+				<button type="button" class="btn-close novalidate" data-bs-dismiss="modal" aria-label="<?php Text::_('COM_PHOCAMENU_CLOSE'); ?>">
 		</button>
-		<button class="btn btn-primary" type="submit" onclick="Joomla.submitbutton('<?php echo $this->t['task'] ?>.batch');">
-			<?php echo JText::_('JGLOBAL_BATCH_PROCESS'); ?>
+	</div>
+<div class="modal-body">
+
+<div class="p-3">
+    <?php /*
+	<div class="row">
+        <div class="form-group col-md-6">
+			<div class="controls"><?php echo LayoutHelper::render('joomla.html.batch.access', []);?></div>
+		</div>
+	</div> */ ?>
+
+    <div class="row">
+        <div class="form-group col-md-6">
+			<div class="controls"><?php echo LayoutHelper::render('joomla.html.batch.language', []); ?></div>
+		</div>
+	</div>
+    <div class="row">
+        <div class="form-group col-md-6">
+			<div class="controls"><?php echo PhocaMenuBatch::item('', 1); ?></div>
+		</div>
+	</div>
+</div>
+</div>
+
+<div class="modal-footer">
+		<button class="btn" type="button" onclick="document.getElementById('batch-category-id').value='';document.getElementById('batch-access').value='';document.getElementById('batch-language-id').value=''" data-bs-dismiss="modal">
+			<?php echo Text::_('JCANCEL'); ?>
 		</button>
+		<button class="btn btn-primary" type="submit" onclick="Joomla.submitbutton('<?php echo $this->t['task'] ?>.batch');" id="batch-submit-button-id" data-submit-task="<?php echo $this->t['task'] ?>.batch">
+			<?php echo Text::_('JGLOBAL_BATCH_PROCESS'); ?>
+		</button>
+	</div>
+
+
+		</div>
 	</div>
 </div>

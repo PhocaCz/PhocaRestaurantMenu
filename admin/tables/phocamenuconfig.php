@@ -9,9 +9,13 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License version 2 or later;
  */
 defined( '_JEXEC' ) or die( 'Restricted access' );
+use Joomla\CMS\Table\Table;
+use Joomla\Registry\Registry;
+use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Factory;
 use Joomla\String\StringHelper;
 
-class TablePhocaMenuConfig extends JTable
+class TablePhocaMenuConfig extends Table
 {
 	function __construct( &$db ) {
 		parent::__construct( '#__phocamenu_config', 'id', $db );
@@ -20,13 +24,13 @@ class TablePhocaMenuConfig extends JTable
 	public function bind($array, $ignore = '')
 	{
 		if (isset($array['params']) && is_array($array['params'])) {
-			$registry = new JRegistry();
+			$registry = new Registry();
 			$registry->loadArray($array['params']);
 			$array['params'] = (string)$registry;
 		}
 
 		if (isset($array['metadata']) && is_array($array['metadata'])) {
-			$registry = new JRegistry();
+			$registry = new Registry();
 			$registry->loadArray($array['metadata']);
 			$array['metadata'] = (string)$registry;
 		}
@@ -38,9 +42,9 @@ class TablePhocaMenuConfig extends JTable
 		if (empty($this->alias)) {
 			$this->alias = $this->title;
 		}
-		$this->alias = JApplicationHelper::stringURLSafe($this->alias);
+		$this->alias = ApplicationHelper::stringURLSafe($this->alias);
 		if (trim(str_replace('-','',$this->alias)) == '') {
-			$this->alias = JFactory::getDate()->format("Y-m-d-H-i-s");
+			$this->alias = Factory::getDate()->format("Y-m-d-H-i-s");
 		}
 
 		/*$registry = new JRegistry;

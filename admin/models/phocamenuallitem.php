@@ -9,17 +9,22 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License version 2 or later;
  */
 defined('_JEXEC') or die();
+use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Table\Table;
+use Joomla\Registry\Registry;
+use Joomla\CMS\Application\ApplicationHelper;
 jimport('joomla.application.component.modeladmin');
 use Joomla\String\StringHelper;
 
-class PhocaMenuCpModelPhocaMenuAllItem extends JModelAdmin
+class PhocaMenuCpModelPhocaMenuAllItem extends AdminModel
 {
 	protected	$option 		= 'com_phocamenu';
 	protected 	$text_prefix	= 'com_phocamenu';
 
 	protected function canDelete($record)
 	{
-		$user = JFactory::getUser();
+		$user = Factory::getUser();
 
 		if ($record->catid) {
 			return $user->authorise('core.delete', 'com_phocamenu.phocamenuitem.'.(int) $record->catid);
@@ -30,7 +35,7 @@ class PhocaMenuCpModelPhocaMenuAllItem extends JModelAdmin
 
 	protected function canEditState($record)
 	{
-		$user = JFactory::getUser();
+		$user = Factory::getUser();
 
 		if ($record->catid) {
 			return $user->authorise('core.edit.state', 'com_phocamenu.phocamenuitem.'.(int) $record->catid);
@@ -41,12 +46,12 @@ class PhocaMenuCpModelPhocaMenuAllItem extends JModelAdmin
 
 	public function getTable($type = 'phocamenuitem', $prefix = 'Table', $config = array())
 	{
-		return JTable::getInstance($type, $prefix, $config);
+		return Table::getInstance($type, $prefix, $config);
 	}
 
 	public function getForm($data = array(), $loadData = true) {
 
-		$app	= JFactory::getApplication();
+		$app	= Factory::getApplication();
 		$form 	= $this->loadForm('com_phocamenu.phocamenuitem', 'phocamenuitem', array('control' => 'jform', 'load_data' => $loadData));
 
 		if (empty($form)) {
@@ -58,7 +63,7 @@ class PhocaMenuCpModelPhocaMenuAllItem extends JModelAdmin
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$data = JFactory::getApplication()->getUserState('com_phocamenu.edit.phocamenuitem.data', array());
+		$data = Factory::getApplication()->getUserState('com_phocamenu.edit.phocamenuitem.data', array());
 
 		if (empty($data)) {
 			$data = $this->getItem();
@@ -71,7 +76,7 @@ class PhocaMenuCpModelPhocaMenuAllItem extends JModelAdmin
 	{
 		if ($item = parent::getItem($pk)) {
 			// Convert the params field to an array.
-			$registry = new JRegistry;
+			$registry = new Registry;
 			//$registry->loadString($item->metadata);
 			//$item->metadata = $registry->toArray();
 		}
@@ -82,14 +87,14 @@ class PhocaMenuCpModelPhocaMenuAllItem extends JModelAdmin
 	protected function prepareTable($table)
 	{
 		jimport('joomla.filter.output');
-		$date = JFactory::getDate();
-		$user = JFactory::getUser();
+		$date = Factory::getDate();
+		$user = Factory::getUser();
 
 		$table->title		= htmlspecialchars_decode($table->title, ENT_QUOTES);
-		$table->alias		= JApplicationHelper::stringURLSafe($table->alias);
+		$table->alias		= ApplicationHelper::stringURLSafe($table->alias);
 
 		if (empty($table->alias)) {
-			$table->alias = JApplicationHelper::stringURLSafe($table->title);
+			$table->alias = ApplicationHelper::stringURLSafe($table->title);
 		}
 
 		$table->price = PhocaMenuHelper::replaceCommaWithPoint($table->price);
@@ -103,7 +108,7 @@ class PhocaMenuCpModelPhocaMenuAllItem extends JModelAdmin
 
 			// Set ordering to the last item if not set
 			if (empty($table->ordering)) {
-				$db = JFactory::getDbo();
+				$db = Factory::getDbo();
 				$db->setQuery('SELECT MAX(ordering) FROM #__phocamenu_item WHERE catid = '. (int) $table->catid . ' AND type = '. (int) $table->type);
 				$max = $db->loadResult();
 

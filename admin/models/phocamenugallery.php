@@ -9,9 +9,12 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License version 2 or later;
  */
 defined( '_JEXEC' ) or die();
+use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Component\ComponentHelper;
 jimport( 'joomla.application.component.modellist' );
 
-class PhocaMenuCpModelPhocaMenuGallery extends JModelList
+class PhocaMenuCpModelPhocaMenuGallery extends ListModel
 {
 	protected	$option 		= 'com_phocagallery';
 	//public 		$context		= 'com_phocagallery.phocagallerycoimgs';
@@ -33,7 +36,7 @@ class PhocaMenuCpModelPhocaMenuGallery extends JModelList
 	protected function populateState($ordering = NULL, $direction = NULL)
 	{
 		// Initialise variables.
-		$app = JFactory::getApplication('administrator');
+		$app = Factory::getApplication('administrator');
 
 		// Load the filter state.
 		$search = $app->getUserStateFromRequest($this->context.'.filter.search', 'filter_search');
@@ -52,7 +55,7 @@ class PhocaMenuCpModelPhocaMenuGallery extends JModelList
 		$this->setState('filter.language', $language);
 
 		// Load the parameters.
-		$params = JComponentHelper::getParams('com_phocagallery');
+		$params = ComponentHelper::getParams('com_phocagallery');
 		$this->setState('params', $params);
 
 		// List state information.

@@ -9,6 +9,7 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License version 2 or later;
  */
 defined('_JEXEC') or die;
+use Joomla\CMS\Factory;
 
 class PhocaMenuExtensionHelper
 {
@@ -36,7 +37,7 @@ class PhocaMenuExtensionHelper
 		}
 		if( !array_key_exists( $element, self::$extension ) ) {
 			
-			$db		= JFactory::getDbo();
+			$db		= Factory::getDbo();
 			$query	= $db->getQuery(true);
 			if ($type == 'component'){
 				$query->select('extension_id AS id, element AS "option", params, enabled');
@@ -51,7 +52,7 @@ class PhocaMenuExtensionHelper
 			$query->where('`element` = '.$db->quote($element));
 			$db->setQuery($query);
 			
-			$cache 			= JFactory::getCache('_system','callback');
+			$cache 			= Factory::getCache('_system','callback');
 			$extensionData	=  $cache->get(array($db, 'loadObject'), null, $element, false);
 			if (isset($extensionData->enabled) && $extensionData->enabled == 1) {
 				self::$extension[$element] = 1;

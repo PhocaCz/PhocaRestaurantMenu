@@ -9,6 +9,10 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License version 2 or later;
  */
 defined('_JEXEC') or die;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\LanguageHelper;
+use Joomla\CMS\HTML\HTMLHelper;
 
 $r 			=  $this->r;
 
@@ -17,7 +21,7 @@ Joomla.submitbutton = function(task) {
 	if (task == "'. $this->t['task'] .'.cancel" || document.formvalidator.isValid(document.getElementById("adminForm"))) {
 		Joomla.submitform(task, document.getElementById("adminForm"));
 	} else {
-		Joomla.renderMessages({"error": ["'. JText::_('JGLOBAL_VALIDATION_FORM_FAILED', true).'"]});
+		Joomla.renderMessages({"error": ["'. Text::_('JGLOBAL_VALIDATION_FORM_FAILED', true).'"]});
 	}
 }
 ';
@@ -28,7 +32,7 @@ echo $r->startFormRoute($this->t['o'], '', 'adminForm', 'adminForm');
 // First Column
 echo '<div class="span12 form-horizontal">';
 $tabs = array (
-'general' 		=> JText::_($this->t['l'].'_EDIT')
+'general' 		=> Text::_($this->t['l'].'_EDIT')
 );
 echo $r->navigation($tabs);
 
@@ -36,24 +40,24 @@ echo $r->startTabs();
 
 echo $r->startTab('general', $tabs['general'], 'active');
 
-echo '<div class="ph-float-right ph-admin-additional-box">';
+echo '<div class="ph-admin-additional-box">';
 if ($this->t['admintool'] == 1 && (int)$this->t['atid'] > 0) {
 	// Don't select language as we asked the specific id
 } else if (isset($this->bodytext['itemlanguage']) && $this->bodytext['itemlanguage'] != '') {
 	jimport('joomla.language.helper');
-	$code = JLanguageHelper::getLanguages('lang_code');
+	$code = LanguageHelper::getLanguages('lang_code');
 	if (isset($code[$this->bodytext['itemlanguage']]->title)) {
-		echo JText::_('COM_PHOCAMENU_LANGUAGE') . ': '. $code[$this->bodytext['itemlanguage']]->title;
+		echo Text::_('COM_PHOCAMENU_LANGUAGE') . ': '. $code[$this->bodytext['itemlanguage']]->title;
 	}
 } else {
-	$warning = '<span style="float:right;margin-right:5px;margin-top:-5px;" class="hasTip" title="'.JText::_('COM_PHOCAMENU_WARNING_SELECT_LANG').'">'.JHtml::_('image', 'media/com_phocamenu/images/administrator/icon-16-warning.png', '' ).'</span>'. "\n";
+	echo '<i class="icon-exclamation-triangle" title="'.Text::_('COM_PHOCAMENU_WARNING_SELECT_LANG').'" ></i> '. "\n";
 	// MUST BE SET AT THE BOTTOM
 	//<input type="hidden" name="task" value="phocamenuemail.edit" />
-
-	echo JText::_('COM_PHOCAMENU_SELECT_LANGUAGE'). ''.$warning.' :'. "\n";
-	echo '<select name="filter_language" class="inputbox" onchange="this.form.submit()">'. "\n";
-	echo JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language')). "\n";
+	echo Text::_('COM_PHOCAMENU_SELECT_LANGUAGE').':'. "\n";
+	echo '<select name="filter_language" class="form-select" onchange="this.form.submit()">'. "\n";
+	echo HTMLHelper::_('select.options', HTMLHelper::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language')). "\n";
 	echo '</select>'. "\n";
+
 }
 echo '</div>';
 
@@ -61,7 +65,9 @@ $method = $this->typeinfo['render'];
 $output = PhocaMenuRenderViews::$method($this->formdata, $this->t, $this->params, null, 6);
 
 
-echo '<div class="alert alert-warning"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>'.JText::_('COM_PHOCAMENU_ADDING_WRONG_FORMAT_WARNING').'</div>';
+//echo '<div class="alert alert-warning"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>'.Text::_('COM_PHOCAMENU_ADDING_WRONG_FORMAT_WARNING').'</div>';
+
+echo '<div class="alert alert-warning alert-dismissible fade show ph-admin-additional-box-margin" role="alert">'. Text::_('COM_PHOCAMENU_ADDING_WRONG_FORMAT_WARNING').'<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="'.Text::_('COM_PHOCAMENU_CLOSE').'"></button></div>';
 
 if (isset($output) && $output != '') {
 	echo $output;
@@ -109,7 +115,7 @@ echo '<input type="hidden" name="type" value="'.(int)$this->type['value'].'" />'
 echo '<input type="hidden" name="admintool" value="'. (int)$this->t['admintool'].'" />'."\n";
 echo '<input type="hidden" name="atid" value="'.(int)$this->t['atid'].'" />'."\n";
 echo '<input type="hidden" name="boxchecked" value="0" />'."\n";
-echo JHtml::_('form.token')."\n";
+echo HTMLHelper::_('form.token')."\n";
 
 echo $r->endForm();
 

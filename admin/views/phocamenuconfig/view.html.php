@@ -7,9 +7,15 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  */
 defined('_JEXEC') or die();
+use Joomla\CMS\MVC\View\HtmlView;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Toolbar\Toolbar;
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Toolbar\ToolbarHelper;
 jimport( 'joomla.application.component.view' );
 
-class PhocaMenuCpViewPhocaMenuConfig extends JViewLegacy
+class PhocaMenuCpViewPhocaMenuConfig extends HtmlView
 {
 	protected $state;
 	protected $item;
@@ -40,21 +46,21 @@ class PhocaMenuCpViewPhocaMenuConfig extends JViewLegacy
 	protected function addToolbar() {
 
 		require_once JPATH_COMPONENT.'/helpers/phocamenuconfig.php';
-		JFactory::getApplication()->input->set('hidemainmenu', true);
-		$bar 		= JToolbar::getInstance('toolbar');
-		$user		= JFactory::getUser();
+		Factory::getApplication()->input->set('hidemainmenu', true);
+		$bar 		= Toolbar::getInstance('toolbar');
+		$user		= Factory::getUser();
 		$isNew		= ($this->item->id == 0);
 		$checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'));
 		$canDo		= PhocaMenuConfigHelper::getActions($this->t, $this->state->get('filter.config_id'));
-		$paramsC 	= JComponentHelper::getParams('com_phocamenu');
+		$paramsC 	= ComponentHelper::getParams('com_phocamenu');
 
-		$text = $isNew ? JText::_( 'COM_PHOCAMENU_NEW' ) : JText::_('COM_PHOCAMENU_EDIT');
-		JToolbarHelper::title(   $this->type['info']['text'].': <small><small>[ ' . $text.' ]</small></small>' , 'cogs');
+		$text = $isNew ? Text::_( 'COM_PHOCAMENU_NEW' ) : Text::_('COM_PHOCAMENU_EDIT');
+		ToolbarHelper::title(   $this->type['info']['text'].': <small><small>[ ' . $text.' ]</small></small>' , 'cogs');
 
 		// If not checked out, can save the item.
 		if (!$checkedOut && $canDo->get('core.edit')){
-			JToolbarHelper::apply('phocamenuconfig.apply', 'JToolbar_APPLY');
-			JToolbarHelper::save('phocamenuconfig.save', 'JToolbar_SAVE');
+			ToolbarHelper::apply('phocamenuconfig.apply', 'JToolbar_APPLY');
+			ToolbarHelper::save('phocamenuconfig.save', 'JToolbar_SAVE');
 			//JToolbarHelper::addNew('phocamenuconfig.save2new', 'JToolbar_SAVE_AND_NEW');
 
 		}
@@ -63,14 +69,14 @@ class PhocaMenuCpViewPhocaMenuConfig extends JViewLegacy
 			//JToolbarHelper::custom('phocamenuconfig.save2copy', 'copy.png', 'copy_f2.png', 'JToolbar_SAVE_AS_COPY', false);
 		}
 		if (empty($this->item->id))  {
-			JToolbarHelper::cancel('phocamenuconfig.cancel', 'JToolbar_CANCEL');
+			ToolbarHelper::cancel('phocamenuconfig.cancel', 'JToolbar_CANCEL');
 		}
 		else {
-			JToolbarHelper::cancel('phocamenuconfig.cancel', 'JToolbar_CLOSE');
+			ToolbarHelper::cancel('phocamenuconfig.cancel', 'JToolbar_CLOSE');
 		}
 
-		JToolbarHelper::divider();
-		JToolbarHelper::help( 'screen.phocamenu', true );
+		ToolbarHelper::divider();
+		ToolbarHelper::help( 'screen.phocamenu', true );
 	}
 }
 ?>
