@@ -48,9 +48,6 @@ echo '<h3>'.  Text::_($this->t['l'] . '_TRANSLATION').': '. Text::_($this->t['l'
         .'<p>© 2007 - '.  date("Y"). ' '. Text::_($this->t['l'] . '_TRANSLATER'). '</p>'
         .'<p>'.Text::_($this->t['l'] . '_TRANSLATION_SUPPORT_URL').'</p>';
 
-?>
-
-<?php
 
 echo '<input type="hidden" name="task" value="" />'
 .'<input type="hidden" name="option" value="'.$this->t['o'].'" />'

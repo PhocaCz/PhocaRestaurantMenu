@@ -78,10 +78,10 @@ class PhocaMenuCpModelPhocaMenuConfig extends AdminModel
 		$user = Factory::getUser();
 
 		$table->title		= htmlspecialchars_decode($table->title, ENT_QUOTES);
-		$table->alias		= ApplicationHelper::stringURLSafe($table->alias);
+		$table->alias		= ApplicationHelper::stringURLSafe((string)$table->alias);
 
 		if (empty($table->alias)) {
-			$table->alias = ApplicationHelper::stringURLSafe($table->title);
+			$table->alias = ApplicationHelper::stringURLSafe((string)$table->title);
 		}
 
 		if ($table->date_from == '0') {
@@ -157,6 +157,6 @@ class PhocaMenuCpModelPhocaMenuConfig extends AdminModel
 
 	}
 }
-// utf-8 Test: ľúčžľčžňžčđ
+
 
 ?>

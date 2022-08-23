@@ -76,10 +76,12 @@ class PhocaMenuCpControllerPhocaMenuMultipleEdit extends PhocaMenuControllerForm
 		$append		= '';
 
 		$data['itemdesc'] 	= $app->input->get('itemdesc',array(),'array');
+		$data['itemadditionalinfo'] 	= $app->input->get('itemadditionalinfo',array(),'array');
 		$data['message'] 	= $app->input->get('message',array(),'array');
 		$post				= $app->input->post->getArray();
 
 
+		$post['itemadditionalinfo']	= $data['itemadditionalinfo'];
 		$post['itemdesc']	= $data['itemdesc'];
 		$post['message']	= $data['message'];
 

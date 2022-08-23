@@ -68,7 +68,7 @@ class PhocaMenuUtils
 	}
 
 	public static function getAliasName($alias) {
-		$alias = ApplicationHelper::stringURLSafe($alias);
+		$alias = ApplicationHelper::stringURLSafe((string)$alias);
 		if (trim(str_replace('-','',$alias)) == '') {
 			$alias = Factory::getDate()->format("Y-m-d-H-i-s");
 		}

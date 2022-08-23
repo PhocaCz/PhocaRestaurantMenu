@@ -6,7 +6,7 @@
  * @copyright Copyright (C) Jan Pavelka www.phoca.cz
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  */
-defined( '_JEXEC' ) or die( 'Restricted access' ); 
+defined( '_JEXEC' ) or die( 'Restricted access' );
 use Joomla\CMS\Factory;
 
 jimport('joomla.filesystem.file');
@@ -28,7 +28,7 @@ if($controller = Factory::getApplication()->input->get('controller')) {
     }
 }
 
-$classname    = 'PhocaMenuController'.ucfirst($controller);
+$classname    = 'PhocaMenuController'.ucfirst((string)$controller);
 $controller   = new $classname( );
 //$controller = JControllerLegacy::getInstance('PhocaMenu');
 $controller->execute(Factory::getApplication()->input->get('task'));

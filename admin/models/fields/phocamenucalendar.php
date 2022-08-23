@@ -31,11 +31,11 @@ class JFormFieldPhocaMenuCalendar extends FormField
 		$params = ComponentHelper::getParams( 'com_phocamenu' );
 		$tmpl	= array();
 		$tmpl['dateclass']		= $params->get( 'date_class', 0 );
-		
+
 		switch($dayType) {
 			case 'week':
 				$tmpl['weekdateformat']	= $params->get( 'week_date_format', 'l, d. F Y' );
-				
+
 			break;
 			case 'day':
 			default:
@@ -43,10 +43,10 @@ class JFormFieldPhocaMenuCalendar extends FormField
 				$date = PhocaMenuHelper::getDate($this->value, $tmpl['daydateformat'], $tmpl['dateclass']);
 			break;
 		}
-	
 
-		
-		
+
+
+
 		// Initialize some field attributes.
 		$format = $this->element['format'] ? (string) $this->element['format'] : '%Y-%m-%d';
 
@@ -81,7 +81,7 @@ class JFormFieldPhocaMenuCalendar extends FormField
 			$attributes['required'] = 'required';
 			$attributes['aria-required'] = 'true';
 		}
-		
+
 		// Handle the special case for "now".
 		if (strtoupper($this->value) == 'NOW')
 		{
@@ -123,8 +123,8 @@ class JFormFieldPhocaMenuCalendar extends FormField
 		}
 
 		$output = ''.$date . '<br />';
-		$output .= HTMLHelper::_('calendar', $this->value, $this->name, $this->id, $format, $attributes).'<div class="clearfix ph-clearfix"></div>';
+		$output .= HTMLHelper::_('calendar', (string)$this->value, $this->name, $this->id, $format, $attributes).'<div class="clearfix ph-clearfix"></div>';
 		return $output;
 	}
-	
+
 }

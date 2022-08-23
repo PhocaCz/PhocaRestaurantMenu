@@ -19,6 +19,13 @@
         <option value="3">COM_PHOCAMENU_BOOTSTRAP3</option>-->
         <option value="5">COM_PHOCAMENU_BOOTSTRAP5</option>
 		</field>
+
+        <field name="additional_info_title" default="" type="text" label="COM_PHOCAMENU_FIELD_ADDITIONAL_INFORMATION_TITLE_LABEL" description="COM_PHOCAMENU_FIELD_ADDITIONAL_INFORMATION_TITLE_DESC" />
+
+        <field name="display_additinal_info" default="1" type="list" label="COM_PHOCAMENU_FIELD_DISPLAY_ADDITIONAL_INFO_LABEL" description="COM_PHOCAMENU_FIELD_DISPLAY_ADDITIONAL_INFO_DESC" >
+		<option value="0">COM_PHOCAMENU_NO</option>
+        <option value="1">COM_PHOCAMENU_YES</option>
+		</field>
 		
 		<field name="phocahead2" type="phocahead"  default="COM_PHOCAMENU_CONFIG_PRICE_SETTINGS_LABEL" label="" description="" />
 		
@@ -107,6 +114,36 @@
 		<field name="modal_box_border_width" default="2" size="10" type="text" label="COM_PHOCAMENU_FIELD_MODAL_BOX_BORDER_WIDTH_LABEL" description="COM_PHOCAMENU_FIELD_MODAL_BOX_BORDER_WIDTH_DESC" />
 		
     -->
+
+    <field name="phocahead7" type="phocahead"  default="COM_PHOCAMENU_CONFIG_XML_FEED_SETTINGS_LABEL" label="" description="" />
+
+
+
+    <field name="feed_date_format" type="list" default="DATE_FORMAT_LC" label="COM_PHOCAMENU_FIELD_XML_FEED_DATE_FORMAT_LABEL" description="COM_PHOCAMENU_FIELD_XML_FEED_DATE_FORMAT_DESC">
+				<option value="DATE_FORMAT_LC">DATE_FORMAT_LC</option>
+				<option value="DATE_FORMAT_LC1">DATE_FORMAT_LC1</option>
+				<option value="DATE_FORMAT_LC2">DATE_FORMAT_LC2</option>
+				<option value="DATE_FORMAT_LC3">DATE_FORMAT_LC3</option>
+				<option value="DATE_FORMAT_LC4">DATE_FORMAT_LC4</option>
+				<option value="d. F Y">d. F Y</option>
+				<option value="d/m/y">d/m/y</option>
+				<option value="d. m. Y">d. m. Y</option>
+                <option value="d.m.Y">d.m.Y</option>
+				<option value="l, d. F Y">l, d. F Y</option>
+		</field>
+
+    <field name="feed_root" default="" type="text" label="COM_PHOCAMENU_FIELD_XML_FEED_ROOT_TAG_LABEL" description="COM_PHOCAMENU_FIELD_XML_FEED_ROOT_TAG_DESC" />
+    <field name="feed_group" default="" type="text" label="COM_PHOCAMENU_FIELD_XML_FEED_GROUP_TAG_LABEL" description="COM_PHOCAMENU_FIELD_XML_FEED_GROUP_TAG_DESC" />
+    <field name="feed_date" default="" type="text" label="COM_PHOCAMENU_FIELD_XML_FEED_DATE_TAG_LABEL" description="COM_PHOCAMENU_FIELD_XML_FEED_DATE_TAG_DESC" />
+    <field name="feed_item" default="" type="text" label="COM_PHOCAMENU_FIELD_XML_FEED_ITEM_TAG_LABEL" description="COM_PHOCAMENU_FIELD_XML_FEED_ITEM_TAG_DESC" />
+    <field name="feed_item_type" default="" type="text" label="COM_PHOCAMENU_FIELD_XML_FEED_ITEM_TYPE_TAG_LABEL" description="COM_PHOCAMENU_FIELD_XML_FEED_ITEM_TYPE_TAG_DESC" />
+    <field name="feed_item_title" default="" type="text" label="COM_PHOCAMENU_FIELD_XML_FEED_ITEM_TITLE_TAG_LABEL" description="COM_PHOCAMENU_FIELD_XML_FEED_ITEM_TITLE_TAG_DESC" />
+    <field name="feed_item_price" default="" type="text" label="COM_PHOCAMENU_FIELD_XML_FEED_ITEM_PRICE_TAG_LABEL" description="COM_PHOCAMENU_FIELD_XML_FEED_ITEM_PRICE_TAG_DESC" />
+    <field name="feed_item_additional_info" default="" type="text" label="COM_PHOCAMENU_FIELD_XML_FEED_ITEM_ADDITIONAL_INFORMATION_TAG_LABEL" description="COM_PHOCAMENU_FIELD_XML_FEED_ITEM_ADDITIONAL_INFORMATION_TAG_DESC" />
+
+    <field name="feed_note" default="" type="text" label="COM_PHOCAMENU_FIELD_XML_FEED_NOTE_LABEL" description="COM_PHOCAMENU_FIELD_XML_FEED_NOTE_DESC" />
+    <field name="feed_note_type" default="" type="text" label="COM_PHOCAMENU_FIELD_XML_FEED_NOTE_TYPE_LABEL" description="COM_PHOCAMENU_FIELD_XML_FEED_NOTE_TYPE_DESC" />
+
 		
 </fieldset>		
 <fieldset name="administration" label="COM_PHOCAMENU_CONFIG_HEAD_ADMINISTRATION_LABEL">

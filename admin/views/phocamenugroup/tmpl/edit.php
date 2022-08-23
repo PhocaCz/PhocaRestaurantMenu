@@ -49,7 +49,7 @@ switch($this->type['value']) {
 		$hiddenArray	= '';
 	break;
 	default:
-		$formArray 		= array ('title', 'ordering');
+		$formArray 		= array ('title', 'type_group', 'ordering');
 		$hiddenArray	= '<input type="hidden" name="jform[catid]" id="jform_catid" value="0" />';
 	break;
 }

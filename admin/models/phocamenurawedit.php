@@ -254,7 +254,8 @@ class PhocaMenuCpModelPhocaMenuRawEdit extends AdminModel
 						if (isset($dIA[2])) {$dN['item'][$l][$i][$j]['price'] = $dIA[2];} else {$dN['item'][$l][$i][$j]['price'] = '';}
 						if (isset($dIA[3])) {$dN['item'][$l][$i][$j]['price2'] = $dIA[3];} else {$dN['item'][$l][$i][$j]['price2'] = '';}
 						if (isset($dIA[4])) {$dN['item'][$l][$i][$j]['description'] = $dIA[4];} else {$dN['item'][$l][$i][$j]['description'] = '';}
-						if (isset($dIA[5])) {$dN['item'][$l][$i][$j]['imageid'] = $dIA[5];} else {$dN['item'][$l][$i][$j]['imageid'] = '';}
+						if (isset($dIA[5])) {$dN['item'][$l][$i][$j]['additional_info'] = $dIA[5];} else {$dN['item'][$l][$i][$j]['additional_info'] = '';}
+						if (isset($dIA[6])) {$dN['item'][$l][$i][$j]['imageid'] = $dIA[6];} else {$dN['item'][$l][$i][$j]['imageid'] = '';}
 
 					}
 				}
@@ -367,9 +368,16 @@ class PhocaMenuCpModelPhocaMenuRawEdit extends AdminModel
 					$data['message'] = $dN['message'][0][$k2];
 				}
 
+				if (!isset($data['header_price'])) {
+					$data['header_price'] = '';
+				}
+				if (!isset($data['header_price2'])) {
+					$data['header_price2'] = '';
+				}
+
 				// type, title, message
-				$q = ' INSERT INTO #__phocamenu_group ( `type`, `title`, `message`, `language`, `published`, `ordering`) VALUES'
-					.' ('.(int)$data['type'].', '.$db->quote(strip_tags($v2)).', '.$db->quote($data['message']).', '.$db->quote($data['language']).', 1, '.$i.')';
+				$q = ' INSERT INTO #__phocamenu_group ( `type`, `title`, `message`,`header_price`,`header_price2`, `language`, `published`, `ordering`) VALUES'
+					.' ('.(int)$data['type'].', '.$db->quote(strip_tags($v2)).', '.$db->quote($data['message']).', '.$db->quote($data['header_price']).', '.$db->quote($data['header_price2']).', '.$db->quote($data['language']).', 1, '.$i.')';
 				$db->setQuery($q);
 				$db->execute();
 
@@ -381,8 +389,8 @@ class PhocaMenuCpModelPhocaMenuRawEdit extends AdminModel
 						$price = PhocaMenuHelper::replaceCommaWithPoint(strip_tags($v3['price']));
 						$price2 = PhocaMenuHelper::replaceCommaWithPoint(strip_tags($v3['price2']));
 
-						$q = ' INSERT INTO #__phocamenu_item ( `catid`, `imageid`, `type`, `quantity`, `title`, `price`, `price2`,  `description`, `language`, `published`, `ordering` ) VALUES'
-						.' ( '.(int)$insertIdGroup.', '.(int)$v3['imageid'].', '.(int)$data['type'].', '.$db->quote(strip_tags($v3['quantity'])).', '.$db->quote(strip_tags($v3['title'])).', '.$db->quote($price).', '.$db->quote($price2).', '.$db->quote(strip_tags($v3['description'])).', '.$db->quote($data['language']).', 1, '.(int)$j.')';
+						$q = ' INSERT INTO #__phocamenu_item ( `catid`, `imageid`, `type`, `quantity`, `title`, `price`, `price2`,  `description`, `additional_info`, `language`, `published`, `ordering` ) VALUES'
+						.' ( '.(int)$insertIdGroup.', '.(int)$v3['imageid'].', '.(int)$data['type'].', '.$db->quote(strip_tags($v3['quantity'])).', '.$db->quote(strip_tags($v3['title'])).', '.$db->quote($price).', '.$db->quote($price2).', '.$db->quote(strip_tags($v3['description'])).', '.$db->quote(strip_tags($v3['additional_info'])).', '.$db->quote($data['language']).', 1, '.(int)$j.')';
 						$db->setQuery($q);
 						$db->execute();
 						$j++;
@@ -521,8 +529,8 @@ class PhocaMenuCpModelPhocaMenuRawEdit extends AdminModel
 								$price = PhocaMenuHelper::replaceCommaWithPoint(strip_tags($v3['price']));
 								$price2 = PhocaMenuHelper::replaceCommaWithPoint(strip_tags($v3['price2']));
 
-								$q = ' INSERT INTO #__phocamenu_item ( `catid`, `imageid`, `type`, `quantity`, `title`, `price`, `price2`,  `description`, `language`, `published`, `ordering` ) VALUES'
-								.' ( '.(int)$insertIdGroup.', '.(int)$v3['imageid'].', '.(int)$data['type'].', '.$db->quote(strip_tags($v3['quantity'])).', '.$db->quote(strip_tags($v3['title'])).', '.$db->quote($price).', '.$db->quote($price2).', '.$db->quote(strip_tags($v3['description'])).', '.$db->quote($data['language']).', 1, '.(int)$j.')';
+								$q = ' INSERT INTO #__phocamenu_item ( `catid`, `imageid`, `type`, `quantity`, `title`, `price`, `price2`,  `description`, `additional_info`, `language`, `published`, `ordering` ) VALUES'
+								.' ( '.(int)$insertIdGroup.', '.(int)$v3['imageid'].', '.(int)$data['type'].', '.$db->quote(strip_tags($v3['quantity'])).', '.$db->quote(strip_tags($v3['title'])).', '.$db->quote($price).', '.$db->quote($price2).', '.$db->quote(strip_tags($v3['description'])).', '.$db->quote(strip_tags($v3['additional_info'])).', '.$db->quote($data['language']).', 1, '.(int)$j.')';
 
 								$db->setQuery($q);
 								$db->execute();

@@ -149,7 +149,13 @@
 #phocamenu .pm-item-clm .pmdesc,
 #phocamenu .pm-item table tr td.pmdesc,
 #phocamenu .pm-item-bl table tr td.pmdesc,
-#phocamenu .pm-item-clm table tr td.pmdesc {
+#phocamenu .pm-item-clm table tr td.pmdesc,
+#phocamenu .pm-item .addinfo,
+#phocamenu .pm-item-bl .addinfo,
+#phocamenu .pm-item-clm .addinfo,
+#phocamenu .pm-item table tr td.addinfo,
+#phocamenu .pm-item-bl table tr td.addinfo,
+#phocamenu .pm-item-clm table tr td.addinfo{
 	text-align:left;
 	font-style:italic;
 }
@@ -280,9 +286,15 @@
 #phocamenumultipleedit .pmtitle,
 #phocamenumultipleedit .pmtitle input,
 #phocamenumultipleedit .pmdesc,
-#phocamenumultipleedit .pmdesc textarea {
+#phocamenumultipleedit .pmdesc textarea,
+#phocamenumultipleedit .pmaddinfo,
+#phocamenumultipleedit .pmaddinfo input{
 	width: 80%;
 }
+#phocamenumultipleedit .pmdesc {
+    line-height: 0;
+}
+
 #phocamenumultipleedit .pm-message,
 #phocamenumultipleedit .pm-message textarea {
 	text-align: center;
@@ -363,12 +375,12 @@
 
 #phocamenumultipleedit img,
 #phocamenu img {
-	max-width: none;
+	/*max-width: none;*/
 }
 
 #phocamenu .pmimage a img,
 #phocamenu .pm-item table tr td div.pmimage a img {
-	max-width: none !important;
+	/*max-width: none !important;*/
 }
 
 
@@ -421,7 +433,8 @@ div.pmquantity-bl {
 	font-weight: bold;
 }
 
-#phocamenu div.pmdesc {
+#phocamenu div.pmdesc,
+#phocamenu div.pmaddinfo {
 	font-style:italic;
 	margin-bottom: 10px;
 }
@@ -491,3 +504,12 @@ div.pmquantity-bl {
 .phc-green {color: #559d22;}
 .phc-orange {color:orange;}
 .phc-brown {color: #a5572a;}
+
+#phocamenu .pmaddinfotitle {
+    display: inline-block;
+    margin-right: 1em;
+    font-weight: bold;
+}
+#phocamenu .pmaddinfotitle:after {
+    content: ": ";
+}

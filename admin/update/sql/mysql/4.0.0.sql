@@ -1,0 +1,2 @@
+-- ALTER TABLE `#__phocamenu_group` ADD COLUMN `type_group` varchar(255) NOT NULL default '';
+-- ALTER TABLE `#__phocamenu_item` ADD COLUMN `additional_info` text;

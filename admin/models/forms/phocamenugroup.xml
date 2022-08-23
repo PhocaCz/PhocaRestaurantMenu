@@ -11,10 +11,12 @@
 
 <field name="ordering" type="PhocaMenuOrdering" menutype="group" table="file" class="form-select" label="COM_PHOCAMENU_FIELD_ORDERING_LABEL" description="COM_PHOCAMENU_FIELD_ORDERING_DESC" />
 
+<field name="type_group" type="text" class="form-control" size="40" label="COM_PHOCAMENU_FIELD_TYPE_GROUP_LABEL" description="COM_PHOCAMENU_FIELD_TYPE_GROUP_DESC" />
+
 <field name="message" type="editor" buttons="true" hide="pagebreak,readmore" class="form-control" label="COM_PHOCAMENU_FIELD_GROUP_DESCRIPTION_LABEL" description="COM_PHOCAMENU_FIELD_GROUP_DESCRIPTION_DESC" filter="JComponentHelper::filterText" />
 
 
-<field name="display_second_price" type="radi" layout="joomla.form.field.radio.switcher" label="COM_PHOCAMENU_FIELD_GROUP_DISPLAY_SECOND_PRICE_LABEL" description="COM_PHOCAMENU_FIELD_GROUP_DISPLAY_SECOND_PRICE_DESC"  size="1" default="0">
+<field name="display_second_price" type="radio" layout="joomla.form.field.radio.switcher" label="COM_PHOCAMENU_FIELD_GROUP_DISPLAY_SECOND_PRICE_LABEL" description="COM_PHOCAMENU_FIELD_GROUP_DISPLAY_SECOND_PRICE_DESC"  size="1" default="0">
 		<option	value="0">COM_PHOCAMENU_NO</option>
 		<option value="1">COM_PHOCAMENU_YES</option>
 </field>

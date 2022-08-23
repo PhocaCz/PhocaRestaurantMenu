@@ -423,6 +423,10 @@ class PhocaMenuCpModelPhocaMenuMultipleEdit extends AdminModel
 					$data['description'] 	= $post['itemdesc'][$key];
 				}
 
+				if (isset($post['itemadditionalinfo'][$key])) {
+					$data['additional_info'] 	= $post['itemadditionalinfo'][$key];
+				}
+
 				if (isset($post['itempublish'][$key])) {
 					$data['published'] 	= $post['itempublish'][$key];
 				}
@@ -495,6 +499,9 @@ class PhocaMenuCpModelPhocaMenuMultipleEdit extends AdminModel
 
 							if (isset($post['newitemdesc'][$keyCatid][$keyId])) {
 								$data['description'] 	= $post['newitemdesc'][$keyCatid][$keyId];
+							}
+							if (isset($post['newitemadditionalinfo'][$keyCatid][$keyId])) {
+								$data['additional_info'] 	= $post['newitemadditionalinfo'][$keyCatid][$keyId];
 							}
 
 							if (isset($post['newitempublish'][$keyCatid][$keyId])) {

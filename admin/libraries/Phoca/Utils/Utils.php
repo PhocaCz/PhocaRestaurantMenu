@@ -24,7 +24,7 @@ class Utils
 		if (Factory::getConfig()->get('unicodeslugs') == 1) {
 			$alias= OutputFilter::stringURLUnicodeSlug($alias);
 		} else {
-			$alias = OutputFilter::stringURLSafe($alias);
+			$alias = OutputFilter::stringURLSafe((string)$alias);
 		}
 
 		if (trim(str_replace('-', '', $alias)) == '') {

@@ -38,7 +38,7 @@ echo $r->startTabs();
 
 echo $r->startTab('general', $tabs['general'], 'active');
 
-$formArray 		= array ('title', 'quantity', 'price', 'price2', 'catid', 'imageid', 'ordering');
+$formArray 		= array ('title', 'quantity', 'price', 'price2', 'catid', 'imageid', 'additional_info', 'ordering');
 echo $r->group($this->form, $formArray);
 
 echo '<input type="hidden" name="jform[type]" id="jform_type" value="'.(int)$this->item->type.'" />';

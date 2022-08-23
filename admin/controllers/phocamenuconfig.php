@@ -405,6 +405,5 @@ class PhocaMenuCpControllerPhocaMenuConfig extends PhocaMenuControllerForm
 		}
 	}
 }
-// utf-8 Test: ľúčžľčžňžčđ
 
 ?>

@@ -42,7 +42,7 @@ class TablePhocaMenuConfig extends Table
 		if (empty($this->alias)) {
 			$this->alias = $this->title;
 		}
-		$this->alias = ApplicationHelper::stringURLSafe($this->alias);
+		$this->alias = ApplicationHelper::stringURLSafe((string)$this->alias);
 		if (trim(str_replace('-','',$this->alias)) == '') {
 			$this->alias = Factory::getDate()->format("Y-m-d-H-i-s");
 		}

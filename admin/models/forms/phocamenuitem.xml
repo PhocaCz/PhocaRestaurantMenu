@@ -18,6 +18,8 @@
 
 <field name="description" type="editor" buttons="true" hide="pagebreak,readmore" class="form-control" label="COM_PHOCAMENU_FIELD_ITEM_DESCRIPTION_LABEL" description="COM_PHOCAMENU_FIELD_ITEM_DESCRIPTION_DESC" filter="JComponentHelper::filterText" />
 
+		<field name="additional_info" type="text" class="form-control" size="40" label="COM_PHOCAMENU_FIELD_ADDITIONAL_INFO_LABEL" description="COM_PHOCAMENU_FIELD_ADDITIONAL_INFO_DESC" />
+
 	</fieldset>
 
 

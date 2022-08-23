@@ -5,6 +5,9 @@
 			<![CDATA[COM_PHOCAMENU_DAILY_MENU_LAYOUT_DESC]]>
 		</message>
 	</layout>
+
+
+
 	<fields name="params">
 		<fieldset name="basic" addfieldpath="/administrator/components/com_phocamenu/models/fields">
 

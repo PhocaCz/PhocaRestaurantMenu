@@ -22,6 +22,7 @@ class PhocaMenuRenderViews
 	 * 4 Bootstrap 2
 	 * 5 Bootstrap 3
 	 * 6 Raw edit
+	 * 7 Array (only daily menu)
 	 * Default Table
 	 */
 
@@ -40,7 +41,8 @@ class PhocaMenuRenderViews
 
 
 
-		$oP = array();
+		$oP = array();// Raw 6
+		$oA = array();// Array 7
 
 		$o = self::setMainId($method);
 
@@ -60,10 +62,13 @@ class PhocaMenuRenderViews
 
 			if ($method == 3) {
 				$o .= $tag['date-o'] . $date . '<br/>'
-				. HTMLHelper::_('calendar', $data['config']->date, 'date['.$data['config']->id.']', 'date'.$data['config']->id, "%Y-%m-%d", array('class'=>'inputbox', 'size'=>'45',  'maxlength'=>'45')) . $tag['date-c'];
+				. HTMLHelper::_('calendar', (string)$data['config']->date, 'date['.$data['config']->id.']', 'date'.$data['config']->id, "%Y-%m-%d", array('class'=>'inputbox', 'size'=>'45',  'maxlength'=>'45')) . $tag['date-c'];
 			} else if ($method == 6) {
 				$oP[] = '#'.$data['config']->date;
-			} else {
+			} else if ($method == 7) {
+				$oA['date']  = $data['config']->date;
+			}	else {
+
 				$o .= $tag['date-o'] . $date . $tag['date-c'];
 			}
 		}
@@ -79,6 +84,14 @@ class PhocaMenuRenderViews
 					if (!empty($data['group'][$g]->message)) {
 						$groupMsg = PhocaMenuHelper::cleanRawOutput($data['group'][$g]->message);
 						if (!empty($groupMsg)) {$oP[] = '>'.$groupMsg;}
+					}
+				} else if ($method == 7) {
+					$oA['groups'][$g]['title'] = $data['group'][$g]->title;
+					if (!empty($data['group'][$g]->message)) {
+						$oA['groups'][$g]['message'] = PhocaMenuHelper::cleanRawOutput($data['group'][$g]->message);
+					}
+					if (!empty($data['group'][$g]->type_group)) {
+						$oA['groups'][$g]['type_group'] = $data['group'][$g]->type_group;
 					}
 				} else {
 					$o .= $tag['group-o'] . $data['group'][$g]->title . $tag['group-c'];
@@ -144,6 +157,8 @@ class PhocaMenuRenderViews
 								$o .= PhocaMenuRenderViews::renderFormItemME(1, $tag, $data['group'][$g], $data['item'][$i], $pricePref, $method, $price2, $pricePref2, $data['group'][$g]->display_second_price);
 							} else if ($method == 6) {
 								$oP[] = PhocaMenuRenderViews::renderFormItemRE(1, $tag, $data['group'][$g], $data['item'][$i], $pricePref, $method, $price2, $pricePref2, $data['group'][$g]->display_second_price);
+							} else if ($method == 7) {
+								$oA['groups'][$g]['items'][$i] = PhocaMenuRenderViews::renderFormItemAE(1, $tag, $data['group'][$g], $data['item'][$i], $pricePref, $method, $price2, $pricePref2, $data['group'][$g]->display_second_price);
 							} else {
 								$o .= PhocaMenuRenderViews::renderFormItem(1, $tag, $image, $data['item'][$i], $price, $pricePref, $method, $price2, $pricePref2, $data['group'][$g]->display_second_price);
 							}
@@ -185,6 +200,8 @@ class PhocaMenuRenderViews
 			return $o;
 		} else if ($method == 6) {
 			return PhocaMenuRenderViews::renderFormCompleteRE($oP);
+		} else if ($method == 7) {
+			return $oA;
 		}
 
 		$enableBBCode = $params->get( 'enable_bb_code', 0 );
@@ -203,8 +220,6 @@ class PhocaMenuRenderViews
         $o .= PhocaMenuHelper::renderCode($params->get( 'render_code', 1 ), $method);
 		return $o;
 	}
-
-
 
 
 
@@ -277,6 +292,8 @@ class PhocaMenuRenderViews
 
 				$tag['desc-o']			= $tag['desc2-o'] = '<td style="font-style:italic;margin:5px">';
 				$tag['desc-c']			= $tag['desc2-c'] = '</td>';
+				$tag['addinfo-o']		= $tag['addinfo2-o'] = '<td style="font-style:italic;margin:5px">';
+				$tag['addinfo-c']		= $tag['addinfo2-c'] = '</td>';
 
 				$tag['groupheader1-o']			= '<td align="right">';
 				$tag['groupheader1-c']			= '</td>'. "\n";
@@ -369,12 +386,19 @@ class PhocaMenuRenderViews
 				if ($suffix == '-bl') {
 					$tag['desc-o']			= '<td width="192pt" style="font-style:italic;">';
 					$tag['desc2-o']			= '<td width="142pt" style="font-style:italic;">';// Second Price
+
+					$tag['addinfo-o']			= '<td width="192pt" style="font-style:italic;">';
+					$tag['addinfo2-o']			= '<td width="142pt" style="font-style:italic;">';// Second Price
 				} else {
 					$tag['desc-o']			= '<td width="386pt" style="font-style:italic;">';
 					$tag['desc2-o']			= '<td width="336pt" style="font-style:italic;">';// Second Price
+					$tag['addinfo-o']			= '<td width="386pt" style="font-style:italic;">';
+					$tag['addinfo2-o']			= '<td width="336pt" style="font-style:italic;">';// Second Price
 				}
 				$tag['desc-c']			= '</td>';
 				$tag['desc2-c']			= '</td>';
+				$tag['addinfo-c']			= '</td>';
+				$tag['addinfo2-c']			= '</td>';
 
 				$tag['footer-o']		= '<table border="0"><tr><td>';
 				$tag['footer-c']		= '</td></tr></table>';
@@ -418,6 +442,8 @@ class PhocaMenuRenderViews
 				$tag['row-c']			= '</div>';
 				$tag['row-desc-o']		= '<div class="row row-fluid pm-desc-row">';
 				$tag['row-desc-c']		= '</div>';
+				$tag['row-addinfo-o']		= '<div class="row row-fluid pm-addinfo-row">';
+				$tag['row-addinfo-c']		= '</div>';
 				$tag['row-group-h-o']	= '<div class="row row-fluid pm-group-header-row">';
 				$tag['row-group-h-c']	= '</div>';
 
@@ -555,6 +581,8 @@ class PhocaMenuRenderViews
 				$tag['row-c']			= '</div>';
 				$tag['row-desc-o']		= '<div class="row pm-desc-row">';
 				$tag['row-desc-c']		= '</div>';
+				$tag['row-addinfo-o']		= '<div class="row pm-addinfo-row">';
+				$tag['row-addinfo-c']		= '</div>';
 				$tag['row-group-h-o']	= '<div class="row pm-group-header-row">';
 				$tag['row-group-h-c']	= '</div>';
 
@@ -648,6 +676,9 @@ class PhocaMenuRenderViews
 				$tag['desc-o']			= $tag['desc2-o'] = '<td class="pmdesc">';
 				$tag['desc-c']			= $tag['desc2-c'] = '</td>'. "\n";
 
+				$tag['addinfo-o']			= $tag['addinfo2-o'] = '<td class="pmaddinfo">';
+				$tag['addinfo-c']			= $tag['addinfo2-c'] = '</td>'. "\n";
+
 				$tag['groupheader1-o']			= '<td class="pmgroupheader1">';
 				$tag['groupheader1-c']			= '</td>'. "\n";
 				$tag['groupheader2-o']			= '<td class="pmgroupheader2">';
@@ -678,6 +709,12 @@ class PhocaMenuRenderViews
 	public static function renderFormItem($type, $tag, $image, $itemObject, $price, $pricePref, $method, $price2, $pricePref2, $displaySecondPrice, $suffix = '') {
 
 
+
+		$app						= Factory::getApplication();
+		$paramsC 					= $app->isClient('administrator') ? ComponentHelper::getParams('com_phocamenu') : $app->getParams();
+		$additional_info_title		= $paramsC->get( 'additional_info_title', '' );
+		$display_additional_info	= $paramsC->get( 'display_additional_info', 1 );
+
 		// Image
 		$noImage = 1;
 		if($image == '' || $image == '&nbsp;') {
@@ -697,6 +734,7 @@ class PhocaMenuRenderViews
 
 		$rowSpan 	= '';
 		$descRow 	= '';
+		$addRow		= '';
 		$row 		= array();
 		$desc		= array();
 
@@ -794,14 +832,36 @@ class PhocaMenuRenderViews
 				$descRow .= $desc['prefix'] . $desc['price1'] . $desc['price2'];
 				$descRow .= $tag['row-desc-c'];
 			}
-			$o = $o . $descRow . $tag['row-box-c'];
+
+
+			// Additional Information
+			if ($display_additional_info == 1 && $itemObject->additional_info != '') {
+
+				$addRow .= $tag['row-addinfo-o'];
+				$addRow .= $desc['img'] . $desc['quantity'];
+				$addRow .= '<div class="'.$class.' pmaddinfo">';
+				if ($additional_info_title != '') {
+					$addRow .= '<div class="'.$class.' pmaddinfotitle">'.Text::_($additional_info_title).'</div>';
+				}
+				$addRow .= $itemObject->additional_info;
+				$addRow .= '</div>';
+				$addRow .= $desc['prefix'] . $desc['price1'] . $desc['price2'];
+				$addRow .= $tag['row-addinfo-c'];
+			}
+
+			$o = $o . $descRow . $addRow . $tag['row-box-c'];
 
 
 		} else {
 			// ============= TABLE =============
 
+			$rowspanV = 2;
+			if ($itemObject->description != '' && ($display_additional_info == 1 && $itemObject->additional_info != '')) {
+				$rowspanV = 3;
+			}
+
 			if ($itemObject->description != '') {
-				$rowSpan = 'rowspan="2"';
+				$rowSpan = 'rowspan="'.$rowspanV.'"';
 				$descRow = '<tr>';
 
 				if ($method == 2) {
@@ -827,12 +887,44 @@ class PhocaMenuRenderViews
 				$descRow .= '</tr>';
 			}
 
+			if ($display_additional_info == 1 && $itemObject->additional_info != '') {
+				$rowSpan = 'rowspan="'.$rowspanV.'"';
+				$addRow = '<tr>';
+
+				if ($method == 2) {
+					$addRow .= $tag['image-o'] . $tag['spaceimg'] . $tag['image-c'];
+				}
+
+				$addRow .= $tag['quantity-o']  . $tag['space'] . $tag['quantity-c'];
+
+				$additionalInfoOutput  = '';
+				if ($additional_info_title != '') {
+					 $additionalInfoOutput = '<div class="pmaddinfotitle">'.Text::_($additional_info_title).'</div>';
+				}
+
+				if ($displaySecondPrice == 1) {
+					$addRow.= $tag['addinfo2-o'] . $additionalInfoOutput . $itemObject->additional_info . $tag['addinfo2-c'];
+				} else {
+					$addRow.= $tag['addinfo-o'] . $additionalInfoOutput . $itemObject->additional_info . $tag['addinfo-c'];
+				}
+
+				$addRow .= $tag['priceprefix-o'] . $tag['space'] . $tag['priceprefix-c']
+						  . $tag['price-o'] . $tag['space']  . $tag['price-c'];
+				if ($displaySecondPrice == 1) {
+					$addRow .= $tag['price2-o'] . $tag['space']  . $tag['price2-c'];
+				}
+
+
+
+				$addRow .= '</tr>';
+			}
+
 			$o = '<tr>';
 
 			if ($method == 2) {
 				$o .= $tag['image-o'] . $tag['spaceimg'] . $tag['image-c']; // PDF - no rowspan
 			} else {
-				if ($itemObject->description != '') {
+				if ($itemObject->description != '' || ($display_additional_info == 1 && $itemObject->additional_info != '')) {
 					$o .= $tag['image-rs-o'] . $rowSpan .'>' . $image . $tag['image-c'];
 				} else {
 					$o .= $tag['image-o'] . $image . $tag['image-c'];
@@ -866,6 +958,10 @@ class PhocaMenuRenderViews
 			if ($itemObject->description != '') {
 				$o .= $descRow;
 			}
+			// Additional Info
+			if ($display_additional_info == 1 && $itemObject->additional_info != '') {
+				$o .= $addRow;
+			}
 		}
 
 
@@ -887,16 +983,17 @@ class PhocaMenuRenderViews
 
 		$oPI = array();
 
-		$oPI[] = strip_tags(trim($itemObject->quantity));
-		$oPI[] = strip_tags(trim($itemObject->title));
-		$oPI[] = strip_tags(trim($itemObject->price));
-		$oPI[] = strip_tags(trim($itemObject->price2));
-		$oPI[] = strip_tags(trim($itemObject->description));
+		$oPI[] = strip_tags(trim((string)$itemObject->quantity));
+		$oPI[] = strip_tags(trim((string)$itemObject->title));
+		$oPI[] = strip_tags(trim((string)$itemObject->price));
+		$oPI[] = strip_tags(trim((string)$itemObject->price2));
+		$oPI[] = strip_tags(trim((string)$itemObject->description));
+		$oPI[] = strip_tags(trim((string)$itemObject->additional_info));
 
 		if ($itemObject->imageid == 0) {
 			$itemObject->imageid = '';
 		}
-		$oPI[] = trim($itemObject->imageid);
+		$oPI[] = trim((string)$itemObject->imageid);
 
 
 		if (!empty($oPI)) {
@@ -906,7 +1003,50 @@ class PhocaMenuRenderViews
 		return '';
 	}
 
+
+	public static function renderFormItemAE($type, $tag, $groupObject, $itemObject, $pricePref, $method, $price2, $pricePref2, $displaySecondPrice) {
+
+		$app			= Factory::getApplication();
+		$paramsC 		= $app->isClient('administrator') ? ComponentHelper::getParams('com_phocamenu') : $app->getParams();
+		$item_delimiter	= $paramsC->get( 'item_delimiter', 1 );
+		if ($item_delimiter == 1) {
+			$item_delimiter = ";";
+		} else {
+			$item_delimiter = "\t";
+		}
+
+		$oPI = array();
+
+		$oPI['quantity'] = strip_tags(trim((string)$itemObject->quantity));
+		$oPI['title'] = strip_tags(trim((string)$itemObject->title));
+		$oPI['price'] = strip_tags(trim((string)$itemObject->price));
+		$oPI['price2'] = strip_tags(trim((string)$itemObject->price2));
+		$oPI['description'] = strip_tags(trim((string)$itemObject->description));
+		$oPI['additional_info'] = strip_tags(trim((string)$itemObject->additional_info));
+
+		if ($itemObject->imageid == 0) {
+			$itemObject->imageid = '';
+		}
+		$oPI['image'] = trim((string)$itemObject->imageid);
+
+
+		if (!empty($oPI)) {
+
+			return $oPI;
+		}
+		return array();
+	}
+
 	public static function renderFormItemME($type, $tag, $groupObject, $itemObject, $pricePref, $method, $price2, $pricePref2, $displaySecondPrice) {
+
+
+		// Javascript counts fields (Add row), so they must exist
+		if (!isset($itemObject->description)) {
+			$itemObject->description = '';
+		}
+		if (!isset($itemObject->additional_info)) {
+			$itemObject->additional_info = '';
+		}
 
 		$o = '<tr class="pm-tr-row-'.$groupObject->id.'">'
 		. $tag['quantity-o'] .'<input size="8" class="form-control" type="text" name="itemquantity['.$itemObject->id.']" id="itemquantity'.$itemObject->id.'" value="'.$itemObject->quantity.'" />'. $tag['quantity-c']
@@ -932,6 +1072,8 @@ class PhocaMenuRenderViews
 			$description = '<textarea rows="2" class="form-control" cols="60" name="itemdesc[' . $itemObject->id .']" id="itemdesc' . $itemObject->id .'">'. $itemObject->description . '</textarea>';
 		}
 
+		$additionalInfo = '<input size="8" class="form-control" type="text" name="itemadditionalinfo['.$itemObject->id.']" id="itemadditionalinfo'.$itemObject->id.'" value="'.$itemObject->additional_info.'" />';
+
 		if ($displaySecondPrice == 1) {
 			$colspan = 4;
 		} else {
@@ -943,6 +1085,16 @@ class PhocaMenuRenderViews
 			$o .= '<tr class="pmdesctr pm-tr-row-desc-'.$groupObject->id.'">'
 			. $tag['quantity-o']  . $tag['space'] . $tag['quantity-c']
 			. $tag['desc-o'] . $description . $tag['desc-c']
+			. $tag['priceprefix-o'] . $tag['space'] . $tag['priceprefix-c']
+			. $tag['price-o'] . $tag['space'] . $tag['price-c']
+			. '<td colspan="'.$colspan.'"></td>'
+			.'</tr>';
+		}
+		if (isset($itemObject->additional_info)) {
+
+			$o .= '<tr class="pmaddinfotr pm-tr-row-addinfo-'.$groupObject->id.'">'
+			. $tag['quantity-o']  . $tag['space'] . $tag['quantity-c']
+			. $tag['addinfo-o'] . $additionalInfo . $tag['addinfo-c']
 			. $tag['priceprefix-o'] . $tag['space'] . $tag['priceprefix-c']
 			. $tag['price-o'] . $tag['space'] . $tag['price-c']
 			. '<td colspan="'.$colspan.'"></td>'

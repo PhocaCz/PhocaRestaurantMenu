@@ -91,10 +91,10 @@ class PhocaMenuCpModelPhocaMenuAllItem extends AdminModel
 		$user = Factory::getUser();
 
 		$table->title		= htmlspecialchars_decode($table->title, ENT_QUOTES);
-		$table->alias		= ApplicationHelper::stringURLSafe($table->alias);
+		$table->alias		= ApplicationHelper::stringURLSafe((string)$table->alias);
 
 		if (empty($table->alias)) {
-			$table->alias = ApplicationHelper::stringURLSafe($table->title);
+			$table->alias = ApplicationHelper::stringURLSafe((string)$table->title);
 		}
 
 		$table->price = PhocaMenuHelper::replaceCommaWithPoint($table->price);
