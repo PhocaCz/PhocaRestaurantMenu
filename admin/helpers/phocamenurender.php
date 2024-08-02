@@ -142,7 +142,7 @@ class PhocaMenuRender
 
 		//Phoca PDF Restaurant Menu Plugin:
 		//$pluginPDF	 	=JPluginHelper::getPlugin('phocapdf', 'restaurantmenu');
-		//$componentPDF	=JComponentHelper::getComponent('com_phocapdf', true);
+		//$componentPDF	=ComponentHelper::getComponent('com_phocapdf', true);
 		$pluginPDF	 	=PhocaMenuExtensionHelper::getExtensionInfo('restaurantmenu', 'plugin', 'phocapdf');
 		$componentPDF	=PhocaMenuExtensionHelper::getExtensionInfo('com_phocapdf');
 

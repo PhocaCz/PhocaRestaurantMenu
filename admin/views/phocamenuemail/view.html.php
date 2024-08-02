@@ -78,7 +78,7 @@ class PhocaMenuCpViewPhocaMenuEmail extends HtmlView
 		$isNew		= ($this->item->id == 0);
 		$checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'));
 		$canDo		= PhocaMenuEmailHelper::getActions($this->t, $this->state->get('filter.email_id'));
-		//$paramsC 	= JComponentHelper::getParams('com_phocamenu');
+		//$paramsC 	= ComponentHelper::getParams('com_phocamenu');
 
 		$text = $isNew ? Text::_( 'COM_PHOCAMENU_NEW' ) : Text::_('COM_PHOCAMENU_EDIT');
 		ToolbarHelper::title(   $this->type['info']['text']  , 'envelope');

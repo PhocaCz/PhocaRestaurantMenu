@@ -102,6 +102,10 @@ class PhocaMenuCpModelPhocaMenuItem extends AdminModel
 		$table->price = PhocaMenuHelper::replaceCommaWithPoint($table->price);
 		$table->price2 = PhocaMenuHelper::replaceCommaWithPoint($table->price2);
 
+		if ($table->imageid == '') {
+			$table->imageid = 0;
+		}
+
 
 
 		if (empty($table->id)) {
@@ -142,6 +146,7 @@ class PhocaMenuCpModelPhocaMenuItem extends AdminModel
 	protected function batchCopy($value, $pks, $contexts)
 	{
 		$categoryId	= (int) $value;
+
 
 		$table	= $this->getTable();
 		$db		= $this->getDbo();

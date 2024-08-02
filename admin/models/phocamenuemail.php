@@ -94,8 +94,15 @@ class PhocaMenuCpModelPhocaMenuEmail extends AdminModel
 		$date = Factory::getDate();
 		$user = Factory::getUser();
 
-		$table->title		= htmlspecialchars_decode($table->title, ENT_QUOTES);
+		$table->title		= htmlspecialchars_decode((string)$table->title, ENT_QUOTES);
 		$table->alias		= ApplicationHelper::stringURLSafe((string)$table->alias);
+
+		if (!isset($table->replyto)) {
+			$table->replyto = '';
+		}
+		if (!isset($table->replytoname)) {
+			$table->replytoname = '';
+		}
 
 		if (empty($table->alias)) {
 			$table->alias = ApplicationHelper::stringURLSafe((string)$table->title);

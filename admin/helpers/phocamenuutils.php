@@ -34,7 +34,7 @@ class PhocaMenuUtils
 		{
 			foreach ($xmlFilesInDir as $xmlfile)
 			{
-				if ($data = JInstaller::parseXMLInstallFile($folder.'/'.$xmlfile)) {
+				if ($data = Installer::parseXMLInstallFile($folder.'/'.$xmlfile)) {
 					foreach($data as $key => $value) {
 						$xml_items[$key] = $value;
 					}

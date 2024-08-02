@@ -136,8 +136,8 @@ class PhocaMenuCpControllerPhocaMenuEmail extends PhocaMenuControllerForm
 
 		// Access check.
 		if (!$this->allowEdit(array($key => $recordId), $key)) {
-			$this->setError(Text::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'));
-			$this->setMessage($this->getError(), 'error');
+			//$this->setError(Text::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'));
+			$this->setMessage(Text::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'), 'error');
 			$this->setRedirect(Route::_('index.php?option='.$this->option.$this->getRedirectToListAppend(), false));
 
 			return false;
@@ -146,8 +146,8 @@ class PhocaMenuCpControllerPhocaMenuEmail extends PhocaMenuControllerForm
 		// Attempt to check-out the new record for editing and redirect.
 		if ($checkin && !$model->checkout($recordId)) {
 			// Check-out failed, display a notice but allow the user to see the record.
-			$this->setError(Text::sprintf('JLIB_APPLICATION_ERROR_CHECKOUT_FAILED', $model->getError()));
-			$this->setMessage($this->getError(), 'error');
+			//$this->setError(Text::sprintf('JLIB_APPLICATION_ERROR_CHECKOUT_FAILED', $model->getError()));
+			$this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_CHECKOUT_FAILED', $model->getError()), 'error');
 			$this->setRedirect('index.php?option='.$this->option.$this->getRedirectToItemAppend($recordId, $key));
 
 			return false;
@@ -208,8 +208,8 @@ class PhocaMenuCpControllerPhocaMenuEmail extends PhocaMenuControllerForm
 		} else {
 			if (!$this->checkEditId($context, $recordId)) {
 				// Somehow the person just went to the form and saved it - we don't allow that.
-				$this->setError(Text::_('JLIB_APPLICATION_ERROR_UNHELD_ID'));
-				$this->setMessage($this->getError(), 'error');
+				//$this->setError(Text::_('JLIB_APPLICATION_ERROR_UNHELD_ID'));
+				$this->setMessage(Text::_('JLIB_APPLICATION_ERROR_UNHELD_ID'), 'error');
 				$this->setRedirect(Route::_('index.php?option='.$this->option.$this->getRedirectToListAppend(1), false));
 
 				return false;
@@ -224,8 +224,8 @@ class PhocaMenuCpControllerPhocaMenuEmail extends PhocaMenuControllerForm
 			// Check-in the original row.
 			if ($checkin  && $model->checkin($data[$key]) === false) {
 				// Check-in failed, go back to the item and display a notice.
-				$this->setError(Text::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()));
-				$this->setMessage($this->getError(), 'error');
+				//$this->setError(Text::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()));
+				$this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()), 'error');
 				$this->setRedirect('index.php?option='.$this->option.$this->getRedirectToItemAppend($recordId,'id',1));
 
 				return false;
@@ -238,8 +238,8 @@ class PhocaMenuCpControllerPhocaMenuEmail extends PhocaMenuControllerForm
 
 		// Access check.
 		if (!$this->allowSave($data)) {
-			$this->setError(Text::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'));
-			$this->setMessage($this->getError(), 'error');
+			//$this->setError(Text::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'));
+			$this->setMessage(Text::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'), 'error');
 			$this->setRedirect(Route::_('index.php?option='.$this->option.$this->getRedirectToListAppend(1), false));
 
 			return false;

@@ -47,6 +47,7 @@ abstract class PhocaMenuBatch
 			$db->setQuery($query);
 			$lists = $db->loadObjectList();
 
+
 			$query = 'SELECT menuday.id as dayid, menuday.title as daytitle, menuday.type as daytype'
 					.' FROM #__phocamenu_day AS menuday'
 					.' ORDER BY menuday.id';
@@ -88,6 +89,7 @@ abstract class PhocaMenuBatch
 					.' ORDER BY menugroup.id, menulist.id, menuday.id';
 			$db->setQuery($query);
 			$groups = $db->loadObjectList();
+
 
 			$groupcount=0;
 			foreach($groups as $group){

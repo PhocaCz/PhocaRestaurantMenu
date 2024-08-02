@@ -37,7 +37,7 @@ Joomla.submitbutton = function(task) {
 	Joomla.submitform(task, document.getElementById("adminForm"));
 }
 ';
-JFactory::getDocument()->addScriptDeclaration($js);
+Factory::getDocument()->addScriptDeclaration($js);
 $r 			= $this->r;
 $user		= Factory::getUser();
 $userId		= $user->get('id');

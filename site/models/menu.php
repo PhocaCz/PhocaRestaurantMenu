@@ -161,6 +161,7 @@ class PhocaMenuModelMenu extends BaseDatabaseModel
 
 			} else {
 				// We need to set header and footer in specific langauge, if does not exist then in "all" language
+				$this->_db->setQuery($query); // some db have problems without setting query again
 				$dConfig = $this->_db->loadObjectList();
 				if (isset($dConfig[0]) && !isset($dConfig[1])) {
 					$this->_data['config'] = $dConfig[0];

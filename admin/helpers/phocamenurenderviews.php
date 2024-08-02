@@ -217,10 +217,10 @@ class PhocaMenuRenderViews
 		$o = str_replace($tag['tableitem-o'].$tag['tableitem-c'], '', $o);
 
 
-        $o .= PhocaMenuHelper::renderCode($params->get( 'render_code', 1 ), $method);
+
+		$o .= PhocaMenuHelper::renderCode($params->get( 'render_code', 1 ), $method);
 		return $o;
 	}
-
 
 
 	public static function getStyle($method, $phocaGallery, $suffix = '') {
@@ -835,7 +835,7 @@ class PhocaMenuRenderViews
 
 
 			// Additional Information
-			if ($display_additional_info == 1 && $itemObject->additional_info != '') {
+			if ($display_additional_info == 1 && isset($itemObject->additional_info) && $itemObject->additional_info != '') {
 
 				$addRow .= $tag['row-addinfo-o'];
 				$addRow .= $desc['img'] . $desc['quantity'];
@@ -856,7 +856,7 @@ class PhocaMenuRenderViews
 			// ============= TABLE =============
 
 			$rowspanV = 2;
-			if ($itemObject->description != '' && ($display_additional_info == 1 && $itemObject->additional_info != '')) {
+			if ($itemObject->description != '' && ($display_additional_info == 1 && isset($itemObject->additional_info) && $itemObject->additional_info != '')) {
 				$rowspanV = 3;
 			}
 
@@ -887,7 +887,7 @@ class PhocaMenuRenderViews
 				$descRow .= '</tr>';
 			}
 
-			if ($display_additional_info == 1 && $itemObject->additional_info != '') {
+			if ($display_additional_info == 1 && isset($itemObject->additional_info) && $itemObject->additional_info != '') {
 				$rowSpan = 'rowspan="'.$rowspanV.'"';
 				$addRow = '<tr>';
 
@@ -924,7 +924,7 @@ class PhocaMenuRenderViews
 			if ($method == 2) {
 				$o .= $tag['image-o'] . $tag['spaceimg'] . $tag['image-c']; // PDF - no rowspan
 			} else {
-				if ($itemObject->description != '' || ($display_additional_info == 1 && $itemObject->additional_info != '')) {
+				if ($itemObject->description != '' || ($display_additional_info == 1 && isset($itemObject->additional_info) && $itemObject->additional_info != '')) {
 					$o .= $tag['image-rs-o'] . $rowSpan .'>' . $image . $tag['image-c'];
 				} else {
 					$o .= $tag['image-o'] . $image . $tag['image-c'];
@@ -959,7 +959,7 @@ class PhocaMenuRenderViews
 				$o .= $descRow;
 			}
 			// Additional Info
-			if ($display_additional_info == 1 && $itemObject->additional_info != '') {
+			if ($display_additional_info == 1 && isset($itemObject->additional_info) && $itemObject->additional_info != '') {
 				$o .= $addRow;
 			}
 		}
@@ -1134,7 +1134,7 @@ class PhocaMenuRenderViews
 			if ($method == 4) {
 				$span = 'span';
 			} else {
-				$span = 'col-sm-12 col-md-';
+				$span = 'col-xs-12 col-sm-12 col-md-';
 			}
 
 
@@ -1157,7 +1157,10 @@ class PhocaMenuRenderViews
 			}
 			$spaceColumn = 12 - (int)$c;
 			if ($headerGroup != '') {
-				$o .= $tag['row-group-h-o'] . '<div class="'.$span.$spaceColumn. '"></div>'. $headerGroup . $tag['row-group-h-c'];
+				$span = 'col-xs-12 col-sm-'.$spaceColumn.' col-md-'.$spaceColumn;
+				$o .= $tag['row-box-o'];
+				$o .= $tag['row-group-h-o'] . '<div class="'.$span. '"></div>'. $headerGroup . $tag['row-group-h-c'];
+				$o .= $tag['row-box-c'];
 			}
 		} else {
 			// ============= TABLE =============

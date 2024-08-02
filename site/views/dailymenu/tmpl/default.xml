@@ -6,7 +6,17 @@
 		</message>
 	</layout>
 
-
+    <fields name="request">
+		<fieldset name="request">
+            <field name="format" type="list"
+                   description="COM_PHOCAMENU_FIELD_MENU_FORMAT_DESC"
+                   extension="com_phocamenu"
+                   label="COM_PHOCAMENU_FIELD_MENU_FORMAT_LABEL">
+                <option value="">COM_PHOCAMENU_DEFAULT</option>
+				<option value="xml">COM_PHOCAMENU_XML</option>
+            </field>
+        </fieldset>
+	</fields>
 
 	<fields name="params">
 		<fieldset name="basic" addfieldpath="/administrator/components/com_phocamenu/models/fields">
@@ -15,11 +25,8 @@
 			<option value="1">COM_PHOCAMENU_SHOW</option>
 			<option value="0">COM_PHOCAMENU_HIDE</option>
 			</field>
-		<field name="pdf" type="phocalistwarning" default="0" label="COM_PHOCAMENU_PDF_ICON_LABEL" description="COM_PHOCAMENU_PDF_ICON_DESC" phocawarning="COM_PHOCAMENU_PDF_ICON_WARNING">
-			<option value="0">COM_PHOCAMENU_HIDE</option>
-			<option value="1">COM_PHOCAMENU_SHOW</option>
-			</field>
-			<field name="print" type="list" default="1" label="COM_PHOCAMENU_PRINT_ICON_LABEL" description="COM_PHOCAMENU_PDF_ICON_DESC">
+
+			<field name="print" type="list" default="1" label="COM_PHOCAMENU_PRINT_ICON_LABEL" description="COM_PHOCAMENU_PRINT_ICON_DESC">
 				<option value="0">COM_PHOCAMENU_HIDE</option>
 				<option value="1">COM_PHOCAMENU_SHOW</option>
 			</field>
@@ -28,6 +35,7 @@
 				<option value="0">COM_PHOCAMENU_HIDE</option>
 				<option value="1">COM_PHOCAMENU_SHOW</option>
 			</field>-->
+
 
 
 		</fieldset>

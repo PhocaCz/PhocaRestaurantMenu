@@ -22,7 +22,7 @@ Joomla.submitbutton = function(task) {
 	}
 }
 ';
-JFactory::getDocument()->addScriptDeclaration($js);
+Factory::getDocument()->addScriptDeclaration($js);
 
 echo '<div id="prm-box-edit">'. "\n";
 echo $r->startForm($this->t['o'], $this->t['task'], $this->item->id, 'adminForm', 'adminForm');

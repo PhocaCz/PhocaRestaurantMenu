@@ -48,6 +48,8 @@ echo '<h3>'.  Text::_($this->t['l'] . '_TRANSLATION').': '. Text::_($this->t['l'
         .'<p>© 2007 - '.  date("Y"). ' '. Text::_($this->t['l'] . '_TRANSLATER'). '</p>'
         .'<p>'.Text::_($this->t['l'] . '_TRANSLATION_SUPPORT_URL').'</p>';
 
+?>
+<?php
 
 echo '<input type="hidden" name="task" value="" />'
 .'<input type="hidden" name="option" value="'.$this->t['o'].'" />'
@@ -58,7 +60,7 @@ echo HTMLHelper::_('image', $this->t['i'] . 'logo.png', 'Phoca.cz');
 echo '<p>&nbsp;</p>';
 
 echo '<div style="border-top:1px solid #eee"></div><p>&nbsp;</p>'.'<div class="btn-group">
-<a class="btn btn-large btn-primary" href="https://www.phoca.cz/version/index.php?'.$this->t['c'].'='.  $this->t['version'] .'" target="_blank"><i class="icon-loop icon-white"></i>&nbsp;&nbsp;'.  JText::_($this->t['l'].'_CHECK_FOR_UPDATE') .'</a></div>';
+<a class="btn btn-large btn-primary" href="https://www.phoca.cz/version/index.php?'.$this->t['c'].'='.  $this->t['version'] .'" target="_blank"><i class="icon-loop icon-white"></i>&nbsp;&nbsp;'.  Text::_($this->t['l'].'_CHECK_FOR_UPDATE') .'</a></div>';
 
 echo '<div style="margin-top:30px;height:39px;background: url(\''.Uri::root(true).'/media/com_'.$this->t['c'].'/images/administrator/line.png\') 100% 0 no-repeat;">&nbsp;</div>';
 

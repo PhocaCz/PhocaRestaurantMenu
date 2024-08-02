@@ -451,7 +451,6 @@ class PhocaMenuHelper
 			break;
 
 
-
 			case -1:
 				// All items
 				$typeInfo['catid']			= 'gid';
@@ -684,7 +683,7 @@ class PhocaMenuHelper
 		{
 			foreach ($xmlFilesInDir as $xmlfile)
 			{
-				if ($data = JInstaller::parseXMLInstallFile($folder.'/'.$xmlfile)) {
+				if ($data = Installer::parseXMLInstallFile($folder.'/'.$xmlfile)) {
 					foreach($data as $key => $value) {
 						$xml_items[$key] = $value;
 					}
@@ -841,7 +840,8 @@ class PhocaMenuHelper
 
 	    while($currentString != $string) {
 			$currentString 	= $string;
-			$string 		= preg_replace_callback('{\[(\w+)((=)(.+)|())\]((.|\n)*)\[/\1\]}U', array('PhocaMenuHelper', 'bbCodeCallback'), $string);
+			//$string 		= preg_replace_callback('{\[(\w+)((=)(.+)|())\]((.|\n)*)\[/\1\]}U', array('PhocaMenuHelper', 'bbCodeCallback'), $string);
+			$string         = preg_replace_callback('/\[(\w+)((=)(.+)|())\](.*?)\[\/\1\]/is', array('PhocaMenuHelper', 'bbCodeCallback'), $string);
 	    }
 	    return $string;
 	}
@@ -850,7 +850,7 @@ class PhocaMenuHelper
 	 * @based based on Seb's BB-Code-Parser script by seb
 	 * @url http://www.traum-projekt.com/forum/54-traum-scripts/25292-sebs-bb-code-parser.html
 	 */
-	function bbCodeCallback($matches) {
+	public static function bbCodeCallback($matches) {
 		$tag 			= trim($matches[1]);
 		$bodyString 	= $matches[6];
 		$argument 		= $matches[4];

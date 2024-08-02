@@ -48,12 +48,12 @@ class JFormFieldPhocaMenuGalleryCategory extends FormField
 		$attr = '';
 		$attr .= $this->element['onchange'] ? ' onchange="'.(string) $this->element['onchange'].'"' : '';
 		$attr .= $this->required ? ' required aria-required="true"' : '';
-		$attr .= ' class="form-control"';
+		$attr .= ' class="form-select"';
 
 		$tree = array();
 		$text = '';
 		$tree = PhocaGalleryCategoryhtml::CategoryTreeOption($phocagallerys, $tree, 0, $text, $catId);
-		array_unshift($tree, HTMLHelper::_('select.option', '', '- '.Text::_('COM_PHOCAGALLERY_SELECT_CATEGORY').' -', 'value', 'text'));
+		array_unshift($tree, HTMLHelper::_('select.option', '', ''.Text::_('JOPTION_SELECT_CATEGORY').'', 'value', 'text'));
 		return HTMLHelper::_('select.genericlist',  $tree,  $this->name, trim($attr), 'value', 'text', $this->value, $this->id );
 	}
 }

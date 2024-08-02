@@ -199,6 +199,65 @@ class com_phocamenuInstallerScript
 	background-size: cover;
 	border-radius: 6px;
 }
+
+.upBox {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top:1em;
+    margin-bottom: 2em;
+}
+
+.upItemText {
+    margin-bottom: 1em;
+}
+
+.upItem {
+    padding: 1em;
+    text-align: center;
+    width: calc(50% - 0.4em);
+    margin: 0.2em;
+    border-radius: 0.3em;
+}
+
+.upItemD {
+    background: #F5D042;
+    color: #000;
+}
+.upItemPh {
+    background: rgba(255,255,255,0.7);
+    color: #000;
+}
+.upItemDoc {
+    background: rgba(255,255,255,0.7);
+    color: #000;
+}
+.upItemJ {
+    background: rgba(255,255,255,0.7);
+    color: #000;
+}
+
+a.upItemLink {
+    padding: 0.5em 1em;
+    border-radius: 9999px;
+    margin: 1em;
+    display: inline-block;
+}
+
+a.upItemLink::before {
+    content: none;
+}
+.upItemPh a.upItemLink {
+    background: #000;
+    color: #fff;
+}
+.upItemDoc a.upItemLink {
+    background: #000;
+    color: #fff;
+}
+.upItemJ a.upItemLink {
+    background: #000;
+    color: #fff;
+}
 </style>";
     }
 

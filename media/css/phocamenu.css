@@ -160,7 +160,6 @@
 	font-style:italic;
 }
 
-#phocamenu .pmpriceprefix,
 #phocamenu .pm-item table tr td.pmpriceprefix,
 #phocamenu .pm-item-clm table tr td.pmpriceprefix,
 #phocamenu .pm-item-bl table tr td.pmpriceprefix {
@@ -169,7 +168,12 @@
 	width:2%;
 }
 
-#phocamenu .pmprice,
+#phocamenu .pmpriceprefix {
+	text-align:right;
+	vertical-align: bottom;
+}
+
+
 #phocamenu .pm-item table tr td.pmprice,
 #phocamenu .pm-item-clm table tr td.pmprice,
 #phocamenu .pm-item-bl table tr td.pmprice,
@@ -180,6 +184,12 @@
 	vertical-align: bottom;
 	width:5%;
 	padding-left: 10px;
+	white-space:nowrap;
+}
+
+#phocamenu .pmprice {
+	text-align:right;
+	vertical-align: bottom;
 	white-space:nowrap;
 }
 

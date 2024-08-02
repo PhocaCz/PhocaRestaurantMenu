@@ -86,7 +86,7 @@ class PhocaMenuCpViewPhocaMenuMultipleEdit extends HtmlView
 		//$isNew		= ($this->item->id == 0);
 		//$checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'));
 		$canDo		= PhocaMenuMultipleEditHelper::getActions($this->t);
-		//$paramsC 	= JComponentHelper::getParams('com_phocamenu');
+		//$paramsC 	= JomponentHelper::getParams('com_phocamenu');
 
 		//$text = $isNew ? JText::_( 'COM_PHOCAMENU_NEW' ) : JText::_('COM_PHOCAMENU_EDIT');
 		ToolbarHelper::title(   $this->type['info']['text']  , 'edit');

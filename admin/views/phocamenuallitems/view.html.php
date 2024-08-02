@@ -88,7 +88,7 @@ class PhocaMenuCpViewPhocaMenuAllitems extends HtmlView
 		require_once JPATH_COMPONENT.'/helpers/phocamenuitems.php';
 		$canDo	= phocamenuitemsHelper::getActions($this->t, $this->state->get('filter.category_id'));
 
-		JToolbarHelper::title( /*$this->type['info']['text']*/ JText::_('COM_PHOCAMENU_ALL_ITEMS') , 'file-2' );
+		ToolbarHelper::title( /*$this->type['info']['text']*/ Text::_('COM_PHOCAMENU_ALL_ITEMS') , 'file-2' );
 
 		//$bar->appendButton( 'Link', 'back', $this->type['info']['backlinktxt'], 'index.php?option=com_phocamenu'.$this->type['info']['backlink']. $this->typeup['urlup'] );
 

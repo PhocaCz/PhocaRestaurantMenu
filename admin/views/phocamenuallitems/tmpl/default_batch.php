@@ -39,7 +39,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 	</div>
     <div class="row">
         <div class="form-group col-md-6">
-			<div class="controls"><?php echo PhocaMenuBatch::item('', 1); ?></div>
+			<div class="controls"><?php echo PhocaMenuBatch::item('', 0); ?></div>
 		</div>
 	</div>
 </div>

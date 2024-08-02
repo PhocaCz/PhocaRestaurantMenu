@@ -8,6 +8,7 @@
  */
 defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\Helpers\Sidebar;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\MVC\Controller\BaseController;
@@ -28,109 +29,109 @@ $items[10]	= array('COM_PHOCAMENU_INFO', 'phocamenuinfo');
 foreach ($items as $key => $value) {
 	if ($view == '' || $view == 'phocamenucp') {
 		if ($key == 0) {
-			JHtmlSidebar::addEntry(Text::_($value[0]), $url, true);
+			Sidebar::addEntry(Text::_($value[0]), $url, true);
 		} else {
-			JHtmlSidebar::addEntry(Text::_($value[0]), $url2 . $value[1]);
+			Sidebar::addEntry(Text::_($value[0]), $url2 . $value[1]);
 		}
 	}
 
 	if (($type == 1) && ($view == 'phocamenugroups' || $view == 'phocamenuitems')) {
 		if ($key == 0) {
-			JHtmlSidebar::addEntry(Text::_($value[0]), $url);
+			Sidebar::addEntry(Text::_($value[0]), $url);
 		} else if ($key == 1) {
-			JHtmlSidebar::addEntry(Text::_($value[0]), $url2 . $value[1], true);
+			Sidebar::addEntry(Text::_($value[0]), $url2 . $value[1], true);
 		} else {
-			JHtmlSidebar::addEntry(Text::_($value[0]), $url2 . $value[1]);
+			Sidebar::addEntry(Text::_($value[0]), $url2 . $value[1]);
 		}
 	}
 
 	if (($type == 2) && ($view == 'phocamenudays'  || $view == 'phocamenugroups' || $view == 'phocamenuitems')) {
 		if ($key == 0) {
-			JHtmlSidebar::addEntry(Text::_($value[0]), $url);
+			Sidebar::addEntry(Text::_($value[0]), $url);
 		} else if ($key == 2) {
-			JHtmlSidebar::addEntry(Text::_($value[0]), $url2 . $value[1], true);
+			Sidebar::addEntry(Text::_($value[0]), $url2 . $value[1], true);
 		} else {
-			JHtmlSidebar::addEntry(Text::_($value[0]), $url2 . $value[1]);
+			Sidebar::addEntry(Text::_($value[0]), $url2 . $value[1]);
 		}
 	}
 
 	if (($type == 3) && ($view == 'phocamenulists' || $view == 'phocamenugroups' || $view == 'phocamenuitems')) {
 		if ($key == 0) {
-			JHtmlSidebar::addEntry(Text::_($value[0]), $url);
+			Sidebar::addEntry(Text::_($value[0]), $url);
 		} else if ($key == 3) {
-			JHtmlSidebar::addEntry(Text::_($value[0]), $url2 . $value[1], true);
+			Sidebar::addEntry(Text::_($value[0]), $url2 . $value[1], true);
 		} else {
-			JHtmlSidebar::addEntry(Text::_($value[0]), $url2 . $value[1]);
+			Sidebar::addEntry(Text::_($value[0]), $url2 . $value[1]);
 		}
 	}
 
 	if (($type == 4) && ($view == 'phocamenulists'  || $view == 'phocamenugroups' || $view == 'phocamenuitems')) {
 		if ($key == 0) {
-			JHtmlSidebar::addEntry(Text::_($value[0]), $url);
+			Sidebar::addEntry(Text::_($value[0]), $url);
 		} else if ($key == 4) {
-			JHtmlSidebar::addEntry(Text::_($value[0]), $url2 . $value[1], true);
+			Sidebar::addEntry(Text::_($value[0]), $url2 . $value[1], true);
 		} else {
-			JHtmlSidebar::addEntry(Text::_($value[0]), $url2 . $value[1]);
+			Sidebar::addEntry(Text::_($value[0]), $url2 . $value[1]);
 		}
 	}
 
 	if (($type == 5) && ($view == 'phocamenulists' || $view == 'phocamenugroups' || $view == 'phocamenuitems')) {
 		if ($key == 0) {
-			JHtmlSidebar::addEntry(Text::_($value[0]), $url);
+			Sidebar::addEntry(Text::_($value[0]), $url);
 		} else if ($key == 5) {
-			JHtmlSidebar::addEntry(Text::_($value[0]), $url2 . $value[1], true);
+			Sidebar::addEntry(Text::_($value[0]), $url2 . $value[1], true);
 		} else {
-			JHtmlSidebar::addEntry(Text::_($value[0]), $url2 . $value[1]);
+			Sidebar::addEntry(Text::_($value[0]), $url2 . $value[1]);
 		}
 	}
 
 	if (($type == 6) && ($view == 'phocamenugroups' || $view == 'phocamenuitems')) {
 		if ($key == 0) {
-			JHtmlSidebar::addEntry(Text::_($value[0]), $url);
+			Sidebar::addEntry(Text::_($value[0]), $url);
 		} else if ($key == 6) {
-			JHtmlSidebar::addEntry(Text::_($value[0]), $url2 . $value[1], true);
+			Sidebar::addEntry(Text::_($value[0]), $url2 . $value[1], true);
 		} else {
-			JHtmlSidebar::addEntry(Text::_($value[0]), $url2 . $value[1]);
+			Sidebar::addEntry(Text::_($value[0]), $url2 . $value[1]);
 		}
 	}
 
 	if (($type == 7) && ($view == 'phocamenugroups' || $view == 'phocamenuitems')) {
 		if ($key == 0) {
-			JHtmlSidebar::addEntry(Text::_($value[0]), $url);
+			Sidebar::addEntry(Text::_($value[0]), $url);
 		} else if ($key == 7) {
-			JHtmlSidebar::addEntry(Text::_($value[0]), $url2 . $value[1], true);
+			Sidebar::addEntry(Text::_($value[0]), $url2 . $value[1], true);
 		} else {
-			JHtmlSidebar::addEntry(Text::_($value[0]), $url2 . $value[1]);
+			Sidebar::addEntry(Text::_($value[0]), $url2 . $value[1]);
 		}
 	}
 
 	if (($type == 8) && ($view == 'phocamenugroups' || $view == 'phocamenuitems')) {
 		if ($key == 0) {
-			JHtmlSidebar::addEntry(Text::_($value[0]), $url);
+			Sidebar::addEntry(Text::_($value[0]), $url);
 		} else if ($key == 8) {
-			JHtmlSidebar::addEntry(Text::_($value[0]), $url2 . $value[1], true);
+			Sidebar::addEntry(Text::_($value[0]), $url2 . $value[1], true);
 		} else {
-			JHtmlSidebar::addEntry(Text::_($value[0]), $url2 . $value[1]);
+			Sidebar::addEntry(Text::_($value[0]), $url2 . $value[1]);
 		}
 	}
 
 	if ($view == 'phocamenuallitems') {
 		if ($key == 0) {
-			JHtmlSidebar::addEntry(Text::_($value[0]), $url);
+			Sidebar::addEntry(Text::_($value[0]), $url);
 		} else if ($key == 9) {
-			JHtmlSidebar::addEntry(Text::_($value[0]), $url2 . $value[1], true);
+			Sidebar::addEntry(Text::_($value[0]), $url2 . $value[1], true);
 		} else {
-			JHtmlSidebar::addEntry(Text::_($value[0]), $url2 . $value[1]);
+			Sidebar::addEntry(Text::_($value[0]), $url2 . $value[1]);
 		}
 	}
 
 	if ($view == 'phocamenuinfo') {
 		if ($key == 0) {
-			JHtmlSidebar::addEntry(Text::_($value[0]), $url);
+			Sidebar::addEntry(Text::_($value[0]), $url);
 		} else if ($key == 10) {
-			JHtmlSidebar::addEntry(Text::_($value[0]), $url2 . $value[1], true);
+			Sidebar::addEntry(Text::_($value[0]), $url2 . $value[1], true);
 		} else {
-			JHtmlSidebar::addEntry(Text::_($value[0]), $url2 . $value[1]);
+			Sidebar::addEntry(Text::_($value[0]), $url2 . $value[1]);
 		}
 	}
 }
