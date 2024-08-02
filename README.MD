@@ -94,6 +94,10 @@ Phoca Restaurant Menu is Joomla! CMS component. This component allows creating m
 
 4.0.0
 
+## Version (Joomla! 5.x)
+
+5.0.0
+
 
 
 ## License
