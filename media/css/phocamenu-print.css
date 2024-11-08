@@ -44,6 +44,11 @@ a img, img,
 	max-width: none;
 }
 
+#phocamenu .pmimage.pmimage-full img{
+	height: auto;
+	width: 5rem;
+}
+
 @media print
 {
     .noPrint
@@ -51,7 +56,6 @@ a img, img,
         display:none;
     }
 }
-
 
 
 

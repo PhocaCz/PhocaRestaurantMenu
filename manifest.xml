@@ -24,7 +24,7 @@
 		<description><![CDATA[ Phoca Restaurant Menu is Joomla! CMS component. This component allows creating menu for restaurant, cafeteria, fast food, school canteen, buffet, bar, club, snack bar, wineroom, etc. Such menu can be displayed on a website as HTML, printed as HTML, rendered as PDF, pasted as picture on social media, emailed to customers or displayed in RSS (such RSS can be used for displaying the menu on Facebook or Twitter). ]]></description>
 		<element>com_phocamenu</element>
 		<type>component</type>
-		<version>4.0.1</version>
+		<version>4.0.0</version>
 		<infourl title="Phoca Restaurant Menu 4.0.0">http://www.phoca.cz/version/index.php?phocamenu=4.0.0</infourl>
 		<downloads>
 			<downloadurl type="full" format="zip">https://github.com/PhocaCz/PhocaRestaurantMenu/releases/download/4.0.0/com_phocamenu_lite_v4.0.0.zip</downloadurl>
@@ -43,12 +43,12 @@
 		<description><![CDATA[ Phoca Restaurant Menu is Joomla! CMS component. This component allows creating menu for restaurant, cafeteria, fast food, school canteen, buffet, bar, club, snack bar, wineroom, etc. Such menu can be displayed on a website as HTML, printed as HTML, rendered as PDF, pasted as picture on social media, emailed to customers or displayed in RSS (such RSS can be used for displaying the menu on Facebook or Twitter). ]]></description>
 		<element>com_phocamenu</element>
 		<type>component</type>
-		<version>5.0.0</version>
-		<infourl title="Phoca Restaurant Menu 5.0.0">http://www.phoca.cz/version/index.php?phocamenu=5.0.0</infourl>
+		<version>5.0.1</version>
+		<infourl title="Phoca Restaurant Menu 5.0.1">http://www.phoca.cz/version/index.php?phocamenu=5.0.1</infourl>
 		<downloads>
-			<downloadurl type="full" format="zip">https://github.com/PhocaCz/PhocaRestaurantMenu/releases/download/5.0.0/com_phocamenu_lite_v5.0.0.zip</downloadurl>
+			<downloadurl type="full" format="zip">https://github.com/PhocaCz/PhocaRestaurantMenu/releases/download/5.0.1/com_phocamenu_lite_v5.0.1.zip</downloadurl>
 		</downloads>
-		<sha512>07512d5d8f1affb212e1d71637b549bcd8eefc146362b80b4712780c21a7c37e23fd298d1d64a03274715b190dd122adbb18e0669f7c3070eb1550fcb04a78fc</sha512>
+		<sha512>e4fa7b71af26e806b1b527cbf71378003675ccdf0e578f7eba29f333d79922d27113e010e9fc16d9a353227eabb2a0862594282a905793f79c9211d362a70962</sha512>
 		<tags>
 			<tag>stable</tag>
 		</tags>

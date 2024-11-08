@@ -11,6 +11,8 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Uri\Uri;
+
 class PhocaMenuRenderViews
 {
 
@@ -128,12 +130,21 @@ class PhocaMenuRenderViews
 
 							$image	= $tag['spaceimg'];
 
-							// PHOCAGALLERY Image  - - - - - -
-							if ((int)$tmpl['phocagallery'] == 1) {
-								$image = PhocaMenuGallery::getPhocaGalleryLink($tmpl['imagesize'], $data['item'][$i]->imageid, $data['item'][$i]->imagefilename, $data['item'][$i]->imagecatid, $data['item'][$i]->imageslug, $data['item'][$i]->imagecatslug, $paramsG['imagedetailwindow'], $tmpl['button'], $data['item'][$i]->imageextid,$data['item'][$i]->imageexts,$data['item'][$i]->imageextm,$data['item'][$i]->imageextl,$data['item'][$i]->imageextw,$data['item'][$i]->imageexth );
+							if ($data['item'][$i]->image != '') {
+								$altTitle = '';
+								if ($data['item'][$i]->title != '') {
+									$altTitle = htmlspecialchars(strip_tags($data['item'][$i]->title));
+								}
+								$image = '<div class="pmimage pmimage-full"><img src="'.Uri::base().$data['item'][$i]->image.'" alt="'.$altTitle.'" /></div>';
+							} else {
+								// PHOCAGALLERY Image  - - - - - -
+								if ((int)$tmpl['phocagallery'] == 1) {
+									$image = PhocaMenuGallery::getPhocaGalleryLink($tmpl['imagesize'], $data['item'][$i]->imageid, $data['item'][$i]->imagefilename, $data['item'][$i]->imagecatid, $data['item'][$i]->imageslug, $data['item'][$i]->imagecatslug, $paramsG['imagedetailwindow'], $tmpl['button'], $data['item'][$i]->imageextid,$data['item'][$i]->imageexts,$data['item'][$i]->imageextm,$data['item'][$i]->imageextl,$data['item'][$i]->imageextw,$data['item'][$i]->imageexth );
 
+								}
+								// - - - - - - - - - - - - - - - -
 							}
-							// - - - - - - - - - - - - - - - -
+
 
 							if (isset($data['item'][$i]->price) && $data['item'][$i]->price > 0) {
 								$price 		= PhocaMenuHelper::getPriceFormat($data['item'][$i]->price, $params);
@@ -216,14 +227,20 @@ class PhocaMenuRenderViews
 		// Remove empty table - because of TCPDF
 		$o = str_replace($tag['tableitem-o'].$tag['tableitem-c'], '', $o);
 
-
-
 		$o .= PhocaMenuHelper::renderCode($params->get( 'render_code', 1 ), $method);
+
 		return $o;
 	}
 
 
+
+
 	public static function getStyle($method, $phocaGallery, $suffix = '') {
+
+		$app						= Factory::getApplication();
+		$paramsC 					= $app->isClient('administrator') ? ComponentHelper::getParams('com_phocamenu') : $app->getParams();
+		// Bootstrap for image will have length x instead of one (must be changed in renderformitem function too)
+		$bs_image_length	= $paramsC->get( 'bs_image_length', 1 );
 
 		// 2 means, there are two prices, all the table tds must be recalculated, e.g. $tag['desc2-c'] - this is not a method
 		switch ($method) {
@@ -447,7 +464,7 @@ class PhocaMenuRenderViews
 				$tag['row-group-h-o']	= '<div class="row row-fluid pm-group-header-row">';
 				$tag['row-group-h-c']	= '</div>';
 
-				$tag['image-o']			= '<div class="span1 pmimage">'; // when changed then the count of columns must be changed too: renderFormItem (1257)
+				$tag['image-o']			= '<div class="span'.(int)$bs_image_length.' pmimage">'; // when changed then the count of columns must be changed too: renderFormItem (1257)
 				$tag['quantity-o']		= '<div class="span1 pmquantity">';
 				$tag['priceprefix-o']	= '<div class="span1 pmpriceprefix pm-right">';
 
@@ -586,7 +603,8 @@ class PhocaMenuRenderViews
 				$tag['row-group-h-o']	= '<div class="row pm-group-header-row">';
 				$tag['row-group-h-c']	= '</div>';
 
-				$tag['image-o']			= '<div class="col-xs-12 col-sm-1 col-md-1 pmimage">';// when changed then the count of columns must be changed too: renderFormItem (1257)
+				// when changed then the count of columns must be changed too: renderFormItem (1257)
+				$tag['image-o']			= '<div class="col-xs-12 col-sm-'.(int)$bs_image_length.' col-md-'.(int)$bs_image_length.' pmimage">';
 				$tag['quantity-o']		= '<div class="col-xs-12 col-sm-1 col-md-1 pmquantity">';
 				$tag['priceprefix-o']	= '<div class="col-xs-12 col-sm-1 col-md-1 pmpriceprefix pm-right">';
 
@@ -715,6 +733,9 @@ class PhocaMenuRenderViews
 		$additional_info_title		= $paramsC->get( 'additional_info_title', '' );
 		$display_additional_info	= $paramsC->get( 'display_additional_info', 1 );
 
+		// Bootstrap for image will have length x instead of one (must be changed in getStyle function too)
+		$bs_image_length	= $paramsC->get( 'bs_image_length', 1 );
+
 		// Image
 		$noImage = 1;
 		if($image == '' || $image == '&nbsp;') {
@@ -757,7 +778,7 @@ class PhocaMenuRenderViews
 			} else {
 				$row['img'] = $tag['image-o'] . $image . $tag['image-c'];
 				$desc['img']= $tag['image-o'] . '' . $tag['image-c'];
-				$c = $c + 1;//CHANGE DEPEND ON ROW 1297 (BS2) or 1365 (BS3) if span1 or com-md-1 then +1, if span2 or col-md-2 then + 2
+				$c = $c + (int)$bs_image_length;//CHANGE DEPEND ON ROW 1297 (BS2) or 1365 (BS3) if span1 or com-md-1 then +1, if span2 or col-md-2 then + 2
 			}
 
 			$row['quantity'] = $tag['quantity-o'] . $itemObject->quantity . $tag['space']  . $tag['quantity-c'];

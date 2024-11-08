@@ -77,21 +77,21 @@ class PhocaMenuCpModelPhocaMenuConfig extends AdminModel
 		$date = Factory::getDate();
 		$user = Factory::getUser();
 
-		$table->title		= htmlspecialchars_decode($table->title, ENT_QUOTES);
+		$table->title		= htmlspecialchars_decode((string)$table->title, ENT_QUOTES);
 		$table->alias		= ApplicationHelper::stringURLSafe((string)$table->alias);
 
 		if (empty($table->alias)) {
 			$table->alias = ApplicationHelper::stringURLSafe((string)$table->title);
 		}
 
-		if ($table->date_from == '0') {
+		if ($table->date_from == '0' || $table->date_from == '') {
 			$table->date_from = '00-00-00 00:00:00';
 		}
-		if ($table->date_to == '0') {
+		if ($table->date_to == '0' || $table->date_to == '') {
 			$table->date_to = '00-00-00 00:00:00';
 		}
 
-		if ($table->date == '0') {
+		if ($table->date == '0' || $table->date == '') {
 			$table->date = '00-00-00 00:00:00';
 		}
 
@@ -157,6 +157,7 @@ class PhocaMenuCpModelPhocaMenuConfig extends AdminModel
 
 	}
 }
+// utf-8 Test: xxx
 
 
 ?>

@@ -214,6 +214,10 @@
 	padding:1px;*/
 }
 
+#phocamenu .pmimage.pmimage-full img {
+	height: auto;
+	width: 100%;
+}
 
 /*message - description*/
 #phocamenu .pm-message {
@@ -394,6 +398,7 @@
 }
 
 
+
 /* Bootstrap */
 div.pm-customcode,
 div.pm-item-row,
@@ -403,7 +408,10 @@ div.pm-group-header-row{
 }
 
 #phocamenu .row,
-#phocamenu .row-fluid {}
+#phocamenu .row-fluid {
+
+	align-items: baseline;
+}
 
 #phocamenu .span1,
 #phocamenu .span2,

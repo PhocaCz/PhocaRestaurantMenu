@@ -13,7 +13,7 @@
 <field name="price2" type="text" class="form-control" size="40" label="COM_PHOCAMENU_FIELD_PRICE2_LABEL" description="COM_PHOCAMENU_FIELD_PRICE2_DESC" />
 
 <field name="imageid" type="phocaselectimage" manager="file" label="COM_PHOCAMENU_FIELD_IMAGE_ID_LABEL" description="COM_PHOCAMENU_FIELD_IMAGE_ID_DESC" class="form-control" size="40" />
-
+<field name="image" type="media" default="" directoryimg="1" label="COM_PHOCAMENU_FIELD_IMAGE_LABEL" description="COM_PHOCAMENU_FIELD_IMAGE_DESC"/>
 <field name="ordering" type="PhocaMenuOrdering" menutype="item" table="file" class="form-select" label="COM_PHOCAMENU_FIELD_ORDERING_LABEL" description="COM_PHOCAMENU_FIELD_ORDERING_DESC" />
 
 <field name="description" type="editor" buttons="true" hide="pagebreak,readmore" class="form-control" label="COM_PHOCAMENU_FIELD_ITEM_DESCRIPTION_LABEL" description="COM_PHOCAMENU_FIELD_ITEM_DESCRIPTION_DESC" filter="\Joomla\CMS\Component\ComponentHelper::filterText" />

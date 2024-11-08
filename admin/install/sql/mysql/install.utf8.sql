@@ -120,6 +120,7 @@ CREATE TABLE IF NOT EXISTS `#__phocamenu_item` (
   `catid` int(11) NOT NULL default '0',
   `sid` int(11) NOT NULL default '0',
   `imageid` int(11) NOT NULL default '0',
+  `image` varchar(255) NOT NULL DEFAULT '',
   `type` int(3) NOT NULL default '0',
   `quantity` varchar(20) NOT NULL,
   `title` text,

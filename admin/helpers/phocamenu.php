@@ -450,7 +450,6 @@ class PhocaMenuHelper
 				$typeInfo['root']			= '&view=phocamenugroups&type=1';
 			break;
 
-
 			case -1:
 				// All items
 				$typeInfo['catid']			= 'gid';
