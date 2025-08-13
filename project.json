@@ -5,6 +5,7 @@
 	"license": "GNU/GPL",
 	"projectName": "PhocaRestaurantMenu",
 	"extensionName": "Phoca Restaurant Menu",
+	"nameSpace": "Phoca\\Component\\Phocamenu",
 	"projectInitials" : "PRM",				  
 	"description": "Phoca Restaurant Menu is Joomla! CMS component. This component allows creating menu for restaurant, cafeteria, fast food, school canteen, buffet, bar, club, snack bar, wineroom, etc. Such menu can be displayed on a website as HTML, printed as HTML, rendered as PDF, pasted as picture on social media, emailed to customers or displayed in RSS (such RSS can be used for displaying the menu on Facebook or Twitter).",
 	"projectUrl": "https://www.phoca.cz/phocamenu",

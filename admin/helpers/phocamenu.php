@@ -15,7 +15,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Filesystem\Folder;
+use Joomla\Filesystem\Folder;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Plugin\PluginHelper;
 
@@ -450,6 +450,8 @@ class PhocaMenuHelper
 				$typeInfo['root']			= '&view=phocamenugroups&type=1';
 			break;
 
+
+
 			case -1:
 				// All items
 				$typeInfo['catid']			= 'gid';
@@ -666,11 +668,11 @@ class PhocaMenuHelper
 		$component = 'com_phocamenu';
 		$folder = JPATH_ADMINISTRATOR .'/components/'.$component;
 
-		if (Folder::exists($folder)) {
+		if (is_dir($folder)) {
 			$xmlFilesInDir = Folder::files($folder, '.xml$');
 		} else {
 			$folder = JPATH_SITE . '/components/'.$component;
-			if (Folder::exists($folder)) {
+			if (is_dir($folder)) {
 				$xmlFilesInDir = Folder::files($folder, '.xml$');
 			} else {
 				$xmlFilesInDir = null;

@@ -11,7 +11,6 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Router\Route;
 
 use Joomla\CMS\Session\Session;
@@ -80,7 +79,7 @@ class PhocaMenuRenderAdminViews extends AdminViews
 
 		if ($avatarAbs != '' && $avatarRel != '') {
 			// AVATAR
-			if (File::exists($avatarAbs.$item->avatar)){
+			if (is_file($avatarAbs.$item->avatar)){
 				$o .= '<img src="'.Uri::root().$avatarRel.$item->avatar.'?imagesid='.md5(uniqid(time())).'" alt="'.Text::_($txtE).'" />';
 			} else {
 				$o .= HTMLHelper::_( 'image', '/media/com_phocagallery/images/administrator/phoca_thumb_s_no_image.gif', '');

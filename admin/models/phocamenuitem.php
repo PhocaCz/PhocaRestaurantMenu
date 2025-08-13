@@ -18,9 +18,11 @@ use Joomla\CMS\Language\Text;
 use Joomla\Utilities\ArrayHelper;
 jimport('joomla.application.component.modeladmin');
 use Joomla\String\StringHelper;
+use Phoca\PhocaMenu\MVC\Model\AdminModelTrait;
 
 class PhocaMenuCpModelPhocaMenuItem extends AdminModel
 {
+	use AdminModelTrait;
 	protected	$option 		= 'com_phocamenu';
 	protected 	$text_prefix	= 'com_phocamenu';
 

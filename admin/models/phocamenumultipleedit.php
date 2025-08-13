@@ -12,9 +12,11 @@ defined('_JEXEC') or die();
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Phoca\PhocaMenu\MVC\Model\AdminModelTrait;
 jimport('joomla.application.component.modeladmin');
 class PhocaMenuCpModelPhocaMenuMultipleEdit extends AdminModel
 {
+	use AdminModelTrait;
 	protected	$option 		= 'com_phocamenu';
 	protected 	$text_prefix	= 'com_phocamenu';
 

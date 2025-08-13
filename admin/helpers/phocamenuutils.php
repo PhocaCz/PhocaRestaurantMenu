@@ -7,7 +7,7 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  */
 defined( '_JEXEC' ) or die( 'Restricted access' );
-use Joomla\CMS\Filesystem\Folder;
+use Joomla\Filesystem\Folder;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Factory;
@@ -18,11 +18,11 @@ class PhocaMenuUtils
 
 	public static function getExtensionVersion($c = 'phocamenu') {
 		$folder = JPATH_ADMINISTRATOR .'/components/com_'.$c;
-		if (Folder::exists($folder)) {
+		if (is_dir($folder)) {
 			$xmlFilesInDir = Folder::files($folder, '.xml$');
 		} else {
 			$folder = JPATH_SITE .'/components/com_'.$c;
-			if (Folder::exists($folder)) {
+			if (is_dir($folder)) {
 				$xmlFilesInDir = Folder::files($folder, '.xml$');
 			} else {
 				$xmlFilesInDir = null;

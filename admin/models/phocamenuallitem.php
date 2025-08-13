@@ -14,11 +14,13 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
 use Joomla\CMS\Application\ApplicationHelper;
+use Phoca\PhocaMenu\MVC\Model\AdminModelTrait;
 jimport('joomla.application.component.modeladmin');
 use Joomla\String\StringHelper;
 
 class PhocaMenuCpModelPhocaMenuAllItem extends AdminModel
 {
+	use AdminModelTrait;
 	protected	$option 		= 'com_phocamenu';
 	protected 	$text_prefix	= 'com_phocamenu';
 

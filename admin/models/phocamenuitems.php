@@ -12,10 +12,12 @@ defined( '_JEXEC' ) or die();
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Component\ComponentHelper;
+use Phoca\PhocaMenu\MVC\Model\AdminModelTrait;
 jimport( 'joomla.application.component.modellist' );
 
 class PhocaMenuCpModelPhocaMenuItems extends ListModel
 {
+	use AdminModelTrait;
 	protected	$option 		= 'com_phocamenu';
 
 	public function __construct($config = array())

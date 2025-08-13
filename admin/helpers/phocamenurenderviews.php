@@ -227,10 +227,11 @@ class PhocaMenuRenderViews
 		// Remove empty table - because of TCPDF
 		$o = str_replace($tag['tableitem-o'].$tag['tableitem-c'], '', $o);
 
-		$o .= PhocaMenuHelper::renderCode($params->get( 'render_code', 1 ), $method);
 
+		$o .= PhocaMenuHelper::renderCode($params->get( 'render_code', 1 ), $method);
 		return $o;
 	}
+
 
 
 

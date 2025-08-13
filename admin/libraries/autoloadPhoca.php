@@ -3,7 +3,7 @@
  * Users who do not have 'composer' to manage dependencies, include this
  * file to provide auto-loading of the classes in this library.
  */
-
+JLoader::registerNamespace('\\Phoca\\PhocaMenu', __DIR__ . '/src');
 
 
 spl_autoload_register ( function ($class) {

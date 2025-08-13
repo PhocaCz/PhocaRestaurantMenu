@@ -12,13 +12,15 @@ defined( '_JEXEC' ) or die();
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Component\ComponentHelper;
+use Phoca\PhocaMenu\MVC\Model\AdminModelTrait;
 jimport( 'joomla.application.component.modellist' );
 
 class PhocaMenuCpModelPhocaMenuGallery extends ListModel
 {
+	use AdminModelTrait;
 	protected	$option 		= 'com_phocagallery';
 	//public 		$context		= 'com_phocagallery.phocagallerycoimgs';
-	
+
 	public function __construct($config = array())
 	{
 		if (empty($config['filter_fields'])) {
@@ -32,7 +34,7 @@ class PhocaMenuCpModelPhocaMenuGallery extends ListModel
 
 		parent::__construct($config);
 	}
-	
+
 	protected function populateState($ordering = NULL, $direction = NULL)
 	{
 		// Initialise variables.
@@ -61,7 +63,7 @@ class PhocaMenuCpModelPhocaMenuGallery extends ListModel
 		// List state information.
 		parent::populateState('a.title', 'asc');
 	}
-	
+
 	protected function getStoreId($id = '')
 	{
 		// Compile the store id.
@@ -73,8 +75,8 @@ class PhocaMenuCpModelPhocaMenuGallery extends ListModel
 
 		return parent::getStoreId($id);
 	}
-	
-	
+
+
 	protected function getListQuery()
 	{
 		/*
@@ -106,12 +108,12 @@ class PhocaMenuCpModelPhocaMenuGallery extends ListModel
 		$query->join('LEFT', '`#__languages` AS l ON l.lang_code = a.language');
 
 		// Join over the users for the checked out user.
-		
-		
+
+
 		$query->select('uc.name AS editor');
 		$query->join('LEFT', '#__users AS uc ON uc.id=a.checked_out');
-		
-	
+
+
 
 		// Join over the asset groups.
 /*		$query->select('ag.title AS access_level');
@@ -120,10 +122,10 @@ class PhocaMenuCpModelPhocaMenuGallery extends ListModel
 		// Join over the categories.
 		$query->select('c.title AS category_title, c.id AS category_id, c.owner_id AS category_owner_id');
 		$query->join('LEFT', '#__phocagallery_categories AS c ON c.id = a.catid');
-		
+
 		$query->select('ua.id AS userid, ua.username AS username, ua.name AS usernameno');
 		$query->join('LEFT', '#__users AS ua ON ua.id = c.owner_id');
-		
+
 		$query->select('v.average AS ratingavg');
 		$query->join('LEFT', '#__phocagallery_img_votes_statistics AS v ON v.imgid = a.id');
 
@@ -160,7 +162,7 @@ class PhocaMenuCpModelPhocaMenuGallery extends ListModel
 				$query->where('a.title LIKE '.$search.' OR a.filename LIKE '.$search);
 			}
 		}
-		
+
 		$query->group('a.id');
 
 		// Add the list ordering clause.
@@ -171,7 +173,7 @@ class PhocaMenuCpModelPhocaMenuGallery extends ListModel
 		}
 		$query->order($db->escape($orderCol.' '.$orderDirn));
 
-		
+
 		return $query;
 	}
 }

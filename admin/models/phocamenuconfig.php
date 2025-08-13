@@ -14,10 +14,12 @@ use Joomla\CMS\Table\Table;
 use Joomla\CMS\Factory;
 use Joomla\Registry\Registry;
 use Joomla\CMS\Application\ApplicationHelper;
+use Phoca\PhocaMenu\MVC\Model\AdminModelTrait;
 jimport('joomla.application.component.modeladmin');
 
 class PhocaMenuCpModelPhocaMenuConfig extends AdminModel
 {
+	use AdminModelTrait;
 	protected	$option 		= 'com_phocamenu';
 	protected 	$text_prefix	= 'com_phocamenu';
 

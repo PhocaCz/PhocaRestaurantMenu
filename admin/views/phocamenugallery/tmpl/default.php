@@ -13,7 +13,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Filesystem\File;
 
 use Phoca\Text\Text as PhocaText;
 
@@ -122,7 +121,7 @@ echo $r->firstColumn($i, $item->id, $canChange, $saveOrder, $orderkey, $item->or
 echo $r->secondColumn($i, $item->id, $canChange, $saveOrder, $orderkey, $item->ordering);
 
 $fileOriginal = PhocaGalleryFile::getFileOriginal($item->filename);
-if (!File::exists($fileOriginal)) {
+if (!is_file($fileOriginal)) {
 	$item->fileoriginalexist = 0;
 } else {
 	$fileThumb 		= PhocaGalleryFileThumbnail::getOrCreateThumbnail($item->filename, false, 0, 0, 0);
