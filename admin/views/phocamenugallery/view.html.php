@@ -54,7 +54,7 @@ class PhocaMenuCpViewPhocaMenuGallery extends HtmlView
 		$this->state		= $this->get('State');
 		$this->filterForm   = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
-		$this->field		= Factory::getApplication()->input->get('field');
+		$this->field		= Factory::getApplication()->getInput()->get('field');
 		$this->fce 			= 'phocaSelectImage_'.$this->field;
 
 

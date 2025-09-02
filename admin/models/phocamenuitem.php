@@ -182,7 +182,7 @@ class PhocaMenuCpModelPhocaMenuItem extends AdminModel
 
 
 		// Check that the user has create permission for the component
-		$extension	= Factory::getApplication()->input->get('option');
+		$extension	= Factory::getApplication()->getInput()->get('option');
 		$user		= Factory::getUser();
 		if (!$user->authorise('core.create', $extension)) {
 			$this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_CREATE'));
@@ -300,7 +300,7 @@ class PhocaMenuCpModelPhocaMenuItem extends AdminModel
 		$catType = PhocaMenuHelper::getTypebyCategory((int)$categoryId);
 
 		// Check that user has create and edit permission for the component
-		$extension	= Factory::getApplication()->input->get('option');
+		$extension	= Factory::getApplication()->getInput()->get('option');
 		$user		= Factory::getUser();
 		if (!$user->authorise('core.create', $extension)) {
 			$this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_CREATE'));

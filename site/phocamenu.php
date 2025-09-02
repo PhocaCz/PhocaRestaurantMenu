@@ -19,7 +19,7 @@ require_once( JPATH_ADMINISTRATOR.'/components/com_phocamenu/helpers/phocamenure
 require_once( JPATH_ADMINISTRATOR.'/components/com_phocamenu/helpers/views/phocamenufrontview.html.php' );
 require_once( JPATH_ADMINISTRATOR.'/components/com_phocamenu/helpers/views/phocamenufrontview.pdf.php' );
 
-if($controller = Factory::getApplication()->input->get('controller')) {
+if($controller = Factory::getApplication()->getInput()->get('controller')) {
     $path = JPATH_COMPONENT.'/controllers/'.$controller.'.php';
     if (file_exists($path)) {
         require_once $path;
@@ -31,7 +31,7 @@ if($controller = Factory::getApplication()->input->get('controller')) {
 $classname    = 'PhocaMenuController'.ucfirst((string)$controller);
 $controller   = new $classname( );
 //$controller = JControllerLegacy::getInstance('PhocaMenu');
-$controller->execute(Factory::getApplication()->input->get('task'));
+$controller->execute(Factory::getApplication()->getInput()->get('task'));
 $controller->redirect();
 
 ?>

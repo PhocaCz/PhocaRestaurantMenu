@@ -15,8 +15,8 @@ use Joomla\CMS\MVC\Controller\BaseController;
 jimport('joomla.application.component.controller');
 
 // Submenu view
-$view	= Factory::getApplication()->input->get( 'view', '', '', 'string' );
-$type	= Factory::getApplication()->input->get( 'type', '', '', 'string');
+$view	= Factory::getApplication()->getInput()->get( 'view', '', '', 'string' );
+$type	= Factory::getApplication()->getInput()->get( 'type', '', '', 'string');
 $url	= 'index.php?option=com_phocamenu';
 $url2	= 'index.php?option=com_phocamenu&view=';
 

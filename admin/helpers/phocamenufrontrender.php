@@ -70,10 +70,10 @@ class PhocaMenuFrontRender
 
 			$pdfDestination	= $pluginP->get('pdf_destination', 'S');
 
-			$view	= Factory::getApplication()->input->get( 'view' );
+			$view	= Factory::getApplication()->getInput()->get( 'view' );
 			$url	= 'index.php?option=com_phocamenu&view='.$view.'&tmpl=component&format=pdf';
 
-			$itemId	= Factory::getApplication()->input->get( 'Itemid', 0, 'int' );
+			$itemId	= Factory::getApplication()->getInput()->get( 'Itemid', 0, 'int' );
 			if ((int)$itemId > 0) {
 				$url .= '&Itemid='.(int)$itemId;
 			}
@@ -111,11 +111,11 @@ class PhocaMenuFrontRender
 
 	public static function getIconPrint($paramsIcons) {
 
-		$view	= Factory::getApplication()->input->get( 'view' );
+		$view	= Factory::getApplication()->getInput()->get( 'view' );
 		$url	= 'index.php?option=com_phocamenu&view='.$view.'&tmpl=component&print=1';
 		$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';
 
-		$itemId	= Factory::getApplication()->input->get( 'Itemid', 0, 'int' );
+		$itemId	= Factory::getApplication()->getInput()->get( 'Itemid', 0, 'int' );
 		if ((int)$itemId > 0) {
 			$url .= '&Itemid='.(int)$itemId;
 		}
@@ -160,10 +160,10 @@ class PhocaMenuFrontRender
 
 	public static function getIconRSS($paramsIcons) {
 
-		$view	= Factory::getApplication()->input->get( 'view' );
+		$view	= Factory::getApplication()->getInput()->get( 'view' );
 		$url	= 'index.php?option=com_phocamenu&view='.$view.'&format=feed';
 
-		$itemId	= Factory::getApplication()->input->get( 'Itemid', 0, 'int' );
+		$itemId	= Factory::getApplication()->getInput()->get( 'Itemid', 0, 'int' );
 		if ((int)$itemId > 0) {
 			$url .= '&Itemid='.(int)$itemId;
 		}

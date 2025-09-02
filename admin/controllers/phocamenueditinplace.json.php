@@ -30,10 +30,10 @@ class PhocaMenuCpControllerPhocamenuEditinplace extends FormController
         }
 
         $app        = Factory::getApplication();
-        $value      = $app->input->get('value', '', 'raw');
-        $id         = $app->input->get('id', '', 'string');
-        $type       = $app->input->get('type', '', 'string');
-        $dateFormat = $app->input->get('dateformat', '', 'string');
+        $value      = $app->getInput()->get('value', '', 'raw');
+        $id         = $app->getInput()->get('id', '', 'string');
+        $type       = $app->getInput()->get('type', '', 'string');
+        $dateFormat = $app->getInput()->get('dateformat', '', 'string');
 
 
         $options                  = array();

@@ -31,8 +31,8 @@ class PhocaMenuCpControllerPhocaMenuMultipleEdit extends PhocaMenuControllerForm
 		//$table		= $model->getTable();
 		//$checkin	= property_exists($table, 'checked_out');
 		$context	= "$this->option.edit.$this->context";
-		$tmpl		= Factory::getApplication()->input->get('tmpl');
-		$layout		= Factory::getApplication()->input->get('layout', 'edit');
+		$tmpl		= Factory::getApplication()->getInput()->get('tmpl');
+		$layout		= Factory::getApplication()->getInput()->get('layout', 'edit');
 		$append		= '';
 
 		// Clean the session data and redirect.
@@ -48,10 +48,10 @@ class PhocaMenuCpControllerPhocaMenuMultipleEdit extends PhocaMenuControllerForm
 		$app		= Factory::getApplication();
 		//$model		= $this->getModel();
 		//$table		= $model->getTable();
-		//$cid		= JFactory::getApplication()->input->get('cid', array(), 'post', 'array');
+		//$cid		= JFactory::getApplication()->getInput()->get('cid', array(), 'post', 'array');
 		$context	= "$this->option.edit.$this->context";
-		$tmpl		= Factory::getApplication()->input->get('tmpl');
-		$layout		= Factory::getApplication()->input->get('layout', 'edit');
+		$tmpl		= Factory::getApplication()->getInput()->get('tmpl');
+		$layout		= Factory::getApplication()->getInput()->get('layout', 'edit');
 		$append		= '';
 		$recordId	= '';
 
@@ -66,19 +66,19 @@ class PhocaMenuCpControllerPhocaMenuMultipleEdit extends PhocaMenuControllerForm
 	function save($key = NULL, $urlVar = NULL) {
 
 		$app		= Factory::getApplication();
-		//$post 		= $app->input->post->getArray();
+		//$post 		= $app->getInput()->post->getArray();
 		//$model		= $this->getModel();
 		//$table		= $model->getTable();
-		//$cid		= JFactory::getApplication()->input->get('cid', array(), 'post', 'array');
+		//$cid		= JFactory::getApplication()->getInput()->get('cid', array(), 'post', 'array');
 		$context	= "$this->option.edit.$this->context";
-		$tmpl		= Factory::getApplication()->input->get('tmpl');
-		$layout		= Factory::getApplication()->input->get('layout', 'edit');
+		$tmpl		= Factory::getApplication()->getInput()->get('tmpl');
+		$layout		= Factory::getApplication()->getInput()->get('layout', 'edit');
 		$append		= '';
 
-		$data['itemdesc'] 	= $app->input->get('itemdesc',array(),'array');
-		$data['itemadditionalinfo'] 	= $app->input->get('itemadditionalinfo',array(),'array');
-		$data['message'] 	= $app->input->get('message',array(),'array');
-		$post				= $app->input->post->getArray();
+		$data['itemdesc'] 	= $app->getInput()->get('itemdesc',array(),'array');
+		$data['itemadditionalinfo'] 	= $app->getInput()->get('itemadditionalinfo',array(),'array');
+		$data['message'] 	= $app->getInput()->get('message',array(),'array');
+		$post				= $app->getInput()->post->getArray();
 
 
 		$post['itemadditionalinfo']	= $data['itemadditionalinfo'];
@@ -102,7 +102,7 @@ class PhocaMenuCpControllerPhocaMenuMultipleEdit extends PhocaMenuControllerForm
 
 		$this->setMessage($msg);
 
-		switch ( Factory::getApplication()->input->get('task') ) {
+		switch ( Factory::getApplication()->getInput()->get('task') ) {
 			case 'apply':
 				$this->setRedirect(Route::_('index.php?option='.$this->option.$this->getRedirectToItemAppend(), false));
 			break;
@@ -118,8 +118,8 @@ class PhocaMenuCpControllerPhocaMenuMultipleEdit extends PhocaMenuControllerForm
 
 	protected function getRedirectToItemAppend($recordId = null, $key = 'id', $bUrlUse = 0)
 	{
-		$tmpl		= Factory::getApplication()->input->get('tmpl');
-		$layout		= Factory::getApplication()->input->get('layout', 'edit');
+		$tmpl		= Factory::getApplication()->getInput()->get('tmpl');
+		$layout		= Factory::getApplication()->getInput()->get('layout', 'edit');
 		$append		= '';
 		$aUrl		= PhocaMenuHelper::getUrlApend($this->typeview);
 		$bUrl		= PhocaMenuHelper::getUrlApend($this->typeview, 1);
@@ -148,7 +148,7 @@ class PhocaMenuCpControllerPhocaMenuMultipleEdit extends PhocaMenuControllerForm
 
 	protected function getRedirectToListAppend($bUrlUse = 0)
 	{
-		$tmpl		= Factory::getApplication()->input->get('tmpl');
+		$tmpl		= Factory::getApplication()->getInput()->get('tmpl');
 		$append		= '';
 		$aUrl		= PhocaMenuHelper::getUrlApend($this->typeview);
 		$bUrl		= PhocaMenuHelper::getUrlApend($this->typeview, 1);

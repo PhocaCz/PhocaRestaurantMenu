@@ -38,7 +38,7 @@ class PhocaMenuCpControllerPhocaMenuConfig extends PhocaMenuControllerForm
 			$key = $table->getKeyName();
 		}
 
-		$recordId	= $app->input->getInt($key);
+		$recordId	= $app->getInput()->getInt($key);
 
 		// Attempt to check-in the current record.
 		if ($recordId) {
@@ -82,8 +82,8 @@ class PhocaMenuCpControllerPhocaMenuConfig extends PhocaMenuControllerForm
 		$app		= Factory::getApplication();
 		$model		= $this->getModel();
 		$table		= $model->getTable();
-		//$cid		= JFactory::getApplication()->input->get('cid', array(), 'post', 'array');
-		$cid		= $app->input->get('cid', array(),'array');
+		//$cid		= JFactory::getApplication()->getInput()->get('cid', array(), 'post', 'array');
+		$cid		= $app->getInput()->get('cid', array(),'array');
 		$context	= "$this->option.edit.$this->context";
 		$append		= '';
 
@@ -93,8 +93,8 @@ class PhocaMenuCpControllerPhocaMenuConfig extends PhocaMenuControllerForm
 		}
 
 		//Language
-		//$filterLanguage		= JFactory::getApplication()->input->get('filter_language', array(), 'post', 'string');
-		$filterLanguage	= $app->input->get('filter_language', '', 'string');
+		//$filterLanguage		= JFactory::getApplication()->getInput()->get('filter_language', array(), 'post', 'string');
+		$filterLanguage	= $app->getInput()->get('filter_language', '', 'string');
 
 		$model->setLangAndLoadContent($filterLanguage);
 		// Try to find config by type (only one id used)
@@ -108,7 +108,7 @@ class PhocaMenuCpControllerPhocaMenuConfig extends PhocaMenuControllerForm
 
 		// Get the previous record id (if any) and the current record id.
 		$recordId	= (int) (count($cid) ? $cid[0] : 0);
-		//$recordId	= (int) (count($cid) ? $cid[0] : $app->input->getInt($key));
+		//$recordId	= (int) (count($cid) ? $cid[0] : $app->getInput()->getInt($key));
 		$checkin	= property_exists($table, 'checked_out');
 
 		// Access check.
@@ -155,8 +155,8 @@ class PhocaMenuCpControllerPhocaMenuConfig extends PhocaMenuControllerForm
 		$lang		= Factory::getLanguage();
 		$model		= $this->getModel();
 		$table		= $model->getTable();
-		//$data		= JFactory::getApplication()->input->get('jform', array(), 'post', 'array');
-		$data		= $app->input->get('jform', array(),'array');
+		//$data		= JFactory::getApplication()->getInput()->get('jform', array(), 'post', 'array');
+		$data		= $app->getInput()->get('jform', array(),'array');
 
 		$checkin	= property_exists($table, 'checked_out');
 		$context	= "$this->option.edit.$this->context";
@@ -166,7 +166,7 @@ class PhocaMenuCpControllerPhocaMenuConfig extends PhocaMenuControllerForm
 			$key = $table->getKeyName();
 		}
 
-		$recordId	= $app->input->getInt($key);
+		$recordId	= $app->getInput()->getInt($key);
 
 		$session	= Factory::getSession();
 		$registry	= $session->get('registry');
@@ -316,8 +316,8 @@ class PhocaMenuCpControllerPhocaMenuConfig extends PhocaMenuControllerForm
 	protected function getExistingId() {
 		// Only one id for the one type
 		$app = Factory::getApplication();
-		//$typeValue	= JFactory::getApplication()->input->get('type', 0, '', 'int');
-		$typeValue	= $app->input->get('type', 0, 'int');
+		//$typeValue	= JFactory::getApplication()->getInput()->get('type', 0, '', 'int');
+		$typeValue	= $app->getInput()->get('type', 0, 'int');
 
 		//Language
 		if (empty($this->context)) {
@@ -353,11 +353,11 @@ class PhocaMenuCpControllerPhocaMenuConfig extends PhocaMenuControllerForm
 	protected function getRedirectToItemAppend($recordId = null, $key = 'id', $bUrlUse = 0)
 	{
 
-		//$tmpl		= JFactory::getApplication()->input->get('tmpl');
-		//$layout		= JFactory::getApplication()->input->get('layout', 'edit');
+		//$tmpl		= JFactory::getApplication()->getInput()->get('tmpl');
+		//$layout		= JFactory::getApplication()->getInput()->get('layout', 'edit');
 		$app = Factory::getApplication();
-		$tmpl	= $app->input->get('tmpl', '', 'string');
-		$layout	= $app->input->get('layout', 'edit', 'string');
+		$tmpl	= $app->getInput()->get('tmpl', '', 'string');
+		$layout	= $app->getInput()->get('layout', 'edit', 'string');
 		$append		= '';
 		$aUrl		= PhocaMenuHelper::getUrlApend($this->typeview);
 		$bUrl		= PhocaMenuHelper::getUrlApend($this->typeview, 1);
@@ -387,8 +387,8 @@ class PhocaMenuCpControllerPhocaMenuConfig extends PhocaMenuControllerForm
 	protected function getRedirectToListAppend($bUrlUse = 0)
 	{
 		$app = Factory::getApplication();
-		$tmpl	= $app->input->get('tmpl', '', 'string');
-		//$tmpl		= JFactory::getApplication()->input->get('tmpl');
+		$tmpl	= $app->getInput()->get('tmpl', '', 'string');
+		//$tmpl		= JFactory::getApplication()->getInput()->get('tmpl');
 		$append		= '';
 		$aUrl		= PhocaMenuHelper::getUrlApend($this->typeview);
 		$bUrl		= PhocaMenuHelper::getUrlApend($this->typeview, 1);

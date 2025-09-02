@@ -54,8 +54,8 @@ class PhocaMenuCpViewPhocaMenuRawEdit extends HtmlView
 		$this->t['daydateformat']			= $this->params->get( 'day_date_format', 'l, d. F Y' );
 		$this->t['weekdateformat']			= $this->params->get( 'week_date_format', 'l, d. F Y' );
 		$this->t['priceprefix']				= $this->params->get( 'price_prefix', '...' );
-		$this->t['admintool'] 				= Factory::getApplication()->input->get('admintool', 0, '', 'int');
-		$this->t['atid']					= Factory::getApplication()->input->get( 'atid', 0, '', 'int' );
+		$this->t['admintool'] 				= Factory::getApplication()->getInput()->get('admintool', 0, '', 'int');
+		$this->t['atid']					= Factory::getApplication()->getInput()->get( 'atid', 0, '', 'int' );
 
 
 		if ($this->t['enabledescmultiple'] == 0) {
@@ -81,7 +81,7 @@ class PhocaMenuCpViewPhocaMenuRawEdit extends HtmlView
 	protected function addToolbar() {
 
 		require_once JPATH_COMPONENT.'/helpers/phocamenurawedit.php';
-		Factory::getApplication()->input->set('hidemainmenu', true);
+		Factory::getApplication()->getInput()->set('hidemainmenu', true);
 		$bar 		= Toolbar::getInstance('toolbar');
 		$user		= Factory::getUser();
 		//$isNew		= ($this->item->id == 0);

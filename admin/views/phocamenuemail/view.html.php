@@ -61,8 +61,8 @@ class PhocaMenuCpViewPhocaMenuEmail extends HtmlView
 		$this->t['daydateformat']		= $this->params->get( 'day_date_format', 'l, d. F Y' );
 		$this->t['weekdateformat']		= $this->params->get( 'week_date_format', 'l, d. F Y' );
 		$this->t['priceprefix']			= $this->params->get( 'price_prefix', '...' );
-		$this->t['admintool'] 			= $app->input->get('admintool', 0, 'int');
-		$this->t['atid']				= $app->input->get( 'atid', 0, 'int' );
+		$this->t['admintool'] 			= $app->getInput()->get('admintool', 0, 'int');
+		$this->t['atid']				= $app->getInput()->get( 'atid', 0, 'int' );
 
 
 		$this->addToolbar();
@@ -72,7 +72,7 @@ class PhocaMenuCpViewPhocaMenuEmail extends HtmlView
 	protected function addToolbar() {
 
 		require_once JPATH_COMPONENT.'/helpers/phocamenuemail.php';
-		Factory::getApplication()->input->set('hidemainmenu', true);
+		Factory::getApplication()->getInput()->set('hidemainmenu', true);
 		$bar 		= Toolbar::getInstance('toolbar');
 		$user		= Factory::getUser();
 		$isNew		= ($this->item->id == 0);

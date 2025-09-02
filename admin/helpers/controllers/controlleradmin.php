@@ -68,7 +68,7 @@ class PhocaMenuControllerAdmin extends AdminController
 		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		// Get items to remove from the request.
-		$cid	= Factory::getApplication()->input->get('cid', array(), '', 'array');
+		$cid	= Factory::getApplication()->getInput()->get('cid', array(), '', 'array');
 		$aUrl	= PhocaMenuHelper::getUrlApend($this->typeview);
 
 		if (!is_array($cid) || count($cid) < 1) {
@@ -102,7 +102,7 @@ class PhocaMenuControllerAdmin extends AdminController
 		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		// Get items to publish from the request.
-		$cid	= Factory::getApplication()->input->get('cid', array(), '', 'array');
+		$cid	= Factory::getApplication()->getInput()->get('cid', array(), '', 'array');
 		$data	= array('publish' => 1, 'unpublish' => 0, 'archive'=> 2, 'trash' => -2, 'report'=>-3);
 		$task 	= $this->getTask();
 		$value	= ArrayHelper::getValue($data, $task, 0, 'int');
@@ -147,7 +147,7 @@ class PhocaMenuControllerAdmin extends AdminController
 
 		// Initialise variables.
 		$user	= Factory::getUser();
-		$ids	= Factory::getApplication()->input->get('cid', null, 'post', 'array');
+		$ids	= Factory::getApplication()->getInput()->get('cid', null, 'post', 'array');
 		$inc	= ($this->getTask() == 'orderup') ? -1 : +1;
 		$aUrl	= PhocaMenuHelper::getUrlApend($this->typeview);
 
@@ -172,8 +172,8 @@ class PhocaMenuControllerAdmin extends AdminController
 		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		// Get the input
-		$pks	= Factory::getApplication()->input->get('cid',	null,	'post',	'array');
-		$order	= Factory::getApplication()->input->get('order',	null,	'post',	'array');
+		$pks	= Factory::getApplication()->getInput()->get('cid',	null,	'post',	'array');
+		$order	= Factory::getApplication()->getInput()->get('order',	null,	'post',	'array');
 		$aUrl	= PhocaMenuHelper::getUrlApend($this->typeview);
 
 		// Sanitize the input
@@ -208,7 +208,7 @@ class PhocaMenuControllerAdmin extends AdminController
 
 		// Initialise variables.
 		$user	= Factory::getUser();
-		$ids	= Factory::getApplication()->input->get('cid', null, 'post', 'array');
+		$ids	= Factory::getApplication()->getInput()->get('cid', null, 'post', 'array');
 		$aUrl	= PhocaMenuHelper::getUrlApend($this->typeview);
 		$model 	= $this->getModel();
 		$return = $model->checkin($ids);

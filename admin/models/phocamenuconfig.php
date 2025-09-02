@@ -136,7 +136,7 @@ class PhocaMenuCpModelPhocaMenuConfig extends AdminModel
 			$this->context = strtolower($this->option.'.'.$this->getName());
 		}
 		$app 		= Factory::getApplication('administrator');
-		$type		= $app->input->get('type', 0, 'int');
+		$type		= $app->getInput()->get('type', 0, 'int');
 		$language 	= $app->getUserStateFromRequest($this->context.'.filter.language'.(int)$type, 'filter_language', '');
 
 
@@ -153,7 +153,7 @@ class PhocaMenuCpModelPhocaMenuConfig extends AdminModel
 			$this->context = strtolower($this->option.'.'.$this->getName());
 		}
 		$app 		= Factory::getApplication('administrator');
-		$type		= $app->input->get('type', 0, 'int');
+		$type		= $app->getInput()->get('type', 0, 'int');
 
 		$lang = $app->getUserStateFromRequest($this->context.'.filter.language'.(int)$type, 'filter_language', $language);
 

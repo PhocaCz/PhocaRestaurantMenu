@@ -28,14 +28,14 @@ class PhocaMenuHelper
 	public static function getUrlApend($typeview = 'group', $returnBack = 0 ) {
 
 		$app = Factory::getApplication();
-		//$typeValue	= JFactory::getApplication()->input->get('type', 0, '', 'int');
-		$typeValue	= $app->input->get('type', 0, 'int');
+		//$typeValue	= JFactory::getApplication()->getInput()->get('type', 0, '', 'int');
+		$typeValue	= $app->getInput()->get('type', 0, 'int');
 
 
 
 
 
-		$typeviewBack	= $app->input->get('typeback', '', 'string');
+		$typeviewBack	= $app->getInput()->get('typeback', '', 'string');
 
 
 
@@ -46,12 +46,12 @@ class PhocaMenuHelper
 			$typeInfo	= PhocaMenuHelper::getTypeInfo($typeview, $typeValue);
 		}
 
-		//$catid 		= JFactory::getApplication()->input->get( $typeInfo['catid'], 0, '', 'int' );
-		$catid 	= $app->input->get($typeInfo['catid'], 0, 'int');
+		//$catid 		= JFactory::getApplication()->getInput()->get( $typeInfo['catid'], 0, '', 'int' );
+		$catid 	= $app->getInput()->get($typeInfo['catid'], 0, 'int');
 		// Catid changed in Edit mode by JForm
-		//$jForm	= JFactory::getApplication()->input->get('jform', 0, '', 'array');
+		//$jForm	= JFactory::getApplication()->getInput()->get('jform', 0, '', 'array');
 
-		$jForm	= $app->input->get('jform', array(0), 'array');
+		$jForm	= $app->getInput()->get('jform', array(0), 'array');
 
 
 		if(isset($jForm['catid']) && (int)$jForm['catid'] > 0) {
@@ -73,16 +73,16 @@ class PhocaMenuHelper
 			} else {
 				// We are going to be in Config, Email or Multiple
 
-				/*$adminTool 	= JFactory::getApplication()->input->get( 'admintool', 0, '', 'int');
-				$atid		= Factory::getApplication()->input->get( 'atid', 0, '', 'int' );
-				$alang		= Factory::getApplication()->input->get( 'alang', '', '', 'string' );
-				$adminLang	= JFactory::getApplication()->input->get( 'adminlang', 0, '', 'int' );*/
+				/*$adminTool 	= JFactory::getApplication()->getInput()->get( 'admintool', 0, '', 'int');
+				$atid		= Factory::getApplication()->getInput()->get( 'atid', 0, '', 'int' );
+				$alang		= Factory::getApplication()->getInput()->get( 'alang', '', '', 'string' );
+				$adminLang	= JFactory::getApplication()->getInput()->get( 'adminlang', 0, '', 'int' );*/
 
-				$adminTool 	= $app->input->get( 'admintool', 0, 'int');
-				$atid		= $app->input->get( 'atid', 0, 'int' );
-				$alang		= $app->input->get( 'alang', '', 'string' );
-				$adminLang	= $app->input->get( 'adminlang', 0, 'int' );
-				$admin		= $app->input->get( 'admin', 0, 'int' );
+				$adminTool 	= $app->getInput()->get( 'admintool', 0, 'int');
+				$atid		= $app->getInput()->get( 'atid', 0, 'int' );
+				$alang		= $app->getInput()->get( 'alang', '', 'string' );
+				$adminLang	= $app->getInput()->get( 'adminlang', 0, 'int' );
+				$admin		= $app->getInput()->get( 'admin', 0, 'int' );
 
 				//$lang		= self::getLangAdmin(1);
 				$suffix 	= '';
@@ -99,7 +99,7 @@ class PhocaMenuHelper
 
 			// NEW ITEM - when we are in All items and click new, we need to select which group will be the new item
 			// This only applies to new items, so the group is always gid
-			$new	= $app->input->get('new', array(0), 'array');
+			$new	= $app->getInput()->get('new', array(0), 'array');
 
 
 			if (isset($new['category_id']) && (int)$new['category_id'] > 0) {
@@ -139,9 +139,9 @@ class PhocaMenuHelper
 	 */
 	 /*
 	function getLangAdmin ($reverse = 0) {
-		$langG		= JFactory::getApplication()->input->get('lang', 'all', 'GET', 'string');//link for specific items
-		//$langP		= JFactory::getApplication()->input->get('language', '', 'POST', 'string');
-		$langF		= JFactory::getApplication()->input->get('filter_language', '', 'POST', 'string');//hidden field in default.php
+		$langG		= JFactory::getApplication()->getInput()->get('lang', 'all', 'GET', 'string');//link for specific items
+		//$langP		= JFactory::getApplication()->getInput()->get('language', '', 'POST', 'string');
+		$langF		= JFactory::getApplication()->getInput()->get('filter_language', '', 'POST', 'string');//hidden field in default.php
 
 		if ($langF != '') {
 			if ($reverse == 1) {
@@ -235,18 +235,18 @@ class PhocaMenuHelper
 
 		$app = Factory::getApplication();
 		// Both are the same in J4
-		//$post 		= $app->input->post->getArray();
-		//$get		= $app->input->get->getArray();
+		//$post 		= $app->getInput()->post->getArray();
+		//$get		= $app->getInput()->get->getArray();
 		$post 		= $_POST;
 		$get		= $_GET;
 		$type	= array();
 
-		//$type['value']		= JFactory::getApplication()->input->get('type', 0, '', 'int');
-		$type['value']		= $app->input->get('type', 0, 'int');
+		//$type['value']		= JFactory::getApplication()->getInput()->get('type', 0, '', 'int');
+		$type['value']		= $app->getInput()->get('type', 0, 'int');
 		$type['info']		= PhocaMenuHelper::getTypeInfo($typeview, $type['value']);
-		//$type['valuecatid'] = JFactory::getApplication()->input->get( $type['info']['catid'], 0, '', 'int' );
+		//$type['valuecatid'] = JFactory::getApplication()->getInput()->get( $type['info']['catid'], 0, '', 'int' );
 		$catName			= $type['info']['catid'];
-		$type['valuecatid'] = $app->input->get( $catName, 0, 'int' );
+		$type['valuecatid'] = $app->getInput()->get( $catName, 0, 'int' );
 
 
 
@@ -259,7 +259,7 @@ class PhocaMenuHelper
 		}
 
 		// Catid changed in Edit mode by JForm
-		//$jForm	= JFactory::getApplication()->input->get('jform', 0, '', 'array');
+		//$jForm	= JFactory::getApplication()->getInput()->get('jform', 0, '', 'array');
 		//if(isset($jForm['catid']) && (int)$jForm['catid'] > 0) {
 		//	$type['valuecatid'] = (int)$jForm['catid'];
 		//}
@@ -387,7 +387,7 @@ class PhocaMenuHelper
 
 		if ($typeview == '') {
 			// Debug Info
-			$view		= $app->input->get('view', '', 'string');
+			$view		= $app->getInput()->get('view', '', 'string');
 			$wTxt	= $view != '' ? Text::_('COM_PHOCAMENU_VIEW').': '. $view : '';
 			$twTxt	= Text::_('COM_PHOCAMENU_TYPE').': '. $type;
 			$errTxt	= ' ( '.$wTxt. ' ' .$twTxt.' ) ';
@@ -451,7 +451,6 @@ class PhocaMenuHelper
 			break;
 
 
-
 			case -1:
 				// All items
 				$typeInfo['catid']			= 'gid';
@@ -468,8 +467,8 @@ class PhocaMenuHelper
 			case 0:
 			default:
 
-				//$view		= JFactory::getApplication()->input->get('view');
-				$view		= $app->input->get('view', '', 'string');
+				//$view		= JFactory::getApplication()->getInput()->get('view');
+				$view		= $app->getInput()->get('view', '', 'string');
 				$wTxt	= $view != '' ? Text::_('COM_PHOCAMENU_VIEW').': '. $view : '';
 				$twTxt	= $typeview != '' ? Text::_('COM_PHOCAMENU_TYPE_VIEW').': '. $typeview : '';
 				$errTxt	= ' ( '.$wTxt. ' ' .$twTxt.' ) ';
@@ -580,8 +579,8 @@ class PhocaMenuHelper
 	public static function getActualCategory ($type, $typeValue, $filterCatid) {
 
 		$app		= Factory::getApplication();
-		$post 		= $app->input->post->getArray();
-		$get		= $app->input->get->getArray();
+		$post 		= $app->getInput()->post->getArray();
+		$get		= $app->getInput()->get->getArray();
 
 		if ($type == 'item') {
 			$categoryType = 'gid';

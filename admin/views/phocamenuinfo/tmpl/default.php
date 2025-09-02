@@ -49,6 +49,7 @@ echo '<h3>'.  Text::_($this->t['l'] . '_TRANSLATION').': '. Text::_($this->t['l'
         .'<p>'.Text::_($this->t['l'] . '_TRANSLATION_SUPPORT_URL').'</p>';
 
 ?>
+<h3>ID</h3><p>XXX<br /></p>
 <?php
 
 echo '<input type="hidden" name="task" value="" />'

@@ -31,8 +31,8 @@ class PhocaMenuCpControllerPhocaMenuEmail extends PhocaMenuControllerForm
 		//$table		= $model->getTable();
 		//$checkin	= property_exists($table, 'checked_out');
 		$context	= "$this->option.edit.$this->context";
-		$tmpl		= Factory::getApplication()->input->get('tmpl');
-		$layout		= Factory::getApplication()->input->get('layout', 'edit');
+		$tmpl		= Factory::getApplication()->getInput()->get('tmpl');
+		$layout		= Factory::getApplication()->getInput()->get('layout', 'edit');
 		$append		= '';
 
 		// Clean the session data and redirect.
@@ -62,7 +62,7 @@ class PhocaMenuCpControllerPhocaMenuEmail extends PhocaMenuControllerForm
 			$key = $table->getKeyName();
 		}
 
-		$recordId	= $app->input->getInt($key);
+		$recordId	= $app->getInput()->getInt($key);
 
 		// Attempt to check-in the current record.
 		if ($recordId) {
@@ -107,7 +107,7 @@ class PhocaMenuCpControllerPhocaMenuEmail extends PhocaMenuControllerForm
 		$app		= Factory::getApplication();
 		$model		= $this->getModel();
 		$table		= $model->getTable();
-		$cid		= Factory::getApplication()->input->get('cid', array(), 'post', 'array');
+		$cid		= Factory::getApplication()->getInput()->get('cid', array(), 'post', 'array');
 		$context	= "$this->option.edit.$this->context";
 		$append		= '';
 
@@ -116,7 +116,7 @@ class PhocaMenuCpControllerPhocaMenuEmail extends PhocaMenuControllerForm
 		}
 
 		//Language
-		$filterLanguage		= Factory::getApplication()->input->get('filter_language', array(), 'post', 'string');
+		$filterLanguage		= Factory::getApplication()->getInput()->get('filter_language', array(), 'post', 'string');
 		$model->setLangAndLoadContent($filterLanguage);
 
 		// Try to find config by type (only one id used)
@@ -131,7 +131,7 @@ class PhocaMenuCpControllerPhocaMenuEmail extends PhocaMenuControllerForm
 
 		// Get the previous record id (if any) and the current record id.
 		$recordId	= (int) (count($cid) ? $cid[0] : 0);
-		//$recordId	= (int) (count($cid) ? $cid[0] : $app->input->getInt($key));
+		//$recordId	= (int) (count($cid) ? $cid[0] : $app->getInput()->getInt($key));
 		$checkin	= property_exists($table, 'checked_out');
 
 		// Access check.
@@ -180,11 +180,11 @@ class PhocaMenuCpControllerPhocaMenuEmail extends PhocaMenuControllerForm
 		$lang		= Factory::getLanguage();
 		$model		= $this->getModel();
 		$table		= $model->getTable();
-		$data		= Factory::getApplication()->input->get('jform', array(), 'post', 'array');
-		//$message	= JFactory::getApplication()->input->get('message', '', 'post', 'array');
+		$data		= Factory::getApplication()->getInput()->get('jform', array(), 'post', 'array');
+		//$message	= JFactory::getApplication()->getInput()->get('message', '', 'post', 'array');
 		//$data['messagemail'] = $message[0];
-		//$data['messagemail']= JFactory::getApplication()->input->get( 'message', null, '', 'html' );
-		$data['messagemail']= $app->input->get( 'message', '', 'raw');
+		//$data['messagemail']= JFactory::getApplication()->getInput()->get( 'message', null, '', 'html' );
+		$data['messagemail']= $app->getInput()->get( 'message', '', 'raw');
 
 		$checkin	= property_exists($table, 'checked_out');
 		$context	= "$this->option.edit.$this->context";
@@ -196,7 +196,7 @@ class PhocaMenuCpControllerPhocaMenuEmail extends PhocaMenuControllerForm
 
 
 
-		$recordId	= $app->input->getInt($key);
+		$recordId	= $app->getInput()->getInt($key);
 
 
 		$session	= Factory::getSession();
@@ -366,7 +366,7 @@ class PhocaMenuCpControllerPhocaMenuEmail extends PhocaMenuControllerForm
 
 	protected function getExistingId() {
 		// Only one id for the one type
-		$typeValue	= Factory::getApplication()->input->get('type', 0, '', 'int');
+		$typeValue	= Factory::getApplication()->getInput()->get('type', 0, '', 'int');
 
 		//Language
 		if (empty($this->context)) {
@@ -398,19 +398,19 @@ class PhocaMenuCpControllerPhocaMenuEmail extends PhocaMenuControllerForm
 
 
 		$app		= Factory::getApplication();
-		$post 		= $app->input->post->getArray();
+		$post 		= $app->getInput()->post->getArray();
 		$post				= $post['jform'];
 
 
-		$cid				= Factory::getApplication()->input->get( 'cid', array(0), 'post', 'array' );
+		$cid				= Factory::getApplication()->getInput()->get( 'cid', array(0), 'post', 'array' );
 		$post['id'] 		= (int) $cid[0];//only one item in the database for every view
 		$aUrl				= PhocaMenuHelper::getUrlApend($this->typeview);
-		$post['messagemail']= $app->input->get( 'message', '', 'raw');
+		$post['messagemail']= $app->getInput()->get( 'message', '', 'raw');
 		$post['message']	= '';// it is automatically generated, cannot be saved here (into the database)
 		$post['published']	= 1;
 		$append		= '';
-		$tmpl		= Factory::getApplication()->input->get('tmpl');
-		$layout		= Factory::getApplication()->input->get('layout', 'edit');
+		$tmpl		= Factory::getApplication()->getInput()->get('tmpl');
+		$layout		= Factory::getApplication()->getInput()->get('layout', 'edit');
 
 
 		// Setup redirect info.
@@ -612,8 +612,8 @@ class PhocaMenuCpControllerPhocaMenuEmail extends PhocaMenuControllerForm
 
 	protected function getRedirectToItemAppend($recordId = null, $key = 'id', $bUrlUse = 0)
 	{
-		$tmpl		= Factory::getApplication()->input->get('tmpl');
-		$layout		= Factory::getApplication()->input->get('layout', 'edit');
+		$tmpl		= Factory::getApplication()->getInput()->get('tmpl');
+		$layout		= Factory::getApplication()->getInput()->get('layout', 'edit');
 		$append		= '';
 		$aUrl		= PhocaMenuHelper::getUrlApend($this->typeview);
 		$bUrl		= PhocaMenuHelper::getUrlApend($this->typeview, 1);
@@ -642,7 +642,7 @@ class PhocaMenuCpControllerPhocaMenuEmail extends PhocaMenuControllerForm
 
 	protected function getRedirectToListAppend($bUrlUse = 0)
 	{
-		$tmpl		= Factory::getApplication()->input->get('tmpl');
+		$tmpl		= Factory::getApplication()->getInput()->get('tmpl');
 		$append		= '';
 		$aUrl		= PhocaMenuHelper::getUrlApend($this->typeview);
 		$bUrl		= PhocaMenuHelper::getUrlApend($this->typeview, 1);

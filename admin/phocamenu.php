@@ -28,6 +28,6 @@ require_once( JPATH_COMPONENT.'/helpers/controllers/controlleradmin.php' );
 require_once( JPATH_COMPONENT.'/helpers/controllers/controllerform.php' );
 jimport('joomla.application.component.controller');
 $controller	= BaseController::getInstance('PhocaMenuCp');
-$controller->execute(Factory::getApplication()->input->get('task'));
+$controller->execute(Factory::getApplication()->getInput()->get('task'));
 $controller->redirect();
 ?>

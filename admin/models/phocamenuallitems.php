@@ -74,7 +74,7 @@ class PhocaMenuCpModelPhocaMenuAllitems extends ListModel
 		// as here in model it does not take any effect
 		$categoryId = $app->getUserStateFromRequest($this->context.'.filter.category_id', 'filter_category_id', 0);
 		// Don't user populateState if we are returning back from Edit View (it can happen that here the categor will be changed
-		$postCatid	= Factory::getApplication()->input->get('filter_category_id', 0, 'POST', 'int');
+		$postCatid	= Factory::getApplication()->getInput()->get('filter_category_id', 0, 'POST', 'int');
 		if ((int)$postCatid > 0) {
 			$this->setState('filter.category_id', $categoryId);
 		} else {

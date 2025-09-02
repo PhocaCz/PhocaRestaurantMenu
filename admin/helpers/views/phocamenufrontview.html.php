@@ -24,7 +24,7 @@ class PhocaMenuFrontViewHtml extends HtmlView
 
 		$app						= Factory::getApplication();
 		$this->params				= $app->getParams();
-		$this->t['printview'] 		= $app->input->get('print', 0, 'int');
+		$this->t['printview'] 		= $app->getInput()->get('print', 0, 'int');
 		$model 						= $this->getModel('Menu');
 
 		$type						= PhocaMenuHelper::getTypeByView($this->_name);

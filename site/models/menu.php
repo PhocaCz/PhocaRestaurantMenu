@@ -22,7 +22,7 @@ class PhocaMenuModelMenu extends BaseDatabaseModel
 	function __construct() {
 		parent::__construct();
 		$app	= Factory::getApplication();
-		$id 	= $app->input->get('id', 0, '', 'int');
+		$id 	= $app->getInput()->get('id', 0, '', 'int');
 		$this->setState('filter.language',$app->getLanguageFilter());
 		$this->setId((int)$id);
 	}
@@ -76,10 +76,10 @@ class PhocaMenuModelMenu extends BaseDatabaseModel
 			 * This is used for: PRINT PDF, PREVIEW, MULTIPLE EDIT, EMAIL (administration tools in lists or days)
 			 */
 
-			$adminTool 	= $app->input->get( 'admintool', 0, 'get', 'int' );//Items tool
-			$atid 		= $app->input->get( 'atid', 0, 'get', 'int' );//Items tool id
-			$adminLang	= $app->input->get( 'adminlang', 0, 'get', 'int' );//We call the site from admin
-			$alang 		= $app->input->get( 'alang', '', 'get', 'string' );//Alang because we call frontend where the link can be changed
+			$adminTool 	= $app->getInput()->get( 'admintool', 0, 'get', 'int' );//Items tool
+			$atid 		= $app->getInput()->get( 'atid', 0, 'get', 'int' );//Items tool id
+			$adminLang	= $app->getInput()->get( 'adminlang', 0, 'get', 'int' );//We call the site from admin
+			$alang 		= $app->getInput()->get( 'alang', '', 'get', 'string' );//Alang because we call frontend where the link can be changed
 
 			if ((int)$adminLang == 1) {
 				if ($alang != '') {

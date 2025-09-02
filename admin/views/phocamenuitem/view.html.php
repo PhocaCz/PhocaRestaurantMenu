@@ -43,7 +43,7 @@ class PhocaMenuCpViewPhocaMenuItem extends HtmlView
 
 		// Set type for JForm
 		$this->item->type = $this->type['value'];
-		$this->t['typeback']   = $app->input->get('typeback', '', 'string');
+		$this->t['typeback']   = $app->getInput()->get('typeback', '', 'string');
 
 		$this->addToolbar();
 		parent::display($tpl);
@@ -52,7 +52,7 @@ class PhocaMenuCpViewPhocaMenuItem extends HtmlView
 	protected function addToolbar() {
 
 		require_once JPATH_COMPONENT.'/helpers/phocamenuitems.php';
-		Factory::getApplication()->input->set('hidemainmenu', true);
+		Factory::getApplication()->getInput()->set('hidemainmenu', true);
 		//$bar 		= JToolbar::getInstance('toolbar');
 		$user		= Factory::getUser();
 		$isNew		= ($this->item->id == 0);

@@ -101,8 +101,8 @@ class PhocaMenuControllerForm extends FormController
 		$app		= Factory::getApplication();
 		$context	= "$this->option.edit.$this->context";
 
-		$tmpl		= Factory::getApplication()->input->get('tmpl');
-		$layout		= Factory::getApplication()->input->get('layout', 'edit');
+		$tmpl		= Factory::getApplication()->getInput()->get('tmpl');
+		$layout		= Factory::getApplication()->getInput()->get('layout', 'edit');
 		$append		= '';
 
 		// Access check.
@@ -165,11 +165,11 @@ class PhocaMenuControllerForm extends FormController
 			$key = $table->getKeyName();
 		}
 
-		$recordId	= $app->input->getInt($key);
+		$recordId	= $app->getInput()->getInt($key);
 
 
 		// Typeback means for example that we go to edit from "phocamenuallitems" view so instead of returning to standard "phocamenuitems" view we go back to "phocamenuallitems" view
-		$typeBack   = $app->input->get('typeback', '', 'string');
+		$typeBack   = $app->getInput()->get('typeback', '', 'string');
 		if ($typeBack != '') {
 		    $this->view_list = $typeBack;
         }
@@ -214,7 +214,7 @@ class PhocaMenuControllerForm extends FormController
 		$app		= Factory::getApplication();
 		$model		= $this->getModel();
 		$table		= $model->getTable();
-		$cid		= Factory::getApplication()->input->get('cid', array(), 'post', 'array');
+		$cid		= Factory::getApplication()->getInput()->get('cid', array(), 'post', 'array');
 		$context	= "$this->option.edit.$this->context";
 		$append		= '';
 
@@ -226,7 +226,7 @@ class PhocaMenuControllerForm extends FormController
 		}
 
 		// Get the previous record id (if any) and the current record id.
-		$recordId	= (int) (count($cid) ? $cid[0] : $app->input->getInt($key));
+		$recordId	= (int) (count($cid) ? $cid[0] : $app->getInput()->getInt($key));
 		$checkin	= property_exists($table, 'checked_out');
 
 		// Access check.
@@ -285,8 +285,8 @@ class PhocaMenuControllerForm extends FormController
 		$lang		= Factory::getLanguage();
 		$model		= $this->getModel();
 		$table		= $model->getTable();
-		//$data		= JFactory::getApplication()->input->get('jform', array(), 'post', 'array');
-		$data		= Factory::getApplication()->input->get('jform', array(), 'raw');
+		//$data		= JFactory::getApplication()->getInput()->get('jform', array(), 'post', 'array');
+		$data		= Factory::getApplication()->getInput()->get('jform', array(), 'raw');
 		$checkin	= property_exists($table, 'checked_out');
 		$context	= "$this->option.edit.$this->context";
 		$task		= $this->getTask();
@@ -295,10 +295,10 @@ class PhocaMenuControllerForm extends FormController
 			$key = $table->getKeyName();
 		}
 
-		$recordId	= $app->input->getInt($key);
+		$recordId	= $app->getInput()->getInt($key);
 
 		// Typeback means for example that we go to edit from "phocamenuallitems" view so instead of returning to standard "phocamenuitems" view we go back to "phocamenuallitems" view
-		$typeBack   = $app->input->get('typeback', '', 'string');
+		$typeBack   = $app->getInput()->get('typeback', '', 'string');
 		if ($typeBack != '') {
 		    $this->view_list = $typeBack;
         }
@@ -450,8 +450,8 @@ class PhocaMenuControllerForm extends FormController
 
 	protected function getRedirectToItemAppend($recordId = null, $key = 'id')
 	{
-		$tmpl		= Factory::getApplication()->input->get('tmpl');
-		$layout		= Factory::getApplication()->input->get('layout', 'edit');
+		$tmpl		= Factory::getApplication()->getInput()->get('tmpl');
+		$layout		= Factory::getApplication()->getInput()->get('layout', 'edit');
 		$append		= '';
 		$aUrl		= PhocaMenuHelper::getUrlApend($this->typeview);
 
@@ -479,7 +479,7 @@ class PhocaMenuControllerForm extends FormController
 	 */
 	protected function getRedirectToListAppend()
 	{
-		$tmpl		= Factory::getApplication()->input->get('tmpl');
+		$tmpl		= Factory::getApplication()->getInput()->get('tmpl');
 		$append		= '';
 		$aUrl		= PhocaMenuHelper::getUrlApend($this->typeview);
 

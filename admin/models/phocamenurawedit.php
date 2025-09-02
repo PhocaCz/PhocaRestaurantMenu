@@ -35,8 +35,8 @@ class PhocaMenuCpModelPhocaMenuRawEdit extends AdminModel
 		 */
 
 		$type 		= PhocaMenuHelper::getUrlType('rawedit');
-		$adminTool 	= Factory::getApplication()->input->get('admintool', 0, '', 'int');
-		$atid		= Factory::getApplication()->input->get( 'atid', 0, '', 'int' );
+		$adminTool 	= Factory::getApplication()->getInput()->get('admintool', 0, '', 'int');
+		$atid		= Factory::getApplication()->getInput()->get( 'atid', 0, '', 'int' );
 		$content	= array();
 
 		$wheresLang = '';
@@ -199,8 +199,8 @@ class PhocaMenuCpModelPhocaMenuRawEdit extends AdminModel
 		} else {
 			$item_delimiter = "\t";
 		}
-		//$adminTool 	= JFactory::getApplication()->input->get('admintool', 0, '', 'int');
-		//$atid		= JFactory::getApplication()->input->get( 'atid', 0, '', 'int' );
+		//$adminTool 	= JFactory::getApplication()->getInput()->get('admintool', 0, '', 'int');
+		//$atid		= JFactory::getApplication()->getInput()->get( 'atid', 0, '', 'int' );
 
 		// Language
 		$lang = '';
@@ -582,7 +582,7 @@ class PhocaMenuCpModelPhocaMenuRawEdit extends AdminModel
 			$this->context = strtolower($this->option.'.'.$this->getName());
 		}
 		$app 		= Factory::getApplication('administrator');
-		$type		= Factory::getApplication()->input->get('type', 0, '', 'int');
+		$type		= Factory::getApplication()->getInput()->get('type', 0, '', 'int');
 
 		$lang = $app->getUserStateFromRequest($this->context.'.filter.language', 'filter_language', $language);
 

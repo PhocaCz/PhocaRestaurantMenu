@@ -227,11 +227,10 @@ class PhocaMenuRenderViews
 		// Remove empty table - because of TCPDF
 		$o = str_replace($tag['tableitem-o'].$tag['tableitem-c'], '', $o);
 
-
 		$o .= PhocaMenuHelper::renderCode($params->get( 'render_code', 1 ), $method);
+
 		return $o;
 	}
-
 
 
 
@@ -1286,8 +1285,8 @@ class PhocaMenuRenderViews
 	public static function setMethod($params, $method) {
 
 		$app = Factory::getApplication();
-		$print = $app->input->get('print', 0, 'int');
-		$admin = $app->input->get('admin', 0, 'int');
+		$print = $app->getInput()->get('print', 0, 'int');
+		$admin = $app->getInput()->get('admin', 0, 'int');
 
 		if ($method == 1) {
 			return $method;

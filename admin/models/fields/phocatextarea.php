@@ -18,11 +18,11 @@ class JFormFieldPhocaTextArea extends FormField
 	protected $phocaParams 	= null;
 
 	protected function getInput() {
-	
+
 		$document		= Factory::getDocument();
-		$option 		= Factory::getApplication()->input->get('option');
+		$option 		= Factory::getApplication()->getInput()->get('option');
 		$globalValue 	= $this->_getPhocaParams( $this->element['name'] );
-		
+
 		// Initialize some field attributes.
 		$class		= $this->element['class'] ? ' class="'.(string) $this->element['class'].'"' : '';
 		$disabled	= ((string) $this->element['disabled'] == 'true') ? ' disabled="disabled"' : '';
@@ -31,9 +31,9 @@ class JFormFieldPhocaTextArea extends FormField
 
 		// Initialize JavaScript field attributes.
 		$onchange	= $this->element['onchange'] ? ' onchange="'.(string) $this->element['onchange'].'"' : '';
-		
+
 		$value 		= htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8');
-		
+
 		// TODO 1.6
 		// MENU - Set Default value to "" because of saving "" value into the menu link ( use global = "")
 		if ($option == "com_menus") {
@@ -42,14 +42,14 @@ class JFormFieldPhocaTextArea extends FormField
 				$value = '';
 			}
 		}
-		
+
 		// MENU - Display the global value
 		if ($option == "com_menus") {
 			$html ='<table><tr><td colspan="3"><textarea name="'.$this->name.'" id="'.$this->id.'"' .
 				$columns.$rows.$class.$disabled.$onchange.'>' .
 				$value .
-				'</textarea></td></tr>';		
-			$html .='<tr><td>[</td><td><input  type="text"  value="'. $globalValue .'" style="width:15em;border:1px solid #fff;background:#fff;" /></td><td>]</td></tr></table>'; 
+				'</textarea></td></tr>';
+			$html .='<tr><td>[</td><td><input  type="text"  value="'. $globalValue .'" style="width:15em;border:1px solid #fff;background:#fff;" /></td><td>]</td></tr></table>';
 		} else {
 			$html = '<textarea name="'.$this->name.'" id="'.$this->id.'"' .
 				$columns.$rows.$class.$disabled.$onchange.'>' .
@@ -58,13 +58,13 @@ class JFormFieldPhocaTextArea extends FormField
 		}
 		return $html;
 	}
-	
+
 	protected function getLabel() {
 		echo '<div class="clearfix"></div>';
 		return parent::getLabel();
 		echo '<div class="clearfix"></div>';
 	}
-	
+
 	protected function _setPhocaParams(){
 		$component 			= 'com_phocamenu';
 		$paramsC			= ComponentHelper::getParams($component) ;
@@ -72,12 +72,12 @@ class JFormFieldPhocaTextArea extends FormField
 	}
 
 	protected function _getPhocaParams( $name ){
-	
+
 		// Don't call sql query by every param item (it will be loaded only one time)
 		if (!$this->phocaParams) {
 			$params = $this->_setPhocaParams();
 		}
-		$globalValue 	= $this->phocaParams->get( $name, '' );	
+		$globalValue 	= $this->phocaParams->get( $name, '' );
 		return $globalValue;
 	}
 }

@@ -32,8 +32,8 @@ class PhocaMenuCpControllerPhocaMenuRawEdit extends PhocaMenuControllerForm
 		//$table		= $model->getTable();
 		//$checkin	= property_exists($table, 'checked_out');
 		$context	= "$this->option.edit.$this->context";
-		$tmpl		= Factory::getApplication()->input->get('tmpl');
-		$layout		= Factory::getApplication()->input->get('layout', 'edit');
+		$tmpl		= Factory::getApplication()->getInput()->get('tmpl');
+		$layout		= Factory::getApplication()->getInput()->get('layout', 'edit');
 		$append		= '';
 
 		// Clean the session data and redirect.
@@ -51,10 +51,10 @@ class PhocaMenuCpControllerPhocaMenuRawEdit extends PhocaMenuControllerForm
 		$app		= Factory::getApplication();
 		//$model		= $this->getModel();
 		//$table		= $model->getTable();
-		//$cid		= JFactory::getApplication()->input->get('cid', array(), 'post', 'array');
+		//$cid		= JFactory::getApplication()->getInput()->get('cid', array(), 'post', 'array');
 		$context	= "$this->option.edit.$this->context";
-		$tmpl		= Factory::getApplication()->input->get('tmpl');
-		$layout		= Factory::getApplication()->input->get('layout', 'edit');
+		$tmpl		= Factory::getApplication()->getInput()->get('tmpl');
+		$layout		= Factory::getApplication()->getInput()->get('layout', 'edit');
 		$append		= '';
 		$recordId	= '';
 
@@ -69,17 +69,17 @@ class PhocaMenuCpControllerPhocaMenuRawEdit extends PhocaMenuControllerForm
 	function save($key = NULL, $urlVar = NULL) {
 
 		$app		= Factory::getApplication();
-		$post 		= $app->input->post->getArray();
+		$post 		= $app->getInput()->post->getArray();
 
-		//$get		= $app->input->get->getArray();
+		//$get		= $app->getInput()->get->getArray();
 
 
 		//$model		= $this->getModel();
 		//$table		= $model->getTable();
-		//$cid		= JFactory::getApplication()->input->get('cid', array(), 'post', 'array');
+		//$cid		= JFactory::getApplication()->getInput()->get('cid', array(), 'post', 'array');
 		$context	= "$this->option.edit.$this->context";
-		$tmpl		= Factory::getApplication()->input->get('tmpl');
-		$layout		= Factory::getApplication()->input->get('layout', 'edit');
+		$tmpl		= Factory::getApplication()->getInput()->get('tmpl');
+		$layout		= Factory::getApplication()->getInput()->get('layout', 'edit');
 		$append		= '';
 
 		$msg		= '';
@@ -102,7 +102,7 @@ class PhocaMenuCpControllerPhocaMenuRawEdit extends PhocaMenuControllerForm
 
 
 
-		switch ( Factory::getApplication()->input->get('task') ) {
+		switch ( Factory::getApplication()->getInput()->get('task') ) {
 			case 'apply':
 				$this->setRedirect(Route::_('index.php?option='.$this->option.$this->getRedirectToItemAppend(), false));
 			break;
@@ -121,7 +121,7 @@ class PhocaMenuCpControllerPhocaMenuRawEdit extends PhocaMenuControllerForm
 
 	function export() {
 		$app		= Factory::getApplication();
-		$post 		= $app->input->post->getArray();
+		$post 		= $app->getInput()->post->getArray();
 
 		$file		= $post['menudata'];
 		$lang		= $post['language'];
@@ -206,8 +206,8 @@ class PhocaMenuCpControllerPhocaMenuRawEdit extends PhocaMenuControllerForm
 
 	protected function getRedirectToItemAppend($recordId = null, $key = 'id', $bUrlUse = 0)
 	{
-		$tmpl		= Factory::getApplication()->input->get('tmpl');
-		$layout		= Factory::getApplication()->input->get('layout', 'edit');
+		$tmpl		= Factory::getApplication()->getInput()->get('tmpl');
+		$layout		= Factory::getApplication()->getInput()->get('layout', 'edit');
 		$append		= '';
 		$aUrl		= PhocaMenuHelper::getUrlApend($this->typeview);
 		$bUrl		= PhocaMenuHelper::getUrlApend($this->typeview, 1);
@@ -235,7 +235,7 @@ class PhocaMenuCpControllerPhocaMenuRawEdit extends PhocaMenuControllerForm
 	}
 
 	protected function getRedirectToListAppend($bUrlUse = 0) {
-		$tmpl   = Factory::getApplication()->input->get('tmpl');
+		$tmpl   = Factory::getApplication()->getInput()->get('tmpl');
 		$append = '';
 		$aUrl   = PhocaMenuHelper::getUrlApend($this->typeview);
 
