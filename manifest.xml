@@ -44,11 +44,11 @@
 		<element>com_phocamenu</element>
 		<type>component</type>
 		<version>5.1.1</version>
-		<infourl title="Phoca Restaurant Menu 5.1.1">http://www.phoca.cz/version/index.php?phocamenu=5.1.1</infourl>
+		<infourl title="Phoca Restaurant Menu 5.1.2">http://www.phoca.cz/version/index.php?phocamenu=5.1.2</infourl>
 		<downloads>
-			<downloadurl type="full" format="zip">https://github.com/PhocaCz/PhocaRestaurantMenu/releases/download/5.1.1/com_phocamenu_lite_v5.1.1.zip</downloadurl>
+			<downloadurl type="full" format="zip">https://github.com/PhocaCz/PhocaRestaurantMenu/releases/download/5.1.2/com_phocamenu_lite_v5.1.2.zip</downloadurl>
 		</downloads>
-		<sha512>a6f217f655e8bf91bb67dbd803fd46e35aae993bbe0696aa862fab685cde7975ac2b03281f17aac5d929b41a6616c33fb14c7de8b59d727239573433d70c6f7e</sha512>
+		<sha512>96c16e5ce64411f42a855ed2559f279e114526ce32bd416cb7f74a181f542c43fd9e8c3cf0b5a76e4a83970f014d842da5272ee6d3446be2b73e9c765d2cdc1c</sha512>
 		<tags>
 			<tag>stable</tag>
 		</tags>
