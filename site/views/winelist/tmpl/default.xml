@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="COM_PHOCAMENU_WINE_LIST_LAYOUT">
+		<message>
+			<![CDATA[COM_PHOCAMENU_WINE_LIST_LAYOUT_DESC]]>
+		</message>
+	</layout>
+	<fields name="params">
+		<fieldset name="basic" addfieldpath="/administrator/components/com_phocamenu/models/fields">
+
+		<field name="icons" type="list" default="1" label="COM_PHOCAMENU_ICONS_LABEL" description="COM_PHOCAMENU_ICONS_DESC">
+			<option value="1">COM_PHOCAMENU_SHOW</option>
+			<option value="0">COM_PHOCAMENU_HIDE</option>
+			</field>
+		<field name="pdf" type="phocalistwarning" default="0" label="COM_PHOCAMENU_PDF_ICON_LABEL" description="COM_PHOCAMENU_PDF_ICON_DESC" phocawarning="COM_PHOCAMENU_PDF_ICON_WARNING">
+			<option value="0">COM_PHOCAMENU_HIDE</option>
+			<option value="1">COM_PHOCAMENU_SHOW</option>
+			</field>
+			<field name="print" type="list" default="1" label="COM_PHOCAMENU_PRINT_ICON_LABEL" description="COM_PHOCAMENU_PDF_ICON_DESC">
+				<option value="0">COM_PHOCAMENU_HIDE</option>
+				<option value="1">COM_PHOCAMENU_SHOW</option>
+			</field>
+			<!--<field name="email" type="list" default="0" label="COM_PHOCAMENU_EMAIL_ICON_LABEL" description="COM_PHOCAMENU_EMAIL_ICON_DESC">
+				<option value="0">COM_PHOCAMENU_HIDE</option>
+				<option value="1">COM_PHOCAMENU_SHOW</option>
+			</field>-->
+
+
+
+			<field name="menulist" type="phocamenulist" default="0" label="COM_PHOCAMENU_LIST_LABEL" description="COM_PHOCAMENU_SELECT_LIST_DESC" phocawarning="COM_PHOCAMENU_LIST_WARNING" phocalist="5" multiple="true" size="5" />
+			<field name="displayheader" type="list" default="1" label="COM_PHOCAMENU_DISPLAY_HEADER_LABEL" description="COM_PHOCAMENU_DISPLAY_HEADER_DESC">
+				<option value="0">COM_PHOCAMENU_HIDE</option>
+				<option value="1">COM_PHOCAMENU_SHOW</option>
+			</field>
+			<field name="displayfooter" type="list" default="1" label="COM_PHOCAMENU_DISPLAY_FOOTER_LABEL" description="COM_PHOCAMENU_DISPLAY_FOOTER_DESC">
+				<option value="0">COM_PHOCAMENU_HIDE</option>
+				<option value="1">COM_PHOCAMENU_SHOW</option>
+			</field>
+			<field name="displaylistname" type="list" default="1" label="COM_PHOCAMENU_DISPLAY_LIST_TITLE_LABEL" description="COM_PHOCAMENU_DISPLAY_LIST_TITLE_DESC">
+				<option value="0">COM_PHOCAMENU_HIDE</option>
+				<option value="1">COM_PHOCAMENU_SHOW</option>
+			</field>
+			</fieldset>
+
+	</fields>
+</metadata>

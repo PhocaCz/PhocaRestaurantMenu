@@ -23,6 +23,13 @@ $url2	= 'index.php?option=com_phocamenu&view=';
 $items 		= array();
 $items[0]	= array('COM_PHOCAMENU_CONTROLPANEL', '');
 $items[1]	= array('COM_PHOCAMENU_DAILY_MENU', 'phocamenugroups&type=1');
+$items[2]	= array('COM_PHOCAMENU_WEEKLY_MENU', 'phocamenudays&type=2' );
+$items[3]	= array('COM_PHOCAMENU_BILL_OF_FARE', 'phocamenulists&type=3');
+$items[4]	= array('COM_PHOCAMENU_BEVERAGE_LIST', 'phocamenulists&type=4');
+$items[5]	= array('COM_PHOCAMENU_WINE_LIST', 'phocamenulists&type=5');
+$items[6]	= array('COM_PHOCAMENU_BREAKFAST_MENU', 'phocamenugroups&type=6');
+$items[7]	= array('COM_PHOCAMENU_LUNCH_MENU', 'phocamenugroups&type=7');
+$items[8]	= array('COM_PHOCAMENU_DINNER_MENU', 'phocamenugroups&type=8');
 $items[9]	= array('COM_PHOCAMENU_ALL_ITEMS', 'phocamenuallitems');
 $items[10]	= array('COM_PHOCAMENU_INFO', 'phocamenuinfo');
 

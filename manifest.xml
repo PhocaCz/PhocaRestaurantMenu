@@ -43,12 +43,11 @@
 		<description><![CDATA[ Phoca Restaurant Menu is Joomla! CMS component. This component allows creating menu for restaurant, cafeteria, fast food, school canteen, buffet, bar, club, snack bar, wineroom, etc. Such menu can be displayed on a website as HTML, printed as HTML, rendered as PDF, pasted as picture on social media, emailed to customers or displayed in RSS (such RSS can be used for displaying the menu on Facebook or Twitter). ]]></description>
 		<element>com_phocamenu</element>
 		<type>component</type>
-		<version>5.1.1</version>
+		<version>5.1.2</version>
 		<infourl title="Phoca Restaurant Menu 5.1.2">http://www.phoca.cz/version/index.php?phocamenu=5.1.2</infourl>
 		<downloads>
-			<downloadurl type="full" format="zip">https://github.com/PhocaCz/PhocaRestaurantMenu/releases/download/5.1.2/com_phocamenu_lite_v5.1.2.zip</downloadurl>
+			<downloadurl type="full" format="zip">https://github.com/PhocaCz/PhocaRestaurantMenu/releases/download/5.1.2/com_phocamenu_v5.1.2.zip</downloadurl>
 		</downloads>
-		<sha512>96c16e5ce64411f42a855ed2559f279e114526ce32bd416cb7f74a181f542c43fd9e8c3cf0b5a76e4a83970f014d842da5272ee6d3446be2b73e9c765d2cdc1c</sha512>
 		<tags>
 			<tag>stable</tag>
 		</tags>
@@ -56,6 +55,26 @@
 		<maintainerurl>https://www.phoca.cz/</maintainerurl>
 		<section>Updates</section>
 		<targetplatform name="joomla" version="5\.*"/>
+		<client>administrator</client>
+	</update>
+	<update>
+		<name><![CDATA[ Phoca Restaurant Menu ]]></name>
+		<description><![CDATA[ Phoca Restaurant Menu is Joomla! CMS component. This component allows creating menu for restaurant, cafeteria, fast food, school canteen, buffet, bar, club, snack bar, wineroom, etc. Such menu can be displayed on a website as HTML, printed as HTML, rendered as PDF, pasted as picture on social media, emailed to customers or displayed in RSS (such RSS can be used for displaying the menu on Facebook or Twitter). ]]></description>
+		<element>com_phocamenu</element>
+		<type>component</type>
+		<version>6.1.0</version>
+		<infourl title="Phoca Restaurant Menu 6.1.0">http://www.phoca.cz/version/index.php?phocamenu=6.1.0</infourl>
+		<downloads>
+			<downloadurl type="full" format="zip">https://github.com/PhocaCz/PhocaRestaurantMenu/releases/download/6.1.0/com_phocamenu_v6.1.0.zip</downloadurl>
+		</downloads>
+		<sha512>839933d1efa953941c0f3715009655158984603562ef365a09ad0ba9ce68ee11f1e44fc1b8cbc6e29a47180d3d41a37bf847db6556740425e69e1819685c4736</sha512>
+		<tags>
+			<tag>stable</tag>
+		</tags>
+		<maintainer><![CDATA[ Phoca.cz ]]></maintainer>
+		<maintainerurl>https://www.phoca.cz/</maintainerurl>
+		<section>Updates</section>
+		<targetplatform name="joomla" version="6\.*"/>
 		<client>administrator</client>
 	</update>
 </updates>

@@ -35,7 +35,7 @@ if (!empty($this->t['component_links'])) {
 echo '</div>';
 
 echo '<h3>'.  Text::_($this->t['l'] . '_VERSION').'</h3>'
-.'<p>'.  $this->t['version'] .' Lite</p>';
+.'<p>'.  $this->t['version'] .'</p>';
 
 echo '<h3>'.  Text::_($this->t['l'] . '_COPYRIGHT').'</h3>'
 .'<p>© 2007 - '.  date("Y"). ' Jan Pavelka</p>'
@@ -48,9 +48,8 @@ echo '<h3>'.  Text::_($this->t['l'] . '_TRANSLATION').': '. Text::_($this->t['l'
         .'<p>© 2007 - '.  date("Y"). ' '. Text::_($this->t['l'] . '_TRANSLATER'). '</p>'
         .'<p>'.Text::_($this->t['l'] . '_TRANSLATION_SUPPORT_URL').'</p>';
 
-?>
-<h3>ID</h3><p>XXX<br /></p>
-<?php
+echo Text::_($this->t['l'] . '_FOSS_DECLARATION');
+echo Text::_($this->t['l'] . '_FOSS_DECLARATION_DESCRIPTION');
 
 echo '<input type="hidden" name="task" value="" />'
 .'<input type="hidden" name="option" value="'.$this->t['o'].'" />'

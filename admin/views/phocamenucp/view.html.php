@@ -30,6 +30,13 @@ class PhocaMenuCpViewPhocaMenuCp extends HtmlView
 
 		$this->views= array(
 		'groups&type=1'	=> array($this->t['l'] . '_DAILY_MENU', $d.$i.' dm', '#896D52'),
+		'days&type=2'	=> array($this->t['l'] . '_WEEKLY_MENU', $d.$i.' wm', '#896D52'),
+		'lists&type=3'	=> array($this->t['l'] . '_BILL_OF_FARE', $d.$i.' fm', '#896D52'),
+		'lists&type=4'	=> array($this->t['l'] . '_BEVERAGE_LIST', $d.$i.' bl', '#896D52'),
+		'lists&type=5'	=> array($this->t['l'] . '_WINE_LIST', $d.$i.' wl', '#896D52'),
+		'groups&type=6'	=> array($this->t['l'] . '_BREAKFAST_MENU', $d.$i.' bm', '#896D52'),
+		'groups&type=7'	=> array($this->t['l'] . '_LUNCH_MENU', $d.$i.' lm', '#896D52'),
+		'groups&type=8'	=> array($this->t['l'] . '_DINNER_MENU', $d.$i.' dn', '#896D52'),
 		'allitems'		=> array($this->t['l'] . '_ALL_ITEMS', $d.$i.' ai', '#896D52'),
 		'info'			=> array($this->t['l'] . '_INFO', $d.$i.' info', '#896D52')
 		);

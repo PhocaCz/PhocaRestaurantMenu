@@ -450,6 +450,370 @@ class PhocaMenuHelper
 				$typeInfo['root']			= '&view=phocamenugroups&type=1';
 			break;
 
+			case 2:
+				switch($typeview) {
+					case 'day':
+						$typeInfo['backlink']		= '';
+						$typeInfo['backlinktxt']	= 'COM_PHOCAMENU_CONTROL_PANEL';
+						$typeInfo['text']			= Text::_('COM_PHOCAMENU_WEEKLY_MENU'). ' ' . Text::_('COM_PHOCAMENU_DAY');
+						$typeInfo['catid']			= 'did';
+					break;
+
+					case 'group':
+						$typeInfo['backlink']		= '&view=phocamenudays&type=2';
+						$typeInfo['backlinktxt']	= 'COM_PHOCAMENU_DAYS';
+						$typeInfo['text']			= Text::_('COM_PHOCAMENU_WEEKLY_MENU'). ' ' . Text::_('COM_PHOCAMENU_GROUP');
+						$typeInfo['catid']			= 'did';
+					break;
+
+					case 'item':
+						$typeInfo['backlink']		= '&view=phocamenugroups&type=2';
+						$typeInfo['backlinktxt']	= 'COM_PHOCAMENU_GROUPS';
+						$typeInfo['text']			= Text::_('COM_PHOCAMENU_WEEKLY_MENU'). ' ' . Text::_('COM_PHOCAMENU_ITEM');
+						$typeInfo['catid']			= 'gid';
+						$typeInfo['catidup']		= 'did';
+					break;
+
+					case 'config':
+						$typeInfo['backlink']		= '';
+						$typeInfo['backlinktxt']	= '';
+						$typeInfo['text']			= Text::_('COM_PHOCAMENU_WEEKLY_MENU'). ' ' . Text::_('COM_PHOCAMENU_MENU_SETTINGS');
+						$typeInfo['catid']			= 'did';
+					break;
+
+					case 'email':
+						$typeInfo['backlink']		= '';
+						$typeInfo['backlinktxt']	= '';
+						$typeInfo['text']			= Text::_('COM_PHOCAMENU_WEEKLY_MENU'). ' ' . Text::_('COM_PHOCAMENU_SEND_EMAIL');
+						$typeInfo['catid']			= 'did';
+					break;
+					case 'multipleedit':
+						$typeInfo['backlink']		= '';
+						$typeInfo['backlinktxt']	= '';
+						$typeInfo['text']			= Text::_('COM_PHOCAMENU_WEEKLY_MENU'). ' ' . Text::_('COM_PHOCAMENU_MULTIPLE_EDIT');
+						$typeInfo['catid']			= 'did';
+					break;
+					case 'rawedit':
+						$typeInfo['backlink']		= '';
+						$typeInfo['backlinktxt']	= '';
+						$typeInfo['text']			= Text::_('COM_PHOCAMENU_WEEKLY_MENU'). ' ' . Text::_('COM_PHOCAMENU_RAW_EDIT');
+						$typeInfo['catid']			= 'did';
+					break;
+				}
+
+				$typeInfo['pref']			= 'wm';
+				$typeInfo['frontview']		= 'weeklymenu';
+				$typeInfo['render']			= 'renderWeeklyMenu';
+				$typeInfo['title']			= Text::_('COM_PHOCAMENU_WEEKLY_MENU');
+				$typeInfo['root']			= '&view=phocamenudays&type=2';
+			break;
+
+			case 3:
+				switch($typeview) {
+
+					case 'list':
+						$typeInfo['backlink']		= '';
+						$typeInfo['backlinktxt']	= 'COM_PHOCAMENU_CONTROL_PANEL';
+						$typeInfo['text']			= Text::_('COM_PHOCAMENU_BILL_OF_FARE'). ' ' . Text::_('COM_PHOCAMENU_LIST');
+						$typeInfo['catid']			= 'lid';
+					break;
+
+					case 'group':
+						$typeInfo['backlink']		= '&view=phocamenulists&type=3';
+						$typeInfo['backlinktxt']	= 'COM_PHOCAMENU_LISTS';
+						$typeInfo['text']			= Text::_('COM_PHOCAMENU_BILL_OF_FARE'). ' ' . Text::_('COM_PHOCAMENU_GROUP');
+						$typeInfo['catid']			= 'lid';
+					break;
+
+					case 'item':
+						$typeInfo['backlink']		= '&view=phocamenugroups&type=3';
+						$typeInfo['backlinktxt']	= 'COM_PHOCAMENU_GROUPS';
+						$typeInfo['text']			= Text::_('COM_PHOCAMENU_BILL_OF_FARE'). ' ' . Text::_('COM_PHOCAMENU_ITEM');
+						$typeInfo['catid']			= 'gid';
+						$typeInfo['catidup']		= 'lid';
+					break;
+
+					case 'config':
+						$typeInfo['backlink']		= '';
+						$typeInfo['backlinktxt']	= '';
+						$typeInfo['text']			= Text::_('COM_PHOCAMENU_BILL_OF_FARE'). ' ' . Text::_('COM_PHOCAMENU_MENU_SETTINGS');
+						$typeInfo['catid']			= 'lid';
+					break;
+
+					case 'email':
+						$typeInfo['backlink']		= '';
+						$typeInfo['backlinktxt']	= '';
+						$typeInfo['text']			= Text::_('COM_PHOCAMENU_BILL_OF_FARE'). ' ' . Text::_('COM_PHOCAMENU_SEND_EMAIL');
+						$typeInfo['catid']			= 'lid';
+					break;
+					case 'multipleedit':
+						$typeInfo['backlink']		= '';
+						$typeInfo['backlinktxt']	= '';
+						$typeInfo['text']			= Text::_('COM_PHOCAMENU_BILL_OF_FARE'). ' ' . Text::_('COM_PHOCAMENU_MULTIPLE_EDIT');
+						$typeInfo['catid']			= 'lid';
+					break;
+					case 'rawedit':
+						$typeInfo['backlink']		= '';
+						$typeInfo['backlinktxt']	= '';
+						$typeInfo['text']			= Text::_('COM_PHOCAMENU_BILL_OF_FARE'). ' ' . Text::_('COM_PHOCAMENU_RAW_EDIT');
+						$typeInfo['catid']			= 'lid';
+					break;
+
+				}
+
+				$typeInfo['pref']			= 'fm';
+				$typeInfo['frontview']		= 'foodmenu';
+				$typeInfo['render']			= 'renderCommonListMenu';
+				$typeInfo['title']			= Text::_('COM_PHOCAMENU_BILL_OF_FARE');
+				$typeInfo['root']			= '&view=phocamenulists&type=3';
+			break;
+
+			case 4:
+				switch($typeview) {
+					case 'list':
+						$typeInfo['backlink']		= '';
+						$typeInfo['backlinktxt']	= 'COM_PHOCAMENU_CONTROL_PANEL';
+						$typeInfo['text']			= Text::_('COM_PHOCAMENU_BEVERAGE_LIST'). ' ' . Text::_('COM_PHOCAMENU_LIST');
+						$typeInfo['catid']			= 'lid';
+					break;
+
+					case 'group':
+						$typeInfo['backlink']		= '&view=phocamenulists&type=4';
+						$typeInfo['backlinktxt']	= 'COM_PHOCAMENU_LISTS';
+						$typeInfo['text']			= Text::_('COM_PHOCAMENU_BEVERAGE_LIST'). ' ' . Text::_('COM_PHOCAMENU_GROUP');
+						$typeInfo['catid']			= 'lid';
+					break;
+
+					case 'item':
+						$typeInfo['backlink']		= '&view=phocamenugroups&type=4';
+						$typeInfo['backlinktxt']	= 'COM_PHOCAMENU_GROUPS';
+						$typeInfo['text']			= Text::_('COM_PHOCAMENU_BEVERAGE_LIST'). ' ' . Text::_('COM_PHOCAMENU_ITEM');
+						$typeInfo['catid']			= 'gid';
+						$typeInfo['catidup']		= 'lid';
+					break;
+
+					case 'config':
+						$typeInfo['backlink']		= '';
+						$typeInfo['backlinktxt']	= '';
+						$typeInfo['text']			= Text::_('COM_PHOCAMENU_BEVERAGE_LIST'). ' ' . Text::_('COM_PHOCAMENU_MENU_SETTINGS');
+						$typeInfo['catid']			= 'lid';
+					break;
+
+					case 'email':
+						$typeInfo['backlink']		= '';
+						$typeInfo['backlinktxt']	= '';
+						$typeInfo['text']			= Text::_('COM_PHOCAMENU_BEVERAGE_LIST'). ' ' . Text::_('COM_PHOCAMENU_SEND_EMAIL');
+						$typeInfo['catid']			= 'lid';
+					break;
+					case 'multipleedit':
+						$typeInfo['backlink']		= '';
+						$typeInfo['backlinktxt']	= '';
+						$typeInfo['text']			= Text::_('COM_PHOCAMENU_BEVERAGE_LIST'). ' ' . Text::_('COM_PHOCAMENU_MULTIPLE_EDIT');
+						$typeInfo['catid']			= 'lid';
+					break;
+					case 'rawedit':
+						$typeInfo['backlink']		= '';
+						$typeInfo['backlinktxt']	= '';
+						$typeInfo['text']			= Text::_('COM_PHOCAMENU_BEVERAGE_LIST'). ' ' . Text::_('COM_PHOCAMENU_RAW_EDIT');
+						$typeInfo['catid']			= 'lid';
+					break;
+				}
+				$typeInfo['pref']			= 'bl';
+				$typeInfo['frontview']		= 'beveragelist';
+				$typeInfo['render']			= 'renderBeverageList';
+				$typeInfo['title']			= Text::_('COM_PHOCAMENU_BEVERAGE_LIST');
+				$typeInfo['root']			= '&view=phocamenulists&type=4';
+			break;
+
+			case 5:
+				switch($typeview) {
+
+					case 'list':
+						$typeInfo['backlink']		= '';
+						$typeInfo['backlinktxt']	= 'COM_PHOCAMENU_CONTROL_PANEL';
+						$typeInfo['text']			= Text::_('COM_PHOCAMENU_WINE_LIST'). ' ' . Text::_('COM_PHOCAMENU_LIST');
+						$typeInfo['catid']			= 'lid';
+					break;
+
+					case 'group':
+						$typeInfo['backlink']		= '&view=phocamenulists&type=5';
+						$typeInfo['backlinktxt']	= 'COM_PHOCAMENU_LISTS';
+						$typeInfo['text']			= Text::_('COM_PHOCAMENU_WINE_LIST'). ' ' . Text::_('COM_PHOCAMENU_GROUP');
+						$typeInfo['catid']			= 'lid';
+					break;
+
+					case 'item':
+						$typeInfo['backlink']		= '&view=phocamenugroups&type=5';
+						$typeInfo['backlinktxt']	= 'COM_PHOCAMENU_GROUPS';
+						$typeInfo['text']			= Text::_('COM_PHOCAMENU_WINE_LIST'). ' ' . Text::_('COM_PHOCAMENU_ITEM');
+						$typeInfo['catid']			= 'gid';
+						$typeInfo['catidup']		= 'lid';
+					break;
+
+					case 'config':
+						$typeInfo['backlink']		= '';
+						$typeInfo['backlinktxt']	= '';
+						$typeInfo['text']			= Text::_('COM_PHOCAMENU_WINE_LIST'). ' ' . Text::_('COM_PHOCAMENU_MENU_SETTINGS');
+						$typeInfo['catid']			= 'lid';
+					break;
+
+					case 'email':
+						$typeInfo['backlink']		= '';
+						$typeInfo['backlinktxt']	= '';
+						$typeInfo['text']			= Text::_('COM_PHOCAMENU_WINE_LIST'). ' ' . Text::_('COM_PHOCAMENU_SEND_EMAIL');
+						$typeInfo['catid']			= 'lid';
+					break;
+					case 'multipleedit':
+						$typeInfo['backlink']		= '';
+						$typeInfo['backlinktxt']	= '';
+						$typeInfo['text']			= Text::_('COM_PHOCAMENU_WINE_LIST'). ' ' . Text::_('COM_PHOCAMENU_MULTIPLE_EDIT');
+						$typeInfo['catid']			= 'lid';
+					break;
+					case 'rawedit':
+						$typeInfo['backlink']		= '';
+						$typeInfo['backlinktxt']	= '';
+						$typeInfo['text']			= Text::_('COM_PHOCAMENU_WINE_LIST'). ' ' . Text::_('COM_PHOCAMENU_RAW_EDIT');
+						$typeInfo['catid']			= 'lid';
+					break;
+				}
+				$typeInfo['pref']			= 'wl';
+				$typeInfo['frontview']		= 'winelist';
+				$typeInfo['render']			= 'renderCommonListMenu';
+				$typeInfo['title']			= Text::_('COM_PHOCAMENU_WINE_LIST');
+				$typeInfo['root']			= '&view=phocamenulists&type=5';
+			break;
+
+			case 6:
+				switch($typeview) {
+					case 'group':
+						$typeInfo['backlink']		= '';
+						$typeInfo['backlinktxt']	= 'COM_PHOCAMENU_CONTROL_PANEL';
+						$typeInfo['text']			= Text::_('COM_PHOCAMENU_BREAKFAST_MENU'). ' ' . Text::_('COM_PHOCAMENU_GROUP');
+					break;
+
+					case 'item':
+						$typeInfo['backlink']		= '&view=phocamenugroups&type=6';
+						$typeInfo['backlinktxt']	= 'COM_PHOCAMENU_GROUPS';
+						$typeInfo['text']			= Text::_('COM_PHOCAMENU_BREAKFAST_MENU'). ' ' . Text::_('COM_PHOCAMENU_ITEM');
+					break;
+
+					case 'config':
+						$typeInfo['backlink']		= '';
+						$typeInfo['backlinktxt']	= '';
+						$typeInfo['text']			= Text::_('COM_PHOCAMENU_BREAKFAST_MENU'). ' ' . Text::_('COM_PHOCAMENU_MENU_SETTINGS');
+					break;
+
+					case 'email':
+						$typeInfo['backlink']		= '';
+						$typeInfo['backlinktxt']	= '';
+						$typeInfo['text']			= Text::_('COM_PHOCAMENU_BREAKFAST_MENU'). ' ' . Text::_('COM_PHOCAMENU_SEND_EMAIL');
+					break;
+					case 'multipleedit':
+						$typeInfo['backlink']		= '';
+						$typeInfo['backlinktxt']	= '';
+						$typeInfo['text']			= Text::_('COM_PHOCAMENU_BREAKFAST_MENU'). ' ' . Text::_('COM_PHOCAMENU_MULTIPLE_EDIT');
+					break;
+					case 'rawedit':
+						$typeInfo['backlink']		= '';
+						$typeInfo['backlinktxt']	= '';
+						$typeInfo['text']			= Text::_('COM_PHOCAMENU_BREAKFAST_MENU'). ' ' . Text::_('COM_PHOCAMENU_RAW_EDIT');
+					break;
+				}
+				$typeInfo['catid']			= 'gid';
+				$typeInfo['pref']			= 'bm';
+				$typeInfo['frontview']		= 'breakfastmenu';
+				$typeInfo['render']			= 'renderCommonMenu';
+				$typeInfo['title']			= Text::_('COM_PHOCAMENU_BREAKFAST_MENU');
+				$typeInfo['root']			= '&view=phocamenugroups&type=6';
+			break;
+
+			case 7:
+				switch($typeview) {
+					case 'group':
+						$typeInfo['backlink']		= '';
+						$typeInfo['backlinktxt']	= 'COM_PHOCAMENU_CONTROL_PANEL';
+						$typeInfo['text']			= Text::_('COM_PHOCAMENU_LUNCH_MENU'). ' ' . Text::_('COM_PHOCAMENU_GROUP');
+					break;
+
+					case 'item':
+						$typeInfo['backlink']		= '&view=phocamenugroups&type=7';
+						$typeInfo['backlinktxt']	= 'COM_PHOCAMENU_GROUPS';
+						$typeInfo['text']			= Text::_('COM_PHOCAMENU_LUNCH_MENU'). ' ' . Text::_('COM_PHOCAMENU_ITEM');
+					break;
+
+					case 'config':
+						$typeInfo['backlink']		= '';
+						$typeInfo['backlinktxt']	= '';
+						$typeInfo['text']			= Text::_('COM_PHOCAMENU_LUNCH_MENU'). ' ' . Text::_('COM_PHOCAMENU_MENU_SETTINGS');
+					break;
+
+					case 'email':
+						$typeInfo['backlink']		= '';
+						$typeInfo['backlinktxt']	= '';
+						$typeInfo['text']			= Text::_('COM_PHOCAMENU_LUNCH_MENU'). ' ' . Text::_('COM_PHOCAMENU_SEND_EMAIL');
+					break;
+					case 'multipleedit':
+						$typeInfo['backlink']		= '';
+						$typeInfo['backlinktxt']	= '';
+						$typeInfo['text']			= Text::_('COM_PHOCAMENU_LUNCH_MENU'). ' ' . Text::_('COM_PHOCAMENU_MULTIPLE_EDIT');
+					break;
+					case 'rawedit':
+						$typeInfo['backlink']		= '';
+						$typeInfo['backlinktxt']	= '';
+						$typeInfo['text']			= Text::_('COM_PHOCAMENU_LUNCH_MENU'). ' ' . Text::_('COM_PHOCAMENU_RAW_EDIT');
+					break;
+				}
+				$typeInfo['catid']			= 'gid';
+				$typeInfo['pref']			= 'lm';
+				$typeInfo['frontview']		= 'lunchmenu';
+				$typeInfo['render']			= 'renderCommonMenu';
+				$typeInfo['title']			= Text::_('COM_PHOCAMENU_LUNCH_MENU');
+				$typeInfo['root']			= '&view=phocamenugroups&type=7';
+			break;
+
+			case 8:
+				switch($typeview) {
+					case 'group':
+						$typeInfo['backlink']		= '';
+						$typeInfo['backlinktxt']	= 'COM_PHOCAMENU_CONTROL_PANEL';
+						$typeInfo['text']			= Text::_('COM_PHOCAMENU_DINNER_MENU'). ' ' . Text::_('COM_PHOCAMENU_GROUP');
+					break;
+
+					case 'item':
+						$typeInfo['backlink']		= '&view=phocamenugroups&type=8';
+						$typeInfo['backlinktxt']	= 'COM_PHOCAMENU_GROUPS';
+						$typeInfo['text']			= Text::_('COM_PHOCAMENU_DINNER_MENU'). ' ' . Text::_('COM_PHOCAMENU_ITEM');
+					break;
+
+					case 'config':
+						$typeInfo['backlink']		= '';
+						$typeInfo['backlinktxt']	= '';
+						$typeInfo['text']			= Text::_('COM_PHOCAMENU_DINNER_MENU'). ' ' . Text::_('COM_PHOCAMENU_MENU_SETTINGS');
+					break;
+
+					case 'email':
+						$typeInfo['backlink']		= '';
+						$typeInfo['backlinktxt']	= '';
+						$typeInfo['text']			= Text::_('COM_PHOCAMENU_DINNER_MENU'). ' ' . Text::_('COM_PHOCAMENU_SEND_EMAIL');
+					break;
+					case 'multipleedit':
+						$typeInfo['backlink']		= '';
+						$typeInfo['backlinktxt']	= '';
+						$typeInfo['text']			= Text::_('COM_PHOCAMENU_DINNER_MENU'). ' ' . Text::_('COM_PHOCAMENU_MULTIPLE_EDIT');
+					break;
+					case 'rawedit':
+						$typeInfo['backlink']		= '';
+						$typeInfo['backlinktxt']	= '';
+						$typeInfo['text']			= Text::_('COM_PHOCAMENU_DINNER_MENU'). ' ' . Text::_('COM_PHOCAMENU_RAW_EDIT');
+					break;
+				}
+				$typeInfo['catid']			= 'gid';
+				$typeInfo['pref']			= 'dn';
+				$typeInfo['frontview']		= 'dinnermenu';
+				$typeInfo['render']			= 'renderCommonMenu';
+				$typeInfo['title']			= Text::_('COM_PHOCAMENU_DINNER_MENU');
+				$typeInfo['root']			= '&view=phocamenugroups&type=8';
+			break;
 
 			case -1:
 				// All items
@@ -960,7 +1324,7 @@ class PhocaMenuHelper
 	}
 
 	public static function isMenuEnabled() {
-		return false;
+		return true;
 	}
 
 	public static function cleanRawOutput($string) {

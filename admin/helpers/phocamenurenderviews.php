@@ -227,12 +227,924 @@ class PhocaMenuRenderViews
 		// Remove empty table - because of TCPDF
 		$o = str_replace($tag['tableitem-o'].$tag['tableitem-c'], '', $o);
 
-		$o .= PhocaMenuHelper::renderCode($params->get( 'render_code', 1 ), $method);
+
 
 		return $o;
 	}
 
 
+	/*
+	 *
+	 *
+	 * Weekly Menu
+	 *
+	 *
+	 */
+	public static function renderWeeklyMenu($data, $tmpl, $params, $paramsG, $method = 0) {
+
+		$method = self::setMethod($params, $method);
+		//Frontend params
+		$paramsF['displaydayname']			= $params->get('displaydayname',1);
+		$paramsF['displayheaderdate']		= $params->get('displayheaderdate',1);
+		$paramsF['displayheader']			= $params->get('displayheader',1);
+		$paramsC['displaygroupmsg']			= $params->get( 'display_group_message', 2 );
+		//$paramsC['displaydaymultiplewm']	= $params->get( 'display_day_multiple_wm', 1);
+
+		$app 	= Factory::getApplication();
+		$site	= $app->getName();
+
+
+		$tag 		= PhocaMenuRenderViews::getStyle($method, $tmpl['phocagallery']);
+
+		$oP = array();
+
+		$o = self::setMainId($method);
+
+		// HEADER (Config)
+		if (isset($data['config'])) {
+
+			if ($paramsF['displayheader'] == 1) {
+				$o .= $tag['header-o'] . $data['config']->header . $tag['header-c'];
+				$dateFrom 	= PhocaMenuHelper::getDate($data['config']->date_from, $tmpl['weekdateformat'], $tmpl['dateclass'], $data['config']->language);
+				$dateTo 	= PhocaMenuHelper::getDate($data['config']->date_to, $tmpl['weekdateformat'], $tmpl['dateclass'], $data['config']->language);
+
+				if ($method == 3) {
+					$o .= $tag['date-o'] . $dateFrom . ' - ' . $dateTo . '<br/>'
+					. '<table style="text-align:right;border: 0px;"><tr>'
+					. '<td>' . Text::_('COM_PHOCAMENU_FIELD_DATE_FROM_LABEL') . '</td>'
+					. '<td>' . HTMLHelper::_('calendar', (string)$data['config']->date_from,  'date_from['.$data['config']->id.']', 'date_from'.$data['config']->id, "%Y-%m-%d", array('class'=>'inputbox', 'size'=>'45',  'maxlength'=>'45')). '</td>'
+					.'</tr><tr>'
+					.'<td>' . Text::_('COM_PHOCAMENU_FIELD_DATE_TO_LABEL') . '</td>'
+					.'<td>' . HTMLHelper::_('calendar', (string)$data['config']->date_to,  'date_to['.$data['config']->id.']', 'date_to'.$data['config']->id, "%Y-%m-%d", array('class'=>'inputbox', 'size'=>'45',  'maxlength'=>'45')) .'</td>'
+					.'</tr></table>' . $tag['date-c'];
+
+				} else if ($method == 6) {
+					$oP[] = '#'.$data['config']->date_from .' - '.$data['config']->date_to;
+				} else {
+					if (isset($data['config']->date_from) && $data['config']->date_from != ''
+					 && isset($data['config']->date_to) && $data['config']->date_to != '' && (int)$paramsF['displayheaderdate'] > 0) {
+						$o .= $tag['date-o'] . $dateFrom . ' - ' . $dateTo . $tag['date-c'];
+					}
+				}
+
+			}
+
+		}
+
+		// BODY
+
+		if (isset($data['day'])) {
+			for ($d = 0, $da = count($data['day']); $d < $da; $d++) {
+
+				$oddEvenBox = 0;
+				if ($method == 3) {
+					if ($d%2==0) {
+						$o .= $tag['evenbox-o'];
+					} else {
+						$o .= $tag['oddbox-o'];
+					}
+					$oddEvenBox = 1;
+				}
+
+
+				if ($paramsF['displaydayname'] == 1) {
+					$date = PhocaMenuHelper::getDate($data['day'][$d]->title, $tmpl['daydateformat'], $tmpl['dateclass']);
+
+					// Multiple Edit
+					if ($method == 3) {
+						$o .= $tag['datesub-o'] . $date . '<br/>'
+						. HTMLHelper::_('calendar', (string)$data['day'][$d]->title, 'datesub[' . $data['day'][$d]->id.']', 'datesub' . $data['day'][$d]->id, "%Y-%m-%d", array('class'=>'inputbox', 'size'=>'45',  'maxlength'=>'45')) . $tag['datesub-c'];
+					} else if ($method == 6) {
+						$oP[] = '##'.$data['day'][$d]->title;
+					} else {
+						$o .= $tag['datesub-o'] . $date . $tag['datesub-c'];
+					}
+				}
+
+				if (isset($data['group'])) {
+					for ($g = 0, $gr = count($data['group']); $g < $gr; $g++) {
+
+						// group must belong to own day
+						if ($data['day'][$d]->id == $data['group'][$g]->catid) {
+
+							if ($method == 3) {
+								$o .= $tag['group-o'] . '<input size="30" class="form-control" type="text" name="group['.$data['group'][$g]->id.']" id="group'.$data['group'][$g]->id.'" value="'.$data['group'][$g]->title.'" />' . $tag['group-c'];
+
+							}  else if ($method == 6) {
+								$oP[] = '###'.$data['group'][$g]->title;
+								if (!empty($data['group'][$g]->message)) {
+									$groupMsg = PhocaMenuHelper::cleanRawOutput($data['group'][$g]->message);
+									if (!empty($groupMsg)) {$oP[] = '>'.$groupMsg;}
+								}
+							} else {
+								$o .= $tag['group-o'] . $data['group'][$g]->title . $tag['group-c'];
+								if ($paramsC['displaygroupmsg'] == 1) {
+									$o .= $tag['message-o'] .  $data['group'][$g]->message . $tag['message-c'];
+								}
+							}
+
+							if (isset($data['item'])) {
+								$displayTaskIcons 	= 0;
+								$displayAddRow		= 0;
+								$oI			= '';
+								$o .= $tag['item-o'] . $tag['tableitem-o'];
+
+								// Second Price, Header Group
+								if ($method == 3 ) {
+									$o .= PhocaMenuRenderViews::renderGroupHeaderME($data['group'][$g], $tag );
+								} else {
+									$o .= PhocaMenuRenderViews::renderGroupHeader($data['group'][$g]->display_second_price, $data['group'][$g]->header_price, $data['group'][$g]->header_price2, $tag, $method, 2 );
+								}
+								// END SP
+
+								for ($i = 0, $it = count($data['item']); $i < $it; $i++) {
+
+									// item must belong to own group
+									if ($data['group'][$g]->id == $data['item'][$i]->catid) {
+
+										// Possible tasks in multipleedit - display them only before first row
+										if ($method == 3 && $displayTaskIcons == 0) {
+											$oI .= PhocaMenuRenderViews::renderTaskIconsME($data['group'][$g]->display_second_price);
+											// there is some first row
+											$displayTaskIcons 	= 1;
+											$displayAddRow		= 1;
+										}
+
+										$image	= $tag['spaceimg'];
+										if ($data['item'][$i]->image != '') {
+											$altTitle = '';
+											if ($data['item'][$i]->title != '') {
+												$altTitle = htmlspecialchars(strip_tags($data['item'][$i]->title));
+											}
+											$image = '<div class="pmimage pmimage-full"><img src="'.Uri::base().$data['item'][$i]->image.'" alt="'.$altTitle.'" /></div>';
+										} else {
+											// PHOCAGALLERY Image  - - - - - -
+
+											if ((int)$tmpl['phocagallery'] == 1) {
+												$image = PhocaMenuGallery::getPhocaGalleryLink($tmpl['imagesize'], $data['item'][$i]->imageid,
+													$data['item'][$i]->imagefilename, $data['item'][$i]->imagecatid, $data['item'][$i]->imageslug, $data['item'][$i]->imagecatslug, $paramsG['imagedetailwindow'], $tmpl['button'], $data['item'][$i]->imageextid, $data['item'][$i]->imageexts, $data['item'][$i]->imageextm, $data['item'][$i]->imageextl, $data['item'][$i]->imageextw, $data['item'][$i]->imageexth);
+
+											}
+											// - - - - - - - - - - - - - - - -
+										}
+										if (isset($data['item'][$i]->price) && $data['item'][$i]->price > 0) {
+											$price 		= PhocaMenuHelper::getPriceFormat($data['item'][$i]->price, $params);
+											$pricePref	= $tmpl['priceprefix'];
+										} else {
+											$price 		= '';
+											$pricePref	= '';
+										}
+
+										// Second Price
+										if ($data['group'][$g]->display_second_price == 1 && isset($data['item'][$i]->price2) && $data['item'][$i]->price2 > 0) {
+											$price2 		= PhocaMenuHelper::getPriceFormat($data['item'][$i]->price2, $params);
+											$pricePref2		= $tmpl['priceprefix'];
+										} else {
+											$price2 		= '';
+											$pricePref2		= '';
+										}
+										// End SP
+
+										if ($method == 3) {
+											$oI .= PhocaMenuRenderViews::renderFormItemME(2, $tag, $data['group'][$g], $data['item'][$i], $pricePref, $method, $price2, $pricePref2, $data['group'][$g]->display_second_price);
+										} else if ($method == 6) {
+											$oP[] = PhocaMenuRenderViews::renderFormItemRE(1, $tag, $data['group'][$g], $data['item'][$i], $pricePref, $method, $price2, $pricePref2, $data['group'][$g]->display_second_price);
+										} else {
+											$oI .=PhocaMenuRenderViews::renderFormItem(2, $tag, $image, $data['item'][$i], $price, $pricePref, $method, $price2, $pricePref2, $data['group'][$g]->display_second_price);
+										}
+
+									}
+								}
+
+								if ($oI == '') {$oI = '<tr><td></td></tr>';}
+								$o .= $oI . $tag['tableitem-c'] . $tag['item-c'];
+
+								if ($method == 3) {
+									if ($displayAddRow == 1) {
+										$o .= '<div class="pm-addrow"><small><a href="#" onclick="addRow('.$data['group'][$g]->id.', 2); return false;">'.Text::_('COM_PHOCAMENU_ADD_ROW').'</a></small></div>';
+									}
+								}
+
+							} // end item
+
+							if ($method == 3) {
+								$o .= $tag['message-o'] . '<textarea class="form-control" rows="2" cols="60" name="message[' . $data['group'][$g]->id .']" id="message' . $data['group'][$g]->id .'">'. $data['group'][$g]->message . '</textarea>'. $tag['message-c'];
+							} else {
+								if ($paramsC['displaygroupmsg'] == 2) {
+									$o .= $tag['message-o'] .  $data['group'][$g]->message . $tag['message-c'];
+								}
+							}
+						}
+					}
+				} // end group
+
+				if ($method == 3 && $oddEvenBox == 1) {
+					$o .= $tag['bothbox-c'];
+				}
+
+			}
+		} // end day
+
+		// FOOTER (Config)
+		if (isset($data['config'])) {
+			$o .=  $tag['footer-o'] . $data['config']->footer .  $tag['footer-c'];
+		}
+
+		$o .= '</div>';// end phocamenu
+
+		if ($method == 3) {
+			return $o;
+		} else if ($method == 6) {
+			return PhocaMenuRenderViews::renderFormCompleteRE($oP);
+		}
+
+		$enableBBCode = $params->get( 'enable_bb_code', 0 );
+		if ((int)$enableBBCode == 1) {
+			$o = PhocaMenuHelper::bbCodeReplace($o);
+			$o = str_replace ( '[br]', '<br />', $o );
+		} else if ((int)$enableBBCode  == 2) {
+			$o = str_replace ( '[br]', '<br />', $o );
+		}
+		$o = PhocaMenuHelper::replaceTag($o, $method);
+
+		// Remove empty table - because of TCPDF
+		$o = str_replace($tag['tableitem-o'].$tag['tableitem-c'], '', $o);
+
+		return $o;
+	}
+
+
+	 /*
+	 *
+	 *
+	 * Common Menu  Breakfast Menu, Lunch Menu, Dinner Menu
+	 *
+	 *
+	 */
+	public static function renderCommonMenu($data, $tmpl, $params, $paramsG, $method = 0) {
+
+		$method = self::setMethod($params, $method);
+		$tag = PhocaMenuRenderViews::getStyle($method, $tmpl['phocagallery']);
+		$paramsC['displaygroupmsg']	=	$params->get( 'display_group_message', 2 );
+
+		$oP = array();
+
+		$o = self::setMainId($method);
+
+		// HEADER (Config)
+		$oddEvenBox = 0;
+		if (isset($data['config'])) {
+			$o .= $tag['header-o'] . $data['config']->header . $tag['header-c'];
+		}
+
+		if ($method == 3) {
+			$o .= $tag['oddbox-o'];
+			$oddEvenBox = 1;
+		}
+
+		// BODY
+		if (isset($data['group'])) {
+			for ($g = 0, $gr = count($data['group']); $g < $gr; $g++) {
+
+				if ($method == 3) {
+					$o .= $tag['group-o'] . '<input size="30" class="form-control" type="text" name="group['.$data['group'][$g]->id.']" id="group'.$data['group'][$g]->id.'" value="'.$data['group'][$g]->title.'" />' . $tag['group-c'];
+				}  else if ($method == 6) {
+					$oP[] = '###'.$data['group'][$g]->title;
+					if (!empty($data['group'][$g]->message)) {
+						$groupMsg = PhocaMenuHelper::cleanRawOutput($data['group'][$g]->message);
+						if (!empty($groupMsg)) {$oP[] = '>'.$groupMsg;}
+					}
+				} else {
+					$o .= $tag['group-o'] . $data['group'][$g]->title . $tag['group-c'];
+					if ($paramsC['displaygroupmsg'] == 1) {
+						$o .= $tag['message-o'] .  $data['group'][$g]->message . $tag['message-c'];
+					}
+				}
+
+				if (isset($data['item'])) {
+					$displayTaskIcons 	= 0;
+					$displayAddRow		= 0;
+					$o .= $tag['item-o'] . $tag['tableitem-o'];
+
+					// Second Price, Header Group
+					if ($method == 3 ) {
+						$o .= PhocaMenuRenderViews::renderGroupHeaderME($data['group'][$g], $tag );
+					} else {
+						$o .= PhocaMenuRenderViews::renderGroupHeader($data['group'][$g]->display_second_price, $data['group'][$g]->header_price, $data['group'][$g]->header_price2, $tag, $method, 3 );
+					}
+					// END SP
+
+					for ($i = 0, $it = count($data['item']); $i < $it; $i++) {
+						// item must belong to own group
+						if ($data['group'][$g]->id == $data['item'][$i]->catid) {
+
+							// Possible tasks in multipleedit - display them only before first row
+							if ($method == 3 && $displayTaskIcons == 0) {
+								$o .= PhocaMenuRenderViews::renderTaskIconsME($data['group'][$g]->display_second_price);
+								// there is some first row
+								$displayTaskIcons 	= 1;
+								$displayAddRow		= 1;
+							}
+
+							$image	= $tag['spaceimg'];
+							if ($data['item'][$i]->image != '') {
+								$altTitle = '';
+								if ($data['item'][$i]->title != '') {
+									$altTitle = htmlspecialchars(strip_tags($data['item'][$i]->title));
+								}
+								$image = '<div class="pmimage pmimage-full"><img src="'.Uri::base().$data['item'][$i]->image.'" alt="'.$altTitle.'" /></div>';
+							} else {
+								// PHOCAGALLERY Image  - - - - - -
+								if ((int)$tmpl['phocagallery'] == 1) {
+									$image = PhocaMenuGallery::getPhocaGalleryLink($tmpl['imagesize'], $data['item'][$i]->imageid, $data['item'][$i]->imagefilename, $data['item'][$i]->imagecatid, $data['item'][$i]->imageslug, $data['item'][$i]->imagecatslug, $paramsG['imagedetailwindow'], $tmpl['button'], $data['item'][$i]->imageextid, $data['item'][$i]->imageexts, $data['item'][$i]->imageextm, $data['item'][$i]->imageextl, $data['item'][$i]->imageextw, $data['item'][$i]->imageexth);
+								}
+								// - - - - - - - - - - - - - - - -
+							}
+							if (isset($data['item'][$i]->price) && $data['item'][$i]->price > 0) {
+								$price 		= PhocaMenuHelper::getPriceFormat($data['item'][$i]->price, $params);
+								$pricePref	= $tmpl['priceprefix'];
+							} else {
+								$price 		= '';
+								$pricePref	= '';
+							}
+
+							// Second Price
+							if ($data['group'][$g]->display_second_price == 1 && isset($data['item'][$i]->price2) && $data['item'][$i]->price2 > 0) {
+								$price2 		= PhocaMenuHelper::getPriceFormat($data['item'][$i]->price2, $params);
+								$pricePref2		= $tmpl['priceprefix'];
+							} else {
+								$price2 		= '';
+								$pricePref2		= '';
+							}
+							// End SP
+
+							if ($method == 3) {
+								$o .= PhocaMenuRenderViews::renderFormItemME(3, $tag, $data['group'][$g], $data['item'][$i], $pricePref, $method, $price2, $pricePref2, $data['group'][$g]->display_second_price);
+							} else if ($method == 6) {
+								$oP[] = PhocaMenuRenderViews::renderFormItemRE(1, $tag, $data['group'][$g], $data['item'][$i], $pricePref, $method, $price2, $pricePref2, $data['group'][$g]->display_second_price);
+							} else {
+								$o .=PhocaMenuRenderViews::renderFormItem(3, $tag, $image, $data['item'][$i], $price, $pricePref, $method, $price2, $pricePref2, $data['group'][$g]->display_second_price);
+							}
+						}
+					}
+
+					$o .= $tag['tableitem-c'] . $tag['item-c'];
+					if ($method == 3) {
+						if ($displayAddRow == 1) {
+							$o .= '<div class="pm-addrow"><small><a href="#" onclick="addRow('.$data['group'][$g]->id.', 3); return false;">'.Text::_('COM_PHOCAMENU_ADD_ROW').'</a></small></div>';
+						}
+					}
+				} // end items
+
+				if ($method == 3) {
+					$o .= $tag['message-o'] . '<textarea class="form-control" rows="2" cols="60" name="message[' . $data['group'][$g]->id .']" id="message' . $data['group'][$g]->id .'">'. $data['group'][$g]->message . '</textarea>'. $tag['message-c'];
+				} else {
+					if ($paramsC['displaygroupmsg'] == 2) {
+						$o .= $tag['message-o'] .  $data['group'][$g]->message . $tag['message-c'];
+					}
+				}
+
+			}
+		} // end group
+
+		if ($method == 3 && $oddEvenBox == 1) {
+			$o .= $tag['bothbox-c'];
+		}
+
+		// FOOTER (Config)
+		if (isset($data['config'])) {
+			$o .=  $tag['footer-o'] . $data['config']->footer .  $tag['footer-c'];
+		}
+
+		$o .= '</div>';// end phocamenu
+
+		if ($method == 3) {
+			return $o;
+		} else if ($method == 6) {
+			return PhocaMenuRenderViews::renderFormCompleteRE($oP);
+		}
+
+		$enableBBCode = $params->get( 'enable_bb_code', 0 );
+		if ((int)$enableBBCode == 1) {
+			$o = PhocaMenuHelper::bbCodeReplace($o);
+			$o = str_replace ( '[br]', '<br />', $o );
+		} else if ((int)$enableBBCode  == 2) {
+			$o = str_replace ( '[br]', '<br />', $o );
+		}
+		$o = PhocaMenuHelper::replaceTag($o, $method);
+
+		// Remove empty table - because of TCPDF
+		$o = str_replace($tag['tableitem-o'].$tag['tableitem-c'], '', $o);
+		return $o;
+	}
+
+
+	/*
+	 *
+	 *
+	 * Beverage List
+	 *
+	 *
+	 */
+	public static function renderBeverageList($data, $tmpl, $params, $paramsG, $method = 0) {
+
+
+		$method = self::setMethod($params, $method);
+
+		//Frontend params
+		$paramsF['displaylistname']	= $params->get('displaylistname', 1);
+		$paramsC['displaygroupmsg']	= $params->get( 'display_group_message', 2 );
+		$tag = PhocaMenuRenderViews::getStyle($method, $tmpl['phocagallery'], '-bl');
+
+		$oP = array();
+
+		$o = self::setMainId($method);
+
+		// HEADER (Config)
+		if (isset($data['config'])) {
+			$o .= $tag['header-o'] . $data['config']->header . $tag['header-c'];
+		}
+
+		$right	= '';
+		$left	= '';
+		// BODY
+
+		if (isset($data['list'])) {
+			for ($l = 0, $li = count($data['list']); $l < $li; $l++) {
+
+				$oddEvenBox = 0;
+				if ($method == 3) {
+					if ($l%2==0) {
+						$o .= $tag['evenbox-o'];
+					} else {
+						$o .= $tag['oddbox-o'];
+					}
+					$oddEvenBox = 1;
+				}
+
+				if ($method == 3) {
+					$o .= $tag['list-o'] . '<input size="30" class="form-control" type="text" name="list:'.$data['list'][$l]->id.'" id="list:'.$data['list'][$l]->id.'" value="'.$data['list'][$l]->title.'" />' . $tag['list-c'];
+				}  else if ($method == 6) {
+					$oP[] = '##'.$data['list'][$l]->title;
+				} else {
+					$o .= '<div style="clear:both"></div>';
+					if ($paramsF['displaylistname'] == 1) {
+						$o .= $tag['list-o'] . $data['list'][$l]->title . $tag['list-c'];
+					}
+				}
+
+				$col = 0;//column, there are two columns - left | right
+				if (isset($data['group'])) {
+					for ($g = 0, $gr = count($data['group']); $g < $gr; $g++) {
+
+						// group must belong to own list
+						if ($data['list'][$l]->id == $data['group'][$g]->catid) {
+
+							$col++;
+							//right column
+							if ($col%2 == 0) {
+
+								if ($method == 3) {
+									$right .= $tag['group-o'] . '<input size="30" class="form-control" type="text" name="group['.$data['group'][$g]->id.']" id="group'.$data['group'][$g]->id.'" value="'.$data['group'][$g]->title.'" />' . $tag['group-c'];
+
+								}  else if ($method == 6) {
+									$oP[] = '###'.$data['group'][$g]->title;
+									$groupMsg = PhocaMenuHelper::cleanRawOutput($data['group'][$g]->message);
+									if (!empty($groupMsg)) {$oP[] = '>'.$groupMsg;}
+								} else {
+									$right .= $tag['group-o'] . $data['group'][$g]->title . $tag['group-c'];
+									if ($paramsC['displaygroupmsg'] == 1) {
+										$right .= $tag['message-o'] .  $data['group'][$g]->message . $tag['message-c'];
+									}
+								}
+
+								if (isset($data['item'])) {
+									$displayTaskIconsR 	= 0;
+									$displayAddRowR		= 0;
+									$right .= $tag['item-o'] . $tag['tableitem-o'];
+
+									// Second Price, Header Group
+									if ($method == 3 ) {
+										$right .= PhocaMenuRenderViews::renderGroupHeaderME($data['group'][$g], $tag );
+									} else {
+										$right .= PhocaMenuRenderViews::renderGroupHeader($data['group'][$g]->display_second_price, $data['group'][$g]->header_price, $data['group'][$g]->header_price2, $tag, $method, 4 );
+									}
+									// END SP
+
+									for ($i = 0, $it = count($data['item']); $i < $it; $i++) {
+
+										// item must belong to own group
+										if ($data['group'][$g]->id == $data['item'][$i]->catid) {
+
+											// Possible tasks in multipleedit - display them only before first row
+											if ($method == 3 && $displayTaskIconsR == 0) {
+												$right .= PhocaMenuRenderViews::renderTaskIconsME($data['group'][$g]->display_second_price);
+												// there is some first row
+												$displayTaskIconsR 	= 1;
+												$displayAddRowR		= 1;
+											}
+
+											$image	= $tag['spaceimg'];
+											if ($data['item'][$i]->image != '') {
+												$altTitle = '';
+												if ($data['item'][$i]->title != '') {
+													$altTitle = htmlspecialchars(strip_tags($data['item'][$i]->title));
+												}
+												$image = '<div class="pmimage pmimage-full"><img src="'.Uri::base().$data['item'][$i]->image.'" alt="'.$altTitle.'" /></div>';
+											} else {
+												// PHOCAGALLERY Image  - - - - - -
+												if ((int)$tmpl['phocagallery'] == 1) {
+													$image = PhocaMenuGallery::getPhocaGalleryLink($tmpl['imagesize'], $data['item'][$i]->imageid, $data['item'][$i]->imagefilename, $data['item'][$i]->imagecatid, $data['item'][$i]->imageslug, $data['item'][$i]->imagecatslug, $paramsG['imagedetailwindow'], $tmpl['button'], $data['item'][$i]->imageextid, $data['item'][$i]->imageexts, $data['item'][$i]->imageextm, $data['item'][$i]->imageextl, $data['item'][$i]->imageextw, $data['item'][$i]->imageexth);
+												}
+												// - - - - - - - - - - - - - - - -
+											}
+											if (isset($data['item'][$i]->price) && $data['item'][$i]->price > 0) {
+												$price 		= PhocaMenuHelper::getPriceFormat($data['item'][$i]->price, $params);
+												$pricePref	= $tmpl['priceprefix'];
+											} else {
+												$price 		= '';
+												$pricePref	= '';
+											}
+
+											// Second Price
+											if ($data['group'][$g]->display_second_price == 1 && isset($data['item'][$i]->price2) && $data['item'][$i]->price2 > 0) {
+												$price2 		= PhocaMenuHelper::getPriceFormat($data['item'][$i]->price2, $params);
+												$pricePref2		= $tmpl['priceprefix'];
+											} else {
+												$price2 		= '';
+												$pricePref2		= '';
+											}
+											// End SP
+
+											if ($method == 3) {
+												$right .= PhocaMenuRenderViews::renderFormItemME(4, $tag, $data['group'][$g], $data['item'][$i], $pricePref, $method, $price2, $pricePref2, $data['group'][$g]->display_second_price);
+											} else if ($method == 6) {
+												$oP[] = PhocaMenuRenderViews::renderFormItemRE(1, $tag, $data['group'][$g], $data['item'][$i], $pricePref, $method, $price2, $pricePref2, $data['group'][$g]->display_second_price);
+											} else {
+												$right .=PhocaMenuRenderViews::renderFormItem(4, $tag, $image, $data['item'][$i], $price, $pricePref, $method, $price2, $pricePref2, $data['group'][$g]->display_second_price, '-bl');
+											}
+
+										}
+									}
+
+									$right .= $tag['tableitem-c'] . $tag['item-c'];
+									if ($method == 3) {
+										if ($displayAddRowR == 1) {
+											$right .= '<div class="pm-addrow"><small><a href="#" onclick="addRow('.$data['group'][$g]->id.', 4); return false;">'.Text::_('COM_PHOCAMENU_ADD_ROW').'</a></small></div>';
+										}
+									}
+								} // end items
+
+								if ($method == 3) {
+									$right .= $tag['message-o'] . '<textarea class="form-control" rows="2" cols="60" name="message[' . $data['group'][$g]->id .']" id="message' . $data['group'][$g]->id .'">'. $data['group'][$g]->message . '</textarea>'. $tag['message-c'];
+								} else {
+									if ($paramsC['displaygroupmsg'] == 2) {
+										$right .= $tag['message-o'] .  $data['group'][$g]->message . $tag['message-c'];
+									}
+								}
+
+							//left column
+							} else {
+
+								if ($method == 3) {
+									$left .= $tag['group-o'] . '<input size="30" class="form-control" type="text" name="group['.$data['group'][$g]->id.']" id="group'.$data['group'][$g]->id.'" value="'.$data['group'][$g]->title.'" />' . $tag['group-c'];
+
+								}  else if ($method == 6) {
+									$oP[] = '###'.$data['group'][$g]->title;
+									if (!empty($data['group'][$g]->message)) {
+										$groupMsg = PhocaMenuHelper::cleanRawOutput($data['group'][$g]->message);
+										if (!empty($groupMsg)) {$oP[] = '>'.$groupMsg;}
+									}
+								} else {
+									$left .= $tag['group-o'] . $data['group'][$g]->title . $tag['group-c'];
+									if ($paramsC['displaygroupmsg'] == 1) {
+										$left .= $tag['message-o'] .  $data['group'][$g]->message . $tag['message-c'];
+									}
+								}
+
+								if (isset($data['item'])) {
+									$displayTaskIconsL 	= 0;
+									$displayAddRowL		= 0;
+									$left .= $tag['item-o'] . $tag['tableitem-o'];
+
+									// Second Price, Header Group
+									if ($method == 3 ) {
+										$left .= PhocaMenuRenderViews::renderGroupHeaderME($data['group'][$g], $tag );
+									} else {
+										$left .= PhocaMenuRenderViews::renderGroupHeader($data['group'][$g]->display_second_price, $data['group'][$g]->header_price, $data['group'][$g]->header_price2, $tag, $method, 4 );
+									}
+									// END SP
+
+									for ($i = 0, $it = count($data['item']); $i < $it; $i++) {
+
+										// item must belong to own group
+										if ($data['group'][$g]->id == $data['item'][$i]->catid) {
+
+											// Possible tasks in multipleedit - display them only before first row
+											if ($method == 3 && $displayTaskIconsL == 0) {
+												$left .= PhocaMenuRenderViews::renderTaskIconsME($data['group'][$g]->display_second_price);
+												// there is some first row
+												$displayTaskIconsL 	= 1;
+												$displayAddRowL		= 1;
+											}
+
+											$image	= $tag['spaceimg'];
+											if ($data['item'][$i]->image != '') {
+												$altTitle = '';
+												if ($data['item'][$i]->title != '') {
+													$altTitle = htmlspecialchars(strip_tags($data['item'][$i]->title));
+												}
+												$image = '<div class="pmimage pmimage-full"><img src="'.Uri::base().$data['item'][$i]->image.'" alt="'.$altTitle.'" /></div>';
+											} else {
+												// PHOCAGALLERY Image  - - - - - -
+												if ((int)$tmpl['phocagallery'] == 1) {
+													$image = PhocaMenuGallery::getPhocaGalleryLink($tmpl['imagesize'], $data['item'][$i]->imageid, $data['item'][$i]->imagefilename, $data['item'][$i]->imagecatid, $data['item'][$i]->imageslug, $data['item'][$i]->imagecatslug, $paramsG['imagedetailwindow'], $tmpl['button'], $data['item'][$i]->imageextid, $data['item'][$i]->imageexts, $data['item'][$i]->imageextm, $data['item'][$i]->imageextl, $data['item'][$i]->imageextw, $data['item'][$i]->imageexth);
+												}
+												// - - - - - - - - - - - - - - - -
+											}
+											if (isset($data['item'][$i]->price) && $data['item'][$i]->price > 0) {
+												$price 		= PhocaMenuHelper::getPriceFormat($data['item'][$i]->price, $params);
+												$pricePref	= $tmpl['priceprefix'];
+											} else {
+												$price 		= '';
+												$pricePref	= '';
+											}
+
+											// Second Price
+											if ($data['group'][$g]->display_second_price == 1 && isset($data['item'][$i]->price2) && $data['item'][$i]->price2 > 0) {
+												$price2 		= PhocaMenuHelper::getPriceFormat($data['item'][$i]->price2, $params);
+												$pricePref2		= $tmpl['priceprefix'];
+											} else {
+												$price2 		= '';
+												$pricePref2		= '';
+											}
+											// End SP
+
+											if ($method == 3) {
+												$left .= PhocaMenuRenderViews::renderFormItemME(4, $tag, $data['group'][$g], $data['item'][$i], $pricePref, $method, $price2, $pricePref2, $data['group'][$g]->display_second_price);
+											} else if ($method == 6) {
+												$oP[] = PhocaMenuRenderViews::renderFormItemRE(1, $tag, $data['group'][$g], $data['item'][$i], $pricePref, $method, $price2, $pricePref2, $data['group'][$g]->display_second_price);
+											} else {
+												$left .=PhocaMenuRenderViews::renderFormItem(4, $tag, $image, $data['item'][$i], $price, $pricePref, $method, $price2, $pricePref2, $data['group'][$g]->display_second_price, '-bl');
+											}
+
+										}
+									}
+
+									$left .= $tag['tableitem-c'] . $tag['item-c'];
+									if ($method == 3) {
+										if ($displayAddRowL == 1) {
+											$left .= '<div class="pm-addrow"><small><a href="#" onclick="addRow('.$data['group'][$g]->id.', 4); return false;">'.Text::_('COM_PHOCAMENU_ADD_ROW').'</a></small></div>';
+										}
+									}
+								} // end items
+
+								if ($method == 3) {
+									$left .= $tag['message-o'] . '<textarea class="form-control" rows="2" cols="60" name="message[' . $data['group'][$g]->id .']" id="message' . $data['group'][$g]->id .'">'. $data['group'][$g]->message . '</textarea>'. $tag['message-c'];
+								} else {
+									if ($paramsC['displaygroupmsg'] == 2) {
+										$left .= $tag['message-o'] .  $data['group'][$g]->message . $tag['message-c'];
+									}
+								}
+							}
+						}
+					}
+				} // end group
+
+				$o .= $tag['groupleft-o'] . $left .  $tag['groupleft-c'];
+				$o .= $tag['groupright-o'] . $right .  $tag['groupright-c'];
+				$left 	= '';
+				$right 	= '';
+
+				if ($method == 3 && $oddEvenBox == 1) {
+					$o .= $tag['bothbox-c'];
+				}
+			}
+
+			$o .= '<div style="clear:both"></div>';
+		}
+
+		// FOOTER (Config)
+		if (isset($data['config'])) {
+			$o .=  $tag['footer-o'] . $data['config']->footer .  $tag['footer-c'];
+		}
+
+		$o .= '</div>';// end phocamenu
+		if ($method == 3) {
+			return $o;
+		} else if ($method == 6) {
+			return PhocaMenuRenderViews::renderFormCompleteRE($oP);
+		}
+
+		$enableBBCode = $params->get( 'enable_bb_code', 0 );
+		if ((int)$enableBBCode == 1) {
+			$o = PhocaMenuHelper::bbCodeReplace($o);
+			$o = str_replace ( '[br]', '<br />', $o );
+		} else if ((int)$enableBBCode  == 2) {
+			$o = str_replace ( '[br]', '<br />', $o );
+		}
+		$o = PhocaMenuHelper::replaceTag($o, $method);
+
+		// Remove empty table - because of TCPDF
+		$o = str_replace($tag['tableitem-o'].$tag['tableitem-c'], '', $o);
+
+		return $o;
+	}
+
+
+	/*
+	 *
+	 *
+	 * Common List Menu - Food Menu Wine List
+	 *
+	 *
+	 */
+	public static function renderCommonListMenu($data, $tmpl, $params, $paramsG, $method = 0) {
+
+		$method = self::setMethod($params, $method);
+		//Frontend params
+		$paramsF['displaylistname']	= $params->get('displaylistname',1);
+		$paramsC['displaygroupmsg']	= $params->get( 'display_group_message', 2 );
+
+		$tag = PhocaMenuRenderViews::getStyle($method, $tmpl['phocagallery'], '-clm');
+
+		$oP = array();
+
+		$o = self::setMainId($method);
+		// HEADER (Config)
+
+		if (isset($data['config'])) {
+			$o .= $tag['header-o'] . $data['config']->header . $tag['header-c'];
+		}
+
+		// BODY
+
+		if (isset($data['list'])) {
+			for ($l = 0, $la = count($data['list']); $l < $la; $l++) {
+
+				$oddEvenBox = 0;
+				if ($method == 3) {
+					if ($l%2==0) {
+						$o .= $tag['evenbox-o'];
+					} else {
+						$o .= $tag['oddbox-o'];
+					}
+					$oddEvenBox = 1;
+				}
+
+				if ($method == 3) {
+					$o .= $tag['list-o'] . '<input size="30" class="form-control" type="text" name="list['.$data['list'][$l]->id.']" id="list'.$data['group'][$l]->id.'" value="'.$data['list'][$l]->title.'" />' . $tag['list-c'];
+				}  else if ($method == 6) {
+					$oP[] = '##'.$data['list'][$l]->title;
+				} else {
+					if ($paramsF['displaylistname']	== 1) {
+						$o .= $tag['list-o'] . $data['list'][$l]->title . $tag['list-c'];
+					}
+				}
+
+				if (isset($data['group'])) {
+					for ($g = 0, $gr = count($data['group']); $g < $gr; $g++) {
+						// group must belong to own day
+						if ($data['list'][$l]->id == $data['group'][$g]->catid) {
+
+							if ($method == 3) {
+								$o .= $tag['group-o'] . '<input size="30" class="form-control" type="text" name="group['.$data['group'][$g]->id.']" id="group'.$data['group'][$g]->id.'" value="'.$data['group'][$g]->title.'" />' . $tag['group-c'];
+								//$o .= $tag['message-o'] . '<textarea class="form-control" rows="2" cols="60" name="message[' . $data['group'][$g]->id .']" id="message' . $data['group'][$g]->id .'">'. $data['group'][$g]->message . '</textarea>'. $tag['message-c'];
+
+							}  else if ($method == 6) {
+								$oP[] = '###'.$data['group'][$g]->title;
+								if (!empty($data['group'][$g]->message)) {
+									$groupMsg = PhocaMenuHelper::cleanRawOutput($data['group'][$g]->message);
+									if (!empty($groupMsg)) {$oP[] = '>'.$groupMsg;}
+								}
+							} else {
+								$o .= $tag['group-o'] . $data['group'][$g]->title . $tag['group-c'];
+								if ($paramsC['displaygroupmsg'] == 1) {
+									$o .= $tag['message-o'] .  $data['group'][$g]->message . $tag['message-c'];
+								}
+							}
+
+							if (isset($data['item'])) {
+
+								$displayTaskIcons 	= 0;
+								$displayAddRow		= 0;
+
+								$o .= $tag['item-o'] . $tag['tableitem-o'];
+
+								// Second Price, Header Group
+								if ($method == 3 ) {
+									$o .= PhocaMenuRenderViews::renderGroupHeaderME($data['group'][$g], $tag );
+								} else {
+									$o .= PhocaMenuRenderViews::renderGroupHeader($data['group'][$g]->display_second_price, $data['group'][$g]->header_price, $data['group'][$g]->header_price2, $tag, $method, 5 );
+								}
+								// END SP
+
+								for ($i = 0, $it = count($data['item']); $i < $it; $i++) {
+
+									// item must belong to own group
+									if ($data['group'][$g]->id == $data['item'][$i]->catid) {
+
+										// Possible tasks in multipleedit - display them only before first row
+										if ($method == 3 && $displayTaskIcons == 0) {
+											$o .= PhocaMenuRenderViews::renderTaskIconsME($data['group'][$g]->display_second_price);
+											// there is some first row
+											$displayTaskIcons 	= 1;
+											$displayAddRow		= 1;
+										}
+
+										$image	= $tag['spaceimg'];
+										if ($data['item'][$i]->image != '') {
+											$altTitle = '';
+											if ($data['item'][$i]->title != '') {
+												$altTitle = htmlspecialchars(strip_tags($data['item'][$i]->title));
+											}
+											$image = '<div class="pmimage pmimage-full"><img src="'.Uri::base().$data['item'][$i]->image.'" alt="'.$altTitle.'" /></div>';
+										} else {
+											// PHOCAGALLERY Image  - - - - - -
+											if ((int)$tmpl['phocagallery'] == 1) {
+												$image = PhocaMenuGallery::getPhocaGalleryLink($tmpl['imagesize'], $data['item'][$i]->imageid, $data['item'][$i]->imagefilename, $data['item'][$i]->imagecatid, $data['item'][$i]->imageslug, $data['item'][$i]->imagecatslug, $paramsG['imagedetailwindow'], $tmpl['button'], $data['item'][$i]->imageextid, $data['item'][$i]->imageexts, $data['item'][$i]->imageextm, $data['item'][$i]->imageextl, $data['item'][$i]->imageextw, $data['item'][$i]->imageexth);
+											}
+											// - - - - - - - - - - - - - - - -
+										}
+										if (isset($data['item'][$i]->price) && $data['item'][$i]->price > 0) {
+											$price 		= PhocaMenuHelper::getPriceFormat($data['item'][$i]->price, $params);
+											$pricePref	= $tmpl['priceprefix'];
+										} else {
+											$price 		= '';
+											$pricePref	= '';
+										}
+
+										// Second Price
+										if ($data['group'][$g]->display_second_price == 1 && isset($data['item'][$i]->price2) && $data['item'][$i]->price2 > 0) {
+											$price2 		= PhocaMenuHelper::getPriceFormat($data['item'][$i]->price2, $params);
+											$pricePref2		= $tmpl['priceprefix'];
+										} else {
+											$price2 		= '';
+											$pricePref2		= '';
+										}
+										// End SP
+
+										if ($method == 3) {
+											$o .= PhocaMenuRenderViews::renderFormItemME(5, $tag, $data['group'][$g], $data['item'][$i], $pricePref, $method, $price2, $pricePref2, $data['group'][$g]->display_second_price);
+										} else if ($method == 6) {
+											$oP[] = PhocaMenuRenderViews::renderFormItemRE(1, $tag, $data['group'][$g], $data['item'][$i], $pricePref, $method, $price2, $pricePref2, $data['group'][$g]->display_second_price);
+										} else {
+											$o .=PhocaMenuRenderViews::renderFormItem(5, $tag, $image, $data['item'][$i], $price, $pricePref, $method, $price2, $pricePref2, $data['group'][$g]->display_second_price, '-clm');
+										}
+									}
+								}
+								$o .= $tag['tableitem-c'] . $tag['item-c'];
+								if ($method == 3) {
+									if ($displayAddRow == 1) {
+										$o .= '<div class="pm-addrow"><small><a href="#" onclick="addRow('.$data['group'][$g]->id.', 5); return false;">'.Text::_('COM_PHOCAMENU_ADD_ROW').'</a></small></div>';
+									}
+								}
+							} //end items
+
+							if ($method == 3) {
+								$o .= $tag['message-o'] . '<textarea class="form-control" rows="2" cols="60" name="message[' . $data['group'][$g]->id .']" id="message' . $data['group'][$g]->id .'">'. $data['group'][$g]->message . '</textarea>'. $tag['message-c'];
+
+							} else {
+								if ($paramsC['displaygroupmsg'] == 2) {
+									$o .= $tag['message-o'] .  $data['group'][$g]->message . $tag['message-c'];
+								}
+							}
+						}
+					}
+				} // end group
+
+				if ($method == 3 && $oddEvenBox == 1) {
+					$o .= $tag['bothbox-c'];
+				}
+			}
+		}
+
+		// FOOTER (Config)
+		if (isset($data['config'])) {
+			$o .=  $tag['footer-o'] . $data['config']->footer .  $tag['footer-c'];
+		}
+
+		$o .= '</div>';// end phocamenu
+
+		if ($method == 3) {
+			return $o;
+		} else if ($method == 6) {
+			return PhocaMenuRenderViews::renderFormCompleteRE($oP);
+		}
+
+		$enableBBCode = $params->get( 'enable_bb_code', 0 );
+		if ((int)$enableBBCode == 1) {
+			$o = PhocaMenuHelper::bbCodeReplace($o);
+			$o = str_replace ( '[br]', '<br />', $o );
+		} else if ((int)$enableBBCode  == 2) {
+			$o = str_replace ( '[br]', '<br />', $o );
+		}
+		$o = PhocaMenuHelper::replaceTag($o, $method);
+
+		// Remove empty table - because of TCPDF
+		$o = str_replace($tag['tableitem-o'].$tag['tableitem-c'], '', $o);
+		return $o;
+	}
 
 
 	public static function getStyle($method, $phocaGallery, $suffix = '') {
